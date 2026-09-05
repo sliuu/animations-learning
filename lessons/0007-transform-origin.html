@@ -1,0 +1,367 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0007 — Transform-origin</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lesson 0007 · 16 minutes</p>
+    <h1>Transform-origin, and where a menu&nbsp;comes&nbsp;from</h1>
+    <p class="dek">One line of CSS, almost never written, that decides whether a popover looks
+      attached to the button that opened it or merely lands nearby.</p>
+    <div class="meta">
+      <span>Skill: anchor a scaling element to the thing it came from</span>
+      <span><a href="0006-choosing-a-tool.html">← Lesson 0006</a></span>
+    </div>
+  </header>
+
+  <p class="lead">A menu that appears near a button and a menu that comes <em>out of</em> a
+  button are the same pixels, in a different order.</p>
+
+  <p>Every scale you've written so far has quietly used the default,
+  <code>transform-origin: 50% 50%</code> — the element grows from its own centre, in all four
+  directions at once. That default is right for exactly one situation, and popovers, menus,
+  tooltips and dropdowns are not it.</p>
+
+  <p>This is a small lesson about a single property. It's here because it's the most common
+  tell of amateur popover motion, it costs nothing to fix, and once you've seen it you cannot
+  stop seeing it.</p>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <ol>
+      <li>Hit <strong>Tour the corners</strong> and just watch for a few seconds. Both panels
+        are identical except for one line.</li>
+      <li>Now watch <strong>the small ring</strong> on each panel instead of the panel itself.
+        That ring marks the transform-origin.</li>
+      <li>Drag <strong>duration</strong> up to about 800ms so you can see it happening.</li>
+      <li>Drag <strong>scale from</strong> down to 0.6, then up to 0.95, and watch the number
+        under the sliders.</li>
+    </ol>
+  </div>
+
+  <div data-origin-lab data-title="Same menu, same button, one line different"></div>
+
+  <h2>What you just saw</h2>
+
+  <p><strong>The ring never moves.</strong> That's not a trick of the demo — it's the
+  definition. <code>transform-origin</code> is the fixed point of the transform: the one place
+  on the element that scaling and rotation leave exactly where it was. Everything else moves
+  relative to it.</p>
+
+  <p>So the question "where should this scale from?" is really the question <strong>"which point
+  on this element must not move?"</strong> And for anything anchored to a trigger, the answer is
+  obvious once you ask it that way: the corner touching the button. That corner is where the
+  panel came from. If it moves, the panel didn't come from anywhere.</p>
+
+  <p>On the right-hand lane, the ring sits in the middle of the panel, so the anchored corner
+  starts some distance away and travels in. At the default scale of 0.85 that's about 14px of
+  travel — small enough that you'd never file a bug about it, large enough that the panel reads
+  as <em>sliding into place near the button</em> rather than <em>opening out of it</em>. Most
+  motion problems are this size.</p>
+
+  <div class="callout principle">
+    <span class="label">The rule this gives you</span>
+    <p>Put the origin at the point the element came from.</p>
+    <p>For an anchored element that's the edge or corner nearest its trigger. For something that
+    genuinely came from nowhere — a centred modal — the default centre is correct, and you
+    should leave it alone deliberately rather than by accident.</p>
+  </div>
+
+  <p class="sidenote"><code>transform-origin</code> is free in the sense of lesson 0002: it
+  changes the matrix the compositor applies, not which pipeline stages run. Setting it costs the
+  same as not setting it. There is no performance argument for leaving it at the default —
+  only inattention.</p>
+
+  <h2>Picking the origin</h2>
+
+  <p>The rule is a mirror. Whatever edge of the panel is pinned to the trigger, the origin goes
+  on that edge.</p>
+
+  <table>
+    <thead>
+      <tr><th>Panel opens…</th><th>Pinned edge</th><th><code>transform-origin</code></th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Below a left-aligned button</td><td>top left</td><td><code>top left</code></td></tr>
+      <tr><td>Below a right-aligned button</td><td>top right</td><td><code>top right</code></td></tr>
+      <tr><td>Above a button (drop-up)</td><td>bottom</td><td><code>bottom left</code> / <code>bottom right</code></td></tr>
+      <tr><td>Centred under a button</td><td>top centre</td><td><code>top center</code></td></tr>
+      <tr><td>Sidebar flyout, opening right</td><td>left edge</td><td><code>left center</code></td></tr>
+      <tr><td>Tooltip above its target</td><td>bottom centre</td><td><code>bottom center</code></td></tr>
+      <tr><td>Centred modal</td><td>nothing</td><td><code>center</code> — the default, on purpose</td></tr>
+    </tbody>
+  </table>
+
+  <p>Percentages and lengths work too, and are what you want when the trigger isn't at a corner
+  — <code>transform-origin: 24px 0</code> puts the fixed point 24px in from the panel's left
+  edge, on its top edge, which is how you aim it at a button sitting somewhere in the middle of
+  a toolbar.</p>
+
+  <h2>Computing it, when the position isn't known in advance</h2>
+
+  <p>A popover whose placement flips depending on available space can't have a hardcoded origin.
+  Measure instead. This is a case where a couple of lines of JavaScript are the right tool —
+  lesson 0006's ladder, question 1: it isn't two fixed states, it's a computed value.</p>
+
+  <pre><code>function aimAt(panel, trigger) {
+  const p = panel.getBoundingClientRect();
+  const t = trigger.getBoundingClientRect();
+
+  // The trigger's centre, expressed in the panel's own coordinate space.
+  const x = (t.left + t.width  / 2) - p.left;
+  const y = (t.top  + t.height / 2) - p.top;
+
+  // Clamp to the panel's edges — an origin outside the box is legal but
+  // reads as the panel being flung from off-screen.
+  panel.style.transformOrigin =
+    `${Math.max(0, Math.min(p.width, x))}px ${Math.max(0, Math.min(p.height, y))}px`;
+}</code></pre>
+
+  <p>Call it after the panel is positioned and before it animates. If you're using the Popover
+  API, that means inside the <code>beforetoggle</code> handler.</p>
+
+  <p class="sidenote">CSS anchor positioning is starting to make the <em>placement</em> half of
+  this declarative, and it exposes the resolved side to CSS — which will eventually let the
+  origin be chosen without measuring. Support is still uneven; check <a
+  href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_anchor_positioning">MDN's anchor
+  positioning page</a> rather than trusting a number written here.</p>
+
+  <h2>The whole thing, in pure CSS</h2>
+
+  <p>Same checkbox pattern as lesson 0005, so the exit asymmetry comes along for free. The only
+  new line is <code>transform-origin</code> — change it to <code>center</code> and watch the
+  menu detach from its button.</p>
+
+  <div data-pg data-pg-title="An origin-aware menu, no JavaScript" data-pg-height="300"
+       data-pg-hint="Click Menu. Then change transform-origin to `center`, or to `bottom right`, and click again.">
+    <script type="text/plain" data-pg-html>
+      <div class="wrap">
+        <input type="checkbox" id="m" class="toggle">
+        <label for="m" class="btn">Menu ▾</label>
+        <div class="menu">
+          <div class="item">Duplicate</div>
+          <div class="item">Share</div>
+          <div class="item">Delete</div>
+        </div>
+      </div>
+    </script>
+    <textarea data-pg-css>
+.wrap { position: relative; display: inline-block; }
+.toggle { position: absolute; opacity: 0; pointer-events: none; }
+.btn {
+  display: inline-block; cursor: pointer;
+  padding: 8px 14px; border-radius: 6px;
+  background: rgba(128,128,128,.22);
+  font: 600 13px/1 system-ui, sans-serif;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 150px;
+  padding: 6px;
+  border-radius: 8px;
+  background: rgba(128,128,128,.14);
+  box-shadow: 0 8px 22px rgba(0,0,0,.18);
+
+  /* THE LINE. The menu is pinned to the button by its top-left corner,
+     so that is the corner it should grow out of. */
+  transform-origin: top left;
+
+  /* Closed state — so this transition is the EXIT (lesson 0005). */
+  opacity: 0;
+  transform: scale(0.9);
+  visibility: hidden;
+  transition:
+    opacity 130ms cubic-bezier(0.4, 0, 1, 1),
+    transform 130ms cubic-bezier(0.4, 0, 1, 1),
+    visibility 130ms;
+}
+
+.toggle:checked ~ .menu {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  transition:
+    opacity 220ms cubic-bezier(0.23, 1, 0.32, 1),
+    transform 220ms cubic-bezier(0.23, 1, 0.32, 1),
+    visibility 220ms;
+}
+
+.item {
+  padding: 6px 8px; border-radius: 4px;
+  font: 400 13px/1.2 system-ui, sans-serif;
+}
+.item:first-child { background: rgba(128,128,128,.16); }
+    </textarea>
+  </div>
+
+  <h2>It governs rotation too</h2>
+
+  <p>Everything above was about scale, but the origin applies to the whole transform. Rotation
+  is where it becomes physical: change the origin and you change what kind of object you're
+  describing.</p>
+
+  <table>
+    <thead><tr><th>Origin</th><th>A rotation reads as…</th></tr></thead>
+    <tbody>
+      <tr><td><code>center</code></td><td>A dial, a spinner, a loading indicator</td></tr>
+      <tr><td><code>left center</code></td><td>A door, a hinge, a page turning</td></tr>
+      <tr><td><code>bottom center</code></td><td>A pendulum, a lever, something standing up</td></tr>
+      <tr><td><code>top center</code></td><td>Something hanging — a tag, a pin, a dangling label</td></tr>
+    </tbody>
+  </table>
+
+  <p>Turn on <strong>add a rotation</strong> in the lab and tour the corners again. The
+  left-hand panel now reads as unfolding from the button. The right-hand one reads as a card
+  someone tossed onto the screen. Same 8 degrees.</p>
+
+  <p class="sidenote">For SVG, percentages resolve against a different box by default, and
+  <code>transform-origin: center</code> often won't do what you expect. Set
+  <code>transform-box: fill-box</code> first and percentages start behaving like they do in
+  HTML. See <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform-box">MDN on
+  <code>transform-box</code></a>.</p>
+
+  <h2>Two mistakes worth naming</h2>
+
+  <p><strong>Scaling from zero.</strong> Drag the lab's scale down to 0.2 and open it. The panel
+  arrives as a magic trick, and on the way in the text is unreadable — genuinely unreadable, not
+  just small, because the browser is rasterising type at a fraction of its size. Anchored
+  elements want <strong>0.85 to 0.95</strong>. The scale is a hint about where it came from, not
+  a birth.</p>
+
+  <p><strong>Origin on the wrong element.</strong> If your panel has a wrapper that also
+  transforms, the origins compose and you'll chase the bug for twenty minutes. Put the scale and
+  the origin on the same element, and let the wrapper handle position only.</p>
+
+  <h2>When to leave it alone</h2>
+
+  <p>Two cases, and they're both about honesty.</p>
+
+  <p>A <strong>centred modal</strong> didn't come from anywhere in particular — it's a mode
+  change, not an expansion of a control. Centre origin, small scale, brief fade. Aiming it at
+  the button that opened it would be a lie about the interface's structure, and it looks like
+  one.</p>
+
+  <p>A <strong>toast or banner</strong> comes from an edge of the screen, not from a point on
+  itself. That's a <code>translate</code>, not a scale, and the origin never enters into it. If
+  you find yourself setting an origin on a toast, you've probably picked the wrong transform.</p>
+
+  <p>And for <code>prefers-reduced-motion</code>: the origin is the cheapest part to keep. Drop
+  the scale to something tiny or remove it entirely and keep a short fade — but if you keep
+  <em>any</em> scale at all, keep the correct origin. It's the part carrying the meaning.</p>
+
+  <div data-quiz data-quiz-title="Check yourself">
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">What does <code>transform-origin</code> actually specify?</p>
+      <button data-opt>The direction the element grows in</button>
+      <button data-opt>The one point on the element that a transform leaves in place</button>
+      <button data-opt>The position the element animates from, in page coordinates</button>
+      <p data-explain>It's the fixed point. Scaling and rotation are defined relative to it, so
+        everything else on the element moves and that point doesn't. Thinking of it as "which
+        point must not move" is what makes the right value obvious.</p>
+    </div>
+
+    <div data-q data-answer="3">
+      <p class="qz-stem">A dropdown is pinned below a button on the right edge of a toolbar,
+        with its right edges aligned. What origin?</p>
+      <button data-opt><code>center</code>, so it opens evenly</button>
+      <button data-opt><code>bottom right</code></button>
+      <button data-opt><code>top right</code></button>
+      <p data-explain>Mirror the pinned edge. The panel touches the button along its top edge
+        and is aligned to the right, so the top-right corner is the one that must not move.
+        <code>bottom right</code> would be correct for a drop-<em>up</em>.</p>
+    </div>
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">Your popover flips above the trigger when there's no room below. What
+        has to happen to the origin?</p>
+      <button data-opt>It has to be recomputed — top becomes bottom</button>
+      <button data-opt>Nothing; origin is relative to the trigger automatically</button>
+      <button data-opt>Nothing; the browser flips it along with the position</button>
+      <p data-explain>The origin is relative to the panel's own box and knows nothing about the
+        trigger. If the placement flips, the pinned edge flips, so the origin must flip too —
+        which is exactly why dynamically placed popovers compute it rather than hardcoding it.</p>
+    </div>
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">Why is <code>scale(0.2) → scale(1)</code> a poor entrance for a menu?</p>
+      <button data-opt>It costs Layout on every frame</button>
+      <button data-opt>The text is unreadable on the way in, and it reads as an appearance trick rather than an expansion</button>
+      <button data-opt><code>transform-origin</code> doesn't apply below scale 0.5</button>
+      <p data-explain>Scale is composited at any value, so cost isn't the issue. The problem is
+        legibility and meaning: the scale is supposed to be a hint about where the panel came
+        from. 0.85–0.95 gives you the hint without the circus.</p>
+    </div>
+
+    <div data-q data-answer="3">
+      <p class="qz-stem">Which of these should keep the default centre origin?</p>
+      <button data-opt>A tooltip above a form field</button>
+      <button data-opt>A user menu below an avatar</button>
+      <button data-opt>A centred confirmation dialog</button>
+      <p data-explain>A centred dialog is a mode change; it isn't an expansion of any particular
+        control, so it genuinely came from nowhere. The other two are anchored, and anchored
+        elements should grow from the edge that touches their trigger.</p>
+    </div>
+
+  </div>
+
+  <h2>Read this next</h2>
+
+  <p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform-origin">MDN's
+  <code>transform-origin</code></a> is short and worth reading in full for the value syntax —
+  keywords, percentages, lengths, and the third value for 3D. <a
+  href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform-box">
+  <code>transform-box</code></a> is the SVG footnote above, and will save you an afternoon
+  eventually.</p>
+
+  <p>If you're building anchored things generally, <a
+  href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_anchor_positioning">CSS anchor
+  positioning</a> and <a
+  href="https://developer.mozilla.org/en-US/docs/Web/CSS/position-area"><code>position-area</code></a>
+  are where the placement half of this problem is heading, and <a
+  href="https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect">
+  <code>getBoundingClientRect()</code></a> is what the snippet above leans on.</p>
+
+  <p>Then go find a real dropdown — your own, or any site with an avatar menu — and watch its
+  top corner. You now have a fast, reliable way to tell whether anyone thought about it.</p>
+
+  <div class="ask-teacher">
+    <p><strong>I'm your teacher here — ask me things.</strong> Good asks for this one:
+    <em>“here's my dropdown, is the origin right?”</em>, <em>“how do I do this with the Popover
+    API?”</em>, or <em>“show me the Radix/shadcn version — they set this with a CSS variable and
+    I don't understand it.”</em></p>
+    <p>That last one is genuinely worth asking. Radix and Base UI expose the computed origin as
+    a custom property precisely because of this lesson, and it looks like magic until you know
+    what problem it's solving.</p>
+  </div>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="0008-springs.html">Lesson 0008 — Springs →</a>
+      <a href="0006-choosing-a-tool.html">← Lesson 0006 — Choosing a tool</a>
+      <a href="0005-exits.html">Lesson 0005 — Exits</a>
+      <a href="0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal</a>
+      <a href="0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration</a>
+      <a href="0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+      <a href="0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing (printable)</a>
+      <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers (printable)</a>
+      <a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course (printable)</a>
+      <a href="../reference/04-the-workbench.html">Reference 04 — The Workbench (every lab, live)</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+      <span style="color:var(--ink-faint)">Then: reduced motion, done properly — gentler, not absent.</span>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/origin-lab.js"></script>
+<script src="../assets/playground.js"></script>
+<script src="../assets/quiz.js"></script>

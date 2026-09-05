@@ -1,0 +1,22 @@
+# Generated wholesale from lessons/, assets/ and reference/ by tools/build-course.py.
+# Nothing here is a source of truth, and at ~1 MB a build it would dominate the
+# history within a week. Vercel rebuilds it on deploy; run the builder locally to
+# read it offline.
+dist/
+site/
+
+# Vercel CLI link state — project and org ids for this machine.
+.vercel/
+
+# Claude Code's per-machine permission grants. CLAUDE.md and AGENTS.md are the
+# shared instructions and they *are* tracked.
+.claude/settings.local.json
+
+.DS_Store
+
+# Candid working notes, and the repo is public. NOTES.md is the accumulated memory
+# of the project and learning-records/ is session history — both are read every
+# session but neither is shipped, and neither is anyone else's business.
+# Consequence worth knowing: they now have no backup but the working copy.
+NOTES.md
+learning-records/

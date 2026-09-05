@@ -1,0 +1,138 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D008 — Text that arrives</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+  <header class="masthead">
+    <p class="eyebrow">Lesson D008 · 18 minutes</p>
+    <h1>Text that arrives</h1>
+    <p class="dek">Kinetic type is not a pile of letters with a delay. Split the sentence at the
+      level of meaning, then decide whether the reader should see a window opening or words
+      entering the room.</p>
+    <div class="meta"><span>Skill: choose split granularity, reveal style, and stagger from the reading unit</span><span><a href="D007-scroll-as-a-timeline.html">← Lesson D007</a></span></div>
+  </header>
+
+  <p class="lead">D007 made the reader the owner of a scroll timeline. Here the reader still owns
+    attention, but the designer owns the order: what is the first thought, what follows it, and
+    how much waiting is worth asking for? Text arrives well when the motion makes that order easier
+    to feel. It fails when every character becomes a tiny appointment.</p>
+
+  <div class="callout">
+    <span class="label">Say it out loud</span>
+    <p><strong>Kinetic type</strong> — text whose movement is part of its meaning.<br>
+    <strong>Split granularity</strong> — the unit you animate: phrase, line, word, or character.<br>
+    <strong>Stagger</strong> — a deliberate delay between units.<br>
+    <strong>Mask reveal</strong> — the words stay in place while a window uncovers them.<br>
+    <strong>Fade-up</strong> — the words arrive from dimmer and lower, then settle.<br>
+    <strong>Reading unit</strong> — the chunk the reader can understand in one glance.</p>
+  </div>
+
+  <p>Start with the split, not the keyframes. In the lab, keep an eye on the two counters: the
+    hero word can carry a beat per character because it <em>is</em> the picture. A paragraph is a
+    sentence; making it wait for every character turns reading into a queue.</p>
+
+  <div data-split-lab data-title="Split the text"></div>
+
+  <div class="callout"><span class="label">Try this, in order</span><ol>
+    <li>Play <strong>lines + together</strong>. The paragraph keeps its reading shape.</li>
+    <li>Choose <strong>characters + countable</strong>. The hero gains a pulse; the paragraph shows
+      its tax in beats and milliseconds.</li>
+    <li>Switch to <strong>mask</strong>. It reads as uncovering. Switch back to fade-up: it reads as
+      arrival. That is a change in promise, not a skin.</li>
+    <li>Try <strong>words + quick</strong> on a short headline, then on body copy. Keep the smallest
+      unit that changes meaning, not the smallest unit the browser can animate.</li>
+  </ol></div>
+
+  <h2>A split is a hierarchy made in time</h2>
+  <p>Lines are usually the right first experiment for body copy. They preserve the sentence's
+    shape while giving the entrance a clear cadence. Words can work for a short headline or a list
+    whose items are genuinely separate. Characters are a special effect: one hero word, a logo-like
+    title, or a deliberate spelling-out moment. Character-splitting ordinary prose is almost always
+    wrong because the eye has to reconstruct words while the animation keeps changing the target.</p>
+  <p>This is not a ban on letters. It is a question of ownership: <strong>what is the reader waiting
+    for?</strong> If the answer is “the next idea,” split by line or word. If the answer is “this word
+    forming,” split by character. A 35ms delay can feel like a quick beat; 80ms is countable. The
+    more units you create, the more total time you spend even when each delay looks tiny.</p>
+
+  <p class="sidenote"><strong>If you have read the engineering track:</strong> 0003's stagger lab
+    gives you the arithmetic. D003's hierarchy claim is the design test: the unit that moves first
+    is the unit you have ranked first. No engineering-track lesson is required to use that test.</p>
+
+  <h2>Mask or fade: uncovering or arriving?</h2>
+  <p>A mask reveal changes the window in front of still type. It says, “this was here; now you can
+    see it.” A fade-up changes the type's state. It says, “this is entering your attention.” Both
+    can be beautiful. They are not interchangeable, and a comparison needs to be simultaneous or
+    your memory will quietly pick a winner for you.</p>
+
+  <div data-text-arrival-lab data-title="Same words, different promise"></div>
+
+  <p>Use a mask when the spatial place is stable and the reveal itself is the story: a line being
+    uncovered, a crop opening, a title emerging from behind a surface. Use fade-up when arrival is
+    the story: a new section, a caption gaining focus, or a sequence where the words should feel
+    newly present. If the type should not move, do not fake its movement just because a split-text
+    preset offers one.</p>
+
+  <p class="sidenote"><strong>If you have read 0013:</strong> that lesson calls this the window-
+    versus-content decision. D008 applies the same distinction to typography, where a few pixels of
+    travel can change whether the reader experiences “uncovering” or “entering.”</p>
+
+  <h2>Keep the reading intact</h2>
+  <p>Runtime line splitting depends on font metrics and available width. Fonts load, windows resize,
+    and a line that was one unit can become two. A robust implementation re-splits after those
+    changes, preserves the original text for assistive technology, and keeps generated units out of
+    the accessibility tree. If the effect is decorative, the sentence must remain a sentence when
+    motion is removed.</p>
+  <p>There is also a practical CSS detail: character spans can break words if they are allowed to
+    wrap independently. Keep characters inside word-sized wrappers, or the demo teaches a broken
+    line break instead of kinetic type. The lab does this deliberately so you can resize it without
+    losing the thing being taught.</p>
+
+  <h2>The CSS behind it</h2>
+  <details><summary>Show the mechanism</summary><pre><code>/* Split only as finely as the idea changes. */
+.line { overflow: hidden; }
+.line > span { display: block; }
+.unit { display: inline-block; }
+
+.is-playing .unit {
+  animation: arrive 520ms var(--ease-out-strong) both;
+  animation-delay: calc(var(--i) * var(--step));
+}
+
+@keyframes arrive {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes uncover {
+  from { clip-path: inset(0 0 100% 0); }
+  to   { clip-path: inset(0); }
+}</code></pre></details>
+
+  <h2>Check yourself</h2>
+  <div data-quiz data-quiz-title="Review text that arrives">
+    <div data-q data-answer="2"><p class="qz-stem">You are animating a six-line paragraph. Which split is the strongest starting point?</p>
+      <button data-opt>Characters, because the eye notices every letter.</button><button data-opt>Lines, because they preserve the reading unit while giving the entrance a cadence.</button><button data-opt>Words, always: every sentence is a list of words.</button><button data-opt>Whole paragraph, but with a very long delay.</button>
+      <p data-explain>Lines preserve the paragraph's shape and let the reader receive one visual thought at a time. Finer splits spend attention without adding meaning.</p></div>
+    <div data-q data-answer="3"><p class="qz-stem">When is character splitting most defensible?</p>
+      <button data-opt>Every body paragraph, so the page feels alive.</button><button data-opt>Navigation labels used dozens of times a day.</button><button data-opt>A short hero word whose formation is the picture.</button><button data-opt>Any text longer than one line.</button>
+      <p data-explain>A single hero word can make each letter part of the visual event. Ordinary prose needs words to remain easy to recognize.</p></div>
+    <div data-q data-answer="1"><p class="qz-stem">What does a mask reveal promise?</p>
+      <button data-opt>The words were already in place; a window is uncovering them.</button><button data-opt>The words are dimmer and lower while they enter.</button><button data-opt>The reader should wait for every character.</button><button data-opt>The page is scrubbing against scroll.</button>
+      <p data-explain>A mask changes visibility, not the type's position. That reads as uncovering. Fade-up changes the content's state and reads as arrival.</p></div>
+    <div data-q data-answer="4"><p class="qz-stem">What should a responsive split-text implementation do when the font or width changes?</p>
+      <button data-opt>Keep the original spans even if line breaks become wrong.</button><button data-opt>Hide the text until the next page load.</button><button data-opt>Split every character again and allow words to break.</button><button data-opt>Remove the text from the accessibility tree permanently.</button>
+      <p data-explain>Line boundaries depend on measured font metrics. Re-split after relevant changes, keep an accessible original sentence, and preserve word wrapping.</p></div>
+  </div>
+
+  <p class="ask-teacher"><strong>Ask yourself:</strong> what is the smallest unit of meaning in the
+    real page you want to animate? Bring one headline and one paragraph next time; we can choose
+    their splits before choosing a library.</p>
+
+  <nav class="footer-nav"><h2>Course</h2><div class="nav-links">
+    <a href="D009-loading-waiting-and-optimism.html">Lesson D009 — Loading, waiting, and optimism →</a>
+    <a href="D007-scroll-as-a-timeline.html">Lesson D007 — Scroll as a timeline</a><a href="D006-decks-and-dots.html">Lesson D006 — Decks, and what the dots promise</a><a href="D005-things-you-drag.html">Lesson D005 — Things you drag</a><a href="D004-the-button.html">Lesson D004 — The button</a><a href="D003-motion-is-hierarchy.html">Lesson D003 — Motion is hierarchy</a><a href="D002-where-things-live.html">Lesson D002 — Where things live when they're off screen</a><a href="D001-the-map-and-the-words.html">Lesson D001 — The map, and the words for it</a>
+    <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing</a><a href="../reference/02-the-numbers.html">Reference 02 — The Numbers</a><a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course</a><a href="../reference/04-the-workbench.html">Reference 04 — The Workbench</a><a href="../MISSION.md">Mission</a><a href="../RESOURCES.md">Resources</a><p class="next-tease">Next: D009 — Loading, waiting, and optimism</p>
+  </div></nav>
+</div>
+<script src="../assets/split-lab.js"></script><script src="../assets/text-arrival-lab.js"></script><script src="../assets/quiz.js"></script>

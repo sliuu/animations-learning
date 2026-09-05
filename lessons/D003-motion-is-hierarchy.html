@@ -1,0 +1,239 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D003 — Motion is hierarchy</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lesson D003 · 16 minutes</p>
+    <h1>Motion is hierarchy</h1>
+    <p class="dek">Size, weight, colour and space are how a design says what matters. Motion is
+      one more of those, and it beats every other one — so every time you animate something you
+      have promoted it, whether or not that was the plan.</p>
+    <div class="meta">
+      <span>Skill: say what an animation ranks, not whether you like it</span>
+      <span><a href="D002-where-things-live.html">← Lesson D002</a></span>
+    </div>
+  </header>
+
+  <p class="lead">Every screen you have ever made states a ranking. The headline is bigger, the
+  primary button is filled, the caption is small and grey. Nobody writes that ranking down — it is
+  just what the size, weight, colour and spacing add up to.</p>
+
+  <p>Those are your <strong>channels</strong>, and you tune them without thinking about it. Motion
+  is one more channel in the same set. Not a garnish applied after the ranking is settled: a
+  ranking instrument, and the loudest one in the drawer.</p>
+
+  <div class="callout">
+    <span class="label">Say it out loud</span>
+    <p><strong>Channel</strong> — one of the ways a design says <em>this matters more</em>: size,
+    weight, colour, space, and motion.<br>
+    <strong>Promote</strong> — to raise something's rank. Turning up any channel on an element
+    promotes it, including by accident.</p>
+  </div>
+
+  <p>That claim deserves an experiment rather than an assertion. Four tiles. Each one is promoted
+  by exactly one static channel, and the fourth is promoted by nothing at all. Then the motion —
+  a nine-pixel lift, the kind that passes a review without comment — gets handed to whichever tile
+  you choose.</p>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <ol>
+      <li>Give it to <strong>Churn</strong>, the plain tile. Press play. It is last by every
+        channel on the screen.</li>
+      <li>Now <strong>Revenue</strong>, the large one — then <strong>Signups</strong>, the
+        coloured one.</li>
+      <li>Then <strong>nobody</strong>, and look at the four tiles cold.</li>
+    </ol>
+  </div>
+
+  <div data-channel-lab data-title="Which channel wins?"></div>
+
+  <p>The winner follows the motion. Not the size, not the colour, not the weight — the motion,
+  every time, including when the moving tile is the one losing every static comparison on the
+  board. Nine pixels beat a typeface set at one-and-two-thirds the size.</p>
+
+  <p>The reason is that the static channels <em>compete</em> for attention and motion does not.
+  It interrupts. You can decide not to read a headline; there is no version of looking at a screen
+  where you decide not to notice something move. That is also why a badge that appears at the edge
+  of your vision gets you and a bigger badge already sitting there does not.</p>
+
+  <p class="lead">Anything that moves outranks everything that doesn't.</p>
+
+  <p class="sidenote"><strong>If you have read the engineering track:</strong> lesson 0003 is about
+  how to build a stagger. This is about what a stagger <em>says</em>. The order you pick there is
+  a ranking whether or not you were choosing one.</p>
+
+  <p>So the question in a motion review is not whether the animation is nice. It is what the
+  animation ranked. Here is one card and one knob — which element moves. The timing, the easing,
+  the distance and the class are identical for all eight choices; open
+  <strong>The CSS behind it</strong> and switch between them to watch that stay true.</p>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <ol>
+      <li>Start where it opens: <strong>Export CSV</strong>. Press play, then read the line
+        underneath.</li>
+      <li><strong>The number</strong>. Then <strong>the chart</strong>, then
+        <strong>View report</strong> — three different cards, same layout.</li>
+      <li><strong>Everything</strong>. Watch what you look at first, then read what that means.</li>
+    </ol>
+  </div>
+
+  <div data-rank-lab data-title="What does this promote?"></div>
+
+  <p>Three of those are marked as choices rather than mistakes, and that is not diplomacy. A card
+  that exists to be read should promote the number; a card that exists to send you somewhere
+  should promote the button. Both are defensible, and the useful question is never <em>is this
+  right</em> but <em>is the motion claiming the same thing the layout is claiming</em>. When they
+  disagree, one of them is lying and you get to decide which.</p>
+
+  <h2>How the wrong thing gets promoted</h2>
+
+  <p>Almost nobody chooses to make <em>Export CSV</em> the most important element on a revenue
+  card. It happens the way most bad hierarchy happens: the animation was attached to whatever was
+  easiest to attach it to. The last thing built, the thing that was already a component, the thing
+  someone was touching that afternoon. Motion arrives on a screen the way it arrives in a
+  codebase.</p>
+
+  <p>The <strong>everything</strong> setting is the other common accident, and it is worth sitting
+  with. Six elements move, so motion has stopped ranking anything — except the first one. A
+  stagger always promotes whatever goes first, so on that setting the word <em>Revenue</em> is now
+  the lead element on a card about a number. Nobody decided that either; it is the order of the
+  markup, promoted to a design decision.</p>
+
+  <div class="callout">
+    <span class="label">The one to remember</span>
+    <p>&ldquo;Animate the children of this container&rdquo; is a hierarchy decision. It ranks them
+    in source order, and source order is not a ranking anyone designed.</p>
+  </div>
+
+  <h2>What motion can't do</h2>
+
+  <p>Set the lab back to <strong>Export CSV</strong>, press play, and then just look at the card a
+  second later. It is identical to the card that never moved. The promotion lasted four hundred
+  and twenty milliseconds and then handed everything back to the layout.</p>
+
+  <p>Which is the trap. If the wrong element is pulling the eye in the static design, animating
+  the right one buys you less than half a second of correctness and then returns you to the
+  problem. Motion is a hierarchy channel that only exists while it is running — that is exactly
+  what makes it the loudest one, and exactly what makes it useless as a repair. Hierarchy problems
+  are fixed in size, weight, colour and space. Motion can only agree with that fix or contradict
+  it.</p>
+
+  <p class="sidenote"><strong>If you have read the engineering track:</strong> this is the
+  design-side reason lesson 0004 insists a scroll reveal be cheap and small. A reveal promotes
+  whatever crosses the threshold first, so a long page of them is a ranking of the page by
+  scroll position — which is fine, as long as you meant it.</p>
+
+  <h2>In the review</h2>
+
+  <p>You now have a sentence better than <em>I don't love that animation</em>, which is a taste
+  claim and cannot be argued with. The replacement is a rank claim, and a rank claim can be agreed
+  with or disagreed with by someone who has never thought about easing:</p>
+
+  <p class="lead">What did that just promote?</p>
+
+  <p>Followed, when the answer is wrong, by the version that fixes something: <em>that animation
+  makes the export link the most important thing on this card, and I don't think it is.</em> Note
+  what is missing from that sentence. No duration, no easing curve, no opinion about whether it
+  should fade or slide. Just the ranking, which is the part the rest of the room can see too.</p>
+
+  <div data-quiz data-quiz-title="Name what got promoted">
+    <div data-q data-answer="3">
+      <p class="qz-stem">Three pricing cards fade up in a stagger, left to right. The plan the
+        business wants people to pick is the middle one. What has the motion promoted?</p>
+      <button data-opt>Nothing — a stagger is decorative and reads as one gesture.</button>
+      <button data-opt>The middle card, because it is the visually emphasised one.</button>
+      <button data-opt>The left-hand card, because first in a stagger is first in rank.</button>
+      <button data-opt>All three equally, since they use the same animation.</button>
+      <p data-explain>The stagger is ranking them by position in the row, and the design is ranking
+        them by emphasis. Those are two different rankings on one component. Starting the stagger
+        from the recommended card costs nothing and makes them agree.</p>
+    </div>
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">A dashboard shows a large revenue figure and a small grey <em>last synced
+        2 minutes ago</em> caption. The caption animates on every refresh, because it is the only
+        thing that changed. Why is this a hierarchy problem?</p>
+      <button data-opt>Because the caption is too small for anyone to read while it is moving.</button>
+      <button data-opt>Because it promotes the least important element on the screen, and doing it
+        on every refresh promotes it repeatedly.</button>
+      <button data-opt>Because captions should never animate.</button>
+      <button data-opt>Because the revenue figure should animate at the same time to match.</button>
+      <p data-explain>The motion is technically honest — that really is what changed — and it is
+        still a ranking. Frequency compounds it: something promoted once is an accent, something
+        promoted every thirty seconds is the loudest thing in the room.</p>
+    </div>
+
+    <div data-q data-answer="3">
+      <p class="qz-stem">In a review someone says the hero feels flat and suggests animating the
+        sub-headline to give it life. Why is that likely to be the wrong fix?</p>
+      <button data-opt>Sub-headlines are secondary, so they should never carry motion.</button>
+      <button data-opt>Because the animation would need a longer duration than the hero can
+        afford.</button>
+      <button data-opt>Because the promotion ends when the animation ends — if the hero is flat
+        statically, it is flat again four hundred milliseconds later.</button>
+      <button data-opt>Because motion should be added last, after the copy is signed off.</button>
+      <p data-explain>Motion is a channel you can only turn up briefly. Flatness is a static
+        problem and gets a static fix; the animation is worth having afterwards, on whichever
+        element the fixed hierarchy says is first.</p>
+    </div>
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">A landing page animates twelve elements on load, each with a well-judged
+        entrance. What has motion ranked?</p>
+      <button data-opt>Almost nothing — the channel is spent, and the only surviving rank is the
+        stagger order, which usually follows the markup.</button>
+      <button data-opt>Everything, evenly, which is the desired outcome for a landing page.</button>
+      <button data-opt>The largest element, because size still wins when everything moves.</button>
+      <button data-opt>The last element, because it is what the eye rests on.</button>
+      <p data-explain>A channel only carries information by contrast. Turned up on everything, it
+        stops distinguishing anything — and the residue is source order, promoted to an editorial
+        decision nobody made.</p>
+    </div>
+  </div>
+
+  <h2>What you can now do</h2>
+
+  <p>Look at any animated screen and name the element the motion ranked first. Say whether the
+  layout agrees. If it doesn't, say which one you would change — and know that the answer is
+  almost always the layout, because the layout is the one that is still there afterwards.</p>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="D004-the-button.html">Design track D004 — The button →</a>
+      <a href="D002-where-things-live.html">← Design track D002 — Where things live when they're off screen</a>
+      <a href="D001-the-map-and-the-words.html">Design track D001 — The map, and the words for it</a>
+      <a href="0012-things-that-just-appeared.html">Lesson 0012 — Things that just appeared</a>
+      <a href="0011-layout-animation.html">Lesson 0011 — Layout animation</a>
+      <a href="0010-hover-and-press.html">Lesson 0010 — Hover and press</a>
+      <a href="0009-reduced-motion.html">Lesson 0009 — Reduced motion</a>
+      <a href="0008-springs.html">Lesson 0008 — Springs</a>
+      <a href="0007-transform-origin.html">Lesson 0007 — Transform-origin</a>
+      <a href="0006-choosing-a-tool.html">Lesson 0006 — Choosing a tool</a>
+      <a href="0005-exits.html">Lesson 0005 — Exits</a>
+      <a href="0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal</a>
+      <a href="0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration</a>
+      <a href="0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+      <a href="0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing (printable)</a>
+      <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers (printable)</a>
+      <a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course (printable)</a>
+      <a href="../reference/04-the-workbench.html">Reference 04 — The Workbench (every lab, live)</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+      <span style="color:var(--ink-faint)">Next: <strong>D005 — Things you drag</strong>. Direct
+        manipulation: the thing tracks your hand exactly, and every design decision is about what
+        happens when you let go.</span>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/channel-lab.js"></script>
+<script src="../assets/rank-lab.js"></script>
+<script src="../assets/quiz.js"></script>

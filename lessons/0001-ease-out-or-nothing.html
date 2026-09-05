@@ -1,0 +1,380 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0001 — Ease-out, or nothing</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lesson 0001 · 12 minutes</p>
+    <h1>Ease-out, or&nbsp;nothing</h1>
+    <p class="dek">Why motion exists on the web, and the one dial that separates
+      expensive-feeling from amateur.</p>
+    <div class="meta">
+      <span>Skill: choose a duration and a curve, and defend both</span>
+      <span><a href="../reference/easing-and-timing.html">Reference 01</a></span>
+    </div>
+  </header>
+
+  <p class="lead">Screens teleport. Brains don't.</p>
+
+  <p>Every object you have ever tracked with your eyes travelled through the space between
+  where it was and where it ended up. Your visual system is built on that assumption — it is
+  how you know the thing that arrived is the same thing that left. A screen breaks the
+  assumption constantly: a menu that was not there is now there, fully formed, and you have
+  to work out where it came from.</p>
+
+  <p>That work is small, but it is real, and it is the thing animation exists to remove.</p>
+
+  <div class="callout principle">
+    <span class="label">First principle</span>
+    <p>Animation's job is to preserve <strong>cause and effect</strong>. It answers questions
+    the user would otherwise have to answer themselves: <em>where did that come from, where
+    did it go, did my click register, is this the same thing I was just looking at.</em></p>
+    <p>So the test for any animation is one question: <strong>does this reduce the work of
+    understanding what just happened, or add to it?</strong> Everything below is a corollary
+    of that.</p>
+  </div>
+
+  <p>This gives you a sharp definition of bad. Bad animation is not ugly animation — it is
+  animation that <em>adds</em> work. It makes you wait. It moves things you were not asking
+  about. It draws your eye to the wrong place. A page where everything animates is a page
+  where nothing is emphasised, because emphasis is a contrast effect and contrast needs
+  something still to push against.</p>
+
+  <p>And it gives you a definition of good that has nothing to do with taste: good animation
+  is animation you do not notice, that leaves you feeling the interface was quick.</p>
+
+  <h2>The gate</h2>
+
+  <p>Before the how, the whether. The deciding variable is not how nice the animation is —
+  it's <strong>how often the user will see it</strong>.</p>
+
+  <table>
+    <thead><tr><th>Frequency</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr><td>100+ times a day (⌘K, arrow keys)</td><td><strong>None. Ever.</strong></td></tr>
+      <tr><td>Tens of times a day (hovers, tabs)</td><td>Cut it, or 100–150ms</td></tr>
+      <tr><td>Occasional (modals, toasts)</td><td>Standard treatment</td></tr>
+      <tr><td>Rare or once (onboarding, marketing)</td><td>Room for delight</td></tr>
+    </tbody>
+  </table>
+
+  <p>The logic is the first principle again. A first encounter with a modal is a moment of
+  genuine confusion — where did this come from — and motion resolves it. The four-hundredth
+  time you hit ⌘K, there is no confusion left to resolve. All that remains is the wait.
+  Delight has a half-life; friction does not.</p>
+
+  <blockquote>
+    Sometimes the best animation is no animation.
+    <cite>Emil Kowalski, <a href="https://emilkowal.ski/ui/you-dont-need-animations">You don't need animations</a></cite>
+  </blockquote>
+
+  <h2>Now feel the difference</h2>
+
+  <p>Three dots. <strong>Identical duration</strong> — the slider proves it. The only
+  variable is the curve. Hit Race and watch which one you believe is fastest.</p>
+
+  <div data-easing-lab
+       data-title="Same duration, different curve"
+       data-duration="600"
+       data-min="80"
+       data-max="1400"
+       data-autoplay="loop"
+       data-eases="linear | ease-in | ease-out | cubic-bezier(0.23, 1, 0.32, 1)"
+       data-labels="linear | ease-in | ease-out | ease-out-strong"></div>
+
+  <p>They arrive together. They always did. But <code>ease-in</code> feels slower than
+  <code>ease-out</code>, and at 600ms it feels almost broken — like the page is thinking
+  before it responds.</p>
+
+  <p>Read the little graphs to see why. Horizontal is time, vertical is progress. The
+  playhead traces the curve as it plays.</p>
+
+  <ul>
+    <li><strong><code>ease-in</code></strong> hugs the bottom at the start: time is passing,
+    nothing is happening. That dead window sits exactly where the user's attention is
+    highest — the instant after they acted.</li>
+    <li><strong><code>ease-out</code></strong> leaps up immediately, then flattens. The user
+    gets confirmation in the first few frames, and the tail end — where nothing important is
+    left to communicate — is where the time gets spent.</li>
+    <li><strong><code>linear</code></strong> is a straight diagonal, and reads as mechanical.
+    Nothing with mass starts and stops instantaneously.</li>
+    <li><strong><code>ease-out-strong</code></strong> is the same shape as ease-out, pushed
+    harder. This is the difference between motion that feels intentional and motion that
+    feels like a default, and it is why the CSS keywords are rarely the right final answer.</li>
+  </ul>
+
+  <div class="callout">
+    <span class="label">Try this</span>
+    <p>Drag the duration to 150ms and race again. Every curve becomes acceptable — at short
+    durations easing barely matters. Now drag to 1200ms. <code>ease-in</code> is unbearable
+    and <code>ease-out</code> is merely slow. <strong>Duration is the volume knob; easing is
+    the tone.</strong> Long durations are what expose a bad curve.</p>
+  </div>
+
+  <p>So: <strong>entrances and exits get ease-out.</strong> Things responding to a user get
+  ease-out. This is not a stylistic preference — it is front-loading the information into the
+  window where the user is looking.</p>
+
+  <p class="sidenote">The full decision tree — including when ease-in-out and linear are
+  right — is in <a href="../reference/easing-and-timing.html#">Reference 01</a>. Ease-in has
+  essentially no place in UI.</p>
+
+  <h2>Build the canonical entrance</h2>
+
+  <p>This is the fade-and-rise you have seen on every well-made marketing page, including the
+  one that started this. Edit the CSS; the preview updates as you type. <strong>Replay</strong>
+  re-mounts the element so the entrance runs again.</p>
+
+  <div data-pg
+       data-pg-title="The entrance — edit and replay"
+       data-pg-height="190"
+       data-pg-hint="Try: swap ease-out for ease-in. Change 24px to 200px. Set duration to 2000ms.">
+    <script type="text/plain" data-pg-html>
+      <div class="card">Hello</div>
+    </script>
+    <textarea data-pg-css>
+.card {
+  padding: 20px 28px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #fffef9;
+  font-weight: 600;
+
+  /* Where it starts */
+  opacity: 0;
+  transform: translateY(24px);
+
+  /* How it gets to the other state */
+  transition:
+    opacity 400ms ease-out,
+    transform 400ms ease-out;
+}
+
+/* Added one frame after mount */
+.mounted .card {
+  opacity: 1;
+  transform: translateY(0);
+}
+    </textarea>
+  </div>
+
+  <p>Three things in that snippet are doing real work, and each is a rule:</p>
+
+  <h4>1. Opacity and transform, and nothing else</h4>
+  <p>These two are the only properties the browser can hand entirely to the GPU. It composites
+  them without recalculating layout or repainting anything. Animate <code>height</code>,
+  <code>margin</code>, or <code>top</code> instead and the browser redoes layout every single
+  frame — for the animated element <em>and</em> potentially everything around it. That is
+  where jank comes from. <a
+  href="https://www.joshwcomeau.com/animation/css-transitions/">Comeau's cost hierarchy</a>:
+  <code>height</code>/<code>width</code>/<code>left</code> are expensive,
+  <code>background-color</code> is middling, <code>transform</code>/<code>opacity</code> are
+  nearly free.</p>
+
+  <h4>2. Named properties, never <code>all</code></h4>
+  <p><code>transition: all 400ms</code> works today and betrays you in three months, when
+  someone adds a <code>background-color</code> to the card and it now lazily fades on hover
+  for reasons nobody can find. Name what you mean.</p>
+
+  <h4>3. 24px, not 200px</h4>
+  <p>Set the translate to 200px in the playground. It stops reading as <em>this element is
+  arriving</em> and starts reading as <em>this element is flying in from somewhere</em>. The
+  motion should be just enough to imply the element came from somewhere — a suggestion of
+  travel, not a journey. The Claude page uses 10px, 20px and 24px, and nothing larger.</p>
+
+  <h2>The mistake to see once</h2>
+
+  <p>Two cards. One starts at <code>scale(0)</code>, one at <code>scale(0.95)</code>. Replay a
+  few times and watch the left one.</p>
+
+  <div data-pg
+       data-pg-title="Nothing real appears from nothing"
+       data-pg-height="200"
+       data-pg-hint="Try nudging 0.95 down: 0.8, 0.6, 0.4. Find where it stops feeling right.">
+    <script type="text/plain" data-pg-html>
+      <div style="display:flex; gap:18px; align-items:center;">
+        <div class="card bad">scale(0)</div>
+        <div class="card good">scale(0.95)</div>
+      </div>
+    </script>
+    <textarea data-pg-css>
+.card {
+  width: 96px;
+  height: 96px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--accent);
+  color: #fffef9;
+  opacity: 0;
+  transition:
+    opacity 350ms ease-out,
+    transform 350ms ease-out;
+}
+
+.bad  { transform: scale(0);    }
+.good { transform: scale(0.95); }
+
+.mounted .card {
+  opacity: 1;
+  transform: scale(1);
+}
+    </textarea>
+  </div>
+
+  <p>The left card is a magic trick; the right card is an object arriving. The difference is
+  five hundredths of a unit of scale.</p>
+
+  <p>Why it matters is the first principle again: <code>scale(0)</code> has no size, so there
+  is no object for your visual system to track — it has to accept that something materialised.
+  A deflated balloon still has a shape. Starting from 0.95 gives the eye something to follow
+  the whole way, so the arrival reads as continuous rather than as a cut.</p>
+
+  <p>Somewhere between 0.95 and 0.4 it stops working. Find that point yourself — that is the
+  kind of judgement that does not transfer by being told.</p>
+
+  <h2>The page that started this</h2>
+
+  <p>Worth knowing what you were actually admiring. I pulled the source of
+  <a href="https://claude.com/claude-for-chrome">claude.com/claude-for-chrome</a> on
+  2026-07-29. It is <strong>not</strong> React — it's Webflow driving GSAP, with Lottie for
+  the illustrated bits and Lenis for smooth scroll.</p>
+
+  <p>But the numbers inside it are the numbers from this lesson:</p>
+
+  <table>
+    <thead><tr><th>Found in the source</th><th>Rule</th></tr></thead>
+    <tbody>
+      <tr><td><code>power2.out</code>, <code>power3.out</code>, <code>expo.out</code> — 12 uses</td><td>Every entrance is ease-out</td></tr>
+      <tr><td><code>power1.inOut</code> — 6 uses</td><td>On-screen A-to-B movement</td></tr>
+      <tr><td><code>ease: "none"</code></td><td>Linear, for scroll-linked progress</td></tr>
+      <tr><td><code>stagger: 0.075</code></td><td>75ms between items</td></tr>
+      <tr><td><code>y: 10</code>, <code>y: 20</code>, <code>y: 24</code></td><td>Small travel distances</td></tr>
+      <tr><td>durations <code>0.2</code>–<code>0.45</code></td><td>Fast for UI, longer for hero</td></tr>
+      <tr><td>ease-in on an entrance: <strong>zero</strong></td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <p>GSAP's <code>power</code> scale is just named curve strength — <code>power1</code>=Quad
+  through <code>power4</code>=Quint, per the <a href="https://gsap.com/docs/v3/Eases/">GSAP
+  docs</a>. So <code>power2.out</code> ≈ <code>cubic-bezier(0.215, 0.61, 0.355, 1)</code>, and
+  <code>power4.out</code> is the same shape as the <code>--ease-out-strong</code> you just
+  raced. <a href="../reference/easing-and-timing.html">Reference 01</a> has the full
+  translation table — that table is your reverse-engineering tool.</p>
+
+  <div class="callout principle">
+    <span class="label">The real lesson</span>
+    <p>A polished page is not using a secret library. It is applying a handful of rules
+    consistently, in whatever tool is at hand. Consistency is most of what reads as
+    expensive.</p>
+  </div>
+
+  <h2>Retrieval</h2>
+
+  <p>Close the reading above before answering. Getting one wrong here is more useful than
+  getting it right by scrolling up.</p>
+
+  <div data-quiz data-quiz-title="Retrieval check">
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">A command palette opens on ⌘K, dozens of times a day. It currently
+        scales in over 200ms. What should change?</p>
+      <button data-opt>Remove the animation entirely here</button>
+      <button data-opt>Extend the animation somewhat longer</button>
+      <button data-opt>Reverse the animation curve instead</button>
+      <p data-explain>Keyboard-initiated, high-frequency. There is no confusion left to
+        resolve after the tenth use, so the motion is pure latency. Raycast ships with no
+        open animation for exactly this reason.</p>
+    </div>
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">Two entrances run at exactly 400ms, one ease-in and one ease-out.
+        Why does ease-in feel slower?</p>
+      <button data-opt>It withholds movement at first</button>
+      <button data-opt>It stretches the duration longer</button>
+      <button data-opt>It shrinks the travel distance</button>
+      <p data-explain>The dead window at the start lands precisely where attention is
+        highest — right after the user acted. Ease-out spends its slow part at the end, where
+        there is nothing left to communicate.</p>
+    </div>
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">A drawer opens over 300ms. What duration should its close use?</p>
+      <button data-opt>Roughly one hundred fifty ms</button>
+      <button data-opt>Exactly three hundred ms again</button>
+      <button data-opt>Closer to six hundred ms</button>
+      <p data-explain>Exits go faster than entrances. Entering, the user is being shown
+        something; leaving, they have already decided and want it gone. Symmetrical timing
+        makes dismissal feel like it is resisting you.</p>
+    </div>
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">A card grid animates in from <code>transform: scale(0)</code>.
+        What is the core problem?</p>
+      <button data-opt>They appear from literal nothing</button>
+      <button data-opt>They animate the wrong colour</button>
+      <button data-opt>They lack any hover state</button>
+      <p data-explain>At scale 0 there is no object for the eye to track, so the arrival
+        reads as a cut rather than as motion. Start at 0.95 with opacity 0 — a deflated
+        balloon still has a shape.</p>
+    </div>
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">You inspect a site and find <code>ease: "power2.out"</code>.
+        In CSS terms that is closest to:</p>
+      <button data-opt>A strong ease-out cubic curve</button>
+      <button data-opt>A gentle ease-in quad curve</button>
+      <button data-opt>A linear constant speed curve</button>
+      <p data-explain><code>power2</code> is GSAP's name for Cubic, and <code>.out</code>
+        is the deceleration variant — about
+        <code>cubic-bezier(0.215, 0.61, 0.355, 1)</code>.</p>
+    </div>
+
+  </div>
+
+  <h2>Read this next</h2>
+
+  <p><strong>Primary source:</strong> <a
+  href="https://emilkowal.ski/ui/great-animations">“Great animations” — Emil Kowalski</a>.
+  Ten minutes, and the highest-density statement of this whole topic in existence. It lays out
+  seven properties of good motion; this lesson only covered two and a half of them. Read it
+  before the next lesson.</p>
+
+  <p>If you want the mechanics interactively, <a
+  href="https://www.joshwcomeau.com/animation/css-transitions/">Josh Comeau's Interactive
+  Guide to CSS Transitions</a> is the best explainer of transitions anywhere, with a sandbox
+  mode.</p>
+
+  <div class="ask-teacher">
+    <p><strong>I'm your teacher here — ask me things.</strong> If any of this was unclear, or
+    you want me to break down a specific animation you have seen, or you disagree with a rule
+    and want to argue it, just say so in the terminal. Arguing with a rule is usually how you
+    find out what it is actually for.</p>
+    <p>Useful things to ask next: <em>“show me what ease-in-out is actually for”</em>,
+    <em>“rebuild the Claude hero stagger”</em>, or <em>“what does this cubic-bezier I found
+    do?”</em></p>
+  </div>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="0002-the-four-property-budget.html">Lesson 0002 — The four-property budget → →</a>
+      <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing (printable)</a>
+      <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers (printable)</a>
+      <a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course (printable)</a>
+      <a href="../reference/04-the-workbench.html">Reference 04 — The Workbench (every lab, live)</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+      <a href="0002-the-four-property-budget.html">Lesson 0002 — The four-property budget →</a>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/easing-lab.js"></script>
+<script src="../assets/playground.js"></script>
+<script src="../assets/quiz.js"></script>

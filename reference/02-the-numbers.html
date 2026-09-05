@@ -1,0 +1,245 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reference — The Numbers</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Reference · 02</p>
+    <h1>The Numbers</h1>
+    <p class="dek">Everything from lessons 0001–0010 worth holding in your head, and the
+      syntax that isn't. Print this one too.</p>
+    <div class="meta">
+      <span>Companions: <a href="easing-and-timing.html">Reference 01</a> ·
+        <a href="03-the-whole-course.html">Reference 03</a> ·
+        <a href="04-the-workbench.html">Reference 04</a></span>
+      <span>Updated 2026-09-03</span>
+    </div>
+  </header>
+
+  <p class="lead">Six things belong in memory. Everything below that line is lookup.</p>
+
+  <h2>The six</h2>
+
+  <div class="callout principle">
+    <span class="label">Memorise these</span>
+    <p><strong>1. Ease-out in, ease-in out.</strong> Entrances decelerate into place; exits
+    accelerate away. An ease-out exit lingers at near-zero opacity, which is the worst place to
+    spend time.</p>
+
+    <p><strong>2. Exits run about half the entrance.</strong> 320ms in, 180ms out. The ratio
+    that matters is 0.5–0.65. Nobody has ever complained a dismissal was too fast.</p>
+
+    <p><strong>3. <code>transform</code> and <code>opacity</code> are free.</strong> Anything
+    that changes geometry — width, height, top, margin, padding — costs Layout on every frame.
+    If you can express the effect as a transform, do.</p>
+
+    <p><strong>4. Overlap ≤ 0.35, and check the total separately.</strong> Two independent
+    failures: the group can read as a queue, or it can simply take too long.</p>
+
+    <p><strong>5. Reveals want a trigger, never a scrub.</strong> If the element carries
+    meaning, its legibility must not depend on where the reader stopped scrolling.</p>
+
+    <p><strong>6. Content must survive its own animation not running.</strong> Never hide
+    something in a stylesheet that only JavaScript can unhide.</p>
+  </div>
+
+  <h2>Durations that work</h2>
+
+  <table>
+    <thead><tr><th>Thing</th><th>Enter</th><th>Exit</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Press feedback under a finger</strong> (0010)</td><td>0–100ms</td><td>~180ms</td></tr>
+      <tr><td>Hover, focus, small state change</td><td>120–160ms</td><td>same or less</td></tr>
+      <tr><td>The state change a press <em>causes</em> — toggle, checkbox</td><td>150–200ms</td><td>100–150ms</td></tr>
+      <tr><td>Dropdown, tooltip, popover</td><td>180–250ms</td><td>120–160ms</td></tr>
+      <tr><td>Modal, dialog, sheet</td><td>280–360ms</td><td>160–220ms</td></tr>
+      <tr><td>Full-screen or page transition</td><td>400–500ms</td><td>250–300ms</td></tr>
+      <tr><td>Hero entrance (per element)</td><td>400–560ms</td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <p class="sidenote">The first row overrules the rest when it applies. Everything below it
+  assumes the system moved first; a press answers a hand that already moved, and 0.1s is the
+  limit for it still feeling like direct manipulation. The two press rows are different
+  animations — the button yielding under the finger, and the checkbox filling in afterwards.</p>
+
+  <p class="sidenote">Ceiling: if a single element's animation exceeds ~500ms, it needs a
+  reason. Above ~1s the reader thinks the page is broken, not elegant.</p>
+
+  <h2>The two stagger equations</h2>
+
+  <div class="callout">
+    <p><code>total = duration + (n − 1) × step</code></p>
+    <p><code>overlap = step ÷ duration</code></p>
+  </div>
+
+  <table>
+    <thead><tr><th>Overlap</th><th>Reads as</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr><td>0</td><td>Everything at once</td><td>A flash. No hierarchy.</td></tr>
+      <tr><td>≤ 0.35</td><td>One gesture</td><td><strong>Target.</strong></td></tr>
+      <tr><td>0.35–0.8</td><td>A visible wave</td><td>Only if the wave is the point.</td></tr>
+      <tr><td>&gt; 1</td><td>A queue</td><td>Each finishes before the next starts. Wrong.</td></tr>
+    </tbody>
+  </table>
+
+  <p>Keep total under <strong>~800ms</strong> for a hero, <strong>~500ms</strong> for a menu or
+  list. More items means a smaller step, not a longer wait — budget the total first, then
+  divide.</p>
+
+  <h2>Curves worth keeping</h2>
+
+  <table>
+    <thead><tr><th>Use</th><th>CSS</th></tr></thead>
+    <tbody>
+      <tr><td>Entrance (strong, most-used)</td><td><code>cubic-bezier(0.23, 1, 0.32, 1)</code></td></tr>
+      <tr><td>Entrance (standard)</td><td><code>cubic-bezier(0, 0, 0.2, 1)</code></td></tr>
+      <tr><td>Exit</td><td><code>cubic-bezier(0.4, 0, 1, 1)</code></td></tr>
+      <tr><td>Move between two on-screen points</td><td><code>cubic-bezier(0.65, 0, 0.35, 1)</code></td></tr>
+      <tr><td>Scroll-scrubbed anything</td><td><code>linear</code> — the reader is the curve</td></tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <h2>Lookup — don't memorise any of this</h2>
+
+  <h3>Scroll reveal, the whole pattern</h3>
+
+  <pre><code>&lt;script&gt;document.documentElement.classList.add('js');&lt;/script&gt;
+
+.js .reveal { opacity: 0; transform: translateY(20px); }
+.reveal { transition: opacity 420ms var(--ease-out), transform 420ms var(--ease-out); }
+.reveal.is-in { opacity: 1; transform: none; }
+
+const io = new IntersectionObserver((entries) =&gt; {
+  let batch = 0;
+  for (const e of entries) {
+    if (!e.isIntersecting) continue;
+    e.target.style.transitionDelay = `${batch * 60}ms`;
+    e.target.classList.add('is-in');
+    batch += 1;
+    io.unobserve(e.target);        // reveal once
+  }
+}, { rootMargin: '0px 0px -15% 0px', threshold: 0 });</code></pre>
+
+  <p><strong>The sign rule:</strong> negative bottom margin shrinks the root box upward and
+  fires <em>later</em>. Positive grows it past the viewport and fires <em>earlier</em>.
+  <code>-15%</code> is the working default.</p>
+
+  <p><strong>Observe the container, not the items,</strong> when the group should read as one
+  gesture — otherwise scroll speed decides your stagger for you.</p>
+
+  <h3>Asymmetric enter/exit in pure CSS</h3>
+
+  <pre><code>.panel {                        /* resting state = the EXIT transition */
+  display: none; opacity: 0; transform: translateY(10px);
+  transition: opacity 160ms cubic-bezier(0.4,0,1,1),
+              transform 160ms cubic-bezier(0.4,0,1,1),
+              display 160ms allow-discrete;
+}
+.panel.open {                   /* active state = the ENTER transition */
+  display: block; opacity: 1; transform: none;
+  transition: opacity 340ms cubic-bezier(0.23,1,0.32,1),
+              transform 340ms cubic-bezier(0.23,1,0.32,1),
+              display 340ms allow-discrete;
+}
+@starting-style { .panel.open { opacity: 0; transform: translateY(10px); } }</code></pre>
+
+  <p>A transition on a rule governs the journey <em>to</em> that rule. That is how you get two
+  durations and two curves without any JavaScript.</p>
+
+  <h3>The <code>--i</code> stagger</h3>
+
+  <pre><code>.item { transition-delay: calc(var(--i) * 60ms); }
+&lt;div class="item" style="--i: 0"&gt;…&lt;/div&gt;</code></pre>
+
+  <p>With <code>animation-delay</code> instead, you must add
+  <code>animation-fill-mode: backwards</code> or the element flashes its final state first.
+  <code>transition-delay</code> has no such problem.</p>
+
+  <h3>Scroll-driven CSS (a scrub, not a trigger)</h3>
+
+  <pre><code>@supports (animation-timeline: view()) {
+  .bar {
+    animation: grow linear both;
+    animation-timeline: view();
+    animation-range: entry 10% cover 30%;
+  }
+}</code></pre>
+
+  <p>Ranges: <code>entry</code> = crossing into view, <code>cover</code> = any part visible,
+  <code>exit</code> = leaving. No duration — the range replaced it.</p>
+
+  <h3>Property cost tiers</h3>
+
+  <table>
+    <thead><tr><th>Tier</th><th>Properties</th><th>Stages per frame</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Free</strong></td><td><code>transform</code>, <code>opacity</code></td><td>Composite</td></tr>
+      <tr><td><strong>On credit</strong></td><td><code>filter</code>, <code>clip-path</code></td><td>GPU, but scales with area</td></tr>
+      <tr><td><strong>Paint</strong></td><td><code>color</code>, <code>background-color</code>, <code>box-shadow</code>, <code>border-radius</code></td><td>Paint + Composite</td></tr>
+      <tr><td><strong>Expensive</strong></td><td><code>width</code>, <code>height</code>, <code>top</code>, <code>margin</code>, <code>padding</code></td><td>Layout + Paint + Composite</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>Animating to <code>height: auto</code>:</strong> wrap in a grid and animate
+  <code>grid-template-rows: 0fr → 1fr</code>.</p>
+
+  <h3>Hover and press, the whole shape</h3>
+
+  <pre><code>.btn {
+  transition: transform 180ms var(--ease-out),   /* coming back up */
+              background-color 140ms ease;
+}
+
+@media (hover: hover) {                          /* gate the hover — only the hover */
+  .btn:hover { background: var(--accent-700); }
+}
+
+.btn:active {                                    /* outside the query: fingers press */
+  transform: scale(0.96);
+  transition: transform 80ms var(--ease-out);    /* going down */
+}
+
+.btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }</code></pre>
+
+  <p><strong>Press depth from element width:</strong>
+  <code>edge displacement = (1 − scale) × width ÷ 2</code>. Aim for 2–4px.
+  96px button → <code>0.96</code>. 320px card → <code>0.985</code>. Full-width → don't scale,
+  darken.</p>
+
+  <p><strong>Hover intent, no JavaScript:</strong> <code>transition-delay: 300ms</code> on the
+  <code>:hover</code> rule, <code>0ms</code> on the base rule. Waits on the way in, leaves
+  immediately.</p>
+
+  <h2>Debugging, in order</h2>
+
+  <ol>
+    <li><strong>Paint flashing</strong> (DevTools → Rendering). Green = repainted. A composited
+    animation produces no green at all. Green during motion means it isn't composited.</li>
+    <li><strong>Layers panel.</strong> Flashing green and no layer of its own = confirmed
+    non-composited animation.</li>
+    <li><strong>Performance recording.</strong> Purple is Layout, green is Paint. Long frames
+    are the ones over 16.7ms.</li>
+    <li><strong>Click your toggle as fast as you can.</strong> If it queues, stutters or sticks,
+    the motion isn't interruptible.</li>
+  </ol>
+
+  <nav class="footer-nav">
+    <h2>Related</h2>
+    <div class="nav-links">
+      <a href="easing-and-timing.html">Reference 01 — Easing &amp; Timing</a>
+      <a href="03-the-whole-course.html">Reference 03 — The Whole Course</a>
+      <a href="04-the-workbench.html">Reference 04 — The Workbench</a>
+      <a href="../lessons/0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../lessons/0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+      <a href="../lessons/0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration</a>
+      <a href="../lessons/0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal</a>
+      <a href="../lessons/0005-exits.html">Lesson 0005 — Exits</a>
+    </div>
+  </nav>
+
+</div>

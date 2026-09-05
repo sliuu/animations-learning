@@ -1,0 +1,486 @@
+/* ============================================================
+   lesson.css — shared stylesheet for all lessons & references
+   Tufte-inspired: generous margins, serif prose, restrained
+   palette, sidenotes. Prints cleanly. Light + dark.
+   ============================================================ */
+
+:root {
+  --ink: #16150f;
+  --ink-soft: #55524a;
+  --ink-faint: #8b877c;
+  --paper: #fffef9;
+  --paper-sunk: #f6f4ec;
+  --rule: #e0ddd1;
+  --accent: #9a3412;      /* burnt sienna — links, emphasis */
+  --accent-soft: #f0e2d8;
+  --good: #3f6212;
+  --bad: #9f1239;
+  --code-bg: #f4f2ea;
+
+  /* The curve library. Referenced by name all through the course. */
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  --serif: Palatino, "Palatino Linotype", "Iowan Old Style", Charter, Georgia, serif;
+  --sans: ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #eceadf;
+    --ink-soft: #a8a49a;
+    --ink-faint: #736f66;
+    --paper: #14140f;
+    --paper-sunk: #1c1c16;
+    --rule: #302f27;
+    --accent: #f0a882;
+    --accent-soft: #33241c;
+    --good: #a3c76d;
+    --bad: #f2789a;
+    --code-bg: #1e1e17;
+  }
+}
+
+/* ---------- reset-ish ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- layout ---------- */
+.page {
+  max-width: 68ch;
+  margin: 0 auto;
+  padding: 4rem 1.5rem 8rem;
+  /* So a margin sidenote resolves its `left: 100%` against the prose column and
+     not against whatever the page happens to be centred inside. */
+  position: relative;
+}
+
+/* The measuring context for a margin sidenote. In a standalone lesson file this
+   is the whole window; in the bundle .doc re-declares it as the content column
+   beside the rail. */
+body { container-type: inline-size; }
+
+/* Full-bleed escape hatch for demos that want to breathe */
+.wide {
+  width: min(96vw, 1080px);
+  margin-inline: calc(50% - min(48vw, 540px));
+}
+
+/* ---------- masthead ---------- */
+.masthead {
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+.eyebrow {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 0 0 0.6rem;
+}
+.masthead h1 {
+  font-size: 2.35rem;
+  line-height: 1.14;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem;
+}
+.dek {
+  font-size: 1.1rem;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin: 0;
+}
+.meta {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  margin-top: 1rem;
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+/* ---------- prose ---------- */
+h2 {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 3.5rem 0 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--rule);
+}
+h3 {
+  font-size: 1.28rem;
+  font-weight: 400;
+  font-style: italic;
+  margin: 2.25rem 0 0.6rem;
+}
+h4 {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 650;
+  margin: 1.75rem 0 0.5rem;
+  letter-spacing: -0.005em;
+}
+p { margin: 0 0 1.1rem; }
+p.lead { font-size: 1.14rem; }
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  transition: border-color 160ms var(--ease-out-strong), background-color 160ms var(--ease-out-strong);
+}
+a:hover { border-bottom-color: var(--accent); background: var(--accent-soft); }
+
+strong { font-weight: 650; }
+em { font-style: italic; }
+
+blockquote {
+  margin: 1.75rem 0;
+  padding-left: 1.35rem;
+  border-left: 2px solid var(--accent);
+  font-style: italic;
+  color: var(--ink-soft);
+}
+blockquote cite {
+  display: block;
+  font-style: normal;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  margin-top: 0.5rem;
+}
+
+ul, ol { margin: 0 0 1.2rem; padding-left: 1.4rem; }
+li { margin-bottom: 0.45rem; }
+li::marker { color: var(--ink-faint); }
+
+hr {
+  border: 0;
+  height: 1px;
+  background: var(--rule);
+  margin: 3rem 0;
+}
+
+/* ---------- code ---------- */
+code {
+  font-family: var(--mono);
+  font-size: 0.83em;
+  background: var(--code-bg);
+  padding: 0.14em 0.38em;
+  border-radius: 3px;
+  border: 1px solid var(--rule);
+}
+pre {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  background: var(--code-bg);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+  margin: 1.35rem 0;
+}
+pre code { background: none; border: 0; padding: 0; font-size: 1em; }
+
+/* ---------- tables ---------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  margin: 1.5rem 0;
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+@media (min-width: 640px) {
+  table { display: table; white-space: normal; }
+}
+th {
+  text-align: left;
+  font-weight: 650;
+  font-size: 0.72rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border-bottom: 1px solid var(--ink-soft);
+  padding: 0.45rem 0.7rem 0.45rem 0;
+}
+td {
+  padding: 0.55rem 0.7rem 0.55rem 0;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+tbody tr:last-child td { border-bottom: 0; }
+td code { font-size: 0.78rem; }
+
+/* ---------- callouts ---------- */
+.callout {
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  background: var(--paper-sunk);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 5px 5px 0;
+  padding: 1rem 1.15rem;
+  margin: 1.75rem 0;
+}
+.callout p:last-child { margin-bottom: 0; }
+.callout .label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.4rem;
+}
+.callout.principle { border-left-color: var(--good); }
+.callout.principle .label { color: var(--good); }
+.callout.warn { border-left-color: var(--bad); }
+.callout.warn .label { color: var(--bad); }
+
+/* ---------- sidenote ---------- */
+.sidenote {
+  font-family: var(--sans);
+  font-size: 0.79rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  border-top: 1px solid var(--rule);
+  padding-top: 0.5rem;
+  margin: 1.5rem 0;
+}
+/* When there is no room beside the prose, the note belongs *in* the prose:
+   smaller, greyer, and set off by a rule down its left edge so it reads as an
+   aside rather than as a paragraph that lost its nerve. This is the default,
+   and the margin version below is the enhancement. */
+.sidenote {
+  border-top: 0;
+  border-left: 2px solid var(--rule);
+  padding: 0.1rem 0 0.1rem 0.9rem;
+}
+
+/* The margin version.
+
+   Two things were wrong with this rule before and both are worth writing down.
+
+   1. It positioned against `50%`, but `.page` was not a positioned ancestor, so
+      the percentage resolved against the viewport. Centred prose happened to
+      line up with the viewport's centre and hid the error — until the bundle
+      grew a left rail and pushed the page off-centre, at which point every note
+      in the course landed on top of the text.
+
+   2. `36ch` and `20ch` resolve against `.sidenote`'s own font, which is the
+      sans. `.page` measures 68ch in the serif. A sans ch is narrower, so
+      "half the measure plus a gap" came out *inside* the measure — about 145px
+      inside it, at every width. This is the ch-unit trap the build notes warn
+      about, and it bit the one rule that was written before the note existed.
+
+   Both are gone now: the note is positioned off `.page`'s own right edge in rem,
+   which cannot drift no matter what the page is centred inside.
+
+   The query is on the container, not the viewport, because the thing that
+   decides whether a margin note fits is how much room the *column* has — and
+   with a collapsible rail the column changes width without the window moving.
+   1180px is where the gutter reaches the 264px a note needs (15rem plus a
+   1.5rem gap). Below that the inline version above stands. */
+@supports (container-type: inline-size) {
+  @container (min-width: 1180px) {
+    .sidenote {
+      position: absolute;
+      left: 100%;
+      width: 15rem;
+      margin-top: -1.5rem;
+      margin-left: 1.5rem;
+      border-left: 0;
+      padding: 0;
+    }
+  }
+}
+
+/* ---------- demo stage ---------- */
+.stage {
+  background: var(--paper-sunk);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  margin: 1.75rem 0;
+  overflow: hidden;
+}
+.stage-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.stage-body { padding: 1.5rem; }
+.stage-foot {
+  padding: 0.75rem 0.9rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+/* ---------- buttons ---------- */
+.btn {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 0.4rem 0.85rem;
+  cursor: pointer;
+  transition: transform 140ms var(--ease-out-strong),
+              border-color 140ms var(--ease-out-strong),
+              background-color 140ms var(--ease-out-strong);
+}
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover { border-color: var(--ink-soft); }
+}
+.btn:active { transform: scale(0.97); }
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--paper);
+}
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- controls (sliders, selects) ---------- */
+.controls {
+  display: grid;
+  gap: 0.85rem;
+  font-family: var(--sans);
+  font-size: 0.8rem;
+}
+.control { display: grid; gap: 0.3rem; }
+.control-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+.control-value {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  color: var(--accent);
+  font-weight: 400;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 3px;
+  background: var(--rule);
+  border-radius: 3px;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: grab;
+  transition: transform 120ms var(--ease-out-strong);
+}
+input[type="range"]::-webkit-slider-thumb:active { transform: scale(1.25); cursor: grabbing; }
+input[type="range"]::-moz-range-thumb {
+  width: 15px; height: 15px; border: 0;
+  border-radius: 50%; background: var(--accent); cursor: grab;
+}
+select, input[type="text"] {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 5px;
+  padding: 0.35rem 0.5rem;
+  width: 100%;
+}
+
+/* ---------- footer nav ---------- */
+.footer-nav {
+  margin-top: 5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+  font-family: var(--sans);
+  font-size: 0.83rem;
+}
+.footer-nav h2 { margin-top: 0; }
+.nav-links { display: grid; gap: 0.5rem; }
+
+.ask-teacher {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  background: var(--accent-soft);
+  border-radius: 7px;
+  padding: 1rem 1.15rem;
+  margin: 2.5rem 0 0;
+  color: var(--ink);
+}
+.ask-teacher p:last-child { margin-bottom: 0; }
+
+/* ---------- print ---------- */
+@media print {
+  :root {
+    --ink: #000; --ink-soft: #333; --ink-faint: #666;
+    --paper: #fff; --paper-sunk: #fafafa; --rule: #ccc;
+    --accent: #000; --accent-soft: #f0f0f0; --code-bg: #f7f7f7;
+  }
+  body { font-size: 11pt; }
+  .page { max-width: none; padding: 0; }
+  .no-print, .btn, input[type="range"] { display: none !important; }
+  .stage, .callout, table, pre { break-inside: avoid; }
+  h2, h3 { break-after: avoid; }
+  a { border-bottom: 0; }
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.72em;
+    color: #666;
+    word-break: break-all;
+  }
+  .sidenote { position: static; width: auto; margin: 1rem 0; }
+}
+
+/* ---------- reduced motion ---------- */
+/* Note: lesson demos intentionally keep their motion — the motion IS
+   the content. But chrome/UI animation is stripped. */
+@media (prefers-reduced-motion: reduce) {
+  .btn, a, input[type="range"]::-webkit-slider-thumb { transition-duration: 0.01ms !important; }
+}

@@ -1,0 +1,301 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D001 — The map, and the words for it</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lesson D001 · 20 minutes</p>
+    <h1>The map, and the words for it</h1>
+    <p class="dek">The first lesson of the design track. Twelve patterns you already recognise,
+      the names for them, and a switch that breaks each one so you can hear what the name is
+      protecting.</p>
+    <div class="meta">
+      <span>Skill: name any effect you see, say which family it belongs to, and say what it
+        promises the user</span>
+      <span><a href="0012-things-that-just-appeared.html">← Lesson 0012</a></span>
+    </div>
+  </header>
+
+  <p class="lead">Eleven lessons got you the numbers. You can defend 180ms over 400ms and say why
+  an exit is faster than an entrance. What you can't do yet is stand in a review and say <em>that
+  drawer should come from the edge it lives on, and right now it's fading in place</em> — and end
+  the argument rather than start one.</p>
+
+  <p>That's a vocabulary gap, not a technique gap. So this lesson has no new CSS in it at all.</p>
+
+  <p>Twelve patterns below. Each one plays, and each one has a switch that breaks the convention it
+  depends on — never a straw man, always something real products ship. <strong>Break a few before
+  you read another word.</strong></p>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <ol>
+      <li>Play <strong>Modal</strong>. Tick <strong>break it</strong>. Play it again.</li>
+      <li>Same with <strong>Popover</strong> — that break is one CSS value and you will still feel it.</li>
+      <li><strong>Break them all</strong>, then play four at random.</li>
+      <li><strong>Restore all.</strong> Filter to <strong>direct manipulation</strong> and drag the
+        <strong>Swipe</strong> card a third of the way, then let go. Break it and drag the same way.</li>
+    </ol>
+  </div>
+
+  <div data-pattern-lab data-title="Twelve patterns, twelve conventions"></div>
+
+  <h2>Three families, three sets of rules</h2>
+
+  <p>The grey chips under each pattern are the words for what you just watched; the table further
+  down defines every one of them. First, the filter — which isn't decoration. The three families are the first useful cut in the whole subject,
+  because a rule that is obviously right in one family is obviously wrong in the next.</p>
+
+  <p><strong>Product UI</strong> is everything that appears, dismisses, and responds — modal,
+  drawer, toast, popover. Its rule is <em>get out of the way</em>. These patterns are used forty
+  times a day by someone trying to do something else, so they are judged on consistency and speed,
+  and the highest compliment they can receive is that nobody mentioned them.</p>
+
+  <p><strong>Expressive page</strong> is the landing-page family — heroes, line reveals, pinned
+  sections, parallax. Its rule is <em>pacing</em>. Here the user is an audience rather than an
+  operator: they are being walked through an argument, and motion is doing the job that
+  paragraph breaks and subheads do in an essay. A 600ms reveal that would be intolerable on a
+  save button is completely normal here, because nobody is waiting on it.</p>
+
+  <p><strong>Direct manipulation</strong> is anything where the thing is under your finger — drag,
+  swipe, deck, pull. Its rule is <em>one to one, and then let go gracefully</em>. This is the
+  family where duration mostly stops being the unit at all: while you are dragging, the only
+  correct number is your own hand position, and the entire design question is what happens in the
+  half-second after you release. That is why <a href="0008-springs.html">springs</a> exist, and
+  it is the honest answer to why lesson 0008 felt like it was solving a problem you didn't have.</p>
+
+  <div class="callout principle">
+    <span class="label">The gate</span>
+    <p>Before you argue about a duration, say which family the pattern is in. Half the motion
+    arguments in a design review are two people applying two families' rules to the same element
+    and both being right.</p>
+  </div>
+
+  <h2>Say it out loud</h2>
+
+  <p>Three vocabularies, doing three different jobs. The <strong>nouns</strong> are what the thing
+  is — modal, drawer, toast, popover, hero, pinned section, deck. You have most of those already.
+  The <strong>adjectives</strong> are how it feels, and they come at the end. The layer in the
+  middle is the one you're missing, and it's the one that makes a review sayable.</p>
+
+  <p><strong>Verbs are what the motion does.</strong> Every one of these is on screen above; the
+  chips under each pattern tell you which cell to go back to.</p>
+
+  <table>
+    <thead><tr><th>Verb</th><th>What it means</th><th>Where</th></tr></thead>
+    <tbody>
+      <tr><td><strong>anchor</strong></td><td>The point a scaling element grows from, chosen so it
+        points at whatever summoned it</td><td>Popover, Modal</td></tr>
+      <tr><td><strong>slide</strong></td><td>Travel from an edge, which claims the thing lives just
+        past that edge</td><td>Drawer, Toast</td></tr>
+      <tr><td><strong>fade</strong></td><td>Change in presence with no change in place — the only
+        move that says "this had no location"</td><td>Modal backdrop</td></tr>
+      <tr><td><strong>stagger</strong></td><td>Offsetting a group's start times so a set becomes a
+        sequence</td><td>Hero sequence</td></tr>
+      <tr><td><strong>split</strong></td><td>Breaking text into lines, words or characters so the
+        pieces can be timed apart</td><td>Line reveal</td></tr>
+      <tr><td><strong>mask</strong> (or wipe)</td><td>Revealing by moving the window rather than the
+        content, so the text never appears mid-air</td><td>Line reveal</td></tr>
+      <tr><td><strong>pin</strong></td><td>Holding one element still while content moves past
+        it</td><td>Pinned section</td></tr>
+      <tr><td><strong>scrub</strong></td><td>Progress tied one-to-one to an input the user controls
+        — and can run backwards</td><td>Pinned section, Parallax</td></tr>
+      <tr><td><strong>parallax</strong></td><td>Layers moving at different rates to imply
+        depth</td><td>Parallax</td></tr>
+      <tr><td><strong>lift</strong></td><td>Rising toward the user on pickup — elevation, shadow, a
+        touch of scale</td><td>Drag to reorder</td></tr>
+      <tr><td><strong>gap</strong></td><td>The space that opens to show where the dragged thing will
+        land</td><td>Drag to reorder</td></tr>
+      <tr><td><strong>settle</strong></td><td>The small overshoot-and-rest that ends a drop and
+        gives it weight</td><td>Drag to reorder, Pull to refresh</td></tr>
+      <tr><td><strong>snap</strong></td><td>A discrete jump to the nearest valid position, so you
+        can't end up between two states</td><td>Deck</td></tr>
+      <tr><td><strong>peek</strong></td><td>Showing a sliver of the next thing so its existence is an
+        affordance rather than a caption</td><td>Deck, Toast</td></tr>
+      <tr><td><strong>fling</strong></td><td>Releasing with velocity and letting momentum finish the
+        move</td><td>Swipe to dismiss</td></tr>
+      <tr><td><strong>snap-back</strong></td><td>The return when a gesture is abandoned — the promise
+        that you can change your mind</td><td>Swipe to dismiss</td></tr>
+      <tr><td><strong>rubber-band</strong></td><td>Resistance past a boundary, then return: the limit
+        told to your hand instead of your eyes</td><td>Pull to refresh, Swipe</td></tr>
+    </tbody>
+  </table>
+
+  <p>Two more you will need before you meet them: <strong>morph</strong>, where one element
+  <em>becomes</em> another rather than one leaving and one arriving, and <strong>shared
+  element</strong>, where the same object persists across a change of view. Both are the subject
+  of <a href="0011-layout-animation.html">lesson 0011</a> under their engineering names.</p>
+
+  <h2>What breaking it actually broke</h2>
+
+  <p>Four of the twelve breaks are worth naming precisely, because in each case you already have
+  the underlying principle from the engineering track and this is what it looks like from the
+  other side.</p>
+
+  <p><strong>The popover growing from its own middle</strong> is a wrong
+  <a href="0007-transform-origin.html"><code>transform-origin</code></a>, and nothing else — one
+  value, no timing change. Lesson 0007 argued it as anchoring a scale to its source. The design
+  sentence is shorter: <em>the panel and the button stopped being the same gesture.</em></p>
+
+  <p><strong>The hero arriving all at once</strong> is <a href="0003-stagger-and-orchestration.html">
+  stagger</a> removed. Note what it is not: it is not faster. Same duration, same easing, same
+  four elements. It is flatter, because four things arriving together are four things competing
+  and the eye has to pick a winner instead of being led to one.</p>
+
+  <p><strong>The row that teleports</strong> is the whole of
+  <a href="0011-layout-animation.html">FLIP</a>, in one felt moment. Lesson 0011 sold FLIP as a
+  technique for animating a layout change you didn't author. Here it is as a promise instead: the
+  gap opening is the list saying <em>I know where this is going</em>, and without it you have to
+  re-read four rows to find out what you just did.</p>
+
+  <p><strong>The card that dismisses on any movement</strong> removes snap-back, which is the
+  single most under-appreciated pattern in this lesson. Snap-back is not an animation, it is a
+  guarantee: <em>you may begin this gesture and change your mind.</em> Take it away and every
+  swipe becomes a commitment, which is why the broken version feels less like a bug and more like
+  a threat.</p>
+
+  <div class="callout">
+    <span class="label">The pattern under all four</span>
+    <p>None of the breaks looks wrong in a still frame. Screenshot the broken popover and the
+    correct one and they are the same image. Every one of these conventions lives entirely in
+    time, which is exactly why they are hard to review and easy to lose — and why having a word
+    for each of them is worth twenty minutes.</p>
+  </div>
+
+  <h2>The adjectives, briefly</h2>
+
+  <p>The third vocabulary is for diagnosis, and it is the one you already use — just imprecisely.
+  Each of these has a specific cause, and pinning the adjective to the cause is what
+  <strong>D012</strong> drills. For now, the shortlist:</p>
+
+  <ul>
+    <li><strong>mushy</strong> — wrong easing, usually <code>ease-in-out</code> where an
+      <code>ease-out</code> belonged. Nothing has a clear moment of arrival.</li>
+    <li><strong>floaty</strong> — too long. The motion is still going after the interest has ended.</li>
+    <li><strong>laggy</strong> — the response didn't answer the hand. Almost always a press or hover
+      that took more than 100ms (<a href="0010-hover-and-press.html">0010</a>).</li>
+    <li><strong>busy</strong> — too many things moving in the same moment. No hierarchy.</li>
+    <li><strong>disorienting</strong> — something moved without spatial continuity. Things
+      appeared where nothing was, or left in a direction that means nothing.</li>
+    <li><strong>unanchored</strong> — a scale or reveal that isn't tied to its source. The popover
+      break, exactly.</li>
+    <li><strong>janky</strong> — dropped frames. The only one on this list that is a performance
+      problem rather than a design decision (<a href="0002-the-four-property-budget.html">0002</a>).</li>
+    <li><strong>gratuitous</strong> — technically fine, and shouldn't be there. The hardest one to
+      say out loud and the most often correct.</li>
+  </ul>
+
+  <p>Notice that seven of the eight are design faults with design fixes. "Janky" is the only one
+  that sends you to DevTools, and it is the one that gets blamed most often — usually by someone
+  who means "mushy" and doesn't have the word.</p>
+
+  <h2>The habit</h2>
+
+  <p>The rest of this track goes family by family and pattern by pattern. What makes it stick
+  isn't the reading, it's a habit that costs nothing: <strong>when something moves, say the noun
+  and the verb.</strong> Out loud if you're alone, in the review if you aren't.</p>
+
+  <p>"That's a <em>drawer</em>, and it's <em>fading</em> instead of <em>sliding</em>." "That's a
+  <em>deck</em> with <em>peek</em> but no <em>snap</em>." "That's a <em>hero</em> with no
+  <em>stagger</em>." Three seconds each, and the sentence is already a ticket someone can pick up.</p>
+
+  <p>You will be wrong sometimes, early. Being wrong with a name is enormously more useful than
+  being right with a feeling, because a name is something another person can disagree with
+  specifically.</p>
+
+  <div data-quiz data-quiz-title="Check yourself">
+
+    <div data-q data-answer="3">
+      <p class="qz-stem">A designer says the notification panel "feels unrelated to the bell icon
+      that opened it." Which verb names what's missing?</p>
+      <button data-opt>Stagger — the rows inside it are all arriving at the same moment</button>
+      <button data-opt>Settle — it stops too abruptly at the end of its travel</button>
+      <button data-opt>Anchor — it isn't growing from the control that summoned it</button>
+      <button data-opt>Peek — nothing on screen suggests the panel exists beforehand</button>
+      <p data-explain>Anchoring is the connection between a summoned panel and the thing that
+      summoned it, and it is a single <code>transform-origin</code> away from being right. The
+      adjective for the symptom is "unanchored."</p>
+    </div>
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">A 550ms reveal is on a marketing hero and on a settings toggle. Which is
+      the better first question?</p>
+      <button data-opt>Whether 550ms is above the 400ms ceiling for interface motion</button>
+      <button data-opt>Which family each one is in, because expressive page and product UI are
+        judged on different things</button>
+      <button data-opt>Whether either could use a transform instead of a layout property</button>
+      <button data-opt>Whether the easing is ease-out in both cases, since both are entrances</button>
+      <p data-explain>550ms is normal pacing on a hero nobody is waiting for, and far too long on a
+      toggle answering a hand. The number can't be judged until the family is named — which is why
+      naming the family comes first.</p>
+    </div>
+
+    <div data-q data-answer="4">
+      <p class="qz-stem">Which of these is a promise to the user rather than an effect?</p>
+      <button data-opt>Parallax — layers moving at different rates</button>
+      <button data-opt>Mask — revealing by moving the window, not the content</button>
+      <button data-opt>Stagger — offsetting the start times across a group</button>
+      <button data-opt>Snap-back — the card returns if you release short of the threshold</button>
+      <p data-explain>The other three describe what the pixels do. Snap-back describes what the
+      interface is guaranteeing: that you may begin a gesture and abandon it. That's why removing
+      it feels like a threat rather than a downgrade.</p>
+    </div>
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">A carousel scrolls freely and often ends up showing half of one image and
+      half of the next. Name it.</p>
+      <button data-opt>A deck missing snap</button>
+      <button data-opt>A deck missing peek</button>
+      <button data-opt>A deck missing its dots</button>
+      <button data-opt>A deck missing rubber-band at the ends</button>
+      <p data-explain>Peek is the deliberate sliver that says "more this way." Landing between two
+      slides is the absence of snap — the discrete jump to the nearest valid position. Same
+      screenshot, completely different diagnosis, which is the case for having both words.</p>
+    </div>
+
+  </div>
+
+  <div class="ask-teacher">
+    <p><strong>Ask me anything about this one.</strong> The two I'd expect: <em>where does
+    hover fit?</em> — it isn't in the catalogue because it's a state rather than a pattern, and
+    <a href="0010-hover-and-press.html">0010</a> already owns it. And <em>isn't "expressive page"
+    just a nicer word for gratuitous?</em> — no, but the burden of proof is much higher there, and
+    <strong>D011</strong> is the lesson that sets it.</p>
+    <p>If a pattern you use constantly is missing from the twelve, tell me which. The catalogue is
+    meant to become a reference sheet, and it should be the patterns you actually meet.</p>
+  </div>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="D002-where-things-live.html">Design track D002 — Where things live when they're off screen →</a>
+      <a href="0012-things-that-just-appeared.html">← Lesson 0012 — Things that just appeared</a>
+      <a href="0011-layout-animation.html">Lesson 0011 — Layout animation</a>
+      <a href="0010-hover-and-press.html">Lesson 0010 — Hover and press</a>
+      <a href="0009-reduced-motion.html">Lesson 0009 — Reduced motion</a>
+      <a href="0008-springs.html">Lesson 0008 — Springs</a>
+      <a href="0007-transform-origin.html">Lesson 0007 — Transform-origin</a>
+      <a href="0006-choosing-a-tool.html">Lesson 0006 — Choosing a tool</a>
+      <a href="0005-exits.html">Lesson 0005 — Exits</a>
+      <a href="0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal</a>
+      <a href="0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration</a>
+      <a href="0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+      <a href="0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing (printable)</a>
+      <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers (printable)</a>
+      <a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course (printable)</a>
+      <a href="../reference/04-the-workbench.html">Reference 04 — The Workbench (every lab, live)</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+      <span style="color:var(--ink-faint)">Next: <strong>D003 — Motion is hierarchy</strong>.
+        Motion is a hierarchy channel like size and weight, and it is the loudest one you have.
+        Same timings, same CSS — the only knob is <em>which element moves</em>.</span>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/pattern-lab.js"></script>
+<script src="../assets/quiz.js"></script>

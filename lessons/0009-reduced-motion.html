@@ -1,0 +1,431 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0009 — Reduced motion, done properly</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lesson 0009 · 18 minutes</p>
+    <h1>Reduced motion,<br>done&nbsp;properly</h1>
+    <p class="dek">Eight lessons of adding motion. This one is about taking the right parts of it
+      away — which is a design decision, not a kill switch.</p>
+    <div class="meta">
+      <span>Skill: decide, per element, what a reduced-motion user should see instead</span>
+      <span><a href="0008-springs.html">← Lesson 0008</a></span>
+    </div>
+  </header>
+
+  <p class="lead"><code>prefers-reduced-motion: reduce</code> is a request for less
+  <em>movement</em>. It is not a request for a faster website, and those are different axes.</p>
+
+  <p>Somebody turned on a setting in their operating system — <em>Reduce motion</em> on macOS and
+  iOS, <em>Show animations</em> off on Windows, <em>Remove animations</em> on Android. The browser
+  forwards it to your CSS. Most of the people who set it did so because motion on a screen makes
+  them feel physically unwell: nausea, dizziness, headache. That's <strong>vestibular</strong>
+  — your inner ear's balance system, which takes moving imagery as evidence that your body is
+  moving, and objects when the rest of your body says otherwise.</p>
+
+  <p>So this isn't a preference in the way dark mode is a preference. And the value in the spec is
+  <code>reduce</code>, not <code>none</code>.</p>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <ol>
+      <li>Press <strong>Loop it</strong> and leave it running — the stage keeps replaying so you
+        can look at one thing at a time.</li>
+      <li>The preference starts at <strong>reduce</strong> and the policy at <strong>the global
+        reset</strong>. Watch the <strong>spinner</strong> next to "Syncing 3 files…" for a few
+        seconds before reading anything.</li>
+      <li>Now switch the policy to <strong>decide per kind of motion</strong> and watch the same
+        spinner.</li>
+      <li>Switch back and forth between those two and watch the <strong>hero card</strong>
+        instead. One of them cuts, one of them fades.</li>
+      <li>Drag <strong>travel distance</strong> to 80px, then set the policy back to
+        <strong>ignore the preference</strong>.</li>
+    </ol>
+  </div>
+
+  <div data-motion-pref-lab data-title="One interface, three policies"></div>
+
+  <h2>What you just saw</h2>
+
+  <p>That reset in the middle option isn't a straw man I built for the lab. It's this, more or
+  less verbatim, and it is in an enormous number of stylesheets:</p>
+
+  <pre><code>@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}</code></pre>
+
+  <p>It gets the ambient band exactly right — that large drifting gradient is the single riskiest
+  thing on the stage, and the reset stops it dead. Then it does two things you should not want.</p>
+
+  <p><strong>It freezes the spinner.</strong> <code>animation-iteration-count: 1</code> applies to
+  every looping animation on the page, and a spinner's whole job is to loop. What's left is a
+  static ring next to the words "Syncing 3 files…", with nothing corroborating them. The
+  interface now claims to be working and shows no evidence of it. That's not a reduced
+  experience, it's a broken one.</p>
+
+  <p><strong>And it turns the entrances into jump cuts.</strong> A <em>jump cut</em> is the card
+  appearing in its final position in a single frame, with nothing in between. Notice what
+  <code>0.01ms</code> actually did there: the card still moved 24px. It just did it too fast for
+  you to see the path. The displacement is identical; only the smoothing is gone. For a reader
+  who is sensitive to motion, an unexplained instant relocation is not obviously easier to take
+  than a short smooth one — and it's harder for <em>everyone</em> to follow, because the thing
+  that told you where the card came from has been deleted.</p>
+
+  <div class="callout principle">
+    <span class="label">The rule this gives you</span>
+    <p><code>reduce</code> is a request about <strong>distance</strong>, not about
+    <strong>time</strong>.</p>
+    <p>Take away the travel and keep the fade. A 300ms cross-fade in place is a perfectly good
+    reduced-motion animation. A 0.01ms 300px slide is not.</p>
+  </div>
+
+  <p class="sidenote">Why <code>0.01ms</code> and not <code>0s</code>, though? Because events.
+  A duration of zero means some browsers never fire <code>transitionend</code> or
+  <code>animationend</code>, and any JavaScript waiting on that callback to remove a class,
+  unmount a node or release a focus trap simply hangs. <code>0.01ms</code> is fast enough to be
+  invisible and slow enough to still be an animation. Whoever wrote that reset knew exactly what
+  they were doing — the mistake is treating a <em>safety floor</em> as a <em>policy</em>. Keep it
+  at the bottom of your stylesheet to catch third-party CSS you don't control. Then write real
+  rules for the code you do.</p>
+
+  <h2>Three kinds of motion, three different answers</h2>
+
+  <p>The reason a global rule can't be right is that "animation" isn't one thing. Sort every
+  effect on a page into one of three buckets and the decision makes itself.</p>
+
+  <table>
+    <thead>
+      <tr><th>Kind</th><th>Examples</th><th>Under <code>reduce</code></th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Ambient</strong><br><span style="color:var(--ink-faint)">decoration</span></td>
+        <td>Parallax, drifting gradients, marquees, auto-advancing carousels, floating blobs,
+          anything that moves without being asked</td>
+        <td><strong>Remove it.</strong> Nothing is lost. This bucket is also where nearly all of
+          the actual harm lives.</td>
+      </tr>
+      <tr>
+        <td><strong>Informational</strong><br><span style="color:var(--ink-faint)">most of lessons 0001–0008</span></td>
+        <td>Entrances and exits, toasts, drawers, modals, scroll reveals, layout shifts after a
+          filter</td>
+        <td><strong>Keep the timing, drop the travel.</strong> Cross-fade in place. The message
+          — <em>this is new, this left, these are related</em> — survives without displacement.</td>
+      </tr>
+      <tr>
+        <td><strong>Status</strong><br><span style="color:var(--ink-faint)">the motion is the content</span></td>
+        <td>Spinners, indeterminate progress, typing indicators, live audio meters, a pulsing
+          "recording" dot</td>
+        <td><strong>Leave it alone.</strong> It's small, contained, and removing it deletes
+          information rather than decoration.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>That third row has standing, not just taste. <a
+  href="https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html">WCAG 2.3.3,
+  Animation from Interactions</a> asks you to let users turn off motion triggered by
+  interaction <em>unless the animation is essential to the functionality</em>. A loading indicator
+  is the textbook essential case. Reach for that exception honestly, though: "essential" means the
+  information is unavailable without it, not that you like the effect.</p>
+
+  <h2>What actually causes the problem</h2>
+
+  <p>Worth being specific, because it changes what you cut first. Roughly in descending order of
+  risk:</p>
+
+  <table>
+    <thead><tr><th>Riskier</th><th>Safer</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Motion covering a large share of the viewport</td>
+        <td>Motion confined to a small element</td>
+      </tr>
+      <tr>
+        <td>Parallax — planes moving at different rates, which manufactures a depth cue your
+          balance system didn't ask for</td>
+        <td>Everything moving together, or nothing moving</td>
+      </tr>
+      <tr>
+        <td>Scaling and zooming large elements; spinning and rotation</td>
+        <td>Opacity and colour, which have no direction at all</td>
+      </tr>
+      <tr>
+        <td>Oscillation — bounce, wobble, anything that reverses more than once</td>
+        <td>A single monotonic move that arrives and stops</td>
+      </tr>
+      <tr>
+        <td>Long travel distances, and high speed over that distance</td>
+        <td>Short travel; a slower version of the same move</td>
+      </tr>
+      <tr>
+        <td>Motion the user didn't start</td>
+        <td>Motion that answers a click they just made</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Two things to take from that. First, <strong>opacity is the workhorse substitute</strong> —
+  it carries the "something changed here" signal with no direction, no displacement and no depth
+  cue, which is why "fade in place" is the default answer for the whole informational bucket.
+  Second, none of these have a number attached. There's no threshold in the spec, no "under 20px
+  is fine." These are heuristics from accessibility practice, so when a case is genuinely
+  borderline, fade it.</p>
+
+  <h2>Springs, specifically</h2>
+
+  <p><a href="0008-springs.html">Lesson 0008</a> ended by pointing at this row. Oscillation is
+  near the top of the risk list, and a spring's whole appeal is that it oscillates.</p>
+
+  <p>The tempting fix is to keep the spring and set <code>bounce: 0</code> (or push the damping
+  ratio to 1). Don't. You've removed the overshoot but kept the long asymptotic tail — a spring
+  approaches its target and never quite arrives, so what you've built is a slow, soft, oddly
+  indefinite move that is still <em>drifting</em> a second later. That's a compromise nobody
+  asked for.</p>
+
+  <p>Under <code>reduce</code>, replace the spring outright with a short tween — 120–200ms, ease-out,
+  no displacement. In Motion that's <a
+  href="https://motion.dev/docs/react-use-reduced-motion"><code>useReducedMotion()</code></a>
+  returning a boolean you branch the whole transition on, not a parameter you soften.</p>
+
+  <h2>How to wire it, structurally</h2>
+
+  <p>Three idioms, and only one of them scales.</p>
+
+  <p><strong>1. Override.</strong> Write full motion, then take it back inside
+  <code>@media (prefers-reduced-motion: reduce)</code>. Reads naturally and is what everyone
+  starts with. The failure mode is that it's opt-out per component — the day someone adds a new
+  animated card and forgets the override, that card is unprotected and nothing tells you.</p>
+
+  <p><strong>2. Opt-in.</strong> Put the motion itself inside
+  <code>@media (prefers-reduced-motion: no-preference)</code>, so the still version is the
+  default and animation is the exception. Genuinely safer, and correspondingly annoying: every
+  animated rule in the codebase now lives inside a media query.</p>
+
+  <p><strong>3. A custom-property switch.</strong> One media query for the whole design system,
+  and every component that reads the variable is covered the moment it's written:</p>
+
+  <pre><code>:root {
+  --travel: 24px;      /* how far things move */
+  --dur: 380ms;
+  --ease: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --travel: 0px; }   /* that is the entire policy for informational motion */
+}
+
+.card {
+  opacity: 0;
+  transform: translateY(var(--travel));
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.card.in { opacity: 1; transform: none; }</code></pre>
+
+  <p>When <code>--travel</code> goes to zero the transform animates from <code>none</code> to
+  <code>none</code>, the opacity transition is untouched, and the card cross-fades in place at
+  full duration — without the component knowing the preference exists. That is exactly what the
+  lab's third policy does; the CSS panel next to the stage has been showing you this rule the
+  whole time. Ambient and status motion still get named individually, but there are only ever a
+  few of those, and naming them is the point.</p>
+
+  <p class="sidenote">In Tailwind this is the <code>motion-safe:</code> and
+  <code>motion-reduce:</code> variant pair — <code>motion-safe:translate-y-6</code> gives you
+  idiom 2 per-utility, <code>motion-reduce:translate-y-0</code> gives you idiom 1. Prefer
+  <code>motion-safe:</code>: an unprefixed utility is unprotected, and a
+  <code>motion-safe:</code> one that you forget to write just means no animation, which fails in
+  the safe direction. <a href="https://tailwindcss.com/docs/hover-focus-and-other-states">Docs
+  here.</a></p>
+
+  <h2>JavaScript gets none of this for free</h2>
+
+  <p>The media query reaches CSS. It does not reach <code>el.animate()</code>, or GSAP, or
+  Motion, or your IntersectionObserver from <a href="0004-the-scroll-reveal.html">0004</a>. Ask
+  directly:</p>
+
+  <pre><code>const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+
+const travel = reduce.matches ? 0 : 24;
+
+// People toggle this mid-session — often *because* your page made them queasy.
+reduce.addEventListener('change', (e) => applyMotionPolicy(e.matches));</code></pre>
+
+  <p>Reading <code>.matches</code> once at boot and caching it is the common bug. Someone hits
+  your page, feels ill, goes to system settings, comes back — and your single-page app is still
+  running the animations it decided on three minutes ago. The lab's live readout under the table
+  is doing exactly this listen-and-repaint, which is why it updates if you change the real OS
+  setting while this page is open.</p>
+
+  <p>Framework equivalents: <a
+  href="https://motion.dev/docs/react-use-reduced-motion">Motion's
+  <code>useReducedMotion()</code></a>, and <a
+  href="https://gsap.com/docs/v3/GSAP/gsap.matchMedia()">GSAP's
+  <code>gsap.matchMedia()</code></a>, which scopes whole timelines to a media query and reverts
+  them cleanly when it stops matching.</p>
+
+  <p>Two more places CSS won't save you: <code>scroll-behavior: smooth</code> — a scripted smooth
+  scroll is large-area motion the user didn't initiate, so gate it — and the scroll-driven
+  animations from <a href="0004-the-scroll-reveal.html">0004</a>. A scrubbed parallax is the
+  single highest-risk pattern on the risk table and gets no automatic protection whatsoever.</p>
+
+  <h2>Three ways to get this wrong</h2>
+
+  <p><strong>Treating it as a performance switch.</strong> Cutting durations is the reflex, and
+  it's the wrong axis — you've made the same displacement happen faster. If you only change one
+  number, change the distance.</p>
+
+  <p><strong>Removing the animation and the element with it.</strong> This one bites hard. An
+  element that starts at <code>opacity: 0</code> and is only ever made visible by its own
+  keyframe becomes permanently invisible the moment you write <code>animation: none</code> in
+  your reduce block. The global reset happens to dodge this — <code>0.01ms</code> is still an
+  animation, so it still lands on its end state — but hand-written overrides don't. Every time
+  you write a reduced-motion rule, actually turn the preference on and look at the page. Which
+  brings us to:</p>
+
+  <p><strong>Never testing the reduced path.</strong> In Chrome: DevTools → ⋮ → More tools →
+  Rendering → <em>Emulate CSS media feature prefers-reduced-motion</em>. Set it to
+  <code>reduce</code> and leave it there while you build the reduced version; you'll find the
+  invisible elements in about ten seconds. Better still, spend a day with it on at the OS level
+  (macOS: System Settings → Accessibility → Display → Reduce motion). Every one of those
+  <a href="https://developer.chrome.com/docs/devtools/rendering/apply-effects">rendering
+  emulations</a> is worth knowing, but this is the one you'll use weekly.</p>
+
+  <div class="callout warn">
+    <span class="label">The mistake this lesson exists to prevent</span>
+    <p>Shipping a reduced-motion version you have never looked at. A media query you wrote and
+    never rendered is not accessibility work — it's the appearance of it, and it fails silently,
+    for exactly the users least able to tolerate the failure.</p>
+  </div>
+
+  <h2>What this changes about the previous eight lessons</h2>
+
+  <p>Not much, structurally, and that's the good news. Everything you've built already separates
+  <em>transform</em> from <em>opacity</em> because of <a
+  href="0002-the-four-property-budget.html">0002's</a> four-property budget — and that separation
+  turns out to be exactly the seam you cut along here. Reduced motion drops the transform and
+  keeps the opacity. You've been writing reduced-motion-ready CSS since lesson two without
+  knowing it.</p>
+
+  <p>The three things that need real re-examination: the <a
+  href="0003-stagger-and-orchestration.html">stagger</a> (a stagger of fades is fine; a stagger
+  of slides is eight separate displacements), <a href="0004-the-scroll-reveal.html">scroll
+  scrubbing</a>, and <a href="0008-springs.html">springs</a>. Go back through anything you've
+  built with those and give it the three-bucket sort.</p>
+
+  <div data-quiz data-quiz-title="Check yourself">
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">Why does the popular global reset use <code>0.01ms</code> rather than
+        <code>0s</code>?</p>
+      <button data-opt>0s is invalid in a <code>!important</code> declaration</button>
+      <button data-opt>So <code>transitionend</code> and <code>animationend</code> still fire</button>
+      <button data-opt>To keep the animation on the compositor</button>
+      <p data-explain>At zero duration some browsers skip the completion event entirely, and any
+        JS waiting on it — to remove a class, unmount a node, release a focus trap — never
+        resumes. 0.01ms is invisible to the eye and still a real animation to the engine.</p>
+    </div>
+
+    <div data-q data-answer="3">
+      <p class="qz-stem">Which of these is most likely to cause a vestibular reaction?</p>
+      <button data-opt>A 300ms, 12px fade-up on a card the user just clicked</button>
+      <button data-opt>A spinner rotating continuously next to "Syncing…"</button>
+      <button data-opt>A full-width background that drifts and scales as you scroll</button>
+      <p data-explain>Large-area, unprompted, and parallax — three of the top risks at once. The
+        spinner is small, contained and informational; the card is short, small and answers a
+        deliberate action. Area and depth cues matter far more than the presence of animation.</p>
+    </div>
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">Under the global reset, what happens to a loading spinner, and why?</p>
+      <button data-opt>It freezes, because <code>animation-iteration-count: 1</code> hits every
+        looping animation</button>
+      <button data-opt>It keeps spinning, because infinite animations are exempt</button>
+      <button data-opt>It disappears, because the reset sets <code>animation: none</code></button>
+      <p data-explain>One iteration of 0.01ms, then nothing. The interface still says "Syncing"
+        with no evidence behind it. This is the case for deciding per element rather than
+        globally — the spinner's motion isn't decoration, it's the message.</p>
+    </div>
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">You have one media query's worth of effort to spend on a whole design
+        system. Where does it go?</p>
+      <button data-opt>Setting every transition-duration to 0.01ms</button>
+      <button data-opt>Setting a shared <code>--travel</code> custom property to 0px</button>
+      <button data-opt>Adding <code>animation: none</code> to every keyframed class</button>
+      <p data-explain>Distance is the axis that matters, and a custom property is the only one of
+        the three that covers components written after you left. Every element that reads
+        <code>--travel</code> cross-fades in place at full duration, with no per-component work
+        and no chance of an element being stranded invisible.</p>
+    </div>
+
+    <div data-q data-answer="3">
+      <p class="qz-stem">A drawer opens with a spring. What's the reduced-motion version?</p>
+      <button data-opt>The same spring with <code>bounce: 0</code></button>
+      <button data-opt>The same spring with higher damping and lower stiffness</button>
+      <button data-opt>A ~150ms ease-out fade, no displacement</button>
+      <p data-explain>Killing the bounce leaves the long asymptotic tail — soft, slow, still
+        drifting a second later, and nobody's idea of a good time. Reduced motion is a different
+        animation, not a detuned one. Branch on the boolean and write a short tween.</p>
+    </div>
+
+  </div>
+
+  <h2>Read this next</h2>
+
+  <p><a href="https://alistapart.com/article/designing-safer-web-animation-for-motion-sensitivity/">Val
+  Head, "Designing Safer Web Animation For Motion Sensitivity"</a> is the source most of the risk
+  table traces back to, and it's written by someone who talked to affected people rather than
+  reasoning from first principles. Read it before you argue with anything above.</p>
+
+  <p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion">MDN
+  on <code>prefers-reduced-motion</code></a> for the exact semantics of the two values, and <a
+  href="https://web.dev/articles/prefers-reduced-motion">web.dev's write-up</a> for the
+  <code>&lt;video&gt;</code> and <code>&lt;picture&gt;</code> cases — you can swap an autoplaying
+  video for a still frame with the same query, which is out of scope here but is the next thing
+  you'll need.</p>
+
+  <p><a href="https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html">WCAG
+  2.3.3</a> for the essential-motion exception, in the actual words of the standard, in case you
+  ever have to defend keeping something.</p>
+
+  <div class="ask-teacher">
+    <p><strong>I'm your teacher here — ask me things.</strong> Good asks for this one:
+    <em>“sort the motion on &lt;some site&gt; into the three buckets”</em>, <em>“is this ambient
+    or informational?”</em> (the honest answer for hero animations is often "ambient, and you
+    won't like hearing it"), or <em>“write the reduced version of the drawer from 0005”</em>.</p>
+  </div>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="0010-hover-and-press.html">Lesson 0010 — Hover and press →</a>
+      <a href="0008-springs.html">← Lesson 0008 — Springs</a>
+      <a href="0007-transform-origin.html">Lesson 0007 — Transform-origin</a>
+      <a href="0006-choosing-a-tool.html">Lesson 0006 — Choosing a tool</a>
+      <a href="0005-exits.html">Lesson 0005 — Exits</a>
+      <a href="0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal</a>
+      <a href="0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration</a>
+      <a href="0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+      <a href="0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing (printable)</a>
+      <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers (printable)</a>
+      <a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course (printable)</a>
+      <a href="../reference/04-the-workbench.html">Reference 04 — The Workbench (every lab, live)</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+      <span style="color:var(--ink-faint)">Next: <a href="0010-hover-and-press.html">hover and press</a> — the motion you make with your hands.</span>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/motion-pref-lab.js"></script>
+<script src="../assets/quiz.js"></script>

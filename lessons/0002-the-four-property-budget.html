@@ -1,0 +1,497 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0002 — The four-property budget</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lesson 0002 · 18 minutes</p>
+    <h1>The four-property&nbsp;budget</h1>
+    <p class="dek">Two properties are free. Two are on credit. Everything else you pay for
+      out of the frame budget, sixty times a second.</p>
+    <div class="meta">
+      <span>Skill: pick the property that gets the effect without buying the pipeline</span>
+      <span><a href="0001-ease-out-or-nothing.html">← Lesson 0001</a></span>
+    </div>
+  </header>
+
+  <p class="lead">You have 16.7 milliseconds. That is the entire budget.</p>
+
+  <p>At 60Hz the browser gets about 16.7ms to turn your CSS into pixels on the glass, and it
+  has to do it again before the next refresh, and the one after that. Miss the deadline and
+  the frame doesn't arrive late — it doesn't arrive. The previous frame stays up twice as
+  long. That doubled frame is what you see as a stutter, and there's a precise vocabulary for
+  it that I'll lay out in a moment.</p>
+
+  <p>Lesson 0001 was about <em>when</em> and <em>how fast</em>. This one is about <em>what</em>
+  — and the surprise is that whether motion looks smooth has almost nothing to do with how
+  much you animate. It has to do with <strong>which property</strong>, because the property
+  decides how much work the browser has to redo on every single one of those frames.</p>
+
+  <h2>The words, first</h2>
+
+  <p>I'm about to use a handful of terms that get thrown around as if everyone already feels
+  what they mean. Most of them are informal. Here is exactly what each one refers to, so you
+  can hold me to it.</p>
+
+  <div class="callout">
+    <p><strong>Frame.</strong> One complete image on the screen. Your monitor replaces the
+    image at a fixed rate — 60 times a second on most displays, which is what <strong>60Hz</strong>
+    means. So the browser has <strong>16.7ms</strong> (that's 1000 ÷ 60) to produce each one.
+    That interval is the <strong>frame budget</strong>.</p>
+
+    <p><strong>Dropped frame.</strong> The browser missed the deadline. Crucially the frame is
+    not shown late — it is not shown at all. The <em>previous</em> image stays on screen for a
+    second interval, so one picture is visible for 33ms instead of 16.7ms. In a moving
+    animation, that means the object doesn't move for twice as long as it should, then jumps
+    twice as far to catch up.</p>
+
+    <p><strong>Smooth</strong> therefore has a precise meaning: frames are arriving at a
+    <em>regular cadence</em>, so movement per frame is even. It is not about speed, or blur, or
+    the easing curve. Motion can be slow and smooth, or fast and smooth. Smooth means
+    <em>evenly spaced</em>.</p>
+
+    <p><strong>Jank</strong> is the standard word for the visible result of dropped frames —
+    that stall-then-jump. <strong>Hitch</strong>, <strong>stutter</strong>, <strong>chugging</strong>,
+    <strong>choppy</strong> and <strong>stuttery</strong> are all informal words for the same
+    thing, and I'll use "jank" from here on. If you see one of the others in this lesson, it's
+    a slip — they all mean "frames aren't arriving on schedule."</p>
+  </div>
+
+  <p>Two more, and these are the ones the second half of the lesson depends on.</p>
+
+  <div class="callout">
+    <p><strong>The main thread</strong> is the single queue where the browser runs your
+    JavaScript, calculates layout, and paints pixels. One thing at a time. If your code is busy
+    for 300ms, nothing else on that list happens for 300ms — including drawing frames.</p>
+
+    <p><strong>Compositing</strong> is the last step: taking already-drawn rectangles of pixels
+    and placing them on screen — shifting them, scaling them, fading them. Think of finished
+    sheets of acetate being slid around on a projector. Nothing is redrawn; the existing image
+    is just <em>positioned</em> differently. That's cheap enough that it happens on the GPU, on
+    a <strong>separate thread</strong> — the <strong>compositor thread</strong>.</p>
+
+    <p>An animation that only needs compositing is called <strong>composited</strong>. That
+    single word carries the whole lesson: a composited animation is handed over once and then
+    runs somewhere else, so it keeps producing frames even when the main thread is completely
+    stuck.</p>
+  </div>
+
+  <h2>Where a property enters the pipeline</h2>
+
+  <p>Every frame runs the same assembly line, top to bottom:</p>
+
+  <table>
+    <thead><tr><th>Stage</th><th>What it decides</th><th>Blast radius</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Style</strong></td><td>What the computed values are</td><td>The element</td></tr>
+      <tr><td><strong>Layout</strong></td><td>How big everything is and where it sits</td><td>Siblings, ancestors, potentially the document</td></tr>
+      <tr><td><strong>Paint</strong></td><td>What colour each pixel is, drawn into layers</td><td>The element and anything overlapping it</td></tr>
+      <tr><td><strong>Composite</strong></td><td>Where each finished layer lands on screen</td><td>The GPU, and almost nothing else</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout principle">
+    <span class="label">First principle</span>
+    <p>You don't choose an animatable property for what it looks like. You choose it for
+    <strong>where it enters the pipeline</strong>. Enter at the top and you pay for every
+    stage beneath it — every frame, for the whole duration. Enter at the bottom and the frame
+    is close to free.</p>
+    <p>Animating <code>margin-left</code> and animating <code>translateX</code> can look
+    pixel-identical. One re-runs layout sixty times a second; the other re-runs nothing.</p>
+  </div>
+
+  <p>So the budget sorts itself, and it isn't a matter of taste:</p>
+
+  <table>
+    <thead><tr><th>Tier</th><th>Properties</th><th>Runs each frame</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Free</strong></td><td><code>transform</code>, <code>opacity</code></td><td>Composite only</td></tr>
+      <tr><td><strong>On credit</strong></td><td><code>filter</code>, <code>clip-path</code></td><td>Skips layout; costs GPU fill rate</td></tr>
+      <tr><td><strong>Paint</strong></td><td><code>color</code>, <code>background-color</code>, <code>box-shadow</code>, <code>border-radius</code>, <code>outline</code></td><td>Paint + Composite</td></tr>
+      <tr><td><strong>Expensive</strong></td><td><code>width</code>, <code>height</code>, <code>top</code>/<code>left</code>, <code>margin</code>, <code>padding</code>, <code>font-size</code></td><td>Layout + Paint + Composite</td></tr>
+    </tbody>
+  </table>
+
+  <p>Why <em>those two</em> are the free ones is worth understanding rather than memorising.
+  Once an element sits on its own compositor layer, the browser has already rasterised it into
+  a texture. Moving that texture, scaling it, rotating it, or turning down its alpha are
+  operations the GPU performs on the finished picture. <strong>Neither property can change
+  what any pixel is — only where it lands and how much of it you see.</strong> That is the
+  whole reason they're cheap, and it also tells you exactly where they'll let you down. We'll
+  get to that.</p>
+
+  <h2>Feel the bill</h2>
+
+  <p>Two lanes of identical squares. The bottom lane only ever animates transform and opacity
+  — that's your control, the shape of a healthy frame. The top lane animates whatever you
+  pick. Watch the counter, and more importantly watch the lanes.</p>
+
+  <div data-cost-lab
+       data-title="Same animation, different property"
+       data-count="400"
+       data-max="1500"></div>
+
+  <p>Start on <code>margin-left</code> and drag the element count up, and watch the
+  <strong>frame strip</strong> under the two lanes. Each bar is one frame, and the bar's height
+  is how long that frame took. Even, short, green bars sitting below the dotted line is what
+  smooth looks like. As you add elements, the top lane's bars start growing past the line and
+  turning orange, then red — those are frames that missed the 16.7ms budget, and the top lane
+  visibly stalls and jumps. The bottom lane keeps moving evenly the whole time.</p>
+
+  <p>If 400 elements doesn't faze your machine, push to 1200. <strong>The number where it
+  breaks is your hardware; the fact that it breaks at all is the property.</strong> The control
+  lane has no breaking point in this range, because compositing 1,500 already-drawn rectangles
+  is precisely what GPUs were built to do.</p>
+
+  <p>Then work down the list. <code>background-color</code> and <code>border-radius</code> are
+  noticeably cheaper than <code>margin-left</code> — layout is skipped, and layout is the
+  expensive stage. <code>box-shadow</code> is the paint tier's worst offender because a blurred
+  shadow means sampling a lot of pixels per element. And <code>transform + opacity</code> puts
+  both lanes on the same animation, which is your sanity check that the lanes are otherwise
+  identical.</p>
+
+  <h2>The part nobody mentions</h2>
+
+  <p>Now the demo that actually changes how you write code — and first, plainly, what the
+  button does, because it isn't magic. <strong>Jam main thread</strong> runs this:</p>
+
+  <pre><code>const end = performance.now() + 900;
+while (performance.now() &lt; end) { /* do nothing, on purpose */ }</code></pre>
+
+  <p>That's a loop that spins uselessly for 900 milliseconds and refuses to return. Because
+  JavaScript on a page gets one thread, and that loop is holding it, the browser cannot do
+  <em>anything</em> else for those 900ms — it can't run other code, can't recalculate layout,
+  can't paint. It is a deliberately stupid way to reproduce something your real app does all
+  the time by accident.</p>
+
+  <p>Set the property to <code>margin-left</code> and press it. It counts down from three
+  first, so you can look away from the button and watch the two lanes instead. Three things
+  happen at the moment the banner turns red:</p>
+
+  <ul>
+    <li><strong>The top lane stops dead.</strong> It's animating <code>margin-left</code>,
+    which needs layout, which needs the main thread. The thread is busy, so no frames.</li>
+    <li><strong>The bottom lane keeps moving,</strong> perfectly evenly. It's animating
+    <code>transform</code>, which was handed to the compositor thread — and that thread has
+    nothing to do with the loop.</li>
+    <li><strong>The frame counter freezes</strong> and the little green square keeps spinning.
+    The counter is incremented by JavaScript, so it's stuck; the square is a CSS transform, so
+    it isn't. That pair is the clearest single picture of what "two threads" means.</li>
+  </ul>
+
+  <p>When it unblocks, look at the frame strip: one enormous red bar sits where roughly 54
+  frames should have been. The <code>worst frame</code> readout puts a number on it — around
+  900ms instead of 16.7. Drag the block duration up to 2500ms if you want it to be
+  unmissable.</p>
+
+  <div class="callout principle">
+    <span class="label">The real reason transform wins</span>
+    <p><strong>Compositing happens on a different thread.</strong> Layout, paint, your
+    JavaScript, and every framework render all share the main thread. A composited animation
+    is handed to the compositor once and runs there independently — so it survives a main
+    thread that is completely blocked.</p>
+  </div>
+
+  <p>That freeze is not a contrivance. It's a heavy React re-render, a large JSON parse,
+  a hydration pass, an expensive <code>IntersectionObserver</code> callback — the ordinary
+  stuff of real apps. A composited animation is the only kind that stays smooth <em>while your
+  app is busy</em> — where "busy" means exactly what the loop above simulates. And your app is
+  busiest at precisely the moments things are animating:
+  route changes, modal opens, list loads.</p>
+
+  <p class="sidenote">This also explains why native scrolling stays smooth on a page whose
+  JavaScript is struggling — scrolling is handled by the compositor too — and why a
+  <code>scroll</code> handler that animates <code>top</code> feels awful. That one is back on
+  the main thread, in the same queue as everything else.</p>
+
+  <h2>“So why not transform everything?”</h2>
+
+  <p>Because <code>scale</code> is not <code>width</code>. Transform scales the finished
+  picture — including the text, the border radius, and the border. Both cards below travel
+  from narrow to wide. Only one of them stays itself.</p>
+
+  <div data-pg
+       data-pg-title="scaleX is not width"
+       data-pg-height="230"
+       data-pg-hint="Try: change scaleX(2.6) to scaleX(6). Then add border-radius: 30px to .card.">
+    <script type="text/plain" data-pg-html>
+      <div style="display:grid; gap:16px; place-items:start;">
+        <div class="card scaled">scaleX</div>
+        <div class="card widened">width</div>
+      </div>
+    </script>
+    <textarea data-pg-css>
+.card {
+  height: 54px;
+  padding: 0 16px;
+  border-radius: 10px;
+  border: 2px solid #d97757;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  transition:
+    transform 700ms var(--ease-out-strong),
+    width 700ms var(--ease-out-strong);
+}
+
+/* Free — but it stretches the pixels */
+.scaled {
+  width: 96px;
+  transform-origin: left center;
+  transform: scaleX(1);
+}
+.mounted .scaled { transform: scaleX(2.6); }
+
+/* Costs layout — but the text and radius stay honest */
+.widened { width: 96px; }
+.mounted .widened { width: 250px; }
+    </textarea>
+  </div>
+
+  <p>The scaled card's text smears, its corners flatten into ellipses, and its border thickens
+  on two sides and not the others. Push <code>scaleX</code> to 6 and it's grotesque. This is
+  the direct consequence of the thing that makes transform cheap: it is operating on a picture
+  that was rasterised at the old size.</p>
+
+  <p>So the honest rule is not “always transform.” It is:</p>
+
+  <div class="callout">
+    <span class="label">The rule</span>
+    <p><strong>Use transform when the element's contents should travel with it.</strong>
+    Moving, revealing, entering, exiting, pressing, hovering — the content is coming along for
+    the ride, so scaling the picture is exactly right.</p>
+    <p><strong>Reach for layout when the element's contents must re-flow.</strong> A box that
+    genuinely becomes a different size, with text that must re-wrap inside it, is a layout
+    change. Pretending otherwise looks broken.</p>
+  </div>
+
+  <p>The professional version of the width problem is <strong>FLIP</strong> — measure the
+  first and last positions in JS, apply an inverting transform, then animate it away, so the
+  layout change happens once and the motion is composited. That's how GSAP's Flip plugin and
+  the View Transitions API both work underneath. It's a later lesson; for now, know the name
+  and know it exists.</p>
+
+  <h2>The one everybody hits: height</h2>
+
+  <p><code>height: auto</code> has no numeric value to interpolate, so the classic accordion
+  either snaps or gets faked. The two-line fix most people never learn is a grid track: an
+  <code>fr</code> unit interpolates, and <code>1fr</code> resolves to the content's real
+  height.</p>
+
+  <div data-pg
+       data-pg-title="The accordion, three ways"
+       data-pg-height="260"
+       data-pg-hint="Try: give .panel a third line of text. Only one of these still lands correctly.">
+    <script type="text/plain" data-pg-html>
+      <div style="display:grid; gap:10px; width:230px;">
+        <div class="row maxh"><div class="panel">max-height guess — timing lies</div></div>
+        <div class="row grid"><div class="inner"><div class="panel">grid 0fr → 1fr — honest</div></div></div>
+      </div>
+    </script>
+    <textarea data-pg-css>
+.panel {
+  padding: 10px 12px;
+  background: var(--accent);
+  color: #fffef9;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+/* A: guess a ceiling. The transition runs to 400px,
+   so a short panel finishes early and sits waiting. */
+.maxh { max-height: 0; overflow: hidden;
+        transition: max-height 500ms var(--ease-out-strong); }
+.mounted .maxh { max-height: 400px; }
+
+/* B: an fr unit interpolates, and 1fr IS the real height. */
+.grid { display: grid; grid-template-rows: 0fr;
+        transition: grid-template-rows 500ms var(--ease-out-strong); }
+.grid .inner { overflow: hidden; }
+.mounted .grid { grid-template-rows: 1fr; }
+    </textarea>
+  </div>
+
+  <p>The grid version still costs layout — <code>fr</code> is a track size, and track sizes are
+  layout. That is fine, and saying so is the point:</p>
+
+  <div class="callout principle">
+    <span class="label">The budget is a budget, not a ban</span>
+    <p>Cost is only half the equation. The other half is <strong>cost × frequency ×
+    count</strong>. One accordion, opening once, on a small subtree, is a rounding error —
+    pay it and get correct behaviour. The same layout animation on two hundred cards, or
+    running on every scroll event, or on a hover that fires constantly, is what kills a page.</p>
+  </div>
+
+  <p>Same reasoning rescues <code>box-shadow</code>, which is the paint tier's most common
+  trap because every card hover wants one. Animating the shadow itself re-rasterises a blur on
+  every frame. Instead, put the shadow on a pseudo-element that already exists at full
+  strength, and animate <em>its opacity</em>:</p>
+
+  <pre><code>.card { position: relative; }
+.card::after {
+  content: "";
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 12px 28px rgb(0 0 0 / 0.18);
+  opacity: 0;
+  transition: opacity 200ms ease-out;   /* free tier */
+}
+.card:hover::after { opacity: 1; }</code></pre>
+
+  <p>The shadow is painted once, at load. The hover only changes an alpha. This trade —
+  <em>pre-render the expensive thing, then animate opacity between states</em> — is one of the
+  most reusable moves in the craft, and it works for gradients and filters too.</p>
+
+  <h2>will-change, and how to misuse it</h2>
+
+  <p><code>will-change: transform</code> tells the browser to promote an element to its own
+  compositor layer <em>now</em>, before the animation starts, so the promotion cost doesn't
+  land on the first frame. It is a real optimisation and it is the most over-applied property
+  in CSS.</p>
+
+  <p>Every promoted layer holds its own texture in GPU memory. Put
+  <code>will-change: transform</code> on a grid of cards and you've allocated a texture per
+  card, permanently, for an animation that plays for 200ms when hovered. On a phone that is
+  how a fast page becomes a slow one.</p>
+
+  <ul>
+    <li>Default to <strong>not using it</strong>. Browsers already promote elements they can
+    see are animating.</li>
+    <li>Apply it to the handful of elements that are <em>about</em> to animate — on hover of a
+    parent, say — and remove it when the animation ends.</li>
+    <li>Reach for it when you have <em>measured</em> a stutter on the first frame, not because
+    a blog post said it makes things faster. Full details in
+    <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/will-change">MDN's own warning</a>,
+    which is unusually blunt.</li>
+  </ul>
+
+  <h2>Drill: verify it yourself (3 minutes)</h2>
+
+  <p>You now have a claim that is checkable, so check it. This is the reverse-engineering
+  muscle from lesson 0001, pointed at cost instead of easing.</p>
+
+  <ol>
+    <li>Open any site you admire. DevTools → <strong>⌘⇧P</strong> → “Show Rendering”.</li>
+    <li>Tick <strong>Paint flashing</strong>. Hover things, open a menu, scroll. Green
+    rectangles are repaints. A well-built site flashes almost nothing while animating.</li>
+    <li>Tick <strong>Frame Rendering Stats</strong> and scroll hard. Watch for dropped frames.</li>
+    <li>Record a few seconds in the <a
+    href="https://developer.chrome.com/docs/devtools/performance/">Performance panel</a> while
+    triggering the animation. Purple bars are Layout, green are Paint. On a good page,
+    animation produces almost neither.</li>
+  </ol>
+
+  <p>When I read the source of <a href="https://claude.com/claude-for-chrome">the page that
+  started this course</a> on 2026-07-29, every animated value was a <code>y</code> offset, a
+  scale, or an alpha — GSAP's <code>y: 10</code>, <code>y: 20</code>, <code>y: 24</code> compile
+  to <code>translate3d</code>, not to <code>top</code>. Not one entrance animated a width, a
+  height, or a margin. That page feels expensive partly because it never spends.</p>
+
+  <h2>Retrieval</h2>
+
+  <p>Close the page above. Wrong answers here are worth more than right ones obtained by
+  scrolling.</p>
+
+  <div data-quiz data-quiz-title="Retrieval check">
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">A menu slides in using <code>left: -300px → 0</code>. You swap it for
+        <code>translateX</code>. It looks identical. What actually changed?</p>
+      <button data-opt>The easing curve got smoother</button>
+      <button data-opt>Layout stops re-running every frame</button>
+      <button data-opt>The animation duration got shorter</button>
+      <p data-explain><code>left</code> is a layout property, so every frame re-runs layout,
+        paint and composite. <code>transform</code> enters at the bottom of the pipeline —
+        the GPU moves an already-rasterised texture.</p>
+    </div>
+
+    <div data-q data-answer="3">
+      <p class="qz-stem">Your app blocks the main thread for 400ms rendering a list. Which
+        animation keeps moving during the freeze?</p>
+      <button data-opt>The one with the shortest duration</button>
+      <button data-opt>The one using ease-out rather than linear</button>
+      <button data-opt>The one animating transform and opacity</button>
+      <p data-explain>Composited animations run on the compositor thread, independent of the
+        main thread. Everything else — layout, paint, JS — is queued behind your blocking
+        work, so it simply stops.</p>
+    </div>
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">A grid of 60 cards raises a <code>box-shadow</code> on hover and it
+        feels gritty. Best fix?</p>
+      <button data-opt>Pre-render the shadow, animate its opacity</button>
+      <button data-opt>Add will-change to all sixty of the cards</button>
+      <button data-opt>Shorten the transition to under 100ms</button>
+      <p data-explain>Animating the shadow re-rasterises a blur each frame. Paint it once on a
+        pseudo-element and fade that in — the free tier. <code>will-change</code> on sixty
+        cards allocates sixty textures and makes things worse.</p>
+    </div>
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">An accordion needs to open to its content's real height, which you
+        can't know in advance. Animating layout here is:</p>
+      <button data-opt>Wrong — find a transform-only alternative</button>
+      <button data-opt>Fine — one element, opening occasionally</button>
+      <button data-opt>Wrong — accordions should just snap open</button>
+      <p data-explain>Cost × frequency × count. A single small subtree opening on demand is a
+        rounding error, and correctness beats purity. <code>grid-template-rows: 0fr → 1fr</code>
+        gets you the true height with an interpolable value.</p>
+    </div>
+
+    <div data-q data-answer="3">
+      <p class="qz-stem">Why does <code>scaleX</code> read as wrong for a box whose text must
+        re-wrap at the new size?</p>
+      <button data-opt>Because scale is slower than width is</button>
+      <button data-opt>Because scale cannot be eased properly</button>
+      <button data-opt>Because it stretches already-rendered pixels</button>
+      <p data-explain>Transform operates on the finished raster: text smears, radii flatten,
+        borders thicken unevenly. The property is cheap precisely because it never re-decides
+        what a pixel is.</p>
+    </div>
+
+  </div>
+
+  <h2>Read this next</h2>
+
+  <p><strong>Primary source:</strong> <a
+  href="https://web.dev/articles/animations-guide">“Animations guide” — web.dev</a>. The
+  canonical version of this lesson from the people who build the rendering engine, including
+  the full property-to-stage tables. Ten minutes.</p>
+
+  <p>If the pipeline itself is what you want more of, <a
+  href="https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Animation_performance_and_frame_rate">MDN
+  on animation performance and frame rate</a> covers layers and rasterisation properly. And
+  the height problem is on its way to being solved in CSS itself — <a
+  href="https://developer.mozilla.org/en-US/docs/Web/CSS/interpolate-size"><code>interpolate-size:
+  allow-keywords</code></a> makes <code>height: auto</code> animatable, though support is still
+  narrow enough that the grid trick remains the safe answer today.</p>
+
+  <div class="ask-teacher">
+    <p><strong>I'm your teacher here — ask me things.</strong> Good things to ask after this
+    one: <em>“show me FLIP properly”</em>, <em>“walk me through a Performance recording of a
+    page I pick”</em>, or <em>“is animating clip-path actually safe?”</em></p>
+    <p>Also fair game: bring me an animation you wrote and ask what tier it's spending in.</p>
+  </div>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration → →</a>
+      <a href="0001-ease-out-or-nothing.html">← Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing (printable)</a>
+      <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers (printable)</a>
+      <a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course (printable)</a>
+      <a href="../reference/04-the-workbench.html">Reference 04 — The Workbench (every lab, live)</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+      <a href="0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration →</a>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/cost-lab.js"></script>
+<script src="../assets/playground.js"></script>
+<script src="../assets/quiz.js"></script>

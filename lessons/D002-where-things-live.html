@@ -1,0 +1,253 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D002 — Where things live when they're off screen</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lesson D002 · 18 minutes</p>
+    <h1>Where things live when they're off&nbsp;screen</h1>
+    <p class="dek">You never choose an animation. You choose where the thing came from, and the
+      animation is what falls out. This is the lesson that makes a motion decision arguable
+      instead of a matter of taste.</p>
+    <div class="meta">
+      <span>Skill: answer &ldquo;should this fade or slide?&rdquo; without ever discussing fading
+        or sliding</span>
+      <span><a href="D001-the-map-and-the-words.html">← Lesson D001</a></span>
+    </div>
+  </header>
+
+  <p class="lead"><em>Should this fade or slide?</em> is the most common question in a motion
+  review, and it is the wrong one. It has no answer, because it is a question about the animation
+  — and the animation is not the decision.</p>
+
+  <p>Here is the version that does have an answer. <strong>Where is this thing when you can't see
+  it?</strong> A drawer is past the edge of the screen. An account menu is inside the button you
+  clicked. A confirm dialog is nowhere at all — it did not exist a second ago. Answer that, and
+  the motion stops being a preference. It becomes arithmetic between two rectangles.</p>
+
+  <div class="callout">
+    <span class="label">Say it out loud</span>
+    <p><strong>Home</strong> — where an element is when it is not on screen.<br>
+    <strong>Origin</strong> — that home expressed as a point: where the motion starts.</p>
+  </div>
+
+  <p>One small app, four things it can show you, and the only knob is a <em>place</em>.</p>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <ol>
+      <li><strong>Navigation panel</strong>, home <strong>past the left edge</strong>. Open and
+        close it. Now move its home to <strong>past the right edge</strong> and do it again.</li>
+      <li><strong>Account menu</strong>, home <strong>inside its button</strong>, then
+        <strong>above the top edge</strong>.</li>
+      <li><strong>Confirm dialog</strong>: try all six. Two of them are defensible and you should
+        be able to feel which before you read the line under the frame.</li>
+    </ol>
+  </div>
+
+  <div data-home-lab data-title="Pick a home, get a motion"></div>
+
+  <h2>Nothing there was an animation choice</h2>
+
+  <p>Open <strong>The CSS behind it</strong> and switch homes with it open. Every value in that
+  panel is <em>derived</em>. The panel's resting rectangle is fixed — that is what a nav panel
+  <em>is</em> — and the home supplies the other end. Subtract one from the other and you have the
+  transform. There was no point at which anyone chose a direction, a distance, or a fade.</p>
+
+  <p>This is why the question is worth changing. <em>Fade or slide</em> is a matter of taste and
+  the loudest person in the room wins it. <em>Where does this live when it's closed</em> is a
+  question about the product, and the answer is checkable: point at the button, point at the edge,
+  point at the nothing.</p>
+
+  <h2>Three kinds of home</h2>
+
+  <p>Across the twenty-four combinations you just played, the ones that worked sort into three
+  groups — and the three groups are the vocabulary.</p>
+
+  <p><strong>Retrieved.</strong> The thing has a home off screen and you are fetching it. Drawers,
+  sheets, sliding nav, toasts. It comes from its edge and it goes back to its edge, and the
+  round trip is the point: it was put away, not destroyed. Everything in this group has a
+  <em>side</em>, and the side is not negotiable — it is wherever the product decided that thing
+  lives.</p>
+
+  <p><strong>Grown.</strong> The thing lives inside the control that opens it. Account menus,
+  popovers, tooltips, an expanding card. There is no edge involved; the origin is another element
+  on screen — the <strong>anchor</strong> — and the motion's whole job is to say <em>these two
+  things are one thing</em>. Get the anchor wrong and you have not made it uglier, you have made
+  it a different object.</p>
+
+  <p class="sidenote">If you have read the engineering track: this is <a
+  href="0007-transform-origin.html">lesson 0007</a> from the other side. That lesson argues
+  <code>transform-origin</code> as a property with a default that is wrong most of the time. This
+  one says the same thing as a design claim — the anchor is where the object <em>came from</em>,
+  and it is a fact about the interface rather than a coefficient.</p>
+
+  <p><strong>Conjured.</strong> The thing has no home. A confirm dialog was not sitting somewhere
+  waiting; it was made for this moment and it will be unmade. Modals, alerts, and command palettes
+  live here.</p>
+
+  <p>Conjured is a real answer, not the answer you give when you can't think of one. But it costs
+  something the other two get free. A retrieved element proves it still exists by going somewhere;
+  a grown element proves what it belongs to by staying attached. A conjured element can prove
+  neither, so something else has to carry that weight — which is what the scrim is for. Turn on
+  <strong>Confirm dialog</strong> in the lab and watch the dimming: the scrim is not decoration and
+  it is not a mood. It is the thing standing in for an origin, telling you the rest of the app is
+  still there and still yours.</p>
+
+  <div class="callout principle">
+    <span class="label">Falls out of this for free</span>
+    <p>A retrieved element does not need to fade, and mostly shouldn't. The edge of the screen
+    already hides it — a fade on top of the slide is a second answer to a question the slide has
+    already answered, and it is what makes an entrance read as soft when you wanted it crisp.</p>
+    <p>A conjured element has no edge to hide behind, so it <em>must</em> fade; there is nowhere
+    else for it to be. Look back at the CSS panel: <code>opacity</code> appears only for the two
+    homes that have no edge. Nobody decided that either.</p>
+  </div>
+
+  <h2>The exit is a claim about where it went</h2>
+
+  <p>So far the round trip has been symmetrical: everything went back to the home it came from.
+  That is a choice, and it is worth seeing broken, because the exit is where most real interfaces
+  quietly stop making sense.</p>
+
+  <p>Three drawers below. Identical entrance, three ways out, all at the same time — one press.</p>
+
+  <div data-return-lab data-title="Same entrance. Three ways out."></div>
+
+  <p>The first one is the only one that keeps a promise. It came from the right, it went back to
+  the right, and the screen still contains the information that the filters are over there. Nothing
+  was said out loud; the drawer's own path said it.</p>
+
+  <p>The second is the one that ships most often, because a fade is the default and nobody argues
+  with it. Watch it again and notice what it costs: the panel is not <em>away</em>, it is
+  <em>gone</em>. That is fine for something genuinely conjured — a dialog that fades out is being
+  honest about being unmade — and it is a small lie for something that has a home. It is why a
+  drawer you use forty times a day can feel slightly unmoored without anyone being able to say
+  why.</p>
+
+  <p>The third is the interesting failure, because it is the only one that is actively
+  disorienting rather than merely mute. It came from the right and left on the left, so it is now
+  on a side it has never been on. Reopen it and it comes from the right again, having apparently
+  travelled back around. Every time a menu overlay does this, it is teaching the user a map of the
+  interface that isn't true.</p>
+
+  <p class="sidenote">If you have read the engineering track: <a href="0005-exits.html">lesson
+  0005</a> argues that exits should be faster than entrances and use a different curve. That is
+  about <em>pace</em>. This is about <em>direction</em>, and the two are independent — you can get
+  the timing exactly right and still send the thing to the wrong place.</p>
+
+  <h2>The sentence to say in a review</h2>
+
+  <p>You now have a question that ends arguments rather than starting them. When someone shows you
+  a panel and asks whether it should fade or slide, the reply is:</p>
+
+  <p class="lead">Where does this live when it's closed?</p>
+
+  <p>Either they can point at something — an edge, a button, or nothing — or they can't. If they
+  can, the motion is settled and you are done. If they can't, you have found a real problem, and it
+  was never a motion problem: nobody has decided what this thing <em>is</em>. That is worth
+  fifteen minutes of the meeting and a fade is not.</p>
+
+  <p>And when you are the one being asked, the whole answer fits in a sentence of the same shape.
+  <em>It lives behind the hamburger, so it comes from the left and goes back to the left.</em>
+  <em>It lives inside the avatar, so it grows out of the avatar.</em> <em>It doesn't live anywhere,
+  so it's conjured and the scrim does the work.</em> Nobody can disagree with that without
+  disagreeing about the product, which is the only argument worth having.</p>
+
+  <div data-quiz data-quiz-title="Name the home">
+    <div data-q data-answer="3">
+      <p class="qz-stem">A search results panel drops down from a search field at the top of the
+        page. When it closes, it fades in place. What is wrong with that?</p>
+      <button data-opt>Nothing — a fade is neutral and always safe.</button>
+      <button data-opt>The fade is too slow for a dismissal.</button>
+      <button data-opt>It entered as a grown element and exited as a conjured one, so it doesn't
+        go back into the field it came out of.</button>
+      <button data-opt>Search panels should always be retrieved from the top edge.</button>
+      <p data-explain>The entrance made a claim — <em>I am part of this field</em> — and the exit
+        drops it. Anything that grows out of a control should shrink back into it, or the
+        relationship only exists in one direction.</p>
+    </div>
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">Why does a drawer sliding in from the left usually not need a fade,
+        while a modal always does?</p>
+      <button data-opt>Because opacity is expensive to animate and drawers are large.</button>
+      <button data-opt>Because the drawer has an edge to be hidden behind and the modal has
+        nowhere to be.</button>
+      <button data-opt>Because modals are more important, so they get more animation.</button>
+      <button data-opt>Because a fade would make the drawer feel slower than it is.</button>
+      <p data-explain>Occlusion is doing the work the fade would otherwise do. A conjured element
+        has no occluder, so opacity is the only way it can arrive at all.</p>
+    </div>
+
+    <div data-q data-answer="4">
+      <p class="qz-stem">A designer says a confirm dialog should slide up from the bottom edge.
+        What is the strongest thing you can say back?</p>
+      <button data-opt>That's wrong — dialogs are conjured and must scale from the centre.</button>
+      <button data-opt>Only if the animation is under 200ms.</button>
+      <button data-opt>Bottom-edge entrances are reserved for toasts.</button>
+      <button data-opt>That makes it a sheet rather than a dialog — is that what we want it to
+        be? On a phone it probably is.</button>
+      <p data-explain>Coming from the bottom edge is not a decoration on a dialog, it turns it into
+        a different pattern with a different home and different dismissal rules — you can now swipe
+        it away. Which is right on a phone and borrowed on a desktop. Naming the pattern is a
+        stronger move than declaring the motion wrong.</p>
+    </div>
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">A nav overlay enters from the right and exits to the left. Which adjective
+        from D001 is the accurate complaint?</p>
+      <button data-opt>Disorienting — it is teaching a map of the interface that isn't
+        true.</button>
+      <button data-opt>Janky — the frame rate drops during the exit.</button>
+      <button data-opt>Mushy — the easing has no definite end.</button>
+      <button data-opt>Gratuitous — the overlay didn't need to animate at all.</button>
+      <p data-explain>Nothing here is a performance or a timing fault; the motion could be perfect
+        and the problem would remain. It is a spatial claim that contradicts itself, which is
+        exactly what <em>disorienting</em> names.</p>
+    </div>
+  </div>
+
+  <div class="ask-teacher">
+    <p><strong>Ask me anything about this one.</strong> Especially: bring me a real interface where
+    you can't answer the question. Things that genuinely have no home are the interesting cases —
+    a command palette, a notification centre, a floating video player that follows you between
+    pages — and a few of them are open problems rather than mistakes.</p>
+  </div>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="D003-motion-is-hierarchy.html">Design track D003 — Motion is hierarchy →</a>
+      <a href="D001-the-map-and-the-words.html">← Design track D001 — The map, and the words for it</a>
+      <a href="0012-things-that-just-appeared.html">Lesson 0012 — Things that just appeared</a>
+      <a href="0011-layout-animation.html">Lesson 0011 — Layout animation</a>
+      <a href="0010-hover-and-press.html">Lesson 0010 — Hover and press</a>
+      <a href="0009-reduced-motion.html">Lesson 0009 — Reduced motion</a>
+      <a href="0008-springs.html">Lesson 0008 — Springs</a>
+      <a href="0007-transform-origin.html">Lesson 0007 — Transform-origin</a>
+      <a href="0006-choosing-a-tool.html">Lesson 0006 — Choosing a tool</a>
+      <a href="0005-exits.html">Lesson 0005 — Exits</a>
+      <a href="0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal</a>
+      <a href="0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration</a>
+      <a href="0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+      <a href="0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing (printable)</a>
+      <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers (printable)</a>
+      <a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course (printable)</a>
+      <a href="../reference/04-the-workbench.html">Reference 04 — The Workbench (every lab, live)</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+      <span style="color:var(--ink-faint)">Next: <strong>D004 — The button</strong>. The most
+        animated object in software, and the one where the whole argument is settled in under
+        150&nbsp;milliseconds.</span>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/home-lab.js"></script>
+<script src="../assets/return-lab.js"></script>
+<script src="../assets/quiz.js"></script>

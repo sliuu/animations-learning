@@ -1,0 +1,479 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reference — The Workbench</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+
+<div class="page">
+
+  <style>
+    /* Local to this sheet. Every lab already carries its own styles; these
+       are only the labels that sit above them. */
+    .wb-index td:first-child { white-space: nowrap; }
+    .wb-from {
+      font-family: var(--sans); font-size: 0.74rem;
+      color: var(--ink-faint); letter-spacing: 0.01em;
+      margin: -0.5rem 0 0.75rem;
+    }
+    .wb-from a { color: var(--ink-faint); text-decoration-color: var(--rule); }
+    .wb-from a:hover { color: var(--accent); }
+    .wb-lab { margin: 1.25rem 0 2.75rem; }
+    .wb-sep { margin: 0 0.45rem; color: var(--rule); }
+  .wb-note {
+    font-family: var(--sans); font-size: 0.78rem; line-height: 1.5;
+    color: var(--ink-faint);
+    border-top: 1px solid var(--rule); padding-top: 0.7rem; margin-top: 2rem;
+  }
+  
+    /* A dozen live labs is a lot of page. The rule under each heading is the
+       seam a reader scrolls to, so make it read as one. */
+    h2[id] { scroll-margin-top: 1.5rem; }
+  
+    @media print {
+      .wb-lab { display: none; }
+      .wb-noprint { display: none; }
+    }
+  </style>
+
+  <header class="masthead">
+    <p class="eyebrow">Reference · 04</p>
+    <h1>The Workbench</h1>
+    <p class="dek">Every lab in the course, live, on one page — with nothing between
+      them and no lesson to scroll past first.</p>
+    <div class="meta">
+      <span>Companions: <a href="easing-and-timing.html">Reference 01</a> ·
+        <a href="02-the-numbers.html">Reference 02</a> ·
+        <a href="03-the-whole-course.html">Reference 03</a></span>
+      <span>Updated 2026-09-05</span>
+    </div>
+  </header>
+
+  <p class="lead">The other three sheets answer questions: <em>what should I do here</em>,
+  <em>what's the number</em>, <em>which lesson was that in</em>. This one doesn't answer
+  anything. It's the instruments, laid out on a bench, for when you already know what you
+  want to test and don't want to re-read an argument to get at the knob.</p>
+
+  <div class="callout">
+    <span class="label">These are the labs, not pictures of them</span>
+    <p>Each one below is the same component the lesson mounts, running the same code. Change
+    something here and it behaves exactly as it does in place. Nothing you do on this page is
+    saved, and nothing carries between labs — reload to reset all of them at once.</p>
+  </div>
+
+  <h2>Index</h2>
+  <table class="wb-index wb-noprint">
+    <thead>
+      <tr><th>Lab</th><th>What's side by side</th><th>What you can change</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><a href="#wb-01">01 · Curves</a></td><td>Four curves racing on one duration</td><td>The shared duration</td></tr>
+      <tr><td><a href="#wb-02">02 · Cost</a></td><td>The same movement bought with two properties</td><td>Property, elements per lane, main-thread block</td></tr>
+      <tr><td><a href="#wb-03">03 · Stagger</a></td><td>A group entering, with its timeline drawn underneath</td><td>Items, duration each, step, travel, order, easing</td></tr>
+      <tr><td><a href="#wb-04">04 · Scroll</a></td><td>One reveal as a trigger and as a scrub</td><td>Mode, re-trigger, fire point, step, duration, travel</td></tr>
+      <tr><td><a href="#wb-05">05 · Exits</a></td><td>Two identical panels, opened and closed</td><td>Enter and exit duration, easing, motion, exit direction</td></tr>
+      <tr><td><a href="#wb-06">06 · Tools</a></td><td>One effect via transition, keyframes and WAAPI</td><td>Duration, easing — and interrupt, pause, seek</td></tr>
+      <tr><td><a href="#wb-07">07 · Origin</a></td><td>Origin following the trigger vs left at the default</td><td>Corner, scale, duration, easing, rotation</td></tr>
+      <tr><td><a href="#wb-08">08 · Springs</a></td><td>A spring and a tween over the same distance</td><td>Stiffness, damping, mass, tween duration, easing</td></tr>
+      <tr><td><a href="#wb-09">09 · Reduced motion</a></td><td>One interface under three policies</td><td>The user's preference, your policy, travel, duration</td></tr>
+      <tr><td><a href="#wb-10a">10 · Hover &amp; press</a></td><td>Mouse and finger on the same button</td><td>Input, gate, hover duration, press depth, press-down</td></tr>
+      <tr><td><a href="#wb-10b">10 · Two clocks</a></td><td>Two real buttons, one number apart, sides shuffled</td><td>What's compared, the one duration under test</td></tr>
+      <tr><td><a href="#wb-11a">11 · FLIP</a></td><td>A reorder done by the browser and done by FLIP</td><td>Technique, the style flush, duration, easing</td></tr>
+      <tr><td><a href="#wb-11b">11 · View Transitions</a></td><td>One tile opened three ways: cut, cross-fade, morph</td><td>Mode, name uniqueness, duration, easing</td></tr>
+      <tr><td><a href="#wb-12a">12 · Appearing</a></td><td>One row appended four ways, three of which animate</td><td>Where the row's first value comes from</td></tr>
+      <tr><td><a href="#wb-12b">12 · Changing your mind</a></td><td>A keyframe entrance and a transition entrance, interrupted together</td><td>How long before you change your mind</td></tr>
+      <tr><td><a href="#wb-13a">13 · Two kinds of reveal</a></td><td>A masked reveal and a fade-and-rise, driven by one press</td><td>Window shape, duration, and whether the content moves too</td></tr>
+      <tr><td><a href="#wb-13b">13 · Three builds of a wipe</a></td><td>One picture built with clip-path and with two rectangles</td><td>What the reveal is asked to do, and copies to measure</td></tr>
+      <tr><td><a href="#wb-d01">D01 · The catalogue</a></td><td>Twelve patterns, each one playable and each one breakable</td><td>Family, and the broken switch on every pattern</td></tr>
+      <tr><td><a href="#wb-d02a">D02 · Pick a home</a></td><td>One app, four elements, six places each could live</td><td>Element, and where it lives when it's closed</td></tr>
+      <tr><td><a href="#wb-d02b">D02 · Three ways out</a></td><td>One entrance, three exits, played together</td><td>Nothing — one button, and the comparison is the point</td></tr>
+      <tr><td><a href="#wb-d03a">D03 · Which channel wins</a></td><td>Size, weight and colour against nine pixels of movement</td><td>Which tile gets the motion</td></tr>
+      <tr><td><a href="#wb-d03b">D03 · What does this promote</a></td><td>One card, one fixed animation, eight possible targets</td><td>Which element moves</td></tr>
+      <tr><td><a href="#wb-d04a">D04 · Button states</a></td><td>One working save button with five promises removable</td><td>Which states have feedback</td></tr>
+      <tr><td><a href="#wb-d04b">D04 · Hold to confirm</a></td><td>A commitment the reader may leave before it completes</td><td>Length, progress feedback, release behaviour</td></tr>
+      <tr><td><a href="#wb-d05a">D05 · Tracking the hand</a></td><td>Direct and lagged drag, sides shuffled</td><td>Nothing — the simultaneous feeling is the point</td></tr>
+      <tr><td><a href="#wb-d05b">D05 · Five drag moments</a></td><td>A reorder with lift, ghost, gap, settle and snap-back</td><td>Which moment is removed</td></tr>
+      <tr><td><a href="#wb-d06a">D06 · The deck</a></td><td>One deck under four indicator and release decisions</td><td>Count, indicator, peek, snap</td></tr>
+      <tr><td><a href="#wb-d06b">D06 · Autoplay</a></td><td>A readable slide against an advancing timer</td><td>Interval, pause, what interaction does</td></tr>
+      <tr><td><a href="#wb-d07a">D07 · Scroll timeline</a></td><td>An entrance and an explanation under the same scroll</td><td>Trigger/scrub, distance, pin, depth</td></tr>
+      <tr><td><a href="#wb-d07b">D07 · Scroll contract</a></td><td>Direct scroll and smoothed catch-up, sides shuffled</td><td>Nothing — one input drives both</td></tr>
+      <tr><td><a href="#wb-scratch">Scratch</a></td><td>Nothing — it is a bare patch</td><td>The markup and the CSS</td></tr>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <h2 id="wb-01">01 · Same duration, different curve</h2>
+  <p class="wb-from"><a href="../lessons/0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+    <span class="wb-sep">·</span> four curves fired together, one duration</p>
+  <p>Reach for it when you're about to argue that a curve is wrong. Drop the duration to 100ms
+  first: below roughly 120ms all four curves are indistinguishable, and the argument you're
+  having is really about duration.</p>
+  <div class="wb-lab" data-easing-lab
+       data-title="Same duration, different curve"
+       data-duration="600" data-min="80" data-max="1400"
+       data-eases="linear | ease-in | ease-out | cubic-bezier(0.23, 1, 0.32, 1)"
+       data-labels="linear | ease-in | ease-out | ease-out-strong"></div>
+
+  <h2 id="wb-02">02 · Same animation, different property</h2>
+  <p class="wb-from"><a href="../lessons/0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+    <span class="wb-sep">·</span> the same movement bought two ways, side by side</p>
+  <p>Reach for it when someone tells you a property is "basically free." Raise the count until
+  the two columns visibly separate, then read the frame time rather than trusting your eyes —
+  the point at which they split is the number worth quoting.</p>
+  <div class="wb-lab" data-cost-lab
+       data-title="Same animation, different property"
+       data-count="400" data-max="1500"></div>
+
+  <h2 id="wb-03">03 · Find the band</h2>
+  <p class="wb-from"><a href="../lessons/0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration</a>
+    <span class="wb-sep">·</span> count, step, travel and order, with the total shown</p>
+  <p>Reach for it when you have a real <em>n</em> and a real budget. Set the count to what you
+  actually ship, then find the step that keeps the overlap ratio comfortable and the total
+  under about 600ms. Push the step up until it stops reading as one gesture — that edge is the
+  thing worth knowing.</p>
+  <div class="wb-lab" data-stagger-lab
+       data-title="Find the band"
+       data-count="8" data-duration="420" data-step="70" data-travel="20"></div>
+
+  <h2 id="wb-04">04 · Scroll the panel</h2>
+  <p class="wb-from"><a href="../lessons/0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal</a>
+    <span class="wb-sep">·</span> the same reveal, driven by an event and by scroll position</p>
+  <p>Reach for it when you're deciding whether a reveal should fire or track. Use "Stop
+  halfway" on the scrub column: if the content is unreadable in that frozen state, it can't be
+  a scrub, and no amount of tuning fixes it.</p>
+  <div class="wb-lab" data-scroll-lab data-title="Scroll the panel" data-count="6"></div>
+
+  <h2 id="wb-05">05 · Open them, then close them</h2>
+  <p class="wb-from"><a href="../lessons/0005-exits.html">Lesson 0005 — Exits</a>
+    <span class="wb-sep">·</span> two identical panels, entering and leaving</p>
+  <p>Reach for it when an exit feels wrong and you can't name why. Nine times out of ten it's
+  an ease-out exit, which spends most of its time crawling near zero opacity — the element is
+  gone as far as you're concerned, and the page is still waiting for it.</p>
+  <div class="wb-lab" data-exit-lab data-title="Open them, then close them"></div>
+
+  <h2 id="wb-06">06 · Ask all three to do the same thing</h2>
+  <p class="wb-from"><a href="../lessons/0006-choosing-a-tool.html">Lesson 0006 — Choosing a tool</a>
+    <span class="wb-sep">·</span> one effect as a transition, as keyframes, and through WAAPI</p>
+  <p>Reach for it when a tool choice is live. Read the capability table against <em>your</em>
+  requirement rather than the general one — most of the time you never pause or seek, and the
+  cheapest thing that can do the job wins by default.</p>
+  <div class="wb-lab" data-tool-lab data-title="Ask all three to do the same thing"></div>
+
+  <h2 id="wb-07">07 · Open it from each corner</h2>
+  <p class="wb-from"><a href="../lessons/0007-transform-origin.html">Lesson 0007 — Transform-origin</a>
+    <span class="wb-sep">·</span> one popover, four trigger positions, origin on and off</p>
+  <p>Reach for it when a menu or popover feels detached from the thing that opened it. Cycle
+  the corners with the origin left at centre, then set it correctly and cycle again. The
+  difference is not subtle once you've seen it, which is the whole reason to look.</p>
+  <div class="wb-lab" data-origin-lab data-title="Open it from each corner"></div>
+
+  <h2 id="wb-08">08 · Same move, two models of time</h2>
+  <p class="wb-from"><a href="../lessons/0008-springs.html">Lesson 0008 — Springs</a>
+    <span class="wb-sep">·</span> a tween and a spring covering identical distance</p>
+  <p>Reach for it when you're choosing between a duration and a physics model, or tuning
+  <code>bounce</code> and <code>visualDuration</code> without guessing. Interrupt the move
+  mid-flight — that's the case the spring exists for, and the one a duration can't answer.</p>
+  <div class="wb-lab" data-spring-lab data-title="Same move, two models of time"></div>
+
+  <h2 id="wb-09">09 · One interface, three policies</h2>
+  <p class="wb-from"><a href="../lessons/0009-reduced-motion.html">Lesson 0009 — Reduced motion</a>
+    <span class="wb-sep">·</span> the global reset, nothing, and the per-element answer</p>
+  <p>Reach for it when you need to show someone why the copy-pasted global reset isn't the
+  answer. Switch to it and watch the spinner. You don't have to say anything.</p>
+  <div class="wb-lab" data-motion-pref-lab data-title="One interface, three policies"></div>
+
+  <h2 id="wb-10a">10 · One button, two kinds of hand</h2>
+  <p class="wb-from"><a href="../lessons/0010-hover-and-press.html">Lesson 0010 — Hover and press</a>
+    <span class="wb-sep">·</span> mouse and finger against the same button, gated and ungated</p>
+  <p>Reach for it when you're setting press depth on something that isn't a button — a card, a
+  row, a full-width bar — and want to see the displacement rather than compute it. Also the
+  fastest way to reproduce sticky hover for someone who doesn't believe it happens.</p>
+  <div class="wb-lab" data-press-lab data-title="One button, two kinds of hand"></div>
+
+  <h2 id="wb-10b">10 · Two buttons, two clocks</h2>
+  <p class="wb-from"><a href="../lessons/0010-hover-and-press.html">Lesson 0010 — Hover and press</a>
+    <span class="wb-sep">·</span> two real buttons one number apart, with the sides shuffled</p>
+  <p>Reach for it when someone wants to argue a press duration, or when you want to check a
+  number against your own hand rather than against a table. Press both, commit to one, then
+  reveal — the shuffle is the point, because a timing you were told about is a timing you agree
+  with for free.</p>
+  <div class="wb-lab" data-clock-lab data-title="Two buttons, two clocks"></div>
+
+  <h2 id="wb-11a">11 · Watch it move, or watch it teleport</h2>
+  <p class="wb-from"><a href="../lessons/0011-layout-animation.html">Lesson 0011 — Layout animation</a>
+    <span class="wb-sep">·</span> the same reorder unaided and through FLIP, with the four steps shown</p>
+  <p>Reach for it when a FLIP you wrote isn't animating and you're staring at code that looks
+  correct. Set the flush to <strong>skipped</strong> here first, so you know exactly what that
+  failure looks like — it is indistinguishable from having no FLIP at all, which is why it costs
+  people an afternoon.</p>
+  <div class="wb-lab" data-flip-lab data-title="Watch it move, or watch it teleport"></div>
+
+  <h2 id="wb-11b">11 · One tile, opened three ways</h2>
+  <p class="wb-from"><a href="../lessons/0011-layout-animation.html">Lesson 0011 — Layout animation</a>
+    <span class="wb-sep">·</span> a hard cut, a cross-fade, and a named morph, from one code path</p>
+  <p>Reach for it when you're deciding how much of a view transition to specify, or when a morph
+  is coming out as a cross-fade and you want to confirm it's a naming problem. Fair warning: this
+  one really does freeze the whole workbench for its duration, which is the point.</p>
+  <div class="wb-lab" data-vt-lab data-title="One tile, opened three ways"></div>
+
+  <h2 id="wb-12a">12 · Append a row, four ways</h2>
+  <p class="wb-from"><a href="../lessons/0012-things-that-just-appeared.html">Lesson 0012 — Things that just appeared</a>
+    <span class="wb-sep">·</span> the same appended row with no first value, with
+    <code>@starting-style</code>, with keyframes, and with a forced reflow</p>
+  <p>Reach for it when something you just inserted refuses to animate and the console is empty.
+  Start on <strong>nothing</strong> to see what that failure looks like, then read the count
+  underneath — <code>getAnimations()</code> is the instrument, and <code>0</code> means the
+  transition was never created rather than created wrong.</p>
+  <div class="wb-lab" data-appear-lab data-title="Append a row, four ways"></div>
+
+  <h2 id="wb-12b">12 · Open it, then change your mind</h2>
+  <p class="wb-from"><a href="../lessons/0012-things-that-just-appeared.html">Lesson 0012 — Things that just appeared</a>
+    <span class="wb-sep">·</span> a keyframe entrance and a transition entrance, closed mid-flight
+    by the same press</p>
+  <p>Reach for it when you are choosing between <code>@keyframes</code> and
+  <code>@starting-style</code> for an entrance, or when a panel snaps to fully-open before it
+  closes and you want to confirm why. Short delays are where the two come apart.</p>
+  <div class="wb-lab" data-interrupt-lab data-title="Open it, then change your mind"></div>
+
+  <h2 id="wb-13a">13 · Reveal it, two ways</h2>
+  <p class="wb-from"><a href="../lessons/0013-reveals-with-clip-path.html">Lesson 0013 — Reveals with clip-path</a>
+    <span class="wb-sep">·</span> the same hero revealed by moving the window and by moving the
+    content, both from one press</p>
+  <p>Reach for it when a reveal is being described as too soft, too tentative, or not
+  &ldquo;editorial&rdquo; enough — usually that is a fade where a mask was wanted. The badges are
+  measured off the headline itself, so they hold at any duration, and the three shapes where the
+  right pane goes to <em>opacity only</em> are the ones a rectangle cannot make at all.</p>
+  <div class="wb-lab" data-reveal-lab data-title="Reveal it, two ways"></div>
+
+  <h2 id="wb-13b">13 · One picture, three builds</h2>
+  <p class="wb-from"><a href="../lessons/0013-reveals-with-clip-path.html">Lesson 0013 — Reveals with clip-path</a>
+    <span class="wb-sep">·</span> <code>clip-path</code> against a moving window and a static one,
+    under five things a reveal might be asked to do</p>
+  <p>Reach for it before writing a reveal, to answer the only question that decides the build:
+  could a rectangle have done this? Run the five demands to find out what each build can express,
+  then run the cost strip at 48, 120 and 300 copies to find where the shape stops being free on
+  the machine in front of you.</p>
+  <div class="wb-lab" data-wipe-lab data-title="One picture, three builds"></div>
+
+  <h2 id="wb-d01">D01 · Twelve patterns, twelve conventions</h2>
+  <p class="wb-from"><a href="../lessons/D001-the-map-and-the-words.html">Lesson D001 — The map, and the words for it</a>
+    <span class="wb-sep">·</span> each pattern beside a switch that breaks the convention it depends on</p>
+  <p>Reach for it in a review, when you need the word for something on screen: play the pattern
+  you think it is and see whether it matches. The verb chips under each name are the shortlist,
+  and the broken version is there for when the argument is about whether a convention is load-
+  bearing — it is faster to break it than to describe it.</p>
+  <div class="wb-lab" data-pattern-lab data-title="Twelve patterns, twelve conventions"></div>
+
+  <h2 id="wb-d02a">D02 · Pick a home, get a motion</h2>
+  <p class="wb-from"><a href="../lessons/D002-where-things-live.html">Lesson D002 — Where things live when they're off screen</a>
+    <span class="wb-sep">·</span> the transform is derived from the home, never chosen</p>
+  <p>Reach for it when someone asks whether a thing should fade or slide. Put the real element on
+  the bench, try the two homes being argued about, and read the line under the frame — the argument
+  is usually settled before anyone has said the word <em>easing</em>. The CSS panel is the receipt
+  to paste into the ticket.</p>
+  <div class="wb-lab" data-home-lab data-title="Pick a home, get a motion"></div>
+
+  <h2 id="wb-d02b">D02 · Same entrance, three ways out</h2>
+  <p class="wb-from"><a href="../lessons/D002-where-things-live.html">Lesson D002 — Where things live when they're off screen</a>
+    <span class="wb-sep">·</span> returns home, fades in place, leaves out the far side</p>
+  <p>Reach for it when an exit is being defended as &ldquo;just a fade&rdquo;. The three run at
+  once on purpose: played one after another they all look fine, and the difference only exists
+  side by side.</p>
+  <div class="wb-lab" data-return-lab data-title="Same entrance. Three ways out."></div>
+
+  <h2 id="wb-d03a">D03 · Which channel wins</h2>
+  <p class="wb-from"><a href="../lessons/D003-motion-is-hierarchy.html">Lesson D003 — Motion is hierarchy</a>
+    <span class="wb-sep">·</span> motion against size, weight and colour, one channel per tile</p>
+  <p>Reach for it when someone calls an animation decorative. Hand the motion to the plain tile
+  and press play: nine pixels beat every static channel on the board, which is the whole reason
+  an animation is never only decorative.</p>
+  <div class="wb-lab" data-channel-lab data-title="Which channel wins?"></div>
+
+  <h2 id="wb-d03b">D03 · What does this promote</h2>
+  <p class="wb-from"><a href="../lessons/D003-motion-is-hierarchy.html">Lesson D003 — Motion is hierarchy</a>
+    <span class="wb-sep">·</span> same timing, same class, eight places to put it</p>
+  <p>Reach for it in a review, with the real component in mind. Find the option that matches what
+  is being proposed, read the line underneath, and check it against what the card is actually for.
+  The CSS panel is there to show that nothing but the target ever changed.</p>
+  <div class="wb-lab" data-rank-lab data-title="What does this promote?"></div>
+
+  <h2 id="wb-d04a">D04 · A button is seven promises</h2>
+  <p class="wb-from"><a href="../lessons/D004-the-button.html">Lesson D004 — The button</a>
+    <span class="wb-sep">·</span> a working save action whose feedback can disappear state by state</p>
+  <p>Reach for it when a button looks complete in a mock but feels unfinished in a hand. Remove
+  hover, focus, press, pending or success one at a time: the action continues to work, and the
+  verdict names the promise that silently went missing.</p>
+  <div class="wb-lab" data-state-lab data-title="A button is seven promises"></div>
+
+  <h2 id="wb-d04b">D04 · Hold to confirm</h2>
+  <p class="wb-from"><a href="../lessons/D004-the-button.html">Lesson D004 — The button</a>
+    <span class="wb-sep">·</span> a state the reader is inside and can leave</p>
+  <p>Reach for it when a destructive action needs deliberate commitment. Turn the progress
+  feedback off to make a still-functional interaction unusable, then compare snap-back against
+  the plausible-looking mistake of keeping partial progress after release.</p>
+  <div class="wb-lab" data-hold-lab data-title="Hold to confirm"></div>
+
+  <h2 id="wb-d05a">D05 · Which one still belongs to your hand?</h2>
+  <p class="wb-from"><a href="../lessons/D005-things-you-drag.html">Lesson D005 — Things you drag</a>
+    <span class="wb-sep">·</span> direct tracking and a 120ms transition, simultaneously reachable</p>
+  <p>Reach for it whenever someone proposes making a drag feel smoother with a transition. The
+  pointer ring shows the requested position, the sides shuffle, and one chip visibly trails its
+  own hand.</p>
+  <div class="wb-lab" data-grab-lab data-title="Which one still belongs to your hand?"></div>
+
+  <h2 id="wb-d05b">D05 · The five moments of a drag</h2>
+  <p class="wb-from"><a href="../lessons/D005-things-you-drag.html">Lesson D005 — Things you drag</a>
+    <span class="wb-sep">·</span> pickup, evidence, landing and rejection around a real reorder</p>
+  <p>Reach for it when the middle of a drag works but the interaction still feels weightless or
+  uncertain. Switch off lift, ghost, gap, settle and snap-back independently; the reorder stays
+  functional while the missing promise becomes visible.</p>
+  <div class="wb-lab" data-drag-lab data-title="The five moments of a drag"></div>
+
+  <h2 id="wb-d06a">D06 · One deck, four decisions</h2>
+  <p class="wb-from"><a href="../lessons/D006-decks-and-dots.html">Lesson D006 — Decks, and what the dots promise</a>
+    <span class="wb-sep">·</span> indicator, discoverability and release against a changing item count</p>
+  <p>Reach for it when a carousel is being reviewed at the count in the mock. Raise the count to
+  forty and make the dots keep their promise; hide the peek to test whether the deck is still
+  discoverable; let a page-shaped card drift to expose the release mismatch.</p>
+  <div class="wb-lab" data-deck-lab data-title="One deck, four decisions"></div>
+
+  <h2 id="wb-d06b">D06 · Read the slide</h2>
+  <p class="wb-from"><a href="../lessons/D006-decks-and-dots.html">Lesson D006 — Decks, and what the dots promise</a>
+    <span class="wb-sep">·</span> autoplay against actual reading</p>
+  <p>Reach for it when autoplay is being argued as a style preference. Read the sentence at three
+  seconds, then let the deck ignore hover or resume after an explicit interaction. The counter
+  makes each otherwise-silent interruption audible.</p>
+  <div class="wb-lab" data-autoplay-lab data-title="Read the slide"></div>
+
+  <h2 id="wb-d07a">D07 · One story, four decisions</h2>
+  <p class="wb-from"><a href="../lessons/D007-scroll-as-a-timeline.html">Lesson D007 — Scroll as a timeline</a>
+    <span class="wb-sep">·</span> content, driver, distance, pin and depth in one scrollport</p>
+  <p>Reach for it before choosing a scroll library. Stop an entrance and an explanation halfway:
+  the first becomes a half-made headline, while the second remains a valid intermediate state.
+  Then price each beat in screens and ask what the pin is actually holding constant.</p>
+  <div class="wb-lab" data-timeline-lab data-title="One story, four decisions"></div>
+
+  <h2 id="wb-d07b">D07 · One gesture, two contracts</h2>
+  <p class="wb-from"><a href="../lessons/D007-scroll-as-a-timeline.html">Lesson D007 — Scroll as a timeline</a>
+    <span class="wb-sep">·</span> direct scroll beside polished catch-up, with the answer hidden</p>
+  <p>Reach for it when “smooth scrolling” looks expensive in a recording but feels wrong under a
+  hand. One gesture drives both panes, and the marker shows where the input already asked to be;
+  reveal only after choosing the pane that still feels attached.</p>
+  <div class="wb-lab" data-scroll-contract-lab data-title="One gesture, two contracts"></div>
+
+  <h2 id="wb-d08a">D08 · Split the text</h2>
+  <p class="wb-from"><a href="../lessons/D008-text-that-arrives.html">Lesson D008 — Text that arrives</a>
+    <span class="wb-sep">·</span> granularity, stagger and reveal style against a hero word and a paragraph</p>
+  <p>Reach for it before adding a split-text plugin. Change the unit and delay together, then read
+    the measured total: the same character split that gives a hero word a pulse can turn body copy
+    into a queue.</p>
+  <div class="wb-lab" data-split-lab data-title="Split the text"></div>
+
+  <h2 id="wb-d08b">D08 · Same words, different promise</h2>
+  <p class="wb-from"><a href="../lessons/D008-text-that-arrives.html">Lesson D008 — Text that arrives</a>
+    <span class="wb-sep">·</span> mask uncovering beside fade-up arrival</p>
+  <p>Reach for it when a reveal feels like a preset instead of a decision. Press one button for both
+    panes, stop halfway, and decide whether the type stayed still while a window opened or arrived
+    dimmer and lower.</p>
+  <div class="wb-lab" data-text-arrival-lab data-title="Same words, different promise"></div>
+
+  <hr>
+
+  <h2 id="wb-scratch">Scratch</h2>
+  <p class="wb-from">No lesson <span class="wb-sep">·</span> an empty playground, kept here so
+    the bench has a bare patch on it</p>
+  <p>Every lab above is a fixed experiment: it holds one thing still so you can move another.
+  This one holds nothing still. Paste in markup and CSS you're actually working on, or delete
+  what's there and start from an empty rule.</p>
+
+  <div class="wb-lab" data-pg
+       data-pg-title="Scratch — paste over anything here"
+       data-pg-height="240"
+       data-pg-hint="Nothing here is load-bearing. Reload the page to get this block back.">
+    <script type="text/plain" data-pg-html>
+      <div class="thing">Move me</div>
+    </script>
+    <textarea data-pg-css>
+.thing {
+  width: 140px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: rgba(128,128,128,.18);
+  font: 600 13px/1.4 system-ui, sans-serif;
+  transition: transform 220ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.thing:hover { transform: translateY(-4px); }
+    </textarea>
+  </div>
+
+  <hr>
+
+  <p class="wb-note">This is the one sheet not worth printing — the labs are the
+  content, and on paper they're empty boxes. It prints as the index and the notes, which is
+  probably not what you wanted. Reference <a href="easing-and-timing.html">01</a> and
+  <a href="02-the-numbers.html">02</a> are the ones that survive a printer.</p>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="easing-and-timing.html">Reference 01 — Easing &amp; Timing</a>
+      <a href="02-the-numbers.html">Reference 02 — The Numbers</a>
+      <a href="03-the-whole-course.html">Reference 03 — The Whole Course</a>
+      <a href="../lessons/0013-reveals-with-clip-path.html">Lesson 0013 — Reveals with clip-path</a>
+      <a href="../lessons/D007-scroll-as-a-timeline.html">Lesson D007 — Scroll as a timeline</a>
+      <a href="../lessons/D006-decks-and-dots.html">Lesson D006 — Decks, and what the dots promise</a>
+      <a href="../lessons/D005-things-you-drag.html">Lesson D005 — Things you drag</a>
+      <a href="../lessons/D004-the-button.html">Lesson D004 — The button</a>
+      <a href="../lessons/0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../lessons/0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+      <a href="../lessons/0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration</a>
+      <a href="../lessons/0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal</a>
+      <a href="../lessons/0005-exits.html">Lesson 0005 — Exits</a>
+      <a href="../lessons/0006-choosing-a-tool.html">Lesson 0006 — Choosing a tool</a>
+      <a href="../lessons/0007-transform-origin.html">Lesson 0007 — Transform-origin</a>
+      <a href="../lessons/0008-springs.html">Lesson 0008 — Springs</a>
+      <a href="../lessons/0009-reduced-motion.html">Lesson 0009 — Reduced motion</a>
+      <a href="../lessons/0010-hover-and-press.html">Lesson 0010 — Hover and press</a>
+      <a href="../lessons/0011-layout-animation.html">Lesson 0011 — Layout animation</a>
+      <a href="../lessons/0012-things-that-just-appeared.html">Lesson 0012 — Things that just appeared</a>
+      <a href="../lessons/D003-motion-is-hierarchy.html">Lesson D003 — Motion is hierarchy</a>
+      <a href="../lessons/D002-where-things-live.html">Lesson D002 — Where things live when they're off screen</a>
+      <a href="../lessons/D001-the-map-and-the-words.html">Lesson D001 — The map, and the words for it</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/easing-lab.js"></script>
+<script src="../assets/cost-lab.js"></script>
+<script src="../assets/stagger-lab.js"></script>
+<script src="../assets/scroll-lab.js"></script>
+<script src="../assets/exit-lab.js"></script>
+<script src="../assets/tool-lab.js"></script>
+<script src="../assets/origin-lab.js"></script>
+<script src="../assets/spring-lab.js"></script>
+<script src="../assets/motion-pref-lab.js"></script>
+<script src="../assets/press-lab.js"></script>
+<script src="../assets/clock-lab.js"></script>
+<script src="../assets/flip-lab.js"></script>
+<script src="../assets/vt-lab.js"></script>
+<script src="../assets/appear-lab.js"></script>
+<script src="../assets/interrupt-lab.js"></script>
+<script src="../assets/reveal-lab.js"></script>
+<script src="../assets/wipe-lab.js"></script>
+<script src="../assets/pattern-lab.js"></script>
+<script src="../assets/home-lab.js"></script>
+<script src="../assets/return-lab.js"></script>
+<script src="../assets/channel-lab.js"></script>
+<script src="../assets/rank-lab.js"></script>
+<script src="../assets/state-lab.js"></script>
+<script src="../assets/hold-lab.js"></script>
+<script src="../assets/grab-lab.js"></script>
+<script src="../assets/drag-lab.js"></script>
+<script src="../assets/deck-lab.js"></script>
+<script src="../assets/autoplay-lab.js"></script>
+<script src="../assets/timeline-lab.js"></script>
+<script src="../assets/scroll-contract-lab.js"></script>
+<script src="../assets/playground.js"></script>

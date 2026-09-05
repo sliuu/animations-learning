@@ -1,0 +1,378 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0003 — Stagger and orchestration</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lesson 0003 · 15 minutes</p>
+    <h1>Stagger, and the shape of an&nbsp;arrival</h1>
+    <p class="dek">Making elements arrive one after another is trivial. Making the group read
+      as one gesture instead of a queue is the entire craft.</p>
+    <div class="meta">
+      <span>Skill: orchestrate a group entrance and defend its total length</span>
+      <span><a href="0002-the-four-property-budget.html">← Lesson 0002</a></span>
+    </div>
+  </header>
+
+  <p class="lead">One element arriving is a transition. Twelve elements arriving is an
+  argument about what matters.</p>
+
+  <p>You can now pick a curve (0001) and pick a property that doesn't cost anything (0002).
+  Both of those are decisions about a <em>single</em> element. Almost nothing on a real page
+  animates alone — a hero has an eyebrow, a headline, a subhead, two buttons and an image, and
+  they all want to enter at once.</p>
+
+  <p>Let them, and you get a flash: everything appears simultaneously, nothing is emphasised,
+  and the eye has no entry point. It reads as a page that finished loading, not as a page that
+  arrived.</p>
+
+  <div class="callout principle">
+    <span class="label">First principle</span>
+    <p>Motion captures attention before content does. So <strong>arrival order becomes reading
+    order</strong> — the first thing to move is the first thing read, whether or not you meant
+    it that way.</p>
+    <p>Stagger is therefore a claim about priority. Staggering in DOM order is fine when your
+    markup order <em>is</em> your priority order. It usually is. Make it a decision anyway.</p>
+  </div>
+
+  <p>There's a second effect that's easy to miss. Spreading the same total movement across
+  time reduces how much is moving <em>at any one instant</em>, and simultaneous motion is most
+  of what makes a page feel frantic. A staggered entrance is calmer than a synchronised one
+  even though it contains exactly as much animation.</p>
+
+  <h2>The two numbers</h2>
+
+  <p>Everything about a group entrance falls out of two pieces of arithmetic. Both are in the
+  readout below.</p>
+
+  <pre><code>total   = duration + (n - 1) × step
+overlap = step ÷ duration</code></pre>
+
+  <p><strong>Total</strong> is what the user waits. <strong>Overlap</strong> is what it feels
+  like — and it's the one nobody says out loud. Drag things until the timeline underneath
+  makes sense; the bars are when each item is actually moving.</p>
+
+  <div data-stagger-lab
+       data-title="Find the band"
+       data-count="8"
+       data-duration="420"
+       data-step="70"
+       data-travel="20"></div>
+
+  <ol>
+    <li>Pull <strong>stagger step</strong> to 0. A flash. Everything lands on one frame and
+    the group has no direction.</li>
+    <li>Push it to 260. Now watch the timeline: the bars stop touching. Each item finishes
+    before the next starts, and you get the <em>machine gun</em> — a list being dealt out like
+    cards. Total blows past two seconds.</li>
+    <li>Now find the band. Somewhere around 50–80ms against a ~400ms duration, the bars
+    overlap heavily and the eight arrivals resolve into a single wave with a direction.</li>
+  </ol>
+
+  <div class="callout">
+    <span class="label">The number to remember</span>
+    <p>Keep <strong>overlap ratio under about 0.35</strong>. Each item should start well before
+    the one ahead of it has finished. Above ~0.8 the items read as separate events, and that is
+    the difference between an entrance and a queue.</p>
+    <p>In practice that means <strong>40–90ms steps against 300–500ms durations</strong>, and
+    it's why you cannot pick a stagger value without knowing the duration it sits against.</p>
+  </div>
+
+  <p>Check it against the page that started this course. Measured on 2026-07-29, it uses
+  <code>stagger: 0.075</code> — 75ms — against durations of 0.2 to 0.45s. That's an overlap
+  ratio between 0.17 on its slowest sections and 0.38 on its fastest — inside the band, with
+  the quickest 200ms transitions sitting right at its edge, which is exactly where a short UI
+  transition should land.</p>
+
+  <h2>Why per-item stagger breaks</h2>
+
+  <p>Set the lab to 20 items and leave the step at 75ms. Total: about 1.8 seconds. The last
+  item arrives so late that a user who scrolled to it already believes the page is broken.</p>
+
+  <p>This is the trap in every "add a stagger" ticket: the value is chosen against a mockup
+  with six items and shipped against a grid with forty. There are exactly two honest fixes.</p>
+
+  <h4>1. Budget the total, derive the step</h4>
+  <p>Decide the whole orchestration is allowed 600ms, then <code>step = budget ÷ (n − 1)</code>.
+  More items means a tighter step, and the entrance keeps its length no matter what the CMS
+  returns.</p>
+
+  <p>GSAP has both behaviours and names them, which is worth knowing because you will read it
+  in other people's source: <code>stagger: 0.075</code> means 75ms <em>each</em>, while
+  <code>stagger: { amount: 0.6 }</code> means 600ms <em>total, divided among however many
+  there are</em>. Motion's <code>stagger()</code> is the same idea. When you see
+  <code>amount</code>, someone was thinking about exactly this problem.</p>
+
+  <h4>2. Stagger fewer things</h4>
+  <p>Only the first six or eight items need to arrive in sequence; the rest can come in as one
+  group, or not animate at all. Nobody is auditing your grid for consistency — they're looking
+  at the top of it.</p>
+
+  <table>
+    <thead><tr><th>Context</th><th>Total budget</th><th>Typical step</th></tr></thead>
+    <tbody>
+      <tr><td>Hero / marketing section</td><td>≤ 1000ms</td><td>60–90ms</td></tr>
+      <tr><td>Card grid, on scroll</td><td>≤ 500ms</td><td>30–50ms</td></tr>
+      <tr><td>Menu or dropdown items</td><td>≤ 250ms</td><td>15–30ms</td></tr>
+      <tr><td>Anything the user is waiting to click</td><td>0</td><td>none</td></tr>
+    </tbody>
+  </table>
+
+  <h2>The mistake to see once</h2>
+
+  <p>Stagger with <code>@keyframes</code> means <code>animation-delay</code>, and
+  <code>animation-delay</code> has a trap that <code>transition-delay</code> does not. Delete
+  the word <code>backwards</code> from the CSS below and replay.</p>
+
+  <div data-pg
+       data-pg-title="animation-delay needs a fill mode"
+       data-pg-height="180"
+       data-pg-hint="Delete `backwards` and replay. Then try `both`. Then try 300ms steps to make it unmissable.">
+    <script type="text/plain" data-pg-html>
+      <div class="row">
+        <div class="box" style="--i:0">1</div>
+        <div class="box" style="--i:1">2</div>
+        <div class="box" style="--i:2">3</div>
+        <div class="box" style="--i:3">4</div>
+        <div class="box" style="--i:4">5</div>
+      </div>
+    </script>
+    <textarea data-pg-css>
+.row { display: flex; gap: 8px; }
+
+.box {
+  width: 52px; height: 52px;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fffef9;
+  display: grid; place-items: center;
+  font-weight: 600; font-size: 12px;
+
+  animation: rise 420ms var(--ease-out-strong);
+  animation-delay: calc(var(--i) * 90ms);
+
+  /* Delete this line and watch what happens before each delay elapses. */
+  animation-fill-mode: backwards;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(20px); }
+}
+    </textarea>
+  </div>
+
+  <p>Without a fill mode, an element sits in its <em>normal</em> state during its delay — fully
+  visible — and then snaps to the animation's first keyframe the instant the delay ends. Five
+  boxes appear, then blink out one by one, then rise. It looks like a bug because it is one.</p>
+
+  <p><code>backwards</code> tells the element to adopt the first keyframe's values during the
+  delay. <code>both</code> does that and holds the last keyframe afterwards, which is what you
+  usually want.</p>
+
+  <p class="sidenote">Transitions don't have this problem: their "before" state is just the
+  element's resting CSS, so a delayed transition simply sits there looking correct. That alone
+  is a decent reason to prefer transitions for entrances.</p>
+
+  <h2>Build the hero</h2>
+
+  <p>Here's the pattern worth taking to real work: one custom property per element carrying its
+  position in the sequence, and one line of arithmetic doing the stagger. No
+  <code>:nth-child</code> chains, and the delay survives reordering the markup.</p>
+
+  <div data-pg
+       data-pg-title="A hero entrance — one line does the stagger"
+       data-pg-height="290"
+       data-pg-hint="Try: give the two buttons different --i values. Then set --step to 240ms. Then give .art the same --i as .sub.">
+    <script type="text/plain" data-pg-html>
+      <div class="hero">
+        <p class="eyebrow" style="--i:0">Research preview</p>
+        <h1 style="--i:1">Motion that means something</h1>
+        <p class="sub" style="--i:2">Every element arrives with intent.</p>
+        <div class="actions" style="--i:3">
+          <button class="primary">Get started</button>
+          <button>Read the docs</button>
+        </div>
+        <div class="art" style="--i:4"></div>
+      </div>
+    </script>
+    <textarea data-pg-css>
+.hero { --step: 70ms; width: 300px; text-align: left; }
+
+/* Every direct child enters the same way. Only the delay differs. */
+.hero > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 420ms var(--ease-out-strong),
+    transform 420ms var(--ease-out-strong);
+  transition-delay: calc(var(--i) * var(--step));
+}
+
+.mounted .hero > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Bigger things move slower — mass reads as weight. */
+.art { transition-duration: 560ms; }
+
+.eyebrow { font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+           color: var(--accent); margin: 0 0 6px; }
+h1 { font-size: 21px; line-height: 1.2; margin: 0 0 6px; }
+.sub { font-size: 13px; opacity: .75; margin: 0 0 14px; }
+.actions { display: flex; gap: 8px; margin-bottom: 14px; }
+button { font: inherit; font-size: 12px; padding: 7px 12px; border-radius: 7px;
+         border: 1px solid var(--accent); background: none;
+         color: var(--accent); }
+button.primary { background: var(--accent); color: #fffef9; }
+.art { height: 78px; border-radius: 10px;
+       background: color-mix(in srgb, var(--accent) 22%, transparent); }
+    </textarea>
+  </div>
+
+  <p>Two judgements are buried in that markup, and they're the difference between orchestration
+  and a for-loop.</p>
+
+  <h4>The two buttons share one index</h4>
+  <p>They're one unit — a decision point, not two independent objects. Give them
+  <code>--i:3</code> and <code>--i:4</code> in the playground and it immediately feels fussy:
+  you've asserted that "Get started" matters more than "Read the docs" by a measurable 70
+  milliseconds, and the user's eye now travels left-to-right through a button pair it wanted to
+  compare at a glance. <strong>Stagger between groups, not between every element.</strong></p>
+
+  <h4>The art moves slower, not later</h4>
+  <p>It gets 560ms instead of 420ms. Larger objects that move at the same speed as small ones
+  read as weightless — this is straight out of animation's classic weight principles, and it's
+  why the hero image on a good marketing page always feels slightly more settled than the text
+  above it. Give <code>.art</code> the same duration as everything else and it reads as a
+  sticker.</p>
+
+  <p>Set <code>--step</code> to 240ms and the whole thing falls apart in the way you now have
+  vocabulary for: the overlap ratio goes from 0.17 to 0.57, the total from about 840ms to
+  1.5s, and five elements become five events.</p>
+
+  <h2>When not to stagger</h2>
+
+  <p>Lesson 0001's gate applies to whole orchestrations, not just single animations, and it
+  bites harder here because stagger multiplies the wait.</p>
+
+  <ul>
+    <li><strong>Menus and dropdowns.</strong> The user opened it to click something. Staggering
+    the items delays the moment the list is readable. Fade the container, not the children.</li>
+    <li><strong>Scroll reveals on long grids.</strong> People scroll faster than your stagger.
+    Items arrive after the eye has already passed them, which reads as lag. Keep it under 40ms
+    and cap how many participate.</li>
+    <li><strong>Anything a returning user sees daily.</strong> A 900ms hero orchestration is
+    delightful once and a tax on the fortieth visit.</li>
+    <li><strong>Exits.</strong> Almost never stagger an exit. The user has decided; drawn-out
+    departure reads as the interface arguing. If you must, reverse the order and halve every
+    number — which is 0001's enter/exit asymmetry applied to a group.</li>
+  </ul>
+
+  <h2>Retrieval</h2>
+
+  <div data-quiz data-quiz-title="Retrieval check">
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">Twelve cards, each animating for 400ms with a 120ms stagger step.
+        What is wrong with it?</p>
+      <button data-opt>The last card arrives 1.7 seconds in</button>
+      <button data-opt>The overlap ratio is far too low</button>
+      <button data-opt>The easing curve must be linear</button>
+      <p data-explain>Total is 400 + 11 × 120 = 1720ms. The overlap ratio is 120 ÷ 400 = 0.3,
+        which is fine — so this is a total-length failure, not an overlap one. The two numbers
+        fail independently, and you have to check both.</p>
+    </div>
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">You see <code>stagger: { amount: 0.6 }</code> in someone's GSAP.
+        What does it mean?</p>
+      <button data-opt>600ms spread across all items</button>
+      <button data-opt>600ms of delay before each item</button>
+      <button data-opt>Six hundred milliseconds per item</button>
+      <p data-explain><code>amount</code> is the total spread, divided among however many
+        elements there are — so the entrance keeps its length as the count changes.
+        <code>stagger: 0.6</code> without the object would mean 600ms <em>each</em>.</p>
+    </div>
+
+    <div data-q data-answer="3">
+      <p class="qz-stem">Boxes with <code>animation-delay</code> flash visible, blink out, then
+        animate in. The fix?</p>
+      <button data-opt>Shorten every one of the delays</button>
+      <button data-opt>Swap the keyframes start and end</button>
+      <button data-opt>Add animation-fill-mode: backwards</button>
+      <p data-explain>During its delay an element sits in its resting state unless a fill mode
+        says otherwise. <code>backwards</code> adopts the first keyframe early;
+        <code>both</code> also holds the last one after.</p>
+    </div>
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">A dropdown's eight menu items stagger in at 40ms each. Why is this
+        worse than fading the whole menu?</p>
+      <button data-opt>Eight animations cost too much GPU</button>
+      <button data-opt>It delays when the list is readable</button>
+      <button data-opt>Menus cannot use transition-delay</button>
+      <p data-explain>The user opened the menu to choose. Stagger postpones the moment the
+        options can be scanned, so the motion is pure latency on an action already committed
+        to. Animate the container.</p>
+    </div>
+
+    <div data-q data-answer="3">
+      <p class="qz-stem">A hero's two side-by-side buttons currently have consecutive stagger
+        indices. Why collapse them to one?</p>
+      <button data-opt>Because two animations are slower</button>
+      <button data-opt>Because buttons should never animate</button>
+      <button data-opt>They are one unit, not a sequence</button>
+      <p data-explain>Stagger asserts priority. A button pair is a single decision the user
+        wants to compare at a glance, so sequencing them invents a hierarchy that isn't there.
+        Stagger between groups, not between every element.</p>
+    </div>
+
+  </div>
+
+  <h2>Read this next</h2>
+
+  <p><strong>Primary source:</strong> <a href="https://gsap.com/resources/getting-started/Staggers/">GSAP
+  — Staggers</a>. Even though we're writing CSS, this is the clearest statement of the whole
+  model anywhere: <code>each</code> versus <code>amount</code>, <code>from: "center"</code>,
+  and grid-aware staggering across rows and columns. Read it as vocabulary for what you saw in
+  the lab.</p>
+
+  <p>If you want the same ideas in the React-flavoured stack, <a
+  href="https://motion.dev/docs/stagger">Motion's <code>stagger()</code></a> is a short page and
+  the API mirrors GSAP's closely. And <a
+  href="https://developer.mozilla.org/en-US/docs/Web/CSS/animation-fill-mode">MDN on
+  <code>animation-fill-mode</code></a> is the two-minute version of the mistake above.</p>
+
+  <div class="ask-teacher">
+    <p><strong>I'm your teacher here — ask me things.</strong> This lesson is the natural place
+    to bring me a real page. Good asks: <em>“orchestrate the entrance for this section I'm
+    building”</em>, <em>“break down the stagger on [any site]”</em>, or <em>“show me grid-aware
+    stagger, diagonal from a corner”</em>.</p>
+    <p>You're also now three lessons in with enough vocabulary to argue back. If a rule here
+    contradicts something you've seen work, say so — that's the useful conversation.</p>
+  </div>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal → →</a>
+      <a href="0002-the-four-property-budget.html">← Lesson 0002 — The four-property budget</a>
+      <a href="0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing (printable)</a>
+      <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers (printable)</a>
+      <a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course (printable)</a>
+      <a href="../reference/04-the-workbench.html">Reference 04 — The Workbench (every lab, live)</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+      <a href="0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal →</a>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/stagger-lab.js"></script>
+<script src="../assets/playground.js"></script>
+<script src="../assets/quiz.js"></script>

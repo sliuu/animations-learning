@@ -1,0 +1,273 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D004 — The button</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lesson D004 · 16 minutes</p>
+    <h1>The button</h1>
+    <p class="dek">Not one animation. Seven states, each of which answers a different question
+      the user is holding — and the one everybody argues about in review is the least important
+      of them.</p>
+    <div class="meta">
+      <span>Skill: review a control by what it promises, state by state</span>
+      <span><a href="D003-motion-is-hierarchy.html">← Lesson D003</a></span>
+    </div>
+  </header>
+
+  <p class="lead">A button is the smallest complete piece of interaction design in software, and
+  it is the only one you can hold entirely in your head. Everything a bigger flow has to do — say
+  it is available, say it heard you, say it is working, say it worked — a button has to do too,
+  inside a hundred pixels and about two seconds.</p>
+
+  <div class="callout">
+    <span class="label">Say it out loud</span>
+    <p><strong>State</strong> — a condition a control can be in. A button has about seven, not
+    one.<br>
+    <strong>Affordance</strong> — the signal that something can be acted on, given before anyone
+    touches it.<br>
+    <strong>Acknowledgement</strong> — the reply that says <em>heard you</em>, sent before the
+    result exists.<br>
+    <strong>Pending</strong> — the stretch where the system has your instruction and no answer
+    yet.<br>
+    <strong>Optimistic</strong> — showing the result before it is confirmed, and handling being
+    wrong later.<br>
+    <strong>Scrub</strong> — progress tied 1:1 to something the user is doing, and can
+    reverse.<br>
+    <strong>Snap-back</strong> — the return when a gesture is abandoned or refused.</p>
+  </div>
+
+  <p>Here is one save button, wired up properly, with a switch for each state. Switching a state
+  off doesn't break the button — the click still saves, every time. It only removes what the
+  button <em>says</em> while that is happening.</p>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <ol>
+      <li>Click each switch once and watch the button: every switch plays its own state, so
+        you can see all five without having to catch them.</li>
+      <li>Click them all back on. Press the button as it comes, with a real mouse-down, and read
+        the five lines beside it.</li>
+      <li>Switch <strong>Press</strong> off — the switch plays the moment again and there is
+        nothing in it. Now click the button for real. Notice how long you wait before you believe
+        anything happened.</li>
+      <li>Switch <strong>Pending</strong> off too and click. Now do the thing you just felt like
+        doing.</li>
+      <li>Switch <strong>Success</strong> off. Everything works. Nothing was ever confirmed.</li>
+    </ol>
+  </div>
+
+  <div data-state-lab data-title="Five switches, one save"></div>
+
+  <p>Every one of those states is answering a question, and the questions arrive in order.
+  <em>Can I press this, and is it the one I mean?</em> — hover. <em>Where am I?</em> — focus.
+  <em>Did that land?</em> — press. <em>Is it working, or is it stuck?</em> — pending.
+  <em>Did it work?</em> — success. A button with a beautiful hover and no press state has answered
+  the least urgent question on the list and skipped the most urgent one.</p>
+
+  <p>Press is the one that gets cut, and it gets cut because its absence is invisible in every
+  medium a design gets reviewed in. It isn't in the mockup. It isn't in the spec. It isn't in the
+  screenshot in the pull request. The only place it shows up is under a finger, and the only
+  symptom is that people click twice.</p>
+
+  <div class="callout">
+    <span class="label">The one to remember</span>
+    <p>The press state is the only feedback you can give in under a hundred milliseconds, because
+    it is the only one that doesn't have to wait for an answer. Everything else on the screen is
+    at the mercy of the network. That one is free, and it is the one that stops the second
+    click.</p>
+  </div>
+
+  <p class="sidenote"><strong>If you have read the engineering track:</strong> lesson 0010 is the
+  mechanics of this — how far to scale, why down and not up, why the release is slower than the
+  press. This is the reason to bother: the press state is not a flourish, it is the receipt.</p>
+
+  <h2>Nothing is a state, and it is the worst one</h2>
+
+  <p>Run the lab with pending switched off and watch the nine hundred milliseconds in the middle.
+  The screen is not doing something inadequate; it is doing nothing at all, and it is identical to
+  the screen from before the click. Which means the user cannot distinguish <em>working</em> from
+  <em>the click missed</em> from <em>this app is broken</em> — three very different situations
+  rendered as the same pixels.</p>
+
+  <p>The job of a pending state isn't really to entertain someone for a second. It is to make the
+  button <strong>inert</strong> — unresponsive on purpose — while keeping it legible. Those two
+  have to happen together, and the common mistake is to get inert by reaching for
+  <code>disabled</code>, which greys the label out. Grey means <em>you can't do this</em>. You want
+  <em>I am doing this</em>. Same inertness, opposite sentence.</p>
+
+  <p>Which is the honest version. The other option is <strong>optimistic</strong>: show the result
+  immediately, before the server has agreed, and roll it back if you were wrong. A heart that fills
+  the instant you tap it is optimistic — and it is the right call, because it is nearly always
+  right and the cost of being wrong is a heart quietly emptying again. A payment button is not,
+  because the cost of being wrong is a person who believes they have paid. The rule is not about
+  how long the request takes. It is about what a retraction would cost.</p>
+
+  <h2>Disabled is usually an error message with the text removed</h2>
+
+  <p>The seventh state is the one the lab doesn't switch, because it deserves an argument rather
+  than a toggle. A disabled button is doing two things: refusing, and refusing to say why. The
+  reason exists — a required field is empty, the plan doesn't include this, you already used your
+  three — and the design has decided to hold it back until the user guesses.</p>
+
+  <p>The alternative is nearly always better and nearly never done: leave the button live, and
+  spend the press on the explanation. They press <em>Publish</em>, nothing publishes, and the
+  empty field it needs gets flagged and focused. That is one extra state and one fewer dead end,
+  and it works on a touchscreen, where the tooltip strategy has never worked at all.</p>
+
+  <p>Keep disabled for the case where the reason is already visible on screen and nobody could
+  miss it — the empty cart, the unticked terms box directly above. If you have to write a tooltip
+  to explain the disabled state, the tooltip is the admission that the button should not have been
+  disabled.</p>
+
+  <h2>The state you are inside</h2>
+
+  <p>Every state so far is momentary: the button decides what to say and says it. There is one
+  more kind, and it changes the shape of the problem — the state the user is <em>inside</em>, and
+  can leave.</p>
+
+  <p>Hold-to-confirm is the smallest example there is. Progress is <strong>scrubbed</strong> by the
+  finger, at the finger's pace, and it can be abandoned at any point. Three knobs here, and all
+  three are design decisions rather than tuning: how long you make somebody commit for, whether
+  you show them the commitment, and what letting go early means.</p>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <ol>
+      <li>Hold it to the end at <strong>1100&nbsp;ms</strong>. Then hold it and let go at about
+        halfway.</li>
+      <li>Set progress to <strong>nothing</strong> and try to delete the project. It still works
+        perfectly.</li>
+      <li>Back to a fill. Set <strong>2500&nbsp;ms</strong> and hold it all the way. Sit with how
+        long that is.</li>
+      <li>Set early release to <strong>it keeps the progress</strong> and let go twice in a row.</li>
+    </ol>
+  </div>
+
+  <div data-hold-lab data-title="Hold to confirm"></div>
+
+  <p>With the indicator off, the button is functionally perfect and unusable, which is a cleaner
+  proof than an argument: the progress fill is not decoration on the interaction, it <em>is</em>
+  the interaction. Without it there is no way to know the hold is working, no way to know how much
+  is left, and no reason to keep holding. A gesture with no progress feedback is a gesture nobody
+  completes.</p>
+
+  <p>And the release is where the design actually lives. Letting go at 40% has to <strong>snap
+  back</strong>, visibly and quickly — the user needs to see the thing they escaped from being
+  undone. Keeping the progress feels reasonable in a spec and is quietly horrible in the hand: the
+  button is now armed, and nothing told you. The snap-back also runs shorter than the hold that
+  earned it, on purpose. A return is a dismissal, not a rewind, and it shouldn't charge you again
+  for the time you already spent.</p>
+
+  <p class="sidenote"><strong>If you have read the engineering track:</strong> this is 0008's
+  argument arriving from the design side. Once the user is inside the state, duration stops being
+  the unit you think in — the finger sets the pace, and the only thing you get to time is what
+  happens after they let go.</p>
+
+  <p>Two-and-a-half seconds is worth sitting with because it ships. Hold-to-confirm is a good
+  pattern when the action is destructive <em>and</em> frequent — a dialog every time would be worse
+  than the risk. It is a bad pattern when the action is destructive and rare: nobody discovers it,
+  they tap, nothing happens, and they conclude the button is broken. Its real cost is that it has
+  to be learned, and you only get to spend that once.</p>
+
+  <div data-quiz data-quiz-title="What did that promise?">
+    <div data-q data-answer="3">
+      <p class="qz-stem">A team ships a button with a considered hover, a clean focus ring and a
+        spinner while the request is in flight — but no press state. What is the predictable
+        symptom?</p>
+      <button data-opt>The button will feel slow, because the spinner starts late.</button>
+      <button data-opt>Keyboard users will be unable to tell where they are.</button>
+      <button data-opt>People will click it twice, because nothing acknowledges the first click
+        until the network does.</button>
+      <button data-opt>Nothing — the spinner covers the same need as a press state.</button>
+      <p data-explain>The spinner cannot appear until the request starts, and the request cannot
+        start until the click has already gone unanswered for a moment. The press state is the
+        only feedback that doesn't depend on anything.</p>
+    </div>
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">A <em>Send invoice</em> button is set to update optimistically: the row
+        shows <em>Sent</em> the instant it is clicked, and reverts if the request fails. What is
+        wrong with that choice?</p>
+      <button data-opt>Optimistic updates are always wrong for anything involving money.</button>
+      <button data-opt>The cost of being wrong is high — someone believes an invoice went out
+        when it didn't — and optimism is only worth it when a retraction is cheap.</button>
+      <button data-opt>It will feel too fast to be believable.</button>
+      <button data-opt>Nothing, as long as the revert is animated clearly.</button>
+      <p data-explain>The question is never how long the request takes; it is what a retraction
+        costs. A like reverting is a shrug. An invoice un-sending is a phone call.</p>
+    </div>
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">A <em>Publish</em> button is disabled until three fields are filled, and
+        a tooltip on hover explains which. Why is this still a bad design?</p>
+      <button data-opt>The explanation is hidden behind a hover, which doesn't exist on touch —
+        and needing a tooltip is the sign the button shouldn't be disabled.</button>
+      <button data-opt>Disabled buttons should always be hidden instead.</button>
+      <button data-opt>Three fields is too many to require before publishing.</button>
+      <button data-opt>Because a tooltip cannot be styled consistently across browsers.</button>
+      <p data-explain>Leave the button live and spend the press: flag and focus the first missing
+        field. Same refusal, with the reason attached, and it works on a phone.</p>
+    </div>
+
+    <div data-q data-answer="4">
+      <p class="qz-stem">In a hold-to-confirm control, letting go at 60% leaves the progress fill
+        where it is rather than returning it. What has that state promised?</p>
+      <button data-opt>Nothing — a partial hold has no meaning, so leaving it is neutral.</button>
+      <button data-opt>That the action is 60% complete.</button>
+      <button data-opt>That holding again will resume rather than restart, which is helpful.</button>
+      <button data-opt>That the control is armed and closer to firing than it was, with nothing
+        saying whether it is or not — the one ambiguity a destructive control cannot afford.</button>
+      <p data-explain>Abandoning a gesture should look like abandoning it. The snap-back is how
+        the user sees that they got out, and on a destructive action that reassurance is the
+        entire point of the pattern.</p>
+    </div>
+  </div>
+
+  <h2>What you can now do</h2>
+
+  <p>Review a control by walking its states out loud instead of reacting to its animation. Name
+  the question each one answers, and find the one that isn't answered — it will usually be press,
+  pending, or the reason behind a disabled. The sentence that gets you there is not <em>I think
+  the button needs more polish.</em> It is: <em>what does this button say between the click and
+  the response?</em></p>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="D005-things-you-drag.html">Design track D005 — Things you drag →</a>
+      <a href="D003-motion-is-hierarchy.html">← Design track D003 — Motion is hierarchy</a>
+      <a href="D002-where-things-live.html">Design track D002 — Where things live when they're off screen</a>
+      <a href="D001-the-map-and-the-words.html">Design track D001 — The map, and the words for it</a>
+      <a href="0013-reveals-with-clip-path.html">Lesson 0013 — Reveals with clip-path</a>
+      <a href="0012-things-that-just-appeared.html">Lesson 0012 — Things that just appeared</a>
+      <a href="0011-layout-animation.html">Lesson 0011 — Layout animation</a>
+      <a href="0010-hover-and-press.html">Lesson 0010 — Hover and press</a>
+      <a href="0009-reduced-motion.html">Lesson 0009 — Reduced motion</a>
+      <a href="0008-springs.html">Lesson 0008 — Springs</a>
+      <a href="0007-transform-origin.html">Lesson 0007 — Transform-origin</a>
+      <a href="0006-choosing-a-tool.html">Lesson 0006 — Choosing a tool</a>
+      <a href="0005-exits.html">Lesson 0005 — Exits</a>
+      <a href="0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal</a>
+      <a href="0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration</a>
+      <a href="0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+      <a href="0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing (printable)</a>
+      <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers (printable)</a>
+      <a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course (printable)</a>
+      <a href="../reference/04-the-workbench.html">Reference 04 — The Workbench (every lab, live)</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+      <span style="color:var(--ink-faint)">Next: <strong>D006 — Decks, and what the dots
+        promise</strong>. Carousels, paging and swipe — and an indicator that is making a promise
+        about how much is left.</span>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/state-lab.js"></script>
+<script src="../assets/hold-lab.js"></script>
+<script src="../assets/quiz.js"></script>

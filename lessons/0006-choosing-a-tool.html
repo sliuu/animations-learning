@@ -1,0 +1,346 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0006 — Choosing a tool</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lesson 0006 · 20 minutes</p>
+    <h1>Choosing a tool, and why it&nbsp;matters&nbsp;less than you think</h1>
+    <p class="dek">Five lessons have name-dropped CSS, <code>el.animate()</code>, Motion and
+      GSAP without ever telling you when to reach for which. Here's the decision rule, from
+      first principles, in about six minutes of reading and one lab.</p>
+    <div class="meta">
+      <span>Skill: pick the cheapest tool that can do the job, and say why</span>
+      <span><a href="0005-exits.html">← Lesson 0005</a></span>
+    </div>
+  </header>
+
+  <p class="lead">Libraries don't save you judgment. They save you plumbing.</p>
+
+  <p>Everything you've learned so far — ease-out in, ease-in out, exits at half, transform and
+  opacity only, overlap under 0.35, reveals get a trigger — is <em>tool-independent</em>. Those
+  are the decisions. A library can't make any of them for you, and picking the wrong one won't
+  save a badly-timed animation.</p>
+
+  <p>So the question isn't "which tool is best." It's narrower and much easier to answer:
+  <strong>what does this specific animation need to be able to do?</strong> Four things
+  separate the tools, and you can feel all four in about ninety seconds.</p>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <ol>
+      <li>Hit <strong>Play</strong>. All three lanes look identical. That's the point — for a
+        plain one-shot animation, the tool genuinely doesn't matter.</li>
+      <li>Hit <strong>Interrupt at 40%</strong> and watch lane 2 specifically.</li>
+      <li>Hit <strong>Pause at 40%</strong> and watch lane 1 specifically.</li>
+      <li>Hit <strong>Seek to 40%</strong> and read all three status lines.</li>
+    </ol>
+    <p>The highlighted row in the table below the lab is the capability you just tested.</p>
+  </div>
+
+  <div data-tool-lab data-title="One effect, three implementations"></div>
+
+  <h2>What you just saw</h2>
+
+  <p><strong>Play</strong> is a tie. Three different technologies, one indistinguishable
+  result. Most animation on most sites is exactly this: something changes, something moves,
+  it's over. If that's your whole requirement, use the simplest thing that works and stop
+  thinking about it.</p>
+
+  <p><strong>Interrupt</strong> is where lane 2 falls apart. The transition eases back from
+  wherever it had got to — 40-ish percent — because a transition interpolates from the
+  <em>current computed value</em>, always. The keyframe animation snaps to zero, because a
+  running <code>@keyframes</code> owns the property outright: take the animation away and the
+  element is instantly wherever the base rule says it is. There is no "from here."</p>
+
+  <p><strong>Pause</strong> flips the loser. Keyframes have
+  <code>animation-play-state: paused</code>. Transitions have nothing — no pause, no scrub, no
+  playhead of any kind. A transition is a one-way trip between two states that the browser is
+  managing on your behalf, and you are not invited.</p>
+
+  <p><strong>Seek</strong> is where the Web Animations API stops being optional. Lane 3 sets
+  <code>currentTime</code> to a number and lands there. Lane 2 gets there with a negative
+  <code>animation-delay</code>, which works and is a genuinely useful trick, but the moment you
+  are computing negative delays to fake a playhead you have outgrown declarative CSS. Lane 1
+  can't participate at all.</p>
+
+  <div class="callout principle">
+    <span class="label">The rule this gives you</span>
+    <p>A <strong>CSS transition</strong> is a rule about two states. A <strong>CSS keyframe
+    animation</strong> is a recording you can start and stop. The <strong>Web Animations
+    API</strong> is the same recording with a playhead you can hold.</p>
+    <p>Pick by what you need to hold onto.</p>
+  </div>
+
+  <h2>The four real tools</h2>
+
+  <p>Now the table is consolidation rather than introduction, because you've felt three of the
+  four.</p>
+
+  <table>
+    <thead>
+      <tr><th>Tool</th><th>Reach for it when</th><th>Cost</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>CSS transition</strong></td>
+        <td>Two states, and the user can change their mind. Hover, focus, open/closed,
+          selected. <em>Interruptible by default</em>, which is why it's the right default for
+          interactive UI.</td>
+        <td>0 KB</td>
+      </tr>
+      <tr>
+        <td><strong>CSS keyframes</strong></td>
+        <td>Three or more steps, or it loops, or it runs on its own without a state change. A
+          spinner, a pulse, a marquee, a page-load entrance.</td>
+        <td>0 KB</td>
+      </tr>
+      <tr>
+        <td><strong>Web Animations API</strong><br><code>el.animate()</code></td>
+        <td>You need the playhead: pause, seek, reverse from here, read progress, know exactly
+          when it's finished (<code>.finished</code> is a promise). Also when the keyframes
+          themselves are computed at runtime.</td>
+        <td>0 KB</td>
+      </tr>
+      <tr>
+        <td><strong>Motion</strong><br><span style="color:var(--ink-faint)">motion.dev</span></td>
+        <td>React, and specifically: animating things that are being <em>removed from the
+          tree</em>, layout animations, and springs. All three are painful by hand.</td>
+        <td>~18–34 KB</td>
+      </tr>
+      <tr>
+        <td><strong>GSAP</strong></td>
+        <td>Choreography — a timeline with a dozen things at labelled offsets — and
+          ScrollTrigger. Marketing pages, hero sequences, scroll-driven narrative.</td>
+        <td>~23 KB + plugins</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="sidenote">The first three are free in every sense: no download, no dependency, no
+  version to keep current, and no risk that the animation is missing while a bundle loads. That
+  is a real argument, not a purist one. Reach past them when there's a capability you actually
+  need — not by default.</p>
+
+  <h2>What the two libraries actually give you</h2>
+
+  <p>Both get described as "animation libraries," which hides the fact that they solve
+  completely different problems.</p>
+
+  <h3>Motion solves React's problem, not animation's</h3>
+
+  <p>Lesson 0005 named the hardest part of an exit: the element has to <em>outlive the state
+  change that removed it</em>. In plain CSS you now know two answers — <code>allow-discrete</code>
+  with <code>@starting-style</code>, or a <code>setTimeout</code> matching the duration. In
+  React neither works, because when state says the component is gone, React removes it from the
+  DOM on the next render and there is nothing left to animate.</p>
+
+  <p><code>AnimatePresence</code> is the fix, and it is worth understanding that it is not
+  magic: it keeps the component mounted after you've said to remove it, runs the exit, and
+  <em>then</em> unmounts. Delayed removal, with the bookkeeping done for you.</p>
+
+  <p>Two more things Motion does that are genuinely hard by hand:</p>
+
+  <ul>
+    <li><strong>Layout animations.</strong> An element's position changes because the layout
+      changed — an item was filtered out, a card moved to a new column. Motion measures before
+      and after and animates the difference with a transform. That's the FLIP technique, and
+      doing it by hand is measurably annoying.</li>
+    <li><strong>Springs.</strong> Motion expresses stiffness and damping instead of duration and
+      curve, which is a different model of time — one that survives interruption naturally
+      because the spring just gets a new target. That's its own lesson.</li>
+  </ul>
+
+  <p class="sidenote">No JSX in this lesson, deliberately. When Motion arrives properly it gets
+  a lesson of its own, with the React parts introduced slowly.</p>
+
+  <h3>GSAP solves choreography</h3>
+
+  <p>Everything in lesson 0003 was one group with one stagger, which CSS handles fine. GSAP
+  earns its place when the sequence has <em>structure</em>: this starts, then this overlaps by
+  0.2s, then these four stagger, then the whole block reverses on a scroll-out. A GSAP timeline
+  is a first-class object — you can name positions, insert relative to a label, reverse the
+  whole thing, and seek to any point in it.</p>
+
+  <p>Expressing that in CSS means hand-computing every delay, and then re-computing all of them
+  when you change one duration. That arithmetic is the plumbing GSAP saves you.</p>
+
+  <p>The other half is <strong>ScrollTrigger</strong>, which is the scrub half of lesson 0004
+  done properly — pinning, snapping, scrub with smoothing, and a set of callbacks at the
+  boundaries. Native scroll-driven CSS is genuinely closing the gap for simple cases; it does
+  not yet do pinning.</p>
+
+  <div class="callout">
+    <span class="label">Worth knowing</span>
+    <p>Your north star, <a href="https://claude.com/claude-for-chrome">claude.com/claude-for-chrome</a>,
+    is GSAP. Emil Kowalski's work, the other north star, is mostly CSS and Motion. Both are
+    correct choices for what they are: a choreographed marketing page, and interactive product
+    UI. The tool follows the job.</p>
+  </div>
+
+  <h2>The decision, in the order you should ask it</h2>
+
+  <div class="callout principle">
+    <span class="label">Five questions, top to bottom</span>
+    <ol>
+      <li><strong>Can it be two states?</strong> → CSS transition. Stop here most of the time.</li>
+      <li><strong>Does it loop, or have 3+ steps, or run unprompted?</strong> → CSS keyframes.</li>
+      <li><strong>Do I need to pause, seek, reverse from here, or await the end?</strong>
+        → <code>el.animate()</code>.</li>
+      <li><strong>Is it React, and is the thing unmounting — or moving because layout changed?</strong>
+        → Motion.</li>
+      <li><strong>Is it a sequence with structure, or scroll choreography with pinning?</strong>
+        → GSAP.</li>
+    </ol>
+  </div>
+
+  <p>Read that top-down and take the first yes. The order isn't arbitrary — it goes from least
+  to most machinery, and the honest observation about production code is that most of it should
+  stop at line 1 and a lot of it stops at line 2.</p>
+
+  <h2>The mistake this lesson exists to prevent</h2>
+
+  <p>Reaching for GSAP to fade in a card.</p>
+
+  <p>It's a common one, and it doesn't look like a mistake, because the result is fine. The cost
+  is indirect: a dependency for something the platform does natively, an animation that can't
+  start until JavaScript has loaded and parsed, and — the part that actually bites — the loss of
+  the free interruptibility you got in lane 1 of the lab. GSAP <em>can</em> be interruptible, but
+  you have to arrange it.</p>
+
+  <p>The inverse mistake is rarer but more expensive: hand-writing a twelve-step timeline with
+  <code>setTimeout</code> because adding a library felt like defeat. If you find yourself
+  maintaining a table of delays, the library was always the right call.</p>
+
+  <h2>What doesn't change, no matter what you pick</h2>
+
+  <p>Everything that matters, which is the actual point of this lesson.</p>
+
+  <ul>
+    <li>Ease-out for entrances, ease-in for exits. GSAP calls it <code>power2.out</code>; Motion
+      takes an array or a named ease; CSS takes a <code>cubic-bezier</code>. Same curve.</li>
+    <li>Exits run about half the entrance. No library defaults to this. You have to decide it.</li>
+    <li><code>transform</code> and <code>opacity</code> are free; everything else buys pipeline
+      stages. GSAP animating <code>width</code> costs Layout every frame exactly like CSS
+      animating <code>width</code> does.</li>
+    <li>Overlap ≤ 0.35, and check the total separately. GSAP's <code>stagger</code> makes the
+      arithmetic easier; it does not make a 2-second hero entrance acceptable.</li>
+    <li><code>prefers-reduced-motion</code> is yours to honour in all five.</li>
+  </ul>
+
+  <p>A library that made those decisions for you would be a design system, not an animation
+  library. None of these are.</p>
+
+  <div data-quiz data-quiz-title="Check yourself">
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">A dropdown opens and closes. The user can click the trigger rapidly.
+        What should it be built with?</p>
+      <button data-opt>A CSS transition</button>
+      <button data-opt>A CSS keyframe animation</button>
+      <button data-opt>GSAP, so the timeline can be reversed</button>
+      <p data-explain>Two states, and interruption matters — which is exactly the transition's
+        one superpower. It interpolates from the current computed value, so a half-open menu
+        closes from half-open. A keyframe animation would snap; GSAP would work but you'd be
+        arranging by hand what you get for free.</p>
+    </div>
+
+    <div data-q data-answer="3">
+      <p class="qz-stem">You need to know the exact moment an animation finishes, so you can
+        focus an input afterwards. Cheapest tool?</p>
+      <button data-opt>Motion — it has an onComplete callback</button>
+      <button data-opt>A CSS transition plus a setTimeout matching the duration</button>
+      <button data-opt><code>el.animate()</code>, then await its <code>.finished</code> promise</button>
+      <p data-explain>WAAPI is built into the browser and gives you a real promise that resolves
+        when the animation actually ends — no duplicated duration constant to drift out of sync.
+        (A <code>transitionend</code> listener also works, but it fires per property and can be
+        missed if the transition is interrupted.)</p>
+    </div>
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">A list re-orders when the user changes the sort. Items should slide to
+        their new positions. This is React.</p>
+      <button data-opt>CSS keyframes on each item, with a computed delay</button>
+      <button data-opt>Motion's layout animations</button>
+      <button data-opt>A CSS transition on <code>top</code></button>
+      <p data-explain>Positions change because layout changed, so you can't know the distances
+        ahead of time — they have to be measured before and after and played back as transforms.
+        That's FLIP, and it's precisely what Motion's layout animations do for you. Transitioning
+        <code>top</code> would also cost Layout on every frame.</p>
+    </div>
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">A single card fades and slides up when the page loads. Which tool?</p>
+      <button data-opt>CSS — transition or keyframes, either is fine</button>
+      <button data-opt>GSAP, so it matches the rest of the marketing stack</button>
+      <button data-opt>WAAPI, for the finer control</button>
+      <p data-explain>No interruption, no seeking, no sequence. Every tool produces an identical
+        result, so the cheapest one wins — and the CSS version starts painting without waiting
+        for a script. This is the case the lab's Play button was making.</p>
+    </div>
+
+    <div data-q data-answer="3">
+      <p class="qz-stem">Which of these does choosing GSAP actually decide for you?</p>
+      <button data-opt>How long the animation should be</button>
+      <button data-opt>Whether the animation should exist</button>
+      <button data-opt>None of them — it decides how you express the sequence, not what's in it</button>
+      <p data-explain>This is the whole lesson. Tools differ in what they let you express and
+        control. Duration, curve, purpose and restraint are yours in every one of them.</p>
+    </div>
+
+  </div>
+
+  <h2>Read this next</h2>
+
+  <p>The <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/animate">MDN page for
+  <code>Element.animate()</code></a> is short and is the fastest way to see that WAAPI isn't
+  exotic — it's keyframes and options, in JavaScript. The <a
+  href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API">API overview</a>
+  covers the playback controls you used in lane 3.</p>
+
+  <p>For the library side, skim rather than study: <a
+  href="https://gsap.com/docs/v3/GSAP/Timeline/">GSAP's Timeline docs</a> to see what
+  choreography-as-an-object looks like, <a
+  href="https://gsap.com/docs/v3/Plugins/ScrollTrigger/">ScrollTrigger</a> for the pinning and
+  scrub features native CSS doesn't have yet, and <a
+  href="https://motion.dev/docs/react-layout-animations">Motion's layout animations</a>, which
+  is the clearest short demonstration of why that one is hard by hand.</p>
+
+  <p>And <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers</a> is new: the
+  six things worth memorising from lessons 0001–0005, and the syntax that isn't. It exists
+  because of your question about how much of this you're supposed to be able to rebuild from
+  memory. The answer is the six, and nothing below the line.</p>
+
+  <div class="ask-teacher">
+    <p><strong>I'm your teacher here — ask me things.</strong> Good asks for this one:
+    <em>“I want to build X — which tool?”</em>, <em>“show me this GSAP snippet rewritten in
+    CSS”</em>, or <em>“what would this lesson's lab look like in Motion?”</em></p>
+    <p>The most useful version of this is a real one: name something you actually want to build,
+    and we'll walk the five questions down the list together.</p>
+  </div>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="0007-transform-origin.html">Lesson 0007 — Transform-origin →</a>
+      <a href="0005-exits.html">← Lesson 0005 — Exits</a>
+      <a href="0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal</a>
+      <a href="0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration</a>
+      <a href="0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+      <a href="0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing (printable)</a>
+      <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers (printable)</a>
+      <a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course (printable)</a>
+      <a href="../reference/04-the-workbench.html">Reference 04 — The Workbench (every lab, live)</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+      <a href="0008-springs.html">Lesson 0008 — Springs</a>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/tool-lab.js"></script>
+<script src="../assets/quiz.js"></script>

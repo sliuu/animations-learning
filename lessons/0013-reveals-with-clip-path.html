@@ -1,0 +1,316 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0013 — Reveals with clip-path</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lesson 0013 · 17 minutes</p>
+    <h1>Reveals with clip-path</h1>
+    <p class="dek">Wipes and masks: the difference between the thing moving and the window over it
+      moving, and how to tell when a rectangle would have done the job for free.</p>
+    <div class="meta">
+      <span>Skill: reveal something without moving it, and know before you write it whether the shape is worth a paint</span>
+      <span><a href="0012-things-that-just-appeared.html">← Lesson 0012</a></span>
+    </div>
+  </header>
+
+  <p class="lead">Lesson 0012 was about an element that had no previous state, and all three answers
+  did the same thing: manufacture the missing first value <em>on the element</em>. A starting
+  opacity, a starting transform, a first keyframe. This lesson is about the other place a change can
+  live — not on the element at all, but on the window in front of it.</p>
+
+  <p>Both get called a reveal. In one, the thing moves and fades into position. In the other, the
+  thing was there the whole time, fully painted, at rest, and the only thing that changes is how
+  much of it you are allowed to see.</p>
+
+  <p>One press drives both panes below, at the same duration and the same easing. The right-hand
+  pane is the fade-and-rise this course has recommended since 0001, built properly — it is not the
+  bad option, it is the other one. Watch the headline rather than the card.</p>
+
+  <div data-reveal-lab data-title="Reveal it, two ways"></div>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <ol>
+      <li>Press <strong>Reveal both</strong> on <em>wipe from the left</em>, then read the two badges
+        under the panes.</li>
+      <li>Drag duration up to about <strong>900ms</strong> and press again. Slow enough to see, and
+        the badges say the same thing.</li>
+      <li>Switch to <strong>open from the centre line</strong>, then <strong>iris out</strong>. Look
+        at the right pane's label while you do.</li>
+      <li>Tick <strong>move the content inside the window too</strong> and press again — that is the
+        combination most reveals in the wild actually are.</li>
+    </ol>
+  </div>
+
+  <h2>Two effects, one word</h2>
+
+  <p>The left pane never renders the headline at partial opacity and never moves it. At any frame
+  you could stop on, the type is either absent or finished — full weight, full contrast, in its
+  final position. The right pane spends its whole flight rendering type that is dimmer and lower
+  than the type you are meant to read.</p>
+
+  <p>Neither of those is wrong, but they say different things. A masked reveal reads as
+  <em>uncovering</em> something that already exists: an editorial header, a hero line, a value that
+  was computed before you asked. A fade-and-rise reads as <em>arriving</em>: a new row, a toast, a
+  result that did not exist a moment ago. When a designer says a reveal feels "too soft" or "too
+  tentative", nine times out of ten they are describing a fade where a mask was wanted, and the
+  fix is not a different easing curve.</p>
+
+  <p>The three shapes where the right pane's label changes to <em>opacity only — no equivalent</em>
+  are the real argument. There is no way to move a block of type so that it arrives from its own
+  centre line, or from a hole in the middle of itself. Those pictures exist only if something is
+  clipping.</p>
+
+  <h2>The shape is what stays</h2>
+
+  <p><code>clip-path</code> takes a shape and keeps what is inside it. Everything outside is not
+  drawn — not transparent, not moved, not there. The element's layout box does not change, so
+  nothing around it reflows, and hit-testing follows the visible shape.</p>
+
+  <pre><code>clip-path: inset(0 100% 0 0);      /* right edge all the way in */
+clip-path: inset(0 0 0 0);         /* every edge at rest: all of it */
+clip-path: inset(0 0 0 0 round 14px);   /* the card's own corners */
+clip-path: circle(0% at 50% 52%);  /* a radius, and its centre */
+/* any straight-edged shape, and percentages may go outside 0-100% */
+clip-path: polygon(0 0, 134% 0, 100% 100%, -34% 100%);</code></pre>
+
+  <p>The four numbers in <code>inset()</code> are distances <em>inward</em> from top, right, bottom
+  and left — the same order as <code>margin</code>. So a left-to-right wipe is one number moving
+  from <code>100%</code> to <code>0</code>, and the direction of the wipe is which edge you chose to
+  animate. Percentages in a polygon may go outside <code>0–100%</code>, which is how the diagonal
+  gets its overhang: the top-right corner sits at <code>134%</code> so the tilted edge finishes past
+  the card instead of cutting the corner off.</p>
+
+  <p>There is one rule that will cost you an afternoon if you learn it the hard way. <strong>A shape
+  only interpolates against its own kind.</strong> Inset to inset, circle to circle, polygon to
+  polygon with the same number of vertices. Cross a type boundary — inset to circle, or a four-point
+  polygon to a five-point one — and there is no animation: the browser holds the first shape, swaps
+  to the second at the halfway mark, and holds that. It is not an error and nothing is logged, so it
+  looks exactly like a broken duration.</p>
+
+  <div class="sidenote">
+    <p>Same failure mode as 0012's, in a different costume: the animation was never eligible, so
+    there is nothing to report. The instrument is the same too — <code>getAnimations()</code> will
+    show you a running animation with a sensible duration, which tells you the problem is the
+    <em>values</em>, not the mechanism.</p>
+    <p>Practical consequence: if you need a rectangle to become a circle, build the rectangle as a
+    <code>circle()</code> big enough to cover it, or as a polygon with the vertex count you will end
+    on. Decide the shape family before you decide the animation.</p>
+  </div>
+
+  <h2>What it costs, and the question that actually decides it</h2>
+
+  <p>Lesson 0002 put <code>clip-path</code> in the <strong>on credit</strong> row: it skips layout,
+  so it will never cause the catastrophic kind of jank, but it is not free the way
+  <code>transform</code> and <code>opacity</code> are — it re-paints, and the bill scales with the
+  area being painted rather than with how complicated the shape is.</p>
+
+  <p>That framing is true and it is also not how you make the decision, because "is it expensive"
+  has no answer without a number of elements and a size. The question that decides it is a
+  capability question, and you can answer it before you write anything: <strong>could a rectangle
+  have done this?</strong> Below are three builds of the same reveal — one clipping with
+  <code>clip-path</code>, two clipping with an <code>overflow: hidden</code> wrapper — and five
+  things the reveal might be asked to do.</p>
+
+  <div data-wipe-lab data-title="One picture, three builds"></div>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <ol>
+      <li>On <strong>just reveal it</strong>, press <strong>Reveal all three</strong>. Three
+        identical pictures. Read what the left pane's verdict says about itself anyway.</li>
+      <li><strong>The type must not move</strong> — watch the third pane, and read the pixel count
+        under each one.</li>
+      <li><strong>The window keeps the card's corners</strong>. This is the one that surprises
+        people: the middle build fails and the cheapest build wins.</li>
+      <li><strong>A diagonal leading edge</strong> and <strong>open from the centre line</strong>.
+        Both wrapper builds simply cannot, and they fail visibly rather than quietly.</li>
+      <li>Then press <strong>Measure the cost</strong> at 48, at 120, and at 300 copies, and read
+        the note under the table. That is your machine, not a blog post's.</li>
+    </ol>
+  </div>
+
+  <h2>The test, in four questions</h2>
+
+  <p>Ask these in order, and stop at the first <em>yes</em> — a yes means the rectangle cannot do
+  it and the paint is bought honestly.</p>
+
+  <ol>
+    <li><strong>Is the leading edge anything other than horizontal or vertical?</strong> Diagonals,
+      curves, irises, anything you would describe as a shape. <code>overflow: hidden</code> clips to
+      a box and there is no declaration that tilts it.</li>
+    <li><strong>Does the window need more than one moving edge?</strong> Opening from a centre line
+      is two edges at once. A wrapper is one window with one leading edge; two of them means two
+      wrappers and two counter-transforms, which is more CSS than the shape was.</li>
+    <li><strong>Must the content stay perfectly still <em>and</em> keep a radius that stays put?</strong>
+      Either one alone is available to a wrapper. Both together are not: the build that holds the
+      type still is the one whose window travels, and a radius on a travelling window travels
+      with it.</li>
+    <li><strong>Is the element you would have to wrap one you do not control?</strong> A wrapper is
+      a new box in the layout — inside a grid, a flex row, or a component whose children someone
+      else owns, adding one is a change to the layout, not just to the animation.</li>
+  </ol>
+
+  <p>All four <em>no</em>? Then you are looking at a rectangle sliding behind another rectangle, and
+  the two composited transforms are the answer — not because the paint would have been ruinous, but
+  because you would be spending it for a picture you could have had for nothing. That is also the
+  honest answer to the question 0002 left open, <em>is animating clip-path actually safe</em>: yes,
+  at the scale a hero or a header runs at, and the measurement strip above is how you find the point
+  where it stops being true on the hardware you are shipping to.</p>
+
+  <table>
+    <thead>
+      <tr><th>Build</th><th>Animating</th><th>Can express</th><th>Reach for it when</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>clip-path</code></td>
+        <td>Paint tier, on credit</td>
+        <td>Any shape it can name, any number of edges, radius on a moving edge</td>
+        <td>The answer to any of the four questions was yes</td>
+      </tr>
+      <tr>
+        <td>Moving window<br><span style="color:var(--ink-soft)">wrapper + counter-transform</span></td>
+        <td>Two transforms, composited</td>
+        <td>One straight edge, with the content perfectly still</td>
+        <td>Masking type line by line — this is what a split-text library emits</td>
+      </tr>
+      <tr>
+        <td>Static window<br><span style="color:var(--ink-soft)">wrapper + sliding content</span></td>
+        <td>One transform, composited</td>
+        <td>One straight edge, radius that stays put, content that slides</td>
+        <td>The default. Most reveals on the web are this, correctly</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Reduced motion</h2>
+
+  <p>0009's test was whether the movement is the message or the decoration. A wipe is an awkward
+  case for it, because a wipe is not really movement — nothing translates — but it is a large area
+  of the screen changing luminance on a schedule, which is exactly what the vestibular half of that
+  audience is asking you to stop doing.</p>
+
+  <p>So the accommodation is not "make it shorter". It is to keep the reveal and drop the sweep:
+  under <code>prefers-reduced-motion: reduce</code>, a masked entrance becomes an opacity fade of
+  80–120ms, or the element is simply present. The shape was carrying an idea about
+  <em>uncovering</em>; a cross-fade gives up that idea, which is the correct trade, and shortening
+  the wipe to 150ms does not — it just makes the sweep faster and harder to look at.</p>
+
+  <div class="sidenote">
+    <p>Both labs on this page take the stance the course has taken since 0009 and both say so in
+    their source: the motion here <em>is</em> the content, so removing it leaves an empty page rather
+    than a calmer one. Nothing autoplays, nothing loops, and every frame you have seen was the
+    result of a press you made.</p>
+  </div>
+
+  <h2>What you can now do</h2>
+
+  <ol>
+    <li>Reveal something without moving it, and say out loud why that reads differently from a
+      fade-and-rise rather than calling both "a reveal".</li>
+    <li>Write an <code>inset()</code>, a <code>circle()</code> and a <code>polygon()</code> from the
+      picture you want, including a radius on the window.</li>
+    <li>Recognise the halfway-swap failure on sight, and know it is a values problem rather than a
+      broken animation.</li>
+    <li>Decide between a shape and a wrapper before writing either, with four questions and no
+      benchmark.</li>
+    <li>Measure the point where the shape stops being free, on the machine that matters.</li>
+  </ol>
+
+  <div data-quiz data-quiz-title="Retrieval check">
+    <div data-q data-answer="3">
+      <p class="qz-stem">A keyframe animation runs <code>clip-path</code> from
+        <code>inset(0 100% 0 0)</code> to <code>circle(70% at 50% 50%)</code> over 600ms. What do you
+        see?</p>
+      <button data-opt>A smooth morph — the bar rounds off into a circle as it opens.</button>
+      <button data-opt>Nothing at all, because no animation is created from mismatched shapes.</button>
+      <button data-opt>The first shape held, a swap at the halfway mark, then the second shape held.</button>
+      <button data-opt>The animation runs, but at half its stated duration and with linear timing.</button>
+      <p data-explain>Basic shapes interpolate only against their own type — inset to inset, circle to
+        circle, polygon to polygon with a matching vertex count. Anything else is a discrete
+        animation: hold, swap at 50%, hold. The animation genuinely exists and
+        <code>getAnimations()</code> will show it, which is what tells you the values are the problem
+        and not the mechanism.</p>
+    </div>
+
+    <div data-q data-answer="3">
+      <p class="qz-stem">A line of type has to be masked in from the left, must not move a single
+        pixel while it does, and the window has to keep the card's 14px corners exactly where they
+        are. Which build?</p>
+      <button data-opt>A clipping wrapper that travels, with the content counter-transformed back.</button>
+      <button data-opt>A static clipping wrapper, with the line of type sliding in behind it.</button>
+      <button data-opt><code>clip-path: inset(… round 14px)</code> animated on the element itself.</button>
+      <button data-opt>Either wrapper — the corners come from <code>overflow: hidden</code> anyway.</button>
+      <p data-explain>Two demands, and each wrapper build can only meet one of them. The moving
+        window holds the type still, but its radius travels with it, so the corners sweep across the
+        card. The static window keeps its radius exactly on the card, but the only thing that can move
+        is the content, so the type slides. Both together is question 3 of the test, and a yes there
+        buys the paint.</p>
+    </div>
+
+    <div data-q data-answer="3">
+      <p class="qz-stem">A feed of 200 cards, each wiping in from the left with a straight vertical
+        edge as it scrolls into view. You reach for <code>clip-path</code> — one property, no
+        wrapper, nothing added to the layout. What is wrong with the reasoning?</p>
+      <button data-opt>Nothing. One property and no extra element is the cheaper build, and fewer nodes is fewer nodes.</button>
+      <button data-opt><code>clip-path</code> cannot animate a straight vertical edge without a polygon.</button>
+      <button data-opt>It buys a paint-tier animation for a picture two composited transforms would have produced.</button>
+      <button data-opt>Clipped elements can't be hit-tested, so the cards would stop being clickable.</button>
+      <p data-explain>All four questions came back no — one straight edge, one moving edge, a wrapper
+        you control, no radius conflict — so the rectangle could have done it. On one hero card the
+        paint is unmeasurable and the habit is harmless; across 200 scrolling cards it is a bill you
+        chose to be sent for nothing. Fewer nodes is a real argument, just not one worth a paint tier
+        per card — and the measurement strip is there to tell you where your own machine draws that
+        line.</p>
+    </div>
+  </div>
+
+  <div class="ask-teacher">
+    <p><strong>I'm your teacher here — ask me things.</strong> Good asks for this one:
+    <em>“build the hold-to-confirm button, where the window is driven by a pointer instead of a
+    clock”</em>, <em>“show me the split-text line mask as a real component, with the wrapper
+    generated”</em>, <em>“what does <code>clip-path</code> do to a scrolling container, or to a
+    sticky child”</em>, or <em>“take a reveal from a site I like and tell me which of the three
+    builds it is”</em>.</p>
+  </div>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="D001-the-map-and-the-words.html">Design track D001 — The map, and the words for it →</a>
+      <a href="0012-things-that-just-appeared.html">← Lesson 0012 — Things that just appeared</a>
+      <a href="0011-layout-animation.html">Lesson 0011 — Layout animation</a>
+      <a href="0010-hover-and-press.html">Lesson 0010 — Hover and press</a>
+      <a href="0009-reduced-motion.html">Lesson 0009 — Reduced motion</a>
+      <a href="0008-springs.html">Lesson 0008 — Springs</a>
+      <a href="0007-transform-origin.html">Lesson 0007 — Transform-origin</a>
+      <a href="0006-choosing-a-tool.html">Lesson 0006 — Choosing a tool</a>
+      <a href="0005-exits.html">Lesson 0005 — Exits</a>
+      <a href="0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal</a>
+      <a href="0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration</a>
+      <a href="0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+      <a href="0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="D003-motion-is-hierarchy.html">Design track D003 — Motion is hierarchy</a>
+      <a href="D002-where-things-live.html">Design track D002 — Where things live when they're off screen</a>
+      <a href="D001-the-map-and-the-words.html">Design track D001 — The map, and the words for it</a>
+      <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing (printable)</a>
+      <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers (printable)</a>
+      <a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course (printable)</a>
+      <a href="../reference/04-the-workbench.html">Reference 04 — The Workbench (every lab, live)</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+      <span style="color:var(--ink-faint)">Next: <strong>D004 — The button</strong>. The most
+        animated object in software, and the one where the whole argument is settled in under
+        150&nbsp;milliseconds — including the hold-to-confirm this lesson handed over.</span>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/reveal-lab.js"></script>
+<script src="../assets/wipe-lab.js"></script>
+<script src="../assets/quiz.js"></script>

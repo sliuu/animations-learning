@@ -1,0 +1,346 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D007 — Scroll as a timeline</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lesson D007 · 20 minutes</p>
+    <h1>Scroll as a timeline</h1>
+    <p class="dek">A scroll system is choreography for an audience that controls the clock, can
+      reverse it, and may leave at any moment. The design is not the effect. It is how much of
+      that clock each idea is allowed to spend.</p>
+    <div class="meta">
+      <span>Skill: review a scroll system by who owns each frame, how much distance a beat costs, and whether the page keeps the native scroll contract</span>
+      <span><a href="D006-decks-and-dots.html">← Lesson D006</a></span>
+    </div>
+  </header>
+
+  <p class="lead">D006 asked whether a deck's indicator could keep its promise as the content
+  grew. A scroll system makes a larger promise: <em>move your page, and I will move with you</em>.
+  It has to keep that promise whether the reader crawls, flicks, reverses, stops halfway, or skips
+  the section in one gesture.</p>
+
+  <div class="callout">
+    <span class="label">Say it out loud</span>
+    <p><strong>Scroll choreography</strong> — arranging page changes against the reader's travel.<br>
+    <strong>Beat</strong> — one idea with a beginning, a change, and a resting point.<br>
+    <strong>Trigger</strong> — crossing a threshold starts a time-based animation.<br>
+    <strong>Scrub</strong> — scroll position owns animation progress, frame for frame.<br>
+    <strong>Pin</strong> — hold one visual in place while the surrounding story advances.<br>
+    <strong>Parallax</strong> — layers move at different rates to claim depth.<br>
+    <strong>Horizontal section</strong> — vertical travel drives a sideways sequence.<br>
+    <strong>Scroll-jacking</strong> — the page rewrites the distance, direction, or response of the reader's input.</p>
+  </div>
+
+  <p>In the lab, do not start by making it beautiful. Start by deciding what kind of content it
+  is, then make scroll the wrong kind of clock for it on purpose.</p>
+
+  <div data-timeline-lab data-title="One story, four decisions"></div>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <ol>
+      <li>Leave the content on <strong>an entrance</strong> and scroll on
+        <strong>starts each beat</strong>. Drag the little scrollport yourself, then use
+        <strong>Stop halfway</strong>.</li>
+      <li>Change only scroll to <strong>owns every frame</strong>. Stop halfway again. The casualty
+        is on screen: a half-made headline whose reading is conditional on another gesture.</li>
+      <li>Change the content to <strong>an explanation</strong>. The same scrub now earns its place,
+        because the middle frame explains how separate signals become a pattern. Reverse it.</li>
+      <li>Try half a screen, one screen, and two screens per beat. Use
+        <strong>Scroll it for me</strong> so your attention is free for the pace.</li>
+      <li>Let the visual travel away, then turn the depth layers on. Read the verdict after each:
+        pinning and parallax are claims, not polish switches.</li>
+    </ol>
+  </div>
+
+  <h2>First question: must the middle frame mean something?</h2>
+
+  <p>A trigger and a scrub can produce the same first frame and the same last frame. They disagree
+  about every frame between. With a trigger, scroll says <em>begin</em> and then gets out of the
+  way. Time finishes the movement even if the reader stops. With a scrub, scroll never gets out of
+  the way: stop the page at 43%, and the animation must live at 43% indefinitely.</p>
+
+  <p>That gives you the review question: <strong>is 43% a valid picture?</strong> For a decorative
+  entrance it usually is not. Half a clipped headline, half an opacity fade, or a person frozen
+  midway through a gesture is merely unfinished. Trigger it. Let it arrive. For an explanation —
+  an exploded object assembling, a route drawing, before becoming after — 43% may be the entire
+  point. Scrub it, because the reader is inspecting the relationship between states rather than
+  waiting for an entrance to end.</p>
+
+  <p>This is why <em>trigger for product UI, scrub for storytelling</em> is a useful smell and a bad
+  rule. A hero entrance on an expressive page still wants a trigger. A data relationship inside a
+  product can still deserve a scrub. The content of the middle frame decides, not the family the
+  page belongs to.</p>
+
+  <p class="sidenote"><strong>If you have read the engineering track:</strong> 0004 teaches the
+  mechanism as fire versus track. The design test is the sentence above it: stop at 43% and ask
+  whether the frame communicates something complete. If it does not, the mechanism is already
+  chosen before anyone opens an API.</p>
+
+  <h2>Distance is duration</h2>
+
+  <p>A time-based animation asks for milliseconds. A scroll-driven one asks for distance. The
+  reader supplies the speed, so <em>500 milliseconds</em> is not a thing the design can promise;
+  half a viewport, one viewport, or two viewports per beat is.</p>
+
+  <p><strong>A beat</strong> is one idea the page asks the reader to notice before it changes the
+  subject. Give three beats half a screen each and a trackpad flick can consume the whole argument
+  as one visual blur. Give a sentence two screens and the page starts charging admission for a
+  thought that would have taken one line in normal flow. Both are pacing failures. One is rushed;
+  the other is indulgent.</p>
+
+  <p>One viewport per beat is a useful starting point, not a law. Shorten it when the states are
+  obvious and cumulative. Lengthen it when the middle is the content — an assembly, a comparison,
+  a camera move whose spatial relationship needs time to be inspected. Then run the two adversarial
+  gestures: cross the whole section in one fast flick, and creep backwards through it. Every beat
+  still needs a legible resting point, and reverse order still needs to make sense.</p>
+
+  <div class="callout">
+    <span class="label">The one to remember</span>
+    <p>On a scroll timeline, distance is duration. Price every beat in viewport-heights, then ask
+    whether the idea is worth what the reader has to move to receive it.</p>
+  </div>
+
+  <h2>Pinning spends the page on one comparison</h2>
+
+  <p>Pinning holds a visual still while copy, labels, or states advance around it. It is right when
+  the same object must survive across several beats so the reader can compare what changed. A
+  phone that keeps its position while three features appear on its screen; a map that stays put
+  while three routes are explained; a material that remains visible as its layers are peeled
+  apart. The still object is the common noun in three changing sentences.</p>
+
+  <p>Turn the pin off in the lab and the later copy keeps talking about a picture that has already
+  left. That is the honest failure. The reverse failure is more common in polished work: pinning a
+  visual that never changes, then asking the reader to scroll through three screens of captions
+  beside it. Nothing is being compared. The pin has turned ordinary reading into a toll booth.</p>
+
+  <p>Use this test: <strong>what must remain visually constant so the change is understandable?</strong>
+  If you can name it, pin that. If the answer is nothing, let the page flow. Pinning is not a way to
+  make a section important; it is a way to hold the control variable still.</p>
+
+  <h2>Parallax is an adjective: deep</h2>
+
+  <p>Parallax means layers move at different rates. The slower layer reads as farther away; the
+  faster one reads as nearer. It is not merely motion in three places. It is a claim that the scene
+  has depth.</p>
+
+  <p>That claim can clarify a hero made of foreground type, a product plane, and a background
+  field. It can also make a flat layout feel like its cards have slipped off their grid. The knob
+  in the lab is deliberately restrained: a few pixels are enough to make the planes disagree.
+  If the content has no foreground/background relationship, the correct setting is one plane.
+  Motion is the loudest hierarchy channel; three layers moving at three rates spend it three times.</p>
+
+  <p>A horizontal section is the same kind of claim about structure. Vertical scroll can drive a
+  sideways sequence when the content is genuinely ordered left-to-right — a process, a timeline,
+  chapters laid on one rail. Keep the page's vertical progress visible, keep a clear resting state
+  at each chapter, and keep the section short enough that a reader always knows how to leave it.
+  A horizontal translation does not become a deck just because cards move sideways: in a deck the
+  hand moves the strip; here the hand still moves the page and the page maps that travel onto a
+  stage.</p>
+
+  <p class="sidenote"><strong>If you have read the engineering track:</strong> D003's hierarchy
+  argument applies here without being required background. Parallax does not decorate three
+  layers equally; it ranks them by apparent distance, and the fastest plane will usually win your
+  eye before the largest type does.</p>
+
+  <h2>The native contract</h2>
+
+  <p>There is a line between using scroll as a timeline and replacing scrolling with your own
+  interpretation of it. <strong>Scroll-jacking</strong> is crossing that line: changing how far an
+  input moves the page, changing its direction without a visible reason, trapping it inside a
+  scene, or making the viewport ease toward the place the reader already asked to be.</p>
+
+  <p>The last one often arrives under the name <em>smooth scrolling</em>. Smooth means the viewport
+  trails the input and catches up later. It can look luxurious in a screen recording because a
+  recording has no hand in it. Under a real trackpad it feels <strong>laggy</strong>: the visible
+  page is late relative to the gesture that caused it. That word is sensory, so here is the exact
+  definition: <em>laggy means the object you are controlling remains behind the position your hand
+  already requested</em>.</p>
+
+  <div data-scroll-contract-lab data-title="One gesture, two contracts"></div>
+
+  <div class="callout">
+    <span class="label">Try this, blind</span>
+    <ol>
+      <li>Put the pointer over either pane and make one quick wheel or trackpad gesture. Both panes
+        receive the same distance.</li>
+      <li>Stop sharply. The small dot is the requested position; watch which viewport is still
+        travelling towards it.</li>
+      <li>Use <strong>Wheel it for me</strong> if you want to watch rather than perform the input.</li>
+      <li>Commit to the pane that feels attached, then press <strong>Which is which?</strong>. The
+        sides shuffle on load, so no letter in this lesson can give the answer away.</li>
+    </ol>
+  </div>
+
+  <p>The trailing pane is not broken. It is a faithful version of a widely shipped technique: the
+  input updates a destination, and an eased animation chases it. That is why the comparison matters.
+  The case against scroll-jacking is not that its implementation is crude. It is that the
+  implementation changes ownership. The reader issued a command and the page treated it as a
+  suggestion.</p>
+
+  <p>There are defensible exceptions: a bounded story where the mapping itself communicates the
+  idea, an installation meant to be watched rather than navigated, a product demonstration with a
+  clear skip. But a normal page is not an installation. It contains links, reading, search,
+  selection, the browser's back button, and a person who may simply be trying to reach the footer.
+  Native scroll is the baseline because all of those behaviours already agree on it.</p>
+
+  <h2>Reduced motion means changing the composition</h2>
+
+  <p>Scroll effects are unusually important to reduce because they can occupy a large area, last
+  for the entire journey down a page, and respond continuously to an interaction the reader cannot
+  avoid. The accommodation is not to run the same camera move faster. Flatten the parallax. Stop
+  scaling and rotating large planes. Let each beat be present in normal flow, or replace a scrubbed
+  transformation with a short triggered cross-fade.</p>
+
+  <p>Keep the information. A progress bar can still report position. A pinned comparison can become
+  a vertical stack whose captions sit beside their images. A horizontal chapter can become an
+  ordinary list. Reduced motion is a different composition of the same argument, not a blank page
+  and not a frozen first frame.</p>
+
+  <p class="sidenote"><strong>If you have read the engineering track:</strong> 0009 makes the
+  accessibility decision element by element. For scroll systems, the seam is especially clean:
+  keep status and sequence, remove simulated camera travel and depth. Both labs here keep the
+  motion because it is the evidence being studied, and neither one moves until you ask.</p>
+
+  <h2>The CSS behind it</h2>
+
+  <p>The design decisions do not belong to one library. Native CSS can bind an animation to the
+  nearest scroll container; JavaScript and timeline libraries can calculate the same 0–1 progress.
+  The receipt is the same mental model either way:</p>
+
+  <details>
+    <summary>Show the mechanism</summary>
+    <pre><code>/* A scrub: position, not elapsed time, owns progress. */
+@keyframes assemble {
+  from { transform: translateX(-20%); opacity: .2; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+.piece {
+  animation: assemble linear both;
+  animation-timeline: view(block);
+  animation-range: entry 20% cover 55%;
+}
+
+/* A trigger: crossing the line adds a class; time finishes. */
+.line { transition: transform 420ms var(--ease-out-strong); }
+.line.is-in { transform: translateY(0); }</code></pre>
+  </details>
+
+  <p>Notice what is absent from that code: pinning, beat distance, and the reason for parallax.
+  Those are layout and editorial decisions. CSS can make a sticky element and a timeline library
+  can expose a <code>pin</code> option; neither can tell you whether the same visual must survive
+  across three ideas. Tools implement the contract. They do not choose it.</p>
+
+  <h2>Check yourself</h2>
+
+  <div data-quiz data-quiz-title="Review the scroll system">
+    <div data-q data-answer="3">
+      <p class="qz-stem">A hero headline reveals as the reader enters the section. If the reader
+        stops halfway, half the letters remain clipped indefinitely. What is the strongest fix?</p>
+      <button data-opt>Give the scrub more scroll distance so the half-clipped state passes more slowly.</button>
+      <button data-opt>Increase the opacity so the clipped letters are easier to infer.</button>
+      <button data-opt>Trigger the entrance at a threshold and let time finish it, because the middle frame carries no meaning.</button>
+      <button data-opt>Pin the headline so the reader cannot leave until the reveal finishes.</button>
+      <p data-explain>The content is an entrance, not an explanation. A half-made word is not a
+        useful state, so scroll should choose when the reveal starts and then give ownership to a
+        short time-based animation that finishes even if scrolling stops.</p>
+    </div>
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">A three-stage exploded product diagram needs readers to inspect how the
+        parts join and reverse to compare an earlier state. Which driver fits?</p>
+      <button data-opt>A trigger, because every stage should finish at a consistent speed.</button>
+      <button data-opt>A scrub, because the intermediate frames explain the relationship and reverse order remains meaningful.</button>
+      <button data-opt>Autoplay, because an authored duration protects the intended pacing.</button>
+      <button data-opt>No animation, because explanatory diagrams should always be static.</button>
+      <p data-explain>The middle is the content. Scroll owns every frame so the reader can inspect,
+        pause and reverse the assembly. The designer's job is then to give each stage enough
+        distance and a clear resting point.</p>
+    </div>
+
+    <div data-q data-answer="4">
+      <p class="qz-stem">A pinned section spends five viewport-heights showing one static product
+        image while five short captions replace each other. What should the review ask first?</p>
+      <button data-opt>Whether the captions need a stronger ease.</button>
+      <button data-opt>Whether parallax would make the static image feel less empty.</button>
+      <button data-opt>Whether the image should be larger so the pin feels more important.</button>
+      <button data-opt>What must remain constant for the changes to be understood; if the answer is nothing, remove the pin and restore normal flow.</button>
+      <p data-explain>Pinning earns its distance by holding a control variable still across changing
+        states. A visual that never changes and is not needed for comparison is not a control
+        variable; it is a toll booth placed in front of ordinary reading.</p>
+    </div>
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">A site applies a polished 700ms catch-up to every wheel and trackpad input.
+        The motion is fluid and never drops a frame. Why can it still feel wrong?</p>
+      <button data-opt>Performance is not the failure. The viewport trails the position the hand requested, so the page has taken ownership of scrolling from the reader.</button>
+      <button data-opt>Seven hundred milliseconds is above the universal maximum for page animation.</button>
+      <button data-opt>Wheel input should be horizontal on expressive sites.</button>
+      <button data-opt>Smooth scrolling only works when it is paired with scroll snapping.</button>
+      <p data-explain>A beautiful interpolation can still violate the interaction. Native scroll
+        treats distance as a command; catch-up scrolling treats it as a destination the page may
+        reach later. The lag, not dropped frames or the curve, is the design failure.</p>
+    </div>
+  </div>
+
+  <h2>What you can now do</h2>
+
+  <p>Look at any expressive page and name its beats. For each one, say whether scroll merely starts
+  it or owns every frame, and defend that answer by stopping in the middle. Price the beat in
+  viewport-heights. Name what a pin is holding constant, what depth a parallax layer is claiming,
+  and what tells a reader how to leave a horizontal section. Then test the native contract with one
+  abrupt gesture: if the viewport keeps moving after the hand has stopped, say exactly what was
+  taken away.</p>
+
+  <div class="ask-teacher">
+    <p><strong>I'm your teacher here — ask me things.</strong> Good asks for this one:
+    <em>“take a scroll section from a site I like and mark its beats”</em>,
+    <em>“show the same story as a trigger and a scrub in production CSS”</em>,
+    <em>“how would I spec a pinned horizontal section in Figma”</em>, or
+    <em>“open the Performance panel and tell me whether this parallax is paying for paint”</em>.</p>
+  </div>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="D008-text-that-arrives.html">Design track D008 — Text that arrives →</a>
+      <a href="D006-decks-and-dots.html">← Design track D006 — Decks, and what the dots promise</a>
+      <a href="D005-things-you-drag.html">Design track D005 — Things you drag</a>
+      <a href="D004-the-button.html">Design track D004 — The button</a>
+      <a href="D003-motion-is-hierarchy.html">Design track D003 — Motion is hierarchy</a>
+      <a href="D002-where-things-live.html">Design track D002 — Where things live when they're off screen</a>
+      <a href="D001-the-map-and-the-words.html">Design track D001 — The map, and the words for it</a>
+      <a href="0013-reveals-with-clip-path.html">Lesson 0013 — Reveals with clip-path</a>
+      <a href="0012-things-that-just-appeared.html">Lesson 0012 — Things that just appeared</a>
+      <a href="0011-layout-animation.html">Lesson 0011 — Layout animation</a>
+      <a href="0010-hover-and-press.html">Lesson 0010 — Hover and press</a>
+      <a href="0009-reduced-motion.html">Lesson 0009 — Reduced motion</a>
+      <a href="0008-springs.html">Lesson 0008 — Springs</a>
+      <a href="0007-transform-origin.html">Lesson 0007 — Transform-origin</a>
+      <a href="0006-choosing-a-tool.html">Lesson 0006 — Choosing a tool</a>
+      <a href="0005-exits.html">Lesson 0005 — Exits</a>
+      <a href="0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal</a>
+      <a href="0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration</a>
+      <a href="0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+      <a href="0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing (printable)</a>
+      <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers (printable)</a>
+      <a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course (printable)</a>
+      <a href="../reference/04-the-workbench.html">Reference 04 — The Workbench (every lab, live)</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+      <span style="color:var(--ink-faint)">Next: <strong>D008 — Text that arrives</strong>.
+        Split by line, word or character; mask-reveal against fade-up; and why the amount of text
+        decides whether kinetic type feels authored or makes reading wait.</span>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/timeline-lab.js"></script>
+<script src="../assets/scroll-contract-lab.js"></script>
+<script src="../assets/quiz.js"></script>

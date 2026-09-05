@@ -1,0 +1,439 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0004 — The scroll reveal</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lesson 0004 · 20 minutes</p>
+    <h1>The scroll reveal, and the one that isn't&nbsp;one</h1>
+    <p class="dek">Two completely different techniques share the name "scroll animation."
+      Everything else in this lesson is downstream of telling them apart.</p>
+    <div class="meta">
+      <span>Skill: choose trigger or scrub, and place the fire point</span>
+      <span><a href="0003-stagger-and-orchestration.html">← Lesson 0003</a></span>
+    </div>
+  </header>
+
+  <p class="lead">Everything you learned about a group entrance still applies. The only new
+  variable is <em>when</em> it starts — and that one variable splits into two techniques that
+  behave nothing alike.</p>
+
+  <p>In lesson 0003 the hero arrived on page load, and you chose the moment. Below the fold you
+  don't: the reader chooses it, by scrolling, at a speed you can't predict. There are exactly
+  two ways to connect scrolling to motion, they look identical in a screenshot, and picking the
+  wrong one is the most common scroll-animation mistake on the web.</p>
+
+  <p>They're called <strong>trigger</strong> and <strong>scrub</strong>. Rather than define them
+  at you, I want you to feel the difference first — it takes about a minute, and the rest of
+  this lesson reads completely differently afterwards.</p>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <p><strong>1.</strong> The lab below opens in <em>trigger</em> mode. Press
+    <strong>Scroll it for me</strong> and just watch the cards. You don't have to operate
+    anything.</p>
+    <p><strong>2.</strong> Press <strong>Stop halfway</strong>. Read the message that appears
+    under the buttons.</p>
+    <p><strong>3.</strong> Now click <strong>scrub</strong> at the top left, and do both again —
+    <strong>Scroll it for me</strong>, then <strong>Stop halfway</strong>.</p>
+    <p>Step 3 is the whole lesson. The cards freeze part-way faded and stay there.</p>
+  </div>
+
+  <div data-scroll-lab data-title="Scroll the panel" data-count="6"></div>
+
+  <h2>What you just saw</h2>
+
+  <p>In <strong>trigger</strong> mode, scrolling past a point <em>starts</em> an ordinary
+  animation — the same kind you've written in every lesson so far, with a duration and an
+  easing curve. Once started it runs on its own clock and finishes no matter what the reader
+  does next. Stop scrolling and it still completes.</p>
+
+  <p>In <strong>scrub</strong> mode, there is no clock. Scroll position <em>is</em> the
+  animation's progress. Half-scrolled means half-animated, and it stays half-animated for as
+  long as the reader sits there.</p>
+
+  <p class="sidenote">The word for this in animation tools is <strong>playhead</strong> — the
+  marker showing which moment of an animation you're currently looking at, like the progress
+  dot on a video. Normally time moves the playhead. In a scrub, the scrollbar moves it, and it
+  goes backwards just as happily as forwards.</p>
+
+  <p>Now the comparison table is worth reading, because every row is something you just
+  watched happen:</p>
+
+  <table>
+    <thead>
+      <tr><th>&nbsp;</th><th>Trigger</th><th>Scrub</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>What scroll does</strong></td>
+        <td>Starts a normal, time-based animation</td>
+        <td>Is the animation's playhead</td>
+      </tr>
+      <tr>
+        <td><strong>Who controls duration</strong></td>
+        <td>You. 400ms is 400ms.</td>
+        <td>The reader's scroll distance and speed</td>
+      </tr>
+      <tr>
+        <td><strong>Stop halfway</strong></td>
+        <td>It finishes anyway</td>
+        <td>It stays halfway</td>
+      </tr>
+      <tr>
+        <td><strong>Scroll back up</strong></td>
+        <td>Nothing happens</td>
+        <td>It plays backwards</td>
+      </tr>
+      <tr>
+        <td><strong>Easing</strong></td>
+        <td>Yours, and it's felt</td>
+        <td>Mostly meaningless — the reader is the curve</td>
+      </tr>
+      <tr>
+        <td><strong>Right for</strong></td>
+        <td>Reveals. Almost every reveal.</td>
+        <td>Progress bars, parallax, sticky-section storytelling</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout principle">
+    <span class="label">The rule this gives you</span>
+    <p><strong>If the element carries meaning, trigger it.</strong> A headline, a paragraph, a
+    statistic — anything someone has to read — must not have its legibility decided by where
+    they happened to stop scrolling.</p>
+    <p><strong>Scrub only what can be seen at any arbitrary percentage</strong> without loss:
+    a background layer, a progress indicator, an image that drifts a little.</p>
+  </div>
+
+  <p class="sidenote">GSAP's ScrollTrigger does both, which is why people conflate them:
+  <code>scrub: true</code> flips one into the other with a single property. In CSS the same
+  split exists as <code>animation-timeline: view()</code> (scrub) versus an
+  IntersectionObserver that adds a class (trigger).</p>
+
+  <h2>Where it fires: the one number to get right</h2>
+
+  <p>An IntersectionObserver fires when the element crosses the edge of a root box. By default
+  that root is the viewport, and the edge is the very bottom — so the animation starts the
+  instant one pixel of the element appears. That's too early: the element animates while it's
+  still off-screen, and the reader arrives to find it already finished.</p>
+
+  <p><code>rootMargin</code> moves that edge. It takes CSS-shorthand values and grows or
+  shrinks the root box:</p>
+
+  <pre><code>new IntersectionObserver(callback, {
+  rootMargin: '0px 0px -15% 0px',   /* top right bottom left */
+  threshold: 0
+});</code></pre>
+
+  <div class="callout">
+    <p><strong>The sign rule, which everyone gets backwards once:</strong> a <em>negative</em>
+    bottom margin <em>shrinks</em> the root box upward, so the element must travel further up
+    the screen before it counts as intersecting — it fires <strong>later</strong>. A positive
+    bottom margin grows the box past the viewport's edge and fires <strong>earlier</strong>,
+    while the element is still below the fold.</p>
+  </div>
+
+  <p>Drag the fire point in the lab above and watch the dashed line move. Around
+  <code>-15%</code> is a good default: the element is meaningfully on screen when it starts,
+  and it finishes well before it reaches the reader's centre of attention. Push it to
+  <code>-45%</code> and you get the classic bad version — the reader is already looking
+  directly at the element when it decides to move.</p>
+
+  <p><code>threshold</code> is the other knob, and it's the wrong one for reveals. It asks
+  "what fraction of the element is visible," which for anything taller than the viewport can
+  never be satisfied. Leave it at <code>0</code> and control the timing with
+  <code>rootMargin</code>.</p>
+
+  <h2>The cardinal sin, which you must never ship</h2>
+
+  <p>Every scroll reveal works by starting the element at <code>opacity: 0</code>. Which means
+  if the thing that's supposed to reveal it never runs, your content is <em>invisible</em> —
+  not unanimated, gone. A JS error above your observer, a blocked script, a bot, a reader who
+  scrolled past before the observer attached: all of these produce a blank page, and every one
+  of them is a content bug, not an animation bug.</p>
+
+  <div class="callout warn">
+    <span class="label">Never ship this</span>
+    <p>Hiding content in a stylesheet that only JavaScript can unhide. The rule is
+    absolute: <strong>with the animation disabled, the content must still be there.</strong></p>
+  </div>
+
+  <p>The fix is three lines and belongs in the <code>&lt;head&gt;</code>, before the browser
+  paints:</p>
+
+  <pre><code>&lt;script&gt;document.documentElement.classList.add('js');&lt;/script&gt;
+
+&lt;style&gt;
+  /* Un-hidden by default. Only a page that ran JS gets to hide anything. */
+  .js .reveal { opacity: 0; transform: translateY(20px); }
+&lt;/style&gt;</code></pre>
+
+  <p>Same idea if you use CSS scroll-driven animations later in this lesson: the
+  <em>animated</em> state is the exception, the visible state is the baseline. And it's why
+  the reveal below the fold is always a fade <em>in</em> from hidden — never a fade
+  <em>out</em> that you undo.</p>
+
+  <h2>Stagger it by batch, not by index</h2>
+
+  <p>Three cards in a row cross the line together, and you want lesson 0003's stagger.
+  The tempting version is to key the delay off the element's index in the list. Don't — card
+  twelve then waits twelve steps for something that started when card ten crossed. Stagger
+  by position <em>within the entries the observer just handed you</em>:</p>
+
+  <pre><code>const io = new IntersectionObserver((entries) =&gt; {
+  let batch = 0;
+  for (const entry of entries) {
+    if (!entry.isIntersecting) continue;
+    entry.target.style.transitionDelay = `${batch * 60}ms`;
+    entry.target.classList.add('is-revealed');
+    batch += 1;
+    io.unobserve(entry.target);   // reveal once, then stop watching
+  }
+}, { rootMargin: '0px 0px -15% 0px' });</code></pre>
+
+  <p>Two details worth naming. The observer batches entries that crossed in the same frame
+  into one callback, which is exactly the group you want to treat as one gesture. And
+  <code>unobserve</code> is not an optimisation — it's the thing that makes the reveal
+  permanent.</p>
+
+  <p>Which is the other setting in the lab. Flip re-trigger to "every time" and scroll up and
+  down: the content re-hides. The second viewing answers no question the first didn't, and on
+  a page that people scroll back through it degrades into flicker. Reveal once.</p>
+
+  <h2>The CSS version, with no JavaScript at all</h2>
+
+  <p>Modern CSS can drive an animation from scroll position directly.
+  <code>animation-timeline: view()</code> replaces the animation's clock with the element's
+  own progress through the scrollport — which, by the table above, makes it a <strong>scrub</strong>.
+  <code>animation-range</code> says which slice of that progress the animation occupies.</p>
+
+  <p>The range keywords are the part worth memorising: <code>entry</code> is the phase where
+  the element is crossing into view, <code>cover</code> is the whole time any part of it is
+  visible, and <code>exit</code> is it leaving. So <code>entry 10% cover 30%</code> means
+  "start once 10% into entering, finish 30% of the way through the visible span."</p>
+
+  <div data-pg data-pg-title="Scroll-driven, in pure CSS" data-pg-height="360"
+       data-pg-hint="Scroll the inner panel. Change animation-range and watch where the fade starts and ends.">
+    <script type="text/plain" data-pg-html>
+      <div class="scroller">
+        <p class="hint">↓ scroll ↓</p>
+        <div class="card">one</div>
+        <div class="card">two</div>
+        <div class="card">three</div>
+        <div class="card">four</div>
+        <p class="hint">end</p>
+      </div>
+    </script>
+    <textarea data-pg-css>
+.scroller {
+  height: 300px;
+  width: 260px;
+  overflow-y: auto;
+  border: 1px solid rgba(128,128,128,.35);
+  border-radius: 8px;
+  padding: 0 14px;
+}
+.hint {
+  font: 600 12px/1 system-ui, sans-serif;
+  opacity: .5;
+  text-align: center;
+  padding: 110px 0;
+}
+.card {
+  height: 78px;
+  margin: 14px 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font: 600 14px/1 system-ui, sans-serif;
+}
+
+/* Baseline: fully visible. If nothing below applies, nothing is lost. */
+
+@supports (animation-timeline: view()) {
+  .card {
+    animation: reveal linear both;
+    animation-timeline: view();
+    /* Try: entry 0% entry 100%  ·  cover 5% cover 40%  ·  entry 10% cover 45% */
+    animation-range: entry 10% cover 30%;
+  }
+}
+
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(24px) scale(.97); }
+  to   { opacity: 1; transform: none; }
+}
+    </textarea>
+  </div>
+
+  <p>Note three things in that CSS. The animation is declared <em>inside</em>
+  <code>@supports</code>, so a browser without the feature simply shows the cards — the
+  cardinal-sin rule, satisfied without any JavaScript. The timing function is
+  <code>linear</code>, because the reader supplies the curve. And there's no duration, because
+  <code>animation-range</code> replaced it.</p>
+
+  <p class="sidenote">Support is real but not universal, and it's moving; check MDN's
+  compatibility table on <a
+  href="https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timeline"><code>animation-timeline</code></a>
+  rather than trusting a number written in a lesson. The <code>@supports</code> gate means you
+  never have to care very much.</p>
+
+  <p>So which do you reach for? The honest answer for reveals is still the observer, because
+  a reveal wants a trigger and CSS scroll timelines are a scrub. But scroll-driven CSS is
+  genuinely better than JS for everything that <em>should</em> be a scrub — reading-progress
+  bars, parallax, image reveals — because it runs off the main thread, and that's exactly
+  lesson 0002's argument arriving in a new place.</p>
+
+  <h2>Now the harder question: should it animate at all?</h2>
+
+  <p>You can build these now, which makes this the right moment to ask — and the answer is
+  often no. Scroll reveals are the single most over-applied effect on the web, and the
+  argument against them is unusually strong. On page load, motion earns its keep by
+  directing attention: the reader has just arrived and doesn't know where to look. Below the
+  fold, they scrolled <em>toward</em> this section deliberately. They already committed. Their
+  attention is not in question.</p>
+
+  <div class="callout principle">
+    <span class="label">First principle</span>
+    <p>A scroll reveal cannot direct attention that has already been directed. So its only
+    legitimate jobs are the remaining two: <strong>establish hierarchy within the section</strong>
+    (this heading, then this data, then this caveat) and <strong>signal that a boundary was
+    crossed</strong> (a new idea starts here).</p>
+    <p>If a section does neither — a wall of paragraphs, a footer, a nav — the correct amount
+    of scroll animation is none. "Everything fades up 20px" is not a decision, it's a default.</p>
+  </div>
+
+  <p>Which is also the practical answer to the most common failure mode: revealing so much,
+  so often, that a reader scrolling at normal speed is permanently reading content that is
+  still in motion. Reveal sections, not paragraphs.</p>
+
+  <h2>Reduced motion</h2>
+
+  <p>The full treatment gets its own lesson. The scroll-specific version is short: remove the
+  travel, keep the fade. A reader who asked for reduced motion still needs to see the content
+  appear, and a 200ms opacity change is not what they were objecting to.</p>
+
+  <pre><code>@media (prefers-reduced-motion: reduce) {
+  .js .reveal { transform: none; }
+  .is-revealed { transition-duration: 200ms; }
+}</code></pre>
+
+  <p>Deleting the reveal entirely is also fine — as long as the un-revealed state is visible,
+  which it is, because you followed the rule at the top.</p>
+
+  <div data-quiz data-quiz-title="Check yourself">
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">A testimonial section fades up on scroll. QA reports it's blank for
+        one user. What's the most likely cause?</p>
+      <button data-opt>Their scroll speed outran the observer</button>
+      <button data-opt>The hidden state applies without JS having run</button>
+      <button data-opt>rootMargin was set too negative</button>
+      <p data-explain>The starting state is <code>opacity: 0</code>. If a script error, a
+        blocker or a bot prevents the reveal from running, the content is gone rather than
+        just static. Gate the hidden state behind a class JS adds to <code>&lt;html&gt;</code>
+        before paint.</p>
+    </div>
+
+    <div data-q data-answer="3">
+      <p class="qz-stem">You want a section heading to start animating later — further up the
+        screen. Which change does that?</p>
+      <button data-opt>Raise the threshold to 0.5</button>
+      <button data-opt>A positive bottom rootMargin</button>
+      <button data-opt>A more negative bottom rootMargin</button>
+      <p data-explain>A negative bottom margin shrinks the root box upward, so the element has
+        to travel further before it intersects — it fires later. Positive grows the box past
+        the viewport and fires earlier. Threshold asks a different question entirely, and
+        can't be satisfied by an element taller than the viewport.</p>
+    </div>
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">A pull-quote is bound to scroll with <code>animation-timeline: view()</code>.
+        A reader stops mid-scroll. What have you shipped?</p>
+      <button data-opt>A quote sitting at partial opacity indefinitely</button>
+      <button data-opt>A quote that finishes on its own after the duration</button>
+      <button data-opt>A quote that replays when they scroll back</button>
+      <p data-explain>Scroll position <em>is</em> the playhead, so progress freezes wherever
+        the reader stopped. That's correct behaviour for a progress bar and wrong for anything
+        carrying meaning. Text wants a trigger.</p>
+    </div>
+
+    <div data-q data-answer="3">
+      <p class="qz-stem">Twelve cards use <code>transition-delay: calc(var(--i) * 60ms)</code>
+        with <code>--i</code> as the DOM index, revealed by an observer. What breaks?</p>
+      <button data-opt>Nothing — this is the 0003 pattern</button>
+      <button data-opt>The transitions all fire simultaneously</button>
+      <button data-opt>Late cards wait for a sequence that started off-screen</button>
+      <p data-explain>The 0003 pattern assumes all twelve start at the same moment, which is
+        true on load and false on scroll. Card twelve crosses the line in its own batch and
+        then waits 660ms for nothing. Stagger by index within the observer's batch.</p>
+    </div>
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">Which of these is the strongest case for scroll animation at all?</p>
+      <button data-opt>A long article's body paragraphs, fading in as you read</button>
+      <button data-opt>A stats band where three numbers should be read in order</button>
+      <button data-opt>The site footer, so the page ends with a flourish</button>
+      <p data-explain>As the section above argues: attention is already committed by the time someone scrolls, so the only
+        remaining jobs are hierarchy and boundary. Three numbers in priority order is
+        hierarchy. Body paragraphs animate content the reader is actively trying to read; a
+        footer has no hierarchy to express.</p>
+    </div>
+
+  </div>
+
+  <h2>Read this next</h2>
+
+  <p><strong>Primary source:</strong> <a
+  href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API">MDN — the
+  Intersection Observer API</a>. Read the "Intersection observer options" section slowly; the
+  root/rootMargin/threshold model is the whole thing, and MDN's diagram of the root box is
+  clearer than any explanation of the sign rule.</p>
+
+  <p>For the CSS half: <a
+  href="https://scroll-driven-animations.style/">scroll-driven-animations.style</a> is a large
+  gallery of runnable demos by the Chrome team's Bramus Van Damme, and the fastest way to see
+  what the technique is actually good at. The narrative version is <a
+  href="https://developer.chrome.com/docs/css-ui/scroll-driven-animations">Chrome's
+  scroll-driven animations guide</a>, and the reference pages are MDN on <a
+  href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_scroll-driven_animations">scroll-driven
+  animations</a> and <a
+  href="https://developer.mozilla.org/en-US/docs/Web/CSS/animation-range"><code>animation-range</code></a>.</p>
+
+  <div class="ask-teacher">
+    <p><strong>I'm your teacher here — ask me things.</strong> Good asks for this one:
+    <em>“add scroll reveals to this page I'm building”</em>, <em>“is this section's reveal
+    earning its keep?”</em>, or <em>“build the reading-progress bar with scroll-driven CSS”</em>.</p>
+    <p>Also: you've now got four lessons of vocabulary. If there's a real page or project
+    driving this — something you actually want to ship — tell me, and I'll aim the remaining
+    lessons at it instead of at generic examples.</p>
+  </div>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="0005-exits.html">Lesson 0005 — Exits → →</a>
+      <a href="0003-stagger-and-orchestration.html">← Lesson 0003 — Stagger and orchestration</a>
+      <a href="0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+      <a href="0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing (printable)</a>
+      <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers (printable)</a>
+      <a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course (printable)</a>
+      <a href="../reference/04-the-workbench.html">Reference 04 — The Workbench (every lab, live)</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+      <a href="0005-exits.html">Lesson 0005 — Exits →</a>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/scroll-lab.js"></script>
+<script src="../assets/playground.js"></script>
+<script src="../assets/quiz.js"></script>

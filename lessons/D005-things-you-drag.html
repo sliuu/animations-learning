@@ -1,0 +1,247 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D005 — Things you drag</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lesson D005 · 17 minutes</p>
+    <h1>Things you drag</h1>
+    <p class="dek">While your finger is on it there is almost nothing to design — the thing has to
+      be exactly where your hand is, and that's the whole rule. Everything a designer decides
+      happens at the two ends.</p>
+    <div class="meta">
+      <span>Skill: review a drag by its pickup and its release, not its middle</span>
+      <span><a href="D004-the-button.html">← Lesson D004</a></span>
+    </div>
+  </header>
+
+  <p class="lead">A button is a request: you press it and something else happens. A drag is not a
+  request. The thing is in your hand, and the interface has agreed to pretend that a rectangle of
+  pixels is a physical object you have picked up. Every rule in this lesson comes out of protecting
+  that pretence.</p>
+
+  <div class="callout">
+    <span class="label">Say it out loud</span>
+    <p><strong>Direct manipulation</strong> — you move the thing itself, rather than a control that
+    represents it.<br>
+    <strong>Lift</strong> — the rise on pickup: elevation, shadow, a touch of scale.<br>
+    <strong>Ghost</strong> — the faint stand-in left behind where the thing came from.<br>
+    <strong>Gap</strong> — the space that opens to show where it will land.<br>
+    <strong>Settle</strong> — the short move out of your hand and into the slot, on an accepted
+    drop.<br>
+    <strong>Snap-back</strong> — the return when a drop is refused or abandoned.<br>
+    <strong>Drop target</strong> — the region that will accept it, which has to be legible
+    <em>before</em> you let go.</p>
+  </div>
+
+  <p>Start with the pretence itself. Two chips in one field. Both move with the pointer, and one of
+  them has a CSS transition left on it. Grab either, whenever you like.</p>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <ol>
+      <li>Drag one, then the other, then the first again. Zigzag — fast changes of direction are
+        where it lives.</li>
+      <li>Set the transition to <strong>220&nbsp;ms</strong> and do it again.</li>
+      <li>Now <strong>60&nbsp;ms</strong>. Can you still tell which is which?</li>
+      <li>Reveal the answer, and drag the honest one with the ring showing.</li>
+    </ol>
+  </div>
+
+  <div data-grab-lab data-title="Grab both"></div>
+
+  <p>The ring is your actual pointer. On one chip the ring stays inside it; on the other the ring
+  runs out ahead and the chip catches up afterwards. That gap is the whole failure, and it is worth
+  naming precisely: the chip is no longer the thing you are holding. It has become a thing that is
+  following you.</p>
+
+  <p>At 220&nbsp;ms nobody misses it. At 60&nbsp;ms most people can't name what's wrong and still
+  behave differently — they overshoot, they move slower, they check. That is the part worth taking
+  seriously, because 60&nbsp;ms is well inside the range that gets called "smooth" by someone
+  reading a spec rather than holding a phone.</p>
+
+  <div class="callout">
+    <span class="label">The one to remember</span>
+    <p>Nothing under the finger gets a transition. Not an easing curve, not a hundred milliseconds,
+    not <em>a touch of smoothing</em>. Interpolation is a claim about where the object is, and while
+    someone is holding it, only they get to make that claim.</p>
+  </div>
+
+  <p>This is almost never a decision anyone made. It is what you get when a drag handler is added
+  to a component that already had a hover transition on it, and it is what <code>transition:
+  all</code> guarantees. The fix is one line — the dragged element gets
+  <code>transition: none</code> for as long as it is held — and the bug is invisible in every
+  medium except a real finger on a real screen.</p>
+
+  <p class="sidenote"><strong>If you have read the engineering track:</strong> lesson 0002 is about
+  which properties are cheap enough to animate. This is a different rule and a stricter one — on
+  the thing being held, the answer isn't <em>which property</em>, it's <em>don't</em>.</p>
+
+  <h2>So where is the design?</h2>
+
+  <p>At the edges, and there are five of them: one at pickup, two during, and two at the release —
+  because a release has two possible endings and they need different answers. Here is a list you
+  can reorder, with a switch for each. As in the previous lesson, switching one off never breaks
+  it: the order always comes out right. Only what the drag was <em>saying</em> goes missing.</p>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <ol>
+      <li>Drag a row two places up. Then drag one off the bottom of the list and let go.</li>
+      <li>Switch <strong>Gap</strong> off and reorder again. Notice when you learn where it
+        went.</li>
+      <li>Switch <strong>Gap</strong> back on and <strong>Ghost</strong> off. Different loss —
+        name it.</li>
+      <li>Switch <strong>Snap-back</strong> off and drop one outside the list.</li>
+      <li>Switch <strong>Lift</strong> off and pick something up. Did you?</li>
+    </ol>
+  </div>
+
+  <div data-drag-lab data-title="Five moments"></div>
+
+  <p><strong>Lift</strong> is the entire vocabulary of <em>picked up</em>, and it is borrowed from
+  the physical world without apology: the thing rises toward you, so it casts a bigger shadow and
+  grows very slightly. Two per cent of scale is plenty. Its job is to answer the question the hand
+  asks first — <em>am I holding this yet, or am I about to scroll the page?</em></p>
+
+  <p><strong>Gap</strong> and <strong>ghost</strong> answer two different questions and most
+  implementations only answer one. The gap says <em>this is where it will land</em>. The ghost says
+  <em>this is where it came from, and where it goes back to if you change your mind.</em> Showing
+  both at once costs one row of reserved space and is the more generous choice in any list long
+  enough that the origin can scroll away from you.</p>
+
+  <p class="sidenote"><strong>If you have read the engineering track:</strong> the gap opening is a
+  layout animation of the kind 0011 is about, and it should be built the same way — four rows each
+  changing one transform. Nothing here animates height or margin.</p>
+
+  <p><strong>Settle</strong> is the accepted ending. The row leaves your hand and travels into the
+  slot it has been showing you, in about two hundred milliseconds, and it <em>lands</em> — no
+  bounce. A bounce here is the most common way a competent drag ends up feeling like a toy, because
+  overshoot implies momentum and there was none: you put it down, you didn't throw it.</p>
+
+  <p><strong>Snap-back</strong> is the refused ending, and it is the one that gets skipped, on the
+  grounds that people don't often drop things in the wrong place. They do, and the moment they do
+  is the moment they most need an answer. Watch what happens with it switched off: the row is in
+  your hand, you let go, and it is somehow back in the list with nothing joining the two. The first
+  question is not <em>did it move?</em> It is <em>did I just delete something?</em></p>
+
+  <p class="sidenote"><strong>If you have read the engineering track:</strong> 0008 is worth
+  re-reading against this. A spring is right when the release carries velocity — a flung card, a
+  sheet you shove downward. A row you put into a slot has none, and a spring will invent some.</p>
+
+  <h2>Nobody can drag with a keyboard</h2>
+
+  <p>Drag is the least accessible interaction pattern in wide use, and the fix is not an
+  attribute. There is no ARIA that makes a pointer gesture available to someone who doesn't have a
+  pointer. The only fix is a second path to the same outcome, and it is usually about ten lines:
+  focus a row in the lab and press ↑ or ↓.</p>
+
+  <p>Worth being honest about who that serves, because "keyboard" undersells it. It serves someone
+  with a tremor, someone using a switch or voice control, someone on a phone on a moving bus, and
+  someone who simply finds a five-slot drag more fiddly than two key presses. A drag with no
+  alternative path is a feature that quietly excludes people who have no way to report why they
+  stopped using it.</p>
+
+  <p class="lead">The review question: what is the non-drag path?</p>
+
+  <div data-quiz data-quiz-title="Name the missing moment">
+    <div data-q data-answer="2">
+      <p class="qz-stem">A kanban board's cards have <code>transition: all 150ms ease</code> on
+        them, added originally for the hover shadow. What does that do to the drag?</p>
+      <button data-opt>Nothing — 150 ms is short enough to be imperceptible.</button>
+      <button data-opt>The card trails the pointer by 150 ms, so it stops reading as an object in
+        your hand and starts reading as one following you.</button>
+      <button data-opt>It makes the drop target harder to calculate.</button>
+      <button data-opt>It only matters on touch devices, where the finger occludes the card.</button>
+      <p data-explain>The interpolation is a claim about where the card is, and it contradicts the
+        hand. The dragged element needs <code>transition: none</code> while it is held — the
+        transition belongs to the moment after the release, not before it.</p>
+    </div>
+
+    <div data-q data-answer="4">
+      <p class="qz-stem">A reorderable list shows a gap at the landing position but leaves no mark
+        where the dragged item came from. Which question is unanswered?</p>
+      <button data-opt>Whether the item has been picked up at all.</button>
+      <button data-opt>Where the item will land.</button>
+      <button data-opt>Whether the drop will be accepted.</button>
+      <button data-opt>Where the item goes back to if the user changes their mind.</button>
+      <p data-explain>Gap and ghost are two promises, not one. In a short list you can hold the
+        origin in your head; in a long one it has scrolled away, and abandoning the drag becomes a
+        guess.</p>
+    </div>
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">A designer specs the drop as a spring with a small overshoot, "so it feels
+        physical". The interaction is dropping a row into a slot in a settings list. Why is that
+        likely wrong?</p>
+      <button data-opt>Overshoot implies momentum, and a row placed into a slot has none — the user
+        put it down rather than threw it.</button>
+      <button data-opt>Springs cannot be expressed in CSS, so it will not survive handoff.</button>
+      <button data-opt>Overshoot always reads as unpolished, in every context.</button>
+      <button data-opt>Because the drop should have no animation at all.</button>
+      <p data-explain>Springs are right where the release carries velocity — a flung card, a sheet
+        shoved downward. Borrowed physics has to match the physics the hand just performed, or it
+        reads as a toy.</p>
+    </div>
+
+    <div data-q data-answer="3">
+      <p class="qz-stem">A team is asked how their drag-to-reorder works for keyboard users and
+        answers that the list has full ARIA roles and labels. What is missing?</p>
+      <button data-opt>Nothing — correct ARIA is what accessible drag and drop means.</button>
+      <button data-opt>A live region announcing each position change.</button>
+      <button data-opt>A second path to the same outcome — the ability to actually reorder without
+        a pointer gesture.</button>
+      <button data-opt>A larger hit area on the drag handle.</button>
+      <p data-explain>Labelling a gesture does not make it performable. Arrow keys on a focused row
+        is the usual answer, it is a handful of lines, and it also serves people with tremor, people
+        using switch or voice control, and anyone on a moving bus.</p>
+    </div>
+  </div>
+
+  <h2>What you can now do</h2>
+
+  <p>Review a drag in three passes instead of one. Is the held thing exactly under the hand — no
+  transition, no smoothing, no lag. Are both during-questions answered — where will it land, where
+  did it come from. Do both endings exist — the settle and the snap-back, not just the happy one.
+  Then ask what happens without a pointer. Four questions, none of which require a word about
+  easing.</p>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="D006-decks-and-dots.html">Design track D006 — Decks, and what the dots promise →</a>
+      <a href="D004-the-button.html">← Design track D004 — The button</a>
+      <a href="D003-motion-is-hierarchy.html">Design track D003 — Motion is hierarchy</a>
+      <a href="D002-where-things-live.html">Design track D002 — Where things live when they're off screen</a>
+      <a href="D001-the-map-and-the-words.html">Design track D001 — The map, and the words for it</a>
+      <a href="0013-reveals-with-clip-path.html">Lesson 0013 — Reveals with clip-path</a>
+      <a href="0012-things-that-just-appeared.html">Lesson 0012 — Things that just appeared</a>
+      <a href="0011-layout-animation.html">Lesson 0011 — Layout animation</a>
+      <a href="0010-hover-and-press.html">Lesson 0010 — Hover and press</a>
+      <a href="0009-reduced-motion.html">Lesson 0009 — Reduced motion</a>
+      <a href="0008-springs.html">Lesson 0008 — Springs</a>
+      <a href="0007-transform-origin.html">Lesson 0007 — Transform-origin</a>
+      <a href="0006-choosing-a-tool.html">Lesson 0006 — Choosing a tool</a>
+      <a href="0005-exits.html">Lesson 0005 — Exits</a>
+      <a href="0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal</a>
+      <a href="0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration</a>
+      <a href="0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+      <a href="0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing (printable)</a>
+      <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers (printable)</a>
+      <a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course (printable)</a>
+      <a href="../reference/04-the-workbench.html">Reference 04 — The Workbench (every lab, live)</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+      <span style="color:var(--ink-faint)">Next: <strong>D007 — Scroll as a timeline</strong>. What a
+        page is allowed to do while the reader is moving down it.</span>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/grab-lab.js"></script>
+<script src="../assets/drag-lab.js"></script>
+<script src="../assets/quiz.js"></script>

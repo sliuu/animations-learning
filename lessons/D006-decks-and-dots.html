@@ -1,0 +1,284 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D006 — Decks, and what the dots promise</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lesson D006 · 16 minutes</p>
+    <h1>Decks, and what the dots promise</h1>
+    <p class="dek">Every carousel makes two claims before you touch it: where you are, and how much
+      is left. Most of the design work is picking a way to make those claims that stays true when
+      the content grows.</p>
+    <div class="meta">
+      <span>Skill: review a deck by what its indicator promises and whether it can keep it</span>
+      <span><a href="D005-things-you-drag.html">← Lesson D005</a></span>
+    </div>
+  </header>
+
+  <p class="lead">A deck is a room with one wall visible. That is a strange thing to put on a page,
+  and it only works if the room tells you honestly how big it is. When a deck fails it is almost
+  never because the sliding was badly animated. It is because you could not tell where you were,
+  or you never knew there was anywhere else to go.</p>
+
+  <div class="callout">
+    <span class="label">Say it out loud</span>
+    <p><strong>Deck</strong> — the family name for carousels, sliders and paged strips: many items,
+    one or two visible.<br>
+    <strong>Page</strong> — one resting position of the deck. <em>Paging</em> is moving a whole one
+    at a time.<br>
+    <strong>Peek</strong> — the sliver of the next item, deliberately left visible.<br>
+    <strong>Indicator</strong> — the dots, the counter or the bar: whatever claims to say where you
+    are.<br>
+    <strong>Snap</strong> — the discrete jump to the nearest valid position when you let go.<br>
+    <strong>Free scroll</strong> — no snapping; it stops wherever the momentum runs out.<br>
+    <strong>Rubber-band</strong> — the resistance past the last item, instead of a dead stop.<br>
+    <strong>Autoplay</strong> — the deck advancing without being asked.</p>
+  </div>
+
+  <p>Here is one deck with four decisions in it. Three of them are the ones you'd name in a review.
+  The fourth — how many items there are — is the one that actually decides the first, and it is the
+  one nobody revisits after launch.</p>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <ol>
+      <li>Drag the strip. Flick it. Push past the last card and feel the resistance.</li>
+      <li>Leave the indicator on <strong>dots</strong> and move the count: 4, then 12, then 40. At
+        each one, ask yourself the two questions — <em>where am I</em>, and <em>how much is
+        left</em>.</li>
+      <li>At 40, switch the indicator to a counter, then a bar. Notice what each one answers and
+        what each one gives up.</li>
+      <li>Set the indicator to <strong>nothing</strong> and the next card to <strong>hidden</strong>.
+        Look at it as if you had just landed on the page.</li>
+      <li>Set the release to <strong>drifts</strong> and flick it a few times.</li>
+    </ol>
+  </div>
+
+  <div data-deck-lab data-title="One deck, four decisions"></div>
+
+  <h2>An indicator makes two promises</h2>
+
+  <p>The two questions are not the same question, and no indicator answers both well. Dots answer
+  both, brilliantly, up to about seven items — you take in <em>five, and I'm on the second</em>
+  without counting, the way you take in the pips on a die. That is a perceptual limit, not a style
+  preference, and it is why dots feel so right in the design file where the deck has four cards in
+  it.</p>
+
+  <p>Past that limit dots do not degrade gracefully; they stop being information. Forty dots tell
+  you <em>there are many</em> and put that non-answer in the exact place your eye goes for
+  <em>where am I</em>. You saw it above: the active dot in a row of forty is not findable at a
+  glance. A counter keeps both promises at any length, but you have to read it, so it never gives
+  you the feeling of proportion. A bar gives you proportion at a glance and never tells you the
+  count, so "one more swipe or nine" stays open.</p>
+
+  <p>So the review question is not <em>are dots right here</em>. It is <em>how many items will
+  this hold in a year</em>, and then the indicator follows from the answer. A deck whose content is
+  editorial and curated stays at five and keeps its dots. A deck fed by a query — recently viewed,
+  in your area, more like this — will be at forty within two quarters and needs a counter or a bar
+  from the start.</p>
+
+  <div class="callout">
+    <span class="label">The one to remember</span>
+    <p>Pick the indicator from the <em>largest</em> number of items the deck will ever hold, not
+    the number in the mock. Dots are a promise you can only keep at small counts.</p>
+  </div>
+
+  <h2>The peek is the whole affordance</h2>
+
+  <p>Set the next card to <em>hidden</em> again and look at the deck cold. It fills its box. It has
+  a clean edge on the right. There is nothing about it that says it is a strip rather than a
+  panel — and a person who does not know it scrolls will not scroll it. The deck is fully
+  functional and completely invisible, which is the most expensive kind of broken, because it
+  reports as working.</p>
+
+  <p>A peek fixes this with no words: half an inch of the next card, cut off by the edge, is an
+  unambiguous statement that the row continues. It is doing the same job an indicator does but
+  it is doing it <em>in the content</em>, which is why a deck with a good peek can often drop
+  the indicator to a bare counter and lose nothing.</p>
+
+  <p>This is why the peek is not a decorative margin choice, and why "make the cards fill the
+  width, it looks tidier" is the single most common way a working deck gets broken in a visual
+  polish pass. If someone asks for that, the thing to say is not <em>I like the peek</em>. It is
+  <em>the peek is the only thing on screen telling anyone this scrolls</em>.</p>
+
+  <p class="sidenote"><strong>If you have read the engineering track:</strong> this is the same
+  argument as the one in 0004 about revealing things on scroll — the cheapest affordance is always
+  the one made of content that is already there, rather than a widget added next to it.</p>
+
+  <h2>Snap, or drift</h2>
+
+  <p>Snapping is a claim about what the items <em>are</em>. Snap says: these are pages, they have
+  a correct position, and one flick moves you exactly one. Free scroll says: this is a continuous
+  strip, and stopping halfway between two things is a legitimate place to be.</p>
+
+  <p>You felt the mismatch above. With <em>drifts</em> on, a flick leaves the deck at rest with two
+  cards half-cut at both edges, and neither of them is readable — because these cards are pages,
+  and half a page is nothing. Free scroll is right when the items are small enough that several are
+  visible at once and cutting one at the edge costs nothing: a row of thumbnails, a tag strip, an
+  avatar list. It is wrong the instant a single item fills most of the window.</p>
+
+  <p>There is a useful test. If the deck has an indicator at all, it must snap — an indicator says
+  <em>you are on item three</em>, and free scroll makes that sentence false about half the time.
+  A deck that drifts should be indicated by its peek and nothing else.</p>
+
+  <p class="sidenote"><strong>If you have read the engineering track:</strong> the release in a
+  snapping deck is a velocity decision, not a position one — a short fast flick should advance a
+  page even though the finger barely moved. 0008 is the argument for why that release wants a
+  spring or a strong ease-out rather than a linear slide.</p>
+
+  <h2>Autoplay has to argue for itself</h2>
+
+  <p>Everything above assumes the reader moves the deck. Autoplay is the deck moving itself, and it
+  is worth being precise about why it is contentious, because "autoplay is bad" loses to a
+  stakeholder who wants three messages in one hero slot and has a good reason for wanting it.</p>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <ol>
+      <li>Read the slide. Actually read it, to the end of the sentence.</li>
+      <li>Set the interval to <strong>3s</strong> and try again.</li>
+      <li>Set <em>pointer on it</em> to <strong>changes nothing</strong>, and try again with your
+        cursor sitting on the text.</li>
+      <li>Set <em>after you touch it</em> to <strong>it carries on</strong>, then click back to the
+        slide you were reading. Wait.</li>
+      <li>Now set it to <strong>stops for good</strong> and do the same thing.</li>
+    </ol>
+  </div>
+
+  <div data-autoplay-lab data-title="Read the slide"></div>
+
+  <p>The counter names a failure that is otherwise silent. Being interrupted mid-sentence does not
+  feel like a bug while it is happening; it feels like your own failure to read fast enough. That
+  is exactly why autoplay survives usability reviews — the person it fails does not report it,
+  they blame themselves and leave.</p>
+
+  <p>Step four is the vicious one. Clicking back to a slide is an explicit statement of intent, and
+  a deck that resumes afterwards overrules it. There is no reading of that interaction where the
+  reader wanted the deck to keep going, which is why <em>stop permanently on first interaction</em>
+  is not a nicety. It is the difference between a control and a fight.</p>
+
+  <p>So the position to hold in the review is not a ban. It is a set of conditions, and autoplay
+  is fine when it meets all of them: the slides carry <strong>no text that takes longer to read
+  than the interval</strong> — images, or three words; it <strong>pauses on hover and on keyboard
+  focus</strong>; it <strong>stops permanently the first time anyone touches it</strong>; and it
+  <strong>does not start at all</strong> for a reader who has asked for reduced motion. A hero of
+  three photographs can meet every one of those. A hero of three paragraphs cannot meet the first,
+  and that is the whole argument, in one sentence you can say out loud.</p>
+
+  <p class="sidenote"><strong>If you have read the engineering track:</strong> the reduced-motion
+  condition is the strongest case of the argument in 0009 — an unrequested, looping, attention-
+  grabbing movement is the precise thing that setting exists to switch off, so an autoplaying deck
+  that ignores it is ignoring a direct request.</p>
+
+  <h2>Check yourself</h2>
+
+  <div data-quiz data-quiz-title="Review the deck">
+    <div data-q data-answer="3">
+      <p class="qz-stem">A "recently viewed" deck ships with six items and dots. Eight months later
+        it holds thirty-one. What has broken?</p>
+      <button data-opt>Nothing — the dots simply got smaller.</button>
+      <button data-opt>The animation, which now has to travel much further.</button>
+      <button data-opt>The indicator. Thirty-one dots answer neither "where am I" nor "how much is
+        left", while still occupying the place the eye goes for both.</button>
+      <button data-opt>The peek, which is now too small a proportion of the strip.</button>
+      <p data-explain>Dots are readable at a glance up to roughly seven. Past that they degrade
+        into a texture that says "many" — and the fix is a counter or a bar, chosen from the
+        largest count the deck will ever hold rather than the count in the original mock.</p>
+    </div>
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">A designer proposes making the cards fill the window exactly, removing the
+        peek, "because the cut-off card looks unfinished". What is the strongest objection?</p>
+      <button data-opt>The cut-off card is a deliberate style, and consistency with the rest of the
+        product matters more than one screen.</button>
+      <button data-opt>The peek is the only thing in the content saying the row continues. Remove
+        it and a reader who doesn't already know it scrolls has no reason to try.</button>
+      <button data-opt>Full-width cards make the snap animation feel too long.</button>
+      <button data-opt>It breaks the grid the rest of the page is built on.</button>
+      <p data-explain>Discoverability, not taste. A deck with no peek and no indicator is fully
+        functional and completely invisible — the failure mode that reports as working, because the
+        people it fails never touch it.</p>
+    </div>
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">A deck of full-width feature cards free-scrolls, and shows a dot for each
+        card. What's wrong?</p>
+      <button data-opt>The indicator and the scrolling contradict each other: a dot claims you are
+        on card three, and free scroll leaves you between three and four about half the time.</button>
+      <button data-opt>Free scroll is always wrong; every deck should snap.</button>
+      <button data-opt>Full-width cards should use a progress bar rather than dots.</button>
+      <button data-opt>Nothing, as long as the rubber-band at the ends is right.</button>
+      <p data-explain>Snapping and indicating are the same claim made twice. If the deck names a
+        current item, it has to be able to be <em>on</em> one. Free scroll is for strips of small
+        items where landing between two costs nothing — thumbnails, tags, avatars.</p>
+    </div>
+
+    <div data-q data-answer="4">
+      <p class="qz-stem">Marketing wants an autoplaying hero with three slides, each carrying a
+        headline and two lines of body copy. What do you say?</p>
+      <button data-opt>Autoplay is never acceptable; propose a static hero.</button>
+      <button data-opt>Agree, but set the interval to eight seconds so there is time to read.</button>
+      <button data-opt>Agree, provided it pauses on hover.</button>
+      <button data-opt>Autoplay can work, but not with this content: no interval both gives a slow
+        reader time and keeps a fast one from waiting. Either the slides lose the body copy, or the
+        deck loses the autoplay.</button>
+      <p data-explain>The condition autoplay cannot buy its way out of is text longer than the
+        interval — any interval is wrong for someone. Pausing on hover, stopping on interaction and
+        honouring reduced motion are all required too, but they mitigate a deck that already passes
+        the content test. This one doesn't.</p>
+    </div>
+  </div>
+
+  <h2>What you can now do</h2>
+
+  <p>Look at any deck and say what its indicator is promising, whether the content will let it keep
+  that promise a year from now, and what on screen tells a first-time visitor there is anything to
+  the right of the edge. Say whether the items are pages or a strip, and hold the snap decision to
+  that answer. And when autoplay comes up, argue it on the four conditions rather than on taste —
+  the content test first, because it is the one that usually settles it.</p>
+
+  <p>Next: the same problem at a different scale. A deck moves content past a fixed window on
+  purpose; a scroll-driven page does it as a side effect of the reader going down the page, and the
+  design questions change completely.</p>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="D007-scroll-as-a-timeline.html">Design track D007 — Scroll as a timeline →</a>
+      <a href="D005-things-you-drag.html">← Design track D005 — Things you drag</a>
+      <a href="D004-the-button.html">Design track D004 — The button</a>
+      <a href="D003-motion-is-hierarchy.html">Design track D003 — Motion is hierarchy</a>
+      <a href="D002-where-things-live.html">Design track D002 — Where things live when they're off screen</a>
+      <a href="D001-the-map-and-the-words.html">Design track D001 — The map, and the words for it</a>
+      <a href="0013-reveals-with-clip-path.html">Lesson 0013 — Reveals with clip-path</a>
+      <a href="0012-things-that-just-appeared.html">Lesson 0012 — Things that just appeared</a>
+      <a href="0011-layout-animation.html">Lesson 0011 — Layout animation</a>
+      <a href="0010-hover-and-press.html">Lesson 0010 — Hover and press</a>
+      <a href="0009-reduced-motion.html">Lesson 0009 — Reduced motion</a>
+      <a href="0008-springs.html">Lesson 0008 — Springs</a>
+      <a href="0007-transform-origin.html">Lesson 0007 — Transform-origin</a>
+      <a href="0006-choosing-a-tool.html">Lesson 0006 — Choosing a tool</a>
+      <a href="0005-exits.html">Lesson 0005 — Exits</a>
+      <a href="0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal</a>
+      <a href="0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration</a>
+      <a href="0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+      <a href="0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing (printable)</a>
+      <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers (printable)</a>
+      <a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course (printable)</a>
+      <a href="../reference/04-the-workbench.html">Reference 04 — The Workbench (every lab, live)</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+      <span style="color:var(--ink-faint)">Next: <strong>D007 — Scroll as a timeline</strong>.
+        What a page is allowed to do while the reader is moving down it, and the difference between
+        a scroll that reveals and a scroll that drives.</span>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/deck-lab.js"></script>
+<script src="../assets/autoplay-lab.js"></script>
+<script src="../assets/quiz.js"></script>
