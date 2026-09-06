@@ -1,5 +1,9 @@
 # Web Animation Resources
 
+## A concrete performance recording exercise
+
+- [Image Reveal — CSS](https://scroll-driven-animations.style/demos/image-reveal/css/) — a small, readable scroll-driven reveal. Record two or three passes in DevTools Performance and inspect one long frame.
+
 ## Knowledge
 
 ### First principles — when and why to animate
@@ -287,7 +291,7 @@
   `power2.out`/`power3.out`/`expo.out`, `stagger: 0.075`, travel distances 10–24px,
   UI durations 0.2–0.45s. **Use for:** proof that the principles hold in production.
 
-### In the wild — the sites D007 and D008 send you to
+### In the wild — the sites D007, D008 and D010 send you to
 
 These are linked from the lessons themselves, in the margin, each with a question attached. They
 are listed here so the set survives a lesson being rewritten. Every one is a single concrete page
@@ -329,6 +333,20 @@ changes the exercise rather than ending it.
   published account of split text going wrong — `autoSplit`, `onSplit`, and a long accessibility
   section. **Use for:** D008's *keep the reading intact*. Run the demo, then try to select and copy
   the split headline.
+- [HTTP 203 playlist demo](https://http203-playlist.netlify.app/)
+  A small video app built to demonstrate view transitions, and the shipped CSS names its parts:
+  `site-header`, `header-text`, `embed-container`, `related-videos`. **Use for:** D010's shared
+  element. Click a video and watch the thumbnail become the player, then press back and watch it go
+  home — and separately, notice that the top bar never blinks.
+- [Chrome — paginated view transitions (MPA)](https://view-transitions.chrome.dev/pagination/mpa/)
+  A real cross-document navigation, not a single-page imitation. Its `mpa.css` branches on
+  `:active-view-transition-type(forwards | backwards | reload)`. **Use for:** D010's *back is not
+  forward*. Click through, then use the browser back button, then reload mid-sequence: three
+  navigations, three answers.
+- [Chrome — stack navigator (MPA)](https://view-transitions.chrome.dev/stack-navigator/mpa/)
+  A messages app whose transitions assert depth; `shared/styles.css` names `page` and `works` and
+  keyframes `slide-in` / `shrink` / `grow`. **Use for:** D010's cold-entry test. Go two levels
+  deep, copy the URL, open it in a new tab, and ask whether the screen still says where you are.
 
 ## Wisdom (Communities)
 

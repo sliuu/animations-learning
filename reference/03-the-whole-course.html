@@ -37,13 +37,17 @@
     <strong>0011</strong> — Don't author a layout animation. Measure it twice and animate the difference.<br>
     <strong>0012</strong> — A transition needs two values. A new element has one, so supply the first or nothing runs.<br>
     <strong>0013</strong> — Move the thing, or move the window over it. Buy the shape only when a rectangle can't.<br>
+    <strong>0014</strong> — Find the long frame, follow the pipeline, and name the mechanism before the remedy.<br>
     <strong>D001</strong> — Name the family, the pattern, the verb, then the promise.<br>
     <strong>D002</strong> — Choose where a thing lives when absent; the motion follows.<br>
     <strong>D003</strong> — Motion is a hierarchy channel, and the loudest one.<br>
     <strong>D004</strong> — A button is seven promises, not one resting rectangle.<br>
     <strong>D005</strong> — The hand owns the drag; design pickup and release.<br>
     <strong>D006</strong> — A deck must say where you are and how much is left.<br>
-    <strong>D007</strong> — On a scroll timeline, distance is duration and the middle frame chooses trigger or scrub.</p>
+    <strong>D007</strong> — On a scroll timeline, distance is duration and the middle frame chooses trigger or scrub.<br>
+    <strong>D008</strong> — Split only as finely as the meaning changes; the unit is the argument.<br>
+    <strong>D009</strong> — A wait has two facts: how long, and whether the length is knowable.<br>
+    <strong>D010</strong> — A transition is a claim about two screens. Back is a second design.</p>
   </div>
 
   <hr>
@@ -370,6 +374,15 @@
 
   <hr>
 
+  <h2>0014 · Reading a Performance recording</h2>
+  <p><em>Skill: find a long frame, follow its pipeline, and choose a mechanism-led fix.</em></p>
+  <ul>
+    <li>A recording is evidence, not a score. Start with a long frame, then inspect the work nested inside it.</li>
+    <li>Layout recalculates geometry; Paint fills pixels; Composite assembles painted layers.</li>
+    <li>Say what changed, how much changed, and which stage paid before proposing a remedy.</li>
+    <li>Repeat recordings across cold/warm cache and the slowest part of the gesture; machine and viewport change the numbers.</li>
+  </ul>
+
   <h2>The design track</h2>
 
   <p>The engineering track is organised by mechanism. This one is organised by recognisable
@@ -474,6 +487,30 @@
 
   <hr>
 
+  <h2>D009 &middot; Loading, waiting, and optimism</h2>
+  <p><em>Skill: pick a waiting treatment from the length of the wait, and defend it.</em></p>
+  <ul>
+    <li>Two facts decide the treatment: how long the wait is, and whether the length is knowable. Everything else is taste.</li>
+    <li>A determinate indicator is a checkable promise. Don't make one you can't keep.</li>
+    <li>A skeleton promises the shape of what's coming, so it lies on an empty state.</li>
+    <li>Delay the loader past the common case, or most readers get a flash of loading that reads as a glitch.</li>
+    <li>Optimism is a bet on the failure being cheap, reversible, and visible where the reader is still standing.</li>
+  </ul>
+
+  <hr>
+
+  <h2>D010 &middot; Navigation and page transitions</h2>
+  <p><em>Skill: choose a transition model from the relationship between two screens, and make the way back mean something.</em></p>
+  <ul>
+    <li>Four models, four claims: cut says nothing, cross-fade says <em>different</em>, push says <em>direction</em>, shared element says <em>this one</em>.</li>
+    <li>Back is not forward. One code path means one animation unless someone insists; press back and describe what you were told.</li>
+    <li>Orientation is bought by what <em>doesn't</em> take part. Persistent chrome is layout, not motion, so it survives everything.</li>
+    <li>Ask what the smallest region that has to change is. Most navigations change less than the implementation does.</li>
+    <li>Cold entry test: load the destination with no history. Anything the transition was the only source of has gone.</li>
+  </ul>
+
+  <hr>
+
   <p class="sidenote">What this sheet deliberately leaves out: every argument. Reference 01 holds
   the judgment calls for easing and timing, Reference 02 holds the numbers and the syntax, and
   this one holds the shape of the course. If a bullet here reads as an assertion you'd rather
@@ -486,6 +523,9 @@
       <a href="02-the-numbers.html">Reference 02 — The Numbers</a>
       <a href="04-the-workbench.html">Reference 04 — The Workbench</a>
       <a href="../lessons/0013-reveals-with-clip-path.html">Lesson 0013 — Reveals with clip-path</a>
+      <a href="../lessons/D010-navigation-and-transitions.html">Lesson D010 — Navigation and page transitions</a>
+      <a href="../lessons/D009-loading-waiting-and-optimism.html">Lesson D009 — Loading, waiting, and optimism</a>
+      <a href="../lessons/D008-text-that-arrives.html">Lesson D008 — Text that arrives</a>
       <a href="../lessons/D007-scroll-as-a-timeline.html">Lesson D007 — Scroll as a timeline</a>
       <a href="../lessons/D006-decks-and-dots.html">Lesson D006 — Decks, and what the dots promise</a>
       <a href="../lessons/D005-things-you-drag.html">Lesson D005 — Things you drag</a>

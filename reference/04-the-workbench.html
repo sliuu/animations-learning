@@ -96,6 +96,12 @@
       <tr><td><a href="#wb-d06b">D06 · Autoplay</a></td><td>A readable slide against an advancing timer</td><td>Interval, pause, what interaction does</td></tr>
       <tr><td><a href="#wb-d07a">D07 · Scroll timeline</a></td><td>An entrance and an explanation under the same scroll</td><td>Trigger/scrub, distance, pin, depth</td></tr>
       <tr><td><a href="#wb-d07b">D07 · Scroll contract</a></td><td>Direct scroll and smoothed catch-up, sides shuffled</td><td>Nothing — one input drives both</td></tr>
+      <tr><td><a href="#wb-d08a">D08 · Split the text</a></td><td>A hero word and a paragraph under the same split</td><td>Unit, per-unit delay, order</td></tr>
+      <tr><td><a href="#wb-d08b">D08 · Same words, different promise</a></td><td>A mask uncovering beside a fade-up arrival</td><td>Duration, curve, line delay, travel — and hold at 50%</td></tr>
+      <tr><td><a href="#wb-d09a">D09 · Four waits</a></td><td>One request, four treatments, one clock</td><td>Latency</td></tr>
+      <tr><td><a href="#wb-d09b">D09 · Save it twice</a></td><td>An optimistic save beside a confirmed one</td><td>Latency, failure rate, pending marker</td></tr>
+      <tr><td><a href="#wb-d10a">D10 · Four models</a></td><td>One navigation as cut, cross-fade, push and shared element</td><td>Direction, and what back does</td></tr>
+      <tr><td><a href="#wb-d10b">D10 · What stays put</a></td><td>A full swap beside one that keeps its chrome</td><td>What persists, and where you navigate to</td></tr>
       <tr><td><a href="#wb-scratch">Scratch</a></td><td>Nothing — it is a bare patch</td><td>The markup and the CSS</td></tr>
     </tbody>
   </table>
@@ -377,6 +383,40 @@
     dimmer and lower.</p>
   <div class="wb-lab" data-text-arrival-lab data-title="Same words, different promise"></div>
 
+  <h2 id="wb-d09a">D09 &middot; Four waits</h2>
+  <p class="wb-from"><a href="../lessons/D009-loading-waiting-and-optimism.html">Lesson D009 — Loading, waiting, and optimism</a>
+    <span class="wb-sep">&middot;</span> nothing, spinner, skeleton and progress on one clock</p>
+  <p>Reach for it when someone says “use a skeleton, not a spinner”. Set the latency to the number
+    your endpoint actually returns in, and the ranking rearranges itself &mdash; which is why the rule
+    isn&rsquo;t one.</p>
+  <div class="wb-lab" data-wait-lab data-title="One request, four waits"></div>
+
+  <h2 id="wb-d09b">D09 &middot; Save it twice</h2>
+  <p class="wb-from"><a href="../lessons/D009-loading-waiting-and-optimism.html">Lesson D009 — Loading, waiting, and optimism</a>
+    <span class="wb-sep">&middot;</span> an optimistic save beside a confirmed one, failing at a rate you set</p>
+  <p>Reach for it before agreeing to an optimistic update. Turn the failure rate up until the
+    rollback stops being theoretical, and decide whether you would still ship it.</p>
+  <div class="wb-lab" data-optimistic-lab data-title="Save it twice"></div>
+
+  <h2 id="wb-d10a">D10 &middot; Four models</h2>
+  <p class="wb-from"><a href="../lessons/D010-navigation-and-transitions.html">Lesson D010 — Navigation and page transitions</a>
+    <span class="wb-sep">&middot;</span> cut, cross-fade, push and shared element on one tap</p>
+  <p>Reach for it when a navigation needs a transition and nobody can say which. Say what each of
+    the four claims, then set back to <em>repeats forward</em> and watch two of them lie.</p>
+  <div class="wb-lab" data-nav-lab data-title="One navigation, four models"></div>
+
+  <h2 id="wb-d10b">D10 &middot; What stays put</h2>
+  <p class="wb-from"><a href="../lessons/D010-navigation-and-transitions.html">Lesson D010 — Navigation and page transitions</a>
+    <span class="wb-sep">&middot;</span> a full swap beside one that keeps its chrome, same fade both sides</p>
+  <p>Reach for it when a page change feels unsettled and the instinct is to improve the animation.
+    Both panes run the same fade; the measured share that held still is the whole difference.</p>
+  <div class="wb-lab" data-continuity-lab data-title="What stays put"></div>
+
+  <h2 id="wb-0014">0014 · Read a recording</h2>
+  <p class="wb-from"><a href="../lessons/0014-reading-a-performance-recording.html">Lesson 0014 — Reading a Performance recording</a>
+    <span class="wb-sep">·</span> find the long frame, then name the pipeline stage</p>
+  <div class="wb-lab" data-performance-lab data-title="Read one recording"></div>
+
   <hr>
 
   <h2 id="wb-scratch">Scratch</h2>
@@ -420,6 +460,9 @@
       <a href="02-the-numbers.html">Reference 02 — The Numbers</a>
       <a href="03-the-whole-course.html">Reference 03 — The Whole Course</a>
       <a href="../lessons/0013-reveals-with-clip-path.html">Lesson 0013 — Reveals with clip-path</a>
+      <a href="../lessons/D010-navigation-and-transitions.html">Lesson D010 — Navigation and page transitions</a>
+      <a href="../lessons/D009-loading-waiting-and-optimism.html">Lesson D009 — Loading, waiting, and optimism</a>
+      <a href="../lessons/D008-text-that-arrives.html">Lesson D008 — Text that arrives</a>
       <a href="../lessons/D007-scroll-as-a-timeline.html">Lesson D007 — Scroll as a timeline</a>
       <a href="../lessons/D006-decks-and-dots.html">Lesson D006 — Decks, and what the dots promise</a>
       <a href="../lessons/D005-things-you-drag.html">Lesson D005 — Things you drag</a>
@@ -476,4 +519,11 @@
 <script src="../assets/autoplay-lab.js"></script>
 <script src="../assets/timeline-lab.js"></script>
 <script src="../assets/scroll-contract-lab.js"></script>
+<script src="../assets/split-lab.js"></script>
+<script src="../assets/text-arrival-lab.js"></script>
+<script src="../assets/wait-lab.js"></script>
+<script src="../assets/optimistic-lab.js"></script>
+<script src="../assets/nav-lab.js"></script>
+<script src="../assets/continuity-lab.js"></script>
+<script src="../assets/performance-lab.js"></script>
 <script src="../assets/playground.js"></script>

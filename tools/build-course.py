@@ -38,12 +38,9 @@ PLANNED_ENG = [
 # the whole vocabulary, and D008 is the biggest gap against the mission's own
 # north star, so both come before the ones numbered between them.
 PLANNED_DES = [
-    ('D10', 'Navigation and page transitions',
-     'The where-am-I problem. Menu overlays, shared elements, and continuity as orientation.',
-     'next in this track · may fold into 0011 instead'),
     ('D11', 'The motion budget',
      'Expensive against busy, and answering “should this animate?” with a principled no.',
-     'queued'),
+     'next in this track'),
     ('D12', 'The critique drill',
      'Name the flaw, name the fix, name the principle. Ten before-and-afters, verdict hidden '
      'until you commit.',
@@ -70,7 +67,8 @@ ASSETS = ['easing-lab.js', 'cost-lab.js', 'stagger-lab.js', 'scroll-lab.js', 'ex
           'pattern-lab.js', 'home-lab.js', 'return-lab.js', 'channel-lab.js', 'rank-lab.js',
           'flip-lab.js', 'vt-lab.js', 'state-lab.js', 'hold-lab.js', 'grab-lab.js', 'drag-lab.js', 'deck-lab.js', 'autoplay-lab.js',
           'timeline-lab.js', 'scroll-contract-lab.js', 'split-lab.js', 'text-arrival-lab.js',
-          'wait-lab.js', 'optimistic-lab.js',
+          'wait-lab.js', 'optimistic-lab.js', 'nav-lab.js', 'continuity-lab.js',
+          'performance-lab.js',
           'playground.js', 'quiz.js']
 
 
