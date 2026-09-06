@@ -291,12 +291,12 @@
   `power2.out`/`power3.out`/`expo.out`, `stagger: 0.075`, travel distances 10–24px,
   UI durations 0.2–0.45s. **Use for:** proof that the principles hold in production.
 
-### In the wild — the sites D007, D008 and D010 send you to
+### In the wild — the sites D007, D008, D010 and D011 send you to
 
 These are linked from the lessons themselves, in the margin, each with a question attached. They
 are listed here so the set survives a lesson being rewritten. Every one is a single concrete page
 with a specific thing on it — a gallery or a tag archive is not an example, it is a place examples
-might be. All checked 2026-09-05; the point of each is a pattern, not a layout, so a redesign
+might be. All checked 2026-09-06; the point of each is a pattern, not a layout, so a redesign
 changes the exercise rather than ending it.
 
 - [Apple — AirPods Pro](https://www.apple.com/airpods-pro/)
@@ -347,6 +347,17 @@ changes the exercise rather than ending it.
   A messages app whose transitions assert depth; `shared/styles.css` names `page` and `works` and
   keyframes `slide-in` / `shrink` / `grow`. **Use for:** D010's cold-entry test. Go two levels
   deep, copy the URL, open it in a new tab, and ask whether the screen still says where you are.
+
+- [GOV.UK Design System — accordion](https://design-system.service.gov.uk/components/accordion/)
+  One live component from a system built for services nobody chooses to use, where the height change
+  on open and close is the component's entire motion budget. **Use for:** D011's *how to say no*.
+  Open a few sections, then walk ten more components from the list beside it and count what moves —
+  then name the three absences you felt and the three you never noticed.
+- [Excalidraw](https://excalidraw.com/)
+  A tool people keep open all day, and almost nothing in it animates. **Use for:** D011's repetition
+  tax. Draw a few boxes, move them, open the style panel, undo a dozen times, and count the frames
+  you wait for — then find the one or two places they did spend, which are the things you do once
+  rather than all afternoon.
 
 ## Wisdom (Communities)
 

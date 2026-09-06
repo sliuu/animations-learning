@@ -13,7 +13,7 @@ import re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = ROOT / 'dist' / 'course.html'
-BUILT = '2026-09-05'
+BUILT = '2026-09-06'
 
 # What is written next, in the order it is currently planned. Shown faded in
 # the contents so the shape of the whole course is visible from lesson one —
@@ -23,10 +23,6 @@ BUILT = '2026-09-05'
 # starts at D001 should see the design road ahead under the design lessons, not
 # buried after three engineering rows they were never going to read.
 PLANNED_ENG = [
-    ('14', 'Reading a Performance recording',
-     'Not a lesson so much as a session: open DevTools on a page you pick and read the flame '
-     'chart together until the green bars mean something.',
-     'needs a page from you'),
     ('15', 'The reverse-engineering drill',
      'Take a real site. Name every effect with the right vocabulary, measure the timings, '
      'rebuild one from scratch. This is the mission, run as an exam.',
@@ -38,13 +34,10 @@ PLANNED_ENG = [
 # the whole vocabulary, and D008 is the biggest gap against the mission's own
 # north star, so both come before the ones numbered between them.
 PLANNED_DES = [
-    ('D11', 'The motion budget',
-     'Expensive against busy, and answering “should this animate?” with a principled no.',
-     'next in this track'),
     ('D12', 'The critique drill',
      'Name the flaw, name the fix, name the principle. Ten before-and-afters, verdict hidden '
      'until you commit.',
-     'queued'),
+     'next in this track'),
     ('D13', 'Motion in a design system',
      'Tokens and handoff: what belongs in a Figma spec, and what only ever exists in code.',
      'queued'),
@@ -68,6 +61,7 @@ ASSETS = ['easing-lab.js', 'cost-lab.js', 'stagger-lab.js', 'scroll-lab.js', 'ex
           'flip-lab.js', 'vt-lab.js', 'state-lab.js', 'hold-lab.js', 'grab-lab.js', 'drag-lab.js', 'deck-lab.js', 'autoplay-lab.js',
           'timeline-lab.js', 'scroll-contract-lab.js', 'split-lab.js', 'text-arrival-lab.js',
           'wait-lab.js', 'optimistic-lab.js', 'nav-lab.js', 'continuity-lab.js',
+          'budget-lab.js', 'repeat-lab.js',
           'performance-lab.js',
           'playground.js', 'quiz.js']
 

@@ -1,0 +1,70 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>0014 — Reading a Performance recording</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+<div class="page">
+  <header class="masthead">
+    <p class="eyebrow">Lesson 0014 · 18 minutes</p>
+    <h1>Reading a Performance recording</h1>
+    <p class="dek">A flame chart is not a grade. It is a trail of evidence: find the long frame, follow the work, then choose the smallest honest fix.</p>
+    <div class="meta"><span>Skill: diagnose a slow animation from the work it causes</span><span><a href="0013-reveals-with-clip-path.html">← Lesson 0013</a></span></div>
+  </header>
+
+  <p class="lead">Lesson 0013 gave <code>clip-path</code> a careful warning: it skips layout, but it still buys paint. Today we look at the receipt. A performance recording is a timeline of frames and the browser work inside each one.</p>
+  <div class="callout"><span class="label">Say it out loud</span><p><strong>Frame budget</strong> is the time available for one frame — about 16.7ms at 60Hz. A <strong>long frame</strong> misses that window; repeated misses feel like <em>jank</em>, a hitch in motion. <strong>Layout</strong> measures geometry, <strong>paint</strong> fills pixels, and <strong>composite</strong> assembles already-painted layers.</p></div>
+  <p>Start with this deliberately small recording. It uses the same question you will ask in DevTools: what changed, how much changed, and which pipeline stage paid for it.</p>
+  <div data-performance-lab data-title="Read one recording"></div>
+
+  <div class="callout"><span class="label">Try this, in order</span><ol>
+    <li>Press <strong>Play recording</strong>, then <strong>Inspect worst frame</strong>. Read the verdict, not just the number.</li>
+    <li>Change <strong>What changed</strong> from transform to clip-path to width. The stage named in the verdict follows the property.</li>
+    <li>Leave the property alone and switch to <strong>100 images</strong>. Scope matters: the same mechanism can cross the budget when more pixels are involved.</li>
+    <li>Click a bar. A real recording lets you do the same thing: select one frame, then read the work nested inside it.</li>
+  </ol></div>
+
+  <h2>Three moves through a recording</h2>
+  <p><strong>1. Scan the frame track.</strong> Long bars are the places to investigate. Do not average them into an FPS score; one 42ms frame is a visible hitch even if the next ten are short.</p>
+  <p><strong>2. Follow the pipeline.</strong> In the selected frame, look for Style, Layout, Paint and Composite. If Layout appears on every tick, geometry is changing. If Paint dominates, the browser is redrawing pixels. If only Composite remains, the main-thread work is probably not your bottleneck.</p>
+  <p><strong>3. Name the mechanism before the remedy.</strong> “Make it faster” is not a diagnosis. Replace a moving <code>width</code> with a transform when the design allows it; reduce painted area when a reveal is too expensive; remove work that the interaction does not need. Keep the visual promise intact.</p>
+
+  <h2>Before you press Record</h2>
+  <p>A recording is an experiment, so set up the experiment before interpreting its result. Use the same viewport and zoom you use when judging the design. Close a noisy tab, but do not chase a laboratory-perfect machine: the page still has to feel good on an ordinary one. Turn on the Performance panel's <strong>Screenshots</strong> lane so you can line the trace up with what was actually visible.</p>
+  <p>Then decide what gesture you are measuring. A scroll reveal needs the scroll itself, not just the page load. A press state needs the press and release. Start recording, wait a beat, perform the gesture at a normal speed, and stop immediately after the last visible change. The quiet seconds before and after are useful boundaries; they show you which work belongs to the interaction.</p>
+  <div class="callout"><span class="label">Make a prediction first</span><p>Write one sentence before you record: “I expect this reveal to spend most of its time in <em>Paint</em>, because the visible window changes.” If the trace disagrees, that is good news — you have learned something about the implementation instead of confirming a hunch.</p></div>
+
+  <h2>What the coloured rows mean</h2>
+  <p>The top overview is a map, not the territory. The frames row tells you <em>when</em> the browser missed its deadline. The main-thread flame chart tells you <em>what</em> occupied that frame. A wide purple block is Layout; a green block is Paint; scripting is usually yellow. The colours are useful shorthand, but the width is the evidence: a five-millisecond Paint event is not a problem merely because it is green.</p>
+  <p>Look for relationships between rows. A click or scroll marker is your cause. A run of long frames immediately after it is the effect. If a long yellow task sits before the rendering work, JavaScript may be starving the frame. If the yellow work is short but Paint is wide, changing the script will not cure the bill. Select the largest child event, then move one level up and ask which interaction owns it.</p>
+  <p>Do not mistake a single <code>requestAnimationFrame</code> callback for the animation itself. It is a scheduling hook. The expensive part is the style, layout or paint work it causes afterward. Likewise, a green “composite layers” row is not proof that the whole page is cheap — image decoding, scripting and layer creation can happen elsewhere in the same frame.</p>
+
+  <h2>Prove the fix</h2>
+  <p>Change one mechanism at a time and record the same gesture again. Keep the viewport, scroll distance and speed as close as you can. Compare the worst frame and the shape of the run, not just the average. A successful transform substitution should remove Layout from the selected frames; it does not need to produce a magical “60 FPS” badge.</p>
+  <ol><li>Save the first recording or a screenshot of the selected frame.</li><li>State the smallest change that could remove the dominant stage.</li><li>Make that change, reload, and repeat the gesture three times.</li><li>Check that the visual promise still holds — the reveal must still uncover, the drag must still track the hand, the press must still acknowledge the click.</li></ol>
+  <p class="sidenote">If the number improves but the design feels worse, the optimisation failed. Performance is a constraint on the promise, not permission to quietly change the promise.</p>
+
+  <h2>Go and look at a real page</h2>
+  <p>Open the <a href="https://scroll-driven-animations.style/demos/image-reveal/css/">Image Reveal CSS demo</a>. It is a good specimen because the visual idea is clear: an image is uncovered as you scroll, using a view timeline and <code>clip-path</code>.</p>
+  <ol><li>Open DevTools → <strong>Performance</strong>. Start a recording, scroll slowly through two or three reveals, then stop.</li><li>Find one long frame in the overview. Select it and expand the main-thread events until you can name the largest stage.</li><li>Record the observation in one sentence: “The reveal spends most of this frame in ___ because ___.” Repeat once with a cold reload and once with the cache warm.</li></ol>
+  <p class="sidenote">This is not a benchmark. Your machine, browser, viewport and image cache all change the numbers. The transferable skill is reading the causal shape of the trace.</p>
+
+  <h2>When the recording disagrees with the design</h2>
+  <p>A short recording can lie by omission. Repeat the interaction, include the slowest part of the gesture, and check that the element is actually visible. A reduced-motion preference may remove the animation while leaving the layout and paint work you are trying to understand. The useful question is always: <em>what work happened in the frame I can feel?</em></p>
+
+  <div class="callout"><span class="label">You can now</span><p>Find a long frame, identify the pipeline stage inside it, and propose a fix that follows from the mechanism rather than from a superstition about FPS.</p></div>
+
+  <div data-quiz data-quiz-title="Retrieval check">
+    <div data-q data-answer="2"><p class="qz-stem">What is the first useful target in a recording?</p><button data-opt>The average FPS</button><button data-opt>A long frame</button><button data-opt>The prettiest animation</button><p data-explain>Long frames are the moments a person can feel; inspect those before summarising.</p></div>
+    <div data-q data-answer="1"><p class="qz-stem">Which change usually skips Layout?</p><button data-opt><code>transform</code></button><button data-opt><code>width</code></button><button data-opt><code>padding</code></button><p data-explain>Transforms move a composited layer without changing geometry.</p></div>
+    <div data-q data-answer="3"><p class="qz-stem">What should a verdict name?</p><button data-opt>Only a duration</button><button data-opt>Only a device</button><button data-opt>The work and the mechanism that caused it</button><p data-explain>A number is useful only when it is tied to the work that produced it.</p></div>
+  </div>
+  <div class="ask-teacher"><strong>Ask your teacher</strong><p>Bring me a screenshot of one long frame from a page you care about. We will read it together and decide whether the design, the implementation, or the test setup is the thing to change.</p></div>
+  <nav class="footer-nav"><h2>Course</h2><div class="nav-links">
+    <a href="0015-reverse-engineering-drill.html">Lesson 0015 — The reverse-engineering drill →</a>
+    <a href="0013-reveals-with-clip-path.html">Lesson 0013 — Reveals with clip-path</a>
+    <a href="0012-things-that-just-appeared.html">Lesson 0012 — Things that just appeared</a>
+    <a href="../reference/03-the-whole-course.html">Reference 03 — The whole course</a>
+    <a href="../MISSION.html">Mission</a><a href="../RESOURCES.md">Resources</a>
+  </div></nav>
+</div>
+<script src="../assets/performance-lab.js"></script>
+<script src="../assets/quiz.js"></script>

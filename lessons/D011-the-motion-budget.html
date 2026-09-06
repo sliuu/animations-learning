@@ -1,0 +1,473 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D011 — The motion budget</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lesson D011 · 20 minutes</p>
+    <h1>The motion budget</h1>
+    <p class="dek">Every animation on a screen is competing with every other animation on the same
+      screen, for something the reader has a fixed amount of. This is the lesson about saying
+      no.</p>
+    <div class="meta">
+      <span>Skill: answer "should this animate?" with a reason, and price an animation by how often it plays</span>
+      <span><a href="D010-navigation-and-transitions.html">← Lesson D010</a></span>
+    </div>
+  </header>
+
+  <p class="lead">D010 ended on a claim: a transition is a sentence about how two screens are
+  related. Here is what that claim costs. If a transition is a sentence, then a screen with eight
+  animations on it is eight people talking, and the reader can follow one. Motion is the loudest
+  thing a design has, and loudness does not add up — it divides.</p>
+
+  <div class="callout">
+    <span class="label">Say it out loud</span>
+    <p><strong>Motion budget</strong> — how much movement a screen can spend before the reader can
+    no longer tell which movement mattered.<br>
+    <strong>Signal</strong> — motion that reports something that actually changed.<br>
+    <strong>Noise</strong> — motion that reports nothing, at the same volume.<br>
+    <strong>Busy</strong> — too many claims at once. A failure of quantity.<br>
+    <strong>Expensive</strong> — too much cost per instance: too long, too often. A failure of
+    price.<br>
+    <strong>Gratuitous</strong> — motion with no referent at all. It is not reporting, guiding or
+    confirming anything.<br>
+    <strong>Repetition tax</strong> — the length of an animation multiplied by how many times a day
+    it plays.<br>
+    <strong>A principled no</strong> — declining an animation with a reason the other person can
+    answer, rather than with taste.</p>
+  </div>
+
+  <p>Below is a dashboard and one refresh. Two settings: what actually changed, and what you allowed
+  to move about it.</p>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <ol>
+      <li>Leave both settings alone and press <strong>Refresh the data</strong>. One figure changed
+        and one figure moved. Note how quickly your eye found it.</li>
+      <li>Set <strong>What is allowed to move</strong> to <em>everything</em> and refresh again.
+        Now find the figure that changed.</li>
+      <li>Set it to <em>nothing</em> and refresh twice. Say what the screen just did to you.</li>
+      <li>Now set <strong>What happened</strong> to <em>the whole page reloaded</em>, leaving the
+        budget at <em>nothing</em>, then walk it back up through <em>one thing</em> and
+        <em>the data</em>.</li>
+      <li>Find the setting that is right for each event. There is one for each, and they are
+        different.</li>
+    </ol>
+  </div>
+
+  <div data-budget-lab data-title="One refresh, eight places it could show"></div>
+
+  <h2>The budget is attention, not milliseconds</h2>
+
+  <p>The reason to have a budget is not that animation is expensive to run. It is that the reader
+  has one visual system, it is extremely good at detecting movement, and it will look at whatever
+  moves whether or not that was useful. You do not get to choose whether motion takes attention. You
+  only get to choose what it takes it <em>for</em>.</p>
+
+  <p>That is why the lab counts three things rather than one. <strong>Signal</strong> is motion on
+  something that changed. <strong>Noise</strong> is motion on something that did not. And the third
+  count, the one nobody puts in a review, is the change that happened with no motion at all — the
+  figure that quietly became a different figure while the reader was looking at the other side of
+  the screen.</p>
+
+  <p>Set the budget to <em>everything</em> with one figure changing and look at what has happened to
+  the signal. Nothing was removed. The one honest animation is still there, playing exactly as it
+  did before, and it has become useless — because a highlight is not a property of the thing
+  highlighted, it is a property of the difference between that thing and everything else. Seven
+  animations did not dilute the eighth by a bit. They cancelled it.</p>
+
+  <p>This is what <strong>busy</strong> means, and it is worth being precise about it, because it
+  gets used as a synonym for "too much" and it is not one. A screen is busy when it makes more
+  claims than the event deserved. One long, heavy, indulgent animation on the one thing that changed
+  is not busy. Eight two-hundred-millisecond fades on a screen where one number moved is busy, and
+  it is busy at any duration you like.</p>
+
+  <p>Which is also why "less is more" is the wrong lesson to take from that lab, and why the second
+  setting exists. Switch the event to <em>the whole page reloaded</em> and put the budget back to
+  <em>one thing</em>: now one panel is animating and four panels changed underneath it in silence.
+  The motion is <em>under</em>-reporting. It points at one figure and implies the others are as they
+  were, and the reader believes it, because that is what a highlight means.</p>
+
+  <p><strong>The right amount of motion is the size of the event.</strong> That is the whole rule,
+  and it explains both failures with one sentence. Eight animations for a one-figure change is a
+  lie in one direction. One animation for an eight-panel change is a lie in the other. The budget is
+  not a number you set once for the product; it is set fresh by every event, and the only question
+  is whether the motion is telling the reader the truth about how much just happened.</p>
+
+  <h2>Busy and expensive are different failures</h2>
+
+  <p>These two words get used interchangeably in reviews and they name opposite problems, which
+  means half of all animation feedback is aimed at the wrong thing. It is worth being able to
+  separate them out loud, because the fix for one does nothing at all for the other.</p>
+
+  <p><strong>Busy</strong> is a failure of quantity: too many things claiming attention in the same
+  second. You can have a busy screen where every individual animation is short, cheap, tasteful and
+  defensible. The fix is subtraction — decide which one thing is the news and let the rest hold
+  still.</p>
+
+  <p><strong>Expensive</strong> is a failure of price: one thing costs too much. Too long, too
+  often, or too heavy for the machine it is running on. A single animation can make an entire
+  product feel slow, and no amount of removing <em>other</em> animations will help, because there
+  were not any others. The fix is to make that one cheaper.</p>
+
+  <p>So the diagnostic question in a review is: <em>how many things are moving?</em> If the answer
+  is "eight", you have a busy problem and you are looking for things to cut. If the answer is "one",
+  you have an expensive problem and cutting is not available — you are looking at the length, the
+  frequency, and what it is animating.</p>
+
+  <p class="sidenote"><strong>If you have read 0002:</strong> that lesson prices the third kind of
+  expensive — the machine's bill, where animating a layout property costs orders of magnitude more
+  than animating a transform. Everything here is about the reader's bill instead. The two are
+  independent: a design can be perfectly cheap to render and still ruinously busy.</p>
+
+  <p class="sidenote wild"><span class="wild-label">Go and look</span>
+    <a target="_blank" rel="noopener noreferrer" href="https://design-system.service.gov.uk/components/accordion/">the
+    GOV.UK accordion</a> &mdash; a real, interactive component from a system a government uses to
+    build services everybody has to use. Open and close a few sections, press <em>show all</em>, and
+    notice that the height change is the entire animation budget of the component. Then walk on
+    through ten more from the list beside it and keep counting. The harder half is this: name the
+    three interactions where you noticed the absence and felt worse for it, and the three where you
+    did not notice at all. That ratio is the argument for a budget, made by someone who set theirs
+    near zero.
+    <span class="wild-note">Checked 2026-09-06. Sites get redesigned; if this one has, the exercise
+    is still to count what moves.</span></p>
+
+  <h2>Multiply by how often</h2>
+
+  <p>Here is the arithmetic nobody does. An animation's cost is not its duration. It is its duration
+  times the number of times the reader will see it, and those two numbers are decided in different
+  rooms — the duration while everyone is looking at a hero, the frequency by whoever picks which
+  control it gets applied to, six weeks later.</p>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <ol>
+      <li>Press <strong>Use it six times</strong> and watch the left frame once, then the right one
+        for the rest. Count how many of the six you were still interested in.</li>
+      <li>Set <strong>How long it takes</strong> to <em>140ms</em> and press it again. The panel is
+        now instant — and look at what the same setting did to the arrival on the left.</li>
+      <li>Put it back to <em>600ms</em> and set <strong>How often you open it</strong> to
+        <em>200&times; a day</em>. Read the number in the corner out loud.</li>
+      <li>Find the pair of settings you would actually ship, and notice that it is not one duration
+        for both frames.</li>
+    </ol>
+  </div>
+
+  <div data-repeat-lab data-title="The same duration, twice"></div>
+
+  <p>Both frames run the identical animation. Same length, same easing, same everything — the only
+  difference is how often it happens, and at 600 milliseconds that difference is roughly a hundred
+  to one. This is the <strong>repetition tax</strong>, and it has three consequences worth taking
+  away separately.</p>
+
+  <p>The first is that <strong>a duration cannot be judged without its frequency</strong>. When
+  someone shows you a 600ms transition in isolation and asks whether it feels good, the honest
+  answer is a question: how many times a day? Six hundred milliseconds is generous and lovely on a
+  page that arrives once. On the panel you open forty times it is eight seconds of your day spent
+  watching a rectangle travel, and you will have started resenting it by Thursday.</p>
+
+  <p>The second is that <strong>frequency runs the other way too</strong>. Watch the left frame at
+  140ms: the arrival is gone. There was no shortage there — one play, no repetition, nothing to
+  economise on — and the saving bought nothing except a page that appears with a snap. Short is not
+  a virtue. It is the correct answer to a specific question, which is "how often?", and when the
+  answer is "once", generosity is free.</p>
+
+  <p>The third is the awkward one for a design system, and it is the reason this lesson sits where
+  it does in the track: <strong>a single duration token cannot be right everywhere</strong>. The
+  same 300ms that makes a modal feel considered makes a hover state feel broken, and the difference
+  between them is not aesthetic, it is arithmetic. A system needs at least a fast token and a
+  considered one, with the rule for choosing between them written down as a frequency question
+  rather than as a size question.</p>
+
+  <p class="sidenote"><strong>If you have read 0001:</strong> that lesson argues durations from the
+  distance travelled and the weight implied. This is the multiplier on top of it — the same 300ms
+  correctly chosen there gets a completely different verdict once you know it plays two hundred
+  times a day.</p>
+
+  <p class="sidenote wild"><span class="wild-label">Go and look</span>
+    <a target="_blank" rel="noopener noreferrer" href="https://excalidraw.com/">Excalidraw</a>
+    &mdash; open it and use it for two minutes: draw a few boxes, select them, move them, open the
+    style panel, undo a dozen times. It is a tool people keep open all day, and almost nothing in it
+    animates. Count the frames you wait for. Then find the one or two places where they <em>did</em>
+    spend &mdash; and ask what those places have in common, which is that they are the ones you do
+    once rather than the ones you do all afternoon.</p>
+
+  <h2>Idle motion is a standing charge</h2>
+
+  <p>Everything so far has been motion caused by an event: something happened, and the screen said
+  so. <strong>Idle motion</strong> is the other kind — the pulsing "live" dot, the looping gradient,
+  the shimmering banner, the marquee of logos, the icon that breathes. Nothing happened. It is
+  moving because it was built to move.</p>
+
+  <p>Price it the way you priced everything else and it is the most expensive motion on the page,
+  because its frequency is <em>always</em>. It is spending attention in every second the screen is
+  open, including all the seconds when something real is trying to be reported. A pulsing dot next
+  to a status that has been the same for six hours is competing, at full volume, with the alert you
+  actually need the reader to see.</p>
+
+  <p>The honest test for idle motion is: what is it telling me that I could not learn by looking? A
+  live indicator that pulses when data is genuinely arriving is reporting something, and the pulse
+  is the report. A live indicator that pulses on a timer is decoration wearing the costume of
+  information, and it is the one to argue about, because it costs the same as the real thing and
+  says nothing.</p>
+
+  <p>There is one legitimate use worth protecting: idle motion as a promise that the system is
+  alive. Progress that cannot be measured, a connection that is being held open, a long job whose
+  only honest statement is "still working". That is a real thing to say, and continuous motion is
+  the natural way to say it. The distinction is whether stopping it would be a lie.</p>
+
+  <p class="sidenote"><strong>If you have read D009:</strong> this is the same argument as the
+  indeterminate spinner, one step out. A spinner earns its continuous motion by being tied to a
+  request that is genuinely in flight; the moment it plays on a timer instead, it has become idle
+  motion with a job title.</p>
+
+  <h2>How to say no</h2>
+
+  <p>Most animation gets built because nobody had a way to decline it that was not "I don't like
+  it", and taste is the one argument that cannot be answered, so it loses to whoever is more senior.
+  A <strong>principled no</strong> is a no with a question in it. Here are the four that do the most
+  work, in the order they are worth asking.</p>
+
+  <p><strong>What does this tell the reader that the layout does not?</strong> If the answer is
+  nothing, the motion is decoration — which is allowed, but it must then be priced as decoration and
+  spent from what is left after the reporting is done. If the answer is something, ask the next
+  question, which is whether that something should have been in the layout to begin with.</p>
+
+  <p><strong>How many times a day will this play?</strong> Not "is it fast", but "how often". This
+  is the question that turns an argument about taste into an argument about arithmetic, and the
+  arithmetic is checkable. It also converts a lot of noes into "yes, at a third of that length",
+  which is a much easier thing for everyone to agree to.</p>
+
+  <p><strong>What else is claiming attention in the same second?</strong> An animation is never
+  reviewed against the thing it is competing with, because in the review it is on a slide by itself.
+  Ask what else moves on that screen in the same moment, and count. If the answer is more than two,
+  the design question is no longer about this animation.</p>
+
+  <p><strong>What happens to this screen when the motion does not play?</strong> Slow device, dropped
+  frames, reduced motion, a reader looking away. If the screen stops making sense, the motion was
+  carrying information and the information has to move somewhere sturdier before the animation can
+  be shipped at all.</p>
+
+  <p>Four questions, and none of them is "do you like it". That is the point. Every one can be
+  answered with evidence, which means the conversation ends in a decision rather than in
+  seniority.</p>
+
+  <h2>When motion is off</h2>
+
+  <p>Turn reduced motion on and both labs go quiet, and each one says something different about it.
+  The second one gets simpler: that reader's repetition tax is zero, and the panel still opens,
+  still lands where it should, and is still perfectly usable. That is a useful thing to notice — if
+  an interaction only makes sense once the animation plays, the animation was not the problem.</p>
+
+  <p>The first lab is the interesting one. With motion off, the figure that changed keeps a static
+  accent flag instead of a movement, and it has to, because otherwise the change is simply not
+  reported to that reader at all. A budget of zero is exactly the condition every screen should be
+  designed to survive, and the way to survive it is to have a second channel — colour, a delta, a
+  count, a position — for anything the motion was doing real work to say.</p>
+
+  <p>Which is the same rule as the last lesson's, arriving from a different direction: motion may
+  reinforce what the screen says. It may not be the only place the screen says it. The budget makes
+  that concrete, because a screen designed to a budget has less to lose when the budget goes to
+  zero.</p>
+
+  <h2>The CSS behind it</h2>
+  <details><summary>Show the mechanism</summary><pre><code>/* Two tokens, not one. The rule for choosing between them is a
+   frequency question, so write the frequency into the name. */
+:root {
+  --motion-quick: 140ms;   /* things touched all day: hovers, panels, rows */
+  --motion-considered: 420ms; /* things met once: arrivals, first loads */
+  --ease-out-strong: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Signal: the element that changed announces itself. One rule,
+   applied to whatever actually changed, rather than a rule per
+   panel that fires whether or not it has news. */
+[data-changed] {
+  animation: report var(--motion-considered) var(--ease-out-strong);
+}
+@keyframes report {
+  from { opacity: 0; transform: translateY(0.35rem); }
+}
+
+/* Idle motion, gated on the thing being genuinely live rather
+   than on the component existing. If stopping it would not be a
+   lie, it should not be running. */
+.status-dot[data-live="true"] {
+  animation: pulse 2s ease-out infinite;
+}
+
+/* Budget zero. Note that the flag is not a shorter animation —
+   it is a different channel, because the reader still has to be
+   told what changed. */
+@media (prefers-reduced-motion: reduce) {
+  [data-changed] { animation: none; color: var(--accent); }
+  .status-dot[data-live="true"] { animation: none; }
+}</code></pre></details>
+
+  <h2>Check yourself</h2>
+
+  <div data-quiz data-quiz-title="Review the budget">
+    <div data-q data-answer="3">
+      <p class="qz-stem">A dashboard polls every thirty seconds. On each poll, every card fades and
+        rises in over 400ms. In a typical poll, one figure has changed.</p>
+      <button data-opt>The duration is too long for something that happens every thirty
+        seconds.</button>
+      <button data-opt>The polling interval is the problem; poll less often.</button>
+      <button data-opt>Everything moves for a change that touched one thing, so seven-eighths of the
+        motion reports news that did not happen — and the one real change becomes impossible to pick
+        out. Animate what changed, not what re-rendered.</button>
+      <button data-opt>Fades are the wrong verb for data; use a colour highlight instead.</button>
+      <p data-explain>The tell is that the motion is driven by the render rather than by the event.
+        A highlight only works as a difference between the highlighted thing and everything else, so
+        highlighting everything is not a smaller version of highlighting one thing — it is the same
+        as highlighting nothing. Shortening the fade would keep the defect and make it faster.</p>
+    </div>
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">The same 500ms drawer animation is used for the onboarding tour, seen once,
+        and for the filter panel, opened around fifty times a session. Someone proposes shortening
+        both to 200ms for consistency.</p>
+      <button data-opt>Shorten the filter panel and leave onboarding alone. Cost is length times
+        frequency, and only one of the two is repeated — consistency of duration is not a goal in
+        itself.</button>
+      <button data-opt>Shorten both. A design system should have one drawer duration.</button>
+      <button data-opt>Keep both at 500ms; changing one breaks the system's consistency.</button>
+      <button data-opt>Shorten both, then lengthen onboarding again if anyone complains.</button>
+      <p data-explain>Consistency is worth having between things that are the same, and these two
+        are not: one is a first impression and the other is a control. This is exactly the case a
+        system handles with two duration tokens and a written rule for choosing between them, where
+        the rule is a frequency question rather than a size question.</p>
+    </div>
+
+    <div data-q data-answer="4">
+      <p class="qz-stem">A status panel has a small dot that pulses continuously, on a two-second
+        loop, whether or not anything is happening. A designer wants it removed. What is the
+        strongest argument?</p>
+      <button data-opt>Continuous animation drains battery on mobile.</button>
+      <button data-opt>Pulsing dots are an overused pattern.</button>
+      <button data-opt>It will be annoying for users with vestibular disorders.</button>
+      <button data-opt>It moves with no event behind it, so it spends attention every second the
+        screen is open while reporting nothing — and it competes at full volume with the alerts that
+        do have something to report.</button>
+      <p data-explain>The other three are true and none of them is the design argument. Idle motion
+        is the most expensive kind because its frequency is "always", and the cost lands on exactly
+        the moments you most need the reader's attention elsewhere. If the dot pulsed only when data
+        was genuinely arriving, it would be reporting something and would be worth its price.</p>
+    </div>
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">Testers say a product "feels heavy" when the sidebar opens. The sidebar is
+        the only thing that animates on that screen: 450ms, animating its width and a large drop
+        shadow.</p>
+      <button data-opt>Busy. Remove some of the other animations on the screen.</button>
+      <button data-opt>Expensive, not busy. Only one thing is moving, so there is nothing to cut —
+        the problem is the price of that one animation: its length, and what it is animating.</button>
+      <button data-opt>Busy, because a sidebar affects the whole layout.</button>
+      <button data-opt>Neither; "heavy" is a taste complaint and cannot be acted on.</button>
+      <p data-explain>Counting the moving things separates the two failures immediately. At one
+        moving thing, subtraction is not available and the whole fix is in the price: shorten it,
+        and animate a transform rather than a width and a shadow, which is the machine's half of the
+        bill. "Heavy" is vague, but it is a report of something real, and the count tells you which
+        real thing.</p>
+    </div>
+
+    <div data-q data-answer="3">
+      <p class="qz-stem">A stakeholder asks for an animated illustration on the checkout page. You
+        think it is a bad idea. What is the most useful thing to say?</p>
+      <button data-opt>"It'll hurt conversion." — put the burden of proof on the request.</button>
+      <button data-opt>"It doesn't fit our brand's motion language."</button>
+      <button data-opt>"What does it tell the buyer that the page doesn't already say, how often
+        will they see it, and what else needs their attention in that same second?" — then decide on
+        the answers.</button>
+      <button data-opt>"Let's A/B test it." — defer to data rather than argue.</button>
+      <p data-explain>A principled no is a no with a question in it, and all three parts of that
+        question are answerable with evidence rather than with seniority. It also frequently turns
+        into a better yes: on a checkout page the answer to "what else needs attention in that
+        second" is usually "the total and the button", which gets you to a smaller, quieter
+        illustration rather than to an argument.</p>
+    </div>
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">A reader switches the dashboard from last week to last quarter. Every
+        figure, every chart and every row is genuinely different. A reviewer says "too much is
+        moving".</p>
+      <button data-opt>They are right. A full-screen arrival is always excessive on a data
+        screen.</button>
+      <button data-opt>They are probably wrong here: everything changed, so a full arrival is
+        reporting the truth. Busy is a mismatch between the motion and the size of the event, not a
+        raw count of moving things.</button>
+      <button data-opt>They are right, and the fix is to animate only the figures and leave the
+        charts.</button>
+      <button data-opt>They are wrong, because the reader initiated the change themselves.</button>
+      <p data-explain>This is the case that stops "less is more" from becoming the takeaway. When
+        the event really did touch everything, animating one panel would be the defect — it would
+        imply the rest are unchanged. The remaining question is the price rather than the count:
+        something that reloads this comprehensively is worth keeping short, because it is worth
+        keeping repeatable.</p>
+    </div>
+  </div>
+
+  <h2>What you can now do</h2>
+
+  <p>Count the moving things on any screen you are shown, and use the count to say which failure you
+  are looking at — busy needs subtraction, expensive needs a lower price, and the two get confused
+  in almost every review. Price any animation properly, as its length times how often it plays, and
+  refuse to judge a duration without knowing the frequency. Spot idle motion and ask what would be
+  untrue if it stopped. And decline an animation with a question rather than with taste, which is
+  the only kind of no that survives the room.</p>
+
+  <p class="ask-teacher"><strong>Ask yourself:</strong> open the product you work on, pick the screen
+  you look at most, and count every distinct thing that can move on it. Then write, next to each
+  one, the event that causes it and how many times a day you personally see it. The ones with no
+  event, or with a frequency in the hundreds, are your budget review — and it will be shorter and
+  more obvious than any opinion you could have had about them.</p>
+
+  <p>Next: the drill. Ten designs, one flaw each, and you name the flaw, the fix and the principle
+  before the answer appears.</p>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="D012-the-critique-drill.html">Lesson D012 — The critique drill →</a>
+      <a href="D010-navigation-and-transitions.html">← Lesson D010 — Navigation and page transitions</a>
+      <a href="D009-loading-waiting-and-optimism.html">Lesson D009 — Loading, waiting, and optimism</a>
+      <a href="D008-text-that-arrives.html">Lesson D008 — Text that arrives</a>
+      <a href="D007-scroll-as-a-timeline.html">Lesson D007 — Scroll as a timeline</a>
+      <a href="D006-decks-and-dots.html">Lesson D006 — Decks, and what the dots promise</a>
+      <a href="D005-things-you-drag.html">Lesson D005 — Things you drag</a>
+      <a href="D004-the-button.html">Lesson D004 — The button</a>
+      <a href="D003-motion-is-hierarchy.html">Lesson D003 — Motion is hierarchy</a>
+      <a href="D002-where-things-live.html">Lesson D002 — Where things live when they're off screen</a>
+      <a href="D001-the-map-and-the-words.html">Lesson D001 — The map, and the words for it</a>
+      <a href="0013-reveals-with-clip-path.html">Lesson 0013 — Reveals with clip-path</a>
+      <a href="0012-things-that-just-appeared.html">Lesson 0012 — Things that just appeared</a>
+      <a href="0011-layout-animation.html">Lesson 0011 — Layout animation</a>
+      <a href="0010-hover-and-press.html">Lesson 0010 — Hover and press</a>
+      <a href="0009-reduced-motion.html">Lesson 0009 — Reduced motion</a>
+      <a href="0008-springs.html">Lesson 0008 — Springs</a>
+      <a href="0007-transform-origin.html">Lesson 0007 — Transform-origin</a>
+      <a href="0006-choosing-a-tool.html">Lesson 0006 — Choosing a tool</a>
+      <a href="0005-exits.html">Lesson 0005 — Exits</a>
+      <a href="0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal</a>
+      <a href="0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration</a>
+      <a href="0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+      <a href="0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing (printable)</a>
+      <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers (printable)</a>
+      <a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course (printable)</a>
+      <a href="../reference/04-the-workbench.html">Reference 04 — The Workbench (every lab, live)</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+      <span style="color:var(--ink-faint)">Next: <strong>D012 — The critique drill</strong>. Ten
+        before-and-afters: name the flaw, name the fix, name the principle, then see the verdict.</span>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/budget-lab.js"></script>
+<script src="../assets/repeat-lab.js"></script>
+<script src="../assets/quiz.js"></script>
