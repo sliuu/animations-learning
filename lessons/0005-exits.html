@@ -300,17 +300,17 @@
   different durations and two different curves out of plain CSS, and it works with or without
   the discrete-animation features.</p>
 
-  <p class="sidenote">Support for <code>@starting-style</code> and
-  <code>transition-behavior</code> is good in current browsers but not universal — check MDN's
-  compatibility tables rather than trusting a number here. Degradation is graceful: an older
-  browser shows the panel appearing and disappearing instantly, which is the un-animated
-  baseline, not a broken page. Same principle as lesson 0004's <code>@supports</code> gate.</p>
-
   <h2>Interruption</h2>
 
   <p>One more thing the lab can show you. Turn on <strong>Auto-cycle</strong>, then click
   <strong>Close both</strong> mid-entrance. The panels turn around from wherever they are
   rather than finishing first.</p>
+
+  <p class="sidenote">Support for <code>@starting-style</code> and
+  <code>transition-behavior</code> is good in current browsers but not universal — check MDN's
+  compatibility tables rather than trusting a number here. Degradation is graceful: an older
+  browser shows the panel appearing and disappearing instantly, which is the un-animated
+  baseline, not a broken page. Same principle as lesson 0004's <code>@supports</code> gate.</p>
 
   <p>That's a property of CSS transitions you get for free: they interpolate from the
   <em>current computed value</em>, not from a fixed start. Keyframe animations don't behave

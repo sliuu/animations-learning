@@ -321,6 +321,45 @@ td code { font-size: 0.78rem; }
   }
 }
 
+/* ---------- "go and look" notes ---------- */
+/* A second kind of sidenote. The engineering-track asides say "here is where
+   this was argued"; these say "here is one running in production, go and name
+   what it does". They need to be told apart at a glance from the margin, hence
+   the accent rule and the labelled opening — and they keep the sidenote's own
+   geometry so a lesson can carry both kinds without the margin going ragged.
+   The link is underlined rather than accent-coloured: in the margin, at 0.79rem,
+   accent-on-accent turned the whole note into one undifferentiated red block. */
+.sidenote.wild {
+  border-left-color: var(--accent-soft, var(--accent));
+}
+.sidenote.wild .wild-label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+}
+.sidenote.wild a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 2px;
+}
+.sidenote.wild a:hover { color: var(--accent); }
+.sidenote.wild .wild-note {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--ink-faint);
+}
+
+/* In the margin the rule is already gone (the container query above drops it),
+   so the label is the only thing marking the note's kind out there. That is
+   enough — and it is why the label is not optional on these. */
+
 /* ---------- demo stage ---------- */
 .stage {
   background: var(--paper-sunk);

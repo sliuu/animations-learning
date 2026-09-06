@@ -1,0 +1,326 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D009 — Loading, waiting, and optimism</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lesson D009 · 17 minutes</p>
+    <h1>Loading, waiting, and optimism</h1>
+    <p class="dek">You almost never get to make the wait shorter. You do get to decide what is true
+      on screen while it happens — and that decision is worth more than the milliseconds you were
+      never going to win.</p>
+    <div class="meta">
+      <span>Skill: pick a waiting treatment from the length of the wait, and defend it</span>
+      <span><a href="D008-text-that-arrives.html">← Lesson D008</a></span>
+    </div>
+  </header>
+
+  <p class="lead">D008 handed you the order in which meaning arrives: you chose what the reader
+  reads first and how long they wait for the rest. Here the clock belongs to somebody else. The
+  network decides how long, and all you own is the story the screen tells in the meantime. That
+  sounds like the smaller job. It is the one people quit over.</p>
+
+  <div class="callout">
+    <span class="label">Say it out loud</span>
+    <p><strong>Spinner</strong> — an <em>indeterminate</em> indicator. It says <em>working</em> and
+    can never say how much longer.<br>
+    <strong>Progress</strong> — a <em>determinate</em> indicator. It claims a proportion, which
+    means it can be caught lying.<br>
+    <strong>Skeleton</strong> — a grey stand-in with the shape of the content that is coming.<br>
+    <strong>Shimmer</strong> — the sweep across a skeleton that says <em>not real yet</em>.<br>
+    <strong>Flash of loading</strong> — a loader that appears and disappears too fast to read.<br>
+    <strong>Optimistic update</strong> — showing the result before the server has confirmed it.<br>
+    <strong>Rollback</strong> — taking that result back when it turns out you were wrong.<br>
+    <strong>Perceived performance</strong> — how long it <em>felt</em>. The only number the reader
+    has.</p>
+  </div>
+
+  <p>Four panes below, one request, one clock. Change the latency and the ranking changes with
+  it — which is the whole reason "use a skeleton, not a spinner" is not a rule.</p>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <ol>
+      <li>Load at <strong>0.15s</strong>. Watch the spinner and the skeleton, not the card.</li>
+      <li>Load at <strong>0.8s</strong>, then look back at the pane marked <em>Nothing</em>.</li>
+      <li>Load at <strong>8s</strong>. Look away, count to five, look back — and ask which pane
+        can tell you whether anything has happened since.</li>
+      <li>At 8s again: which pane would make you reload the page?</li>
+    </ol>
+  </div>
+
+  <div data-wait-lab data-title="One request, four waits"></div>
+
+  <h2>Two facts decide the treatment</h2>
+
+  <p>A wait has exactly two properties that matter to a designer: <strong>how long it is</strong>,
+  and <strong>whether you know how long it is</strong>. Every choice on that stage follows from
+  those, and neither of them is a taste question you can settle in a design review by preference.</p>
+
+  <p>Under roughly a quarter of a second, the correct treatment is nothing at all. You saw why: a
+  spinner that lives for 150ms is not feedback, it is a flicker, and the eye files a flicker under
+  <em>something went wrong with the page</em> rather than <em>something is happening for me</em>.
+  This is the failure that gets shipped most often, because it is invisible in a design file — the
+  mock shows the loading state as a still image, and a still image of a spinner always looks like
+  it is doing its job.</p>
+
+  <p>The consequence is a rule worth saying out loud in a review: <em>don't render the loader
+  immediately</em>. Start it after 300 to 500 milliseconds, and most waits never reach it — they
+  resolve first and the reader simply sees the answer, which is what a fast interface feels like.
+  The ones that do reach it were genuinely slow, and now the loader is telling the truth.</p>
+
+  <p>From about half a second to a couple of seconds, something has to acknowledge the press, and
+  here the skeleton beats the spinner on a second job as well as the first. A spinner says
+  <em>working</em>. A skeleton says <em>working</em> and <em>here is the shape of what is
+  coming</em>, so when the content lands it fills a frame the reader has already read, instead of
+  arriving as a jump.</p>
+
+  <p>Past about five seconds the indeterminate indicator stops working entirely, and it fails in a
+  specific way rather than just getting boring. The spinner at second eight is identical to the
+  spinner at second two — it has no way to distinguish <em>still working</em> from <em>hung</em>,
+  so a reader with a slow connection has no evidence either way and does the rational thing, which
+  is reload and start the whole wait again. A determinate bar is the only thing on that stage still
+  making a claim you can check against the clock.</p>
+
+  <p>Which is also the catch. A determinate indicator is a <em>promise about a proportion</em>, and
+  a promise can be broken in public. A bar that races to 90% and sits there is worse than no bar at
+  all, because it made a specific claim and you watched it fail. If you cannot compute the fraction
+  honestly, you do not have a progress bar; you have a spinner wearing a costume.</p>
+
+  <div class="callout">
+    <span class="label">The one to remember</span>
+    <p>Choose the treatment from the <em>length</em> of the wait, not from the component library.
+    Under ~250ms show nothing; to a couple of seconds show the shape of the answer; past five
+    seconds you owe a number you can actually stand behind.</p>
+  </div>
+
+  <p class="sidenote"><strong>If you have read the engineering track:</strong> the 300–500ms delay
+  before showing a loader is the same shape of argument as the one in 0001 about durations — the
+  threshold is perceptual, not stylistic, and picking the number by feel in a mock is how it gets
+  picked wrong.</p>
+
+  <h2>A skeleton is a claim about layout</h2>
+
+  <p>The reason a skeleton earns its place is that it is specific. It is not a polite grey
+  rectangle; it is the layout of the thing you are about to receive, with the content taken out. An
+  avatar-sized circle means an avatar is coming. Three rows of decreasing width mean a name, a line
+  of text, and a timestamp. The reader is given a map, and a map is only useful if it matches the
+  territory.</p>
+
+  <p>So the skeleton's failure mode is not ugliness, it is <em>a broken promise about
+  geometry</em>. When the real content arrives at a different size, everything below it jumps — and
+  that jump is worse than the one you would have got from a spinner, because the reader had already
+  started reading the layout. You did not save them the shift; you made them a false map first and
+  then shifted anyway.</p>
+
+  <p>Two consequences that come up constantly in review, both of them worth having a sentence
+  ready for. A skeleton for content whose size you genuinely cannot predict — a comment thread, a
+  search result set, anything of unknown length — is a guess presented as a promise, and one
+  generic block that resolves into nine items is not better than a spinner. And a skeleton that
+  resolves to an <em>empty state</em> is the sharpest version of the same fault: you showed the
+  reader the shape of three results and then told them there were none.</p>
+
+  <p class="sidenote"><strong>If you have read the engineering track:</strong> 0011 is the argument
+  for why the jump costs what it costs, and 0012 is the one about elements that appear without
+  being announced. A skeleton is the design-level answer to both at once: it reserves the space
+  <em>and</em> tells you what is going to fill it.</p>
+
+  <h2>The two loops, and who asked for them</h2>
+
+  <p>A spinner rotates forever. A shimmer sweeps forever. Both of them are unrequested, looping,
+  attention-taking movement that starts without the reader doing anything — which is the precise
+  description of what somebody is switching off when they turn on reduced motion.</p>
+
+  <p>The mistake is to read that as "so remove the feedback". The loop is the problem, not the
+  indicator. Turn on reduced motion in your system settings and look at the lab above again: the
+  spinner stops turning and the caption beside it is doing the work it was always doing, and the
+  skeleton stops shimmering and is still, unmistakably, a skeleton. Nothing was lost that was
+  carrying information.</p>
+
+  <p>The progress bar keeps moving, and that is deliberate. Its movement is not decoration applied
+  to a state — it <em>is</em> the state, drawn. Freezing it would be removing information rather
+  than removing an effect, which is a good general test for what survives that setting.</p>
+
+  <p class="sidenote"><strong>If you have read the engineering track:</strong> 0009 makes this
+  argument in full, including why "kill all animation" is the wrong reading of the request.</p>
+
+  <h2>The best wait is the one you never show</h2>
+
+  <p>Everything so far has been about designing a wait well. The bigger win is not having one. If
+  you already know what the answer will almost certainly be, you can show it immediately and
+  reconcile with the server afterwards — the row appears the instant the reader clicks, and the
+  network catches up in private.</p>
+
+  <p>This is where optimism gets sold on the happy path and the bill arrives later, so the lab
+  below has a switch that makes the request fail.</p>
+
+  <div class="callout">
+    <span class="label">Try this, in order</span>
+    <ol>
+      <li>Save once at <strong>0.4s</strong>, succeeding. Then at <strong>2s</strong>. Note how
+        much better the right-hand pane feels as the latency grows.</li>
+      <li>Now set the request to <strong>fails</strong>, still at 2s. Watch both panes at once.</li>
+      <li>Count the number of times each pane's list changed during that one save.</li>
+      <li>Ask yourself what the right-hand pane should do if you had already navigated away.</li>
+    </ol>
+  </div>
+
+  <div data-optimistic-lab data-title="Save it twice"></div>
+
+  <p>The left pane's cost is time and nothing else. It was slow and it was honest, and at no point
+  did the screen contain something untrue. The right pane's cost is the third step above: for one
+  action, the interface changed <strong>twice</strong>. It said yes, and then it took the yes
+  back — and that second change is not an error state you bolt on afterwards, it is the feature you
+  are actually designing when you choose optimism.</p>
+
+  <p>Which gives three conditions, and they hold together. Optimism is right when the action
+  <strong>almost always succeeds</strong>, when the failure is <strong>cheap to undo</strong>, and
+  when the reader will still be there to be told. Starring a message, adding to a list, toggling a
+  setting: all three hold, and the interaction is transformed. Submitting a payment, sending a
+  message to another person, confirming a booking: the first condition might hold, the second never
+  does, and a rollback on the third one is not a rollback, it is an apology for something the
+  reader has already told someone else about.</p>
+
+  <p>The last condition is the one that gets forgotten, and it is a design constraint rather than
+  an engineering one. An optimistic update is only safe while the reader is still looking at the
+  place where you would take it back. If the pattern lets them start the action and immediately
+  move on — hit save, close the panel, go to another page — then the rollback has nowhere to
+  land, and a toast that appears on a screen they have left is not a rollback at all.</p>
+
+  <div class="callout">
+    <span class="label">The one to remember</span>
+    <p>Optimism does not remove the wait. It moves the cost from <em>everyone, every time</em> to
+    <em>the few people whose request failed</em> — and it only pays if you have designed what those
+    people see.</p>
+  </div>
+
+  <p>One nuance the lab shows and most products skip: the pending row is marked. A dashed edge and
+  a hollow dot say <em>this is here but not confirmed</em>, and it makes the rollback legible when
+  it comes. The cost is that you have put a small piece of visual noise in front of the 99% of
+  readers whose save was going to work, which is a real argument for dropping it. The way to settle
+  that in a review is to ask how bad the rollback is: quiet failure, quiet marker; expensive
+  failure, keep the marker, or don't be optimistic at all.</p>
+
+  <p class="sidenote"><strong>If you have read D005:</strong> this is the same
+  distinction under a finger — the difference between a gesture that is tracking and one that has
+  been committed. A pending row is the list-shaped version of a drag that has not yet been
+  accepted.</p>
+
+  <h2>Check yourself</h2>
+
+  <div data-quiz data-quiz-title="Review the wait">
+    <div data-q data-answer="3">
+      <p class="qz-stem">A filter re-queries a table. Most responses come back in about 120ms, but
+        the slow tail runs to roughly a second. What should the loading treatment be?</p>
+      <button data-opt>A spinner over the table on every query, for consistency.</button>
+      <button data-opt>A skeleton table on every query, so the layout is always reserved.</button>
+      <button data-opt>Nothing for the first ~300ms, then a skeleton — so the common case shows no
+        loader at all and the slow tail gets a real one.</button>
+      <button data-opt>A determinate progress bar, since the query time is measurable.</button>
+      <p data-explain>Consistency is the trap here: showing the loader every time means most
+        readers get a 120ms flicker, which reads as the page glitching. Delay the loader past the
+        common case and it only ever appears when it is telling the truth. A progress bar would be
+        claiming a proportion nobody can compute.</p>
+    </div>
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">A search page shows a three-card skeleton while it loads. For a query with
+        no matches, it resolves into "No results found." What is the fault?</p>
+      <button data-opt>The skeleton should have shown more cards, so the empty state feels less
+        abrupt.</button>
+      <button data-opt>The skeleton promised the shape of three results and there were none — it
+        made a claim about the answer before it had one.</button>
+      <button data-opt>The empty state should fade in rather than appear.</button>
+      <button data-opt>Nothing — a skeleton is a neutral placeholder and carries no claim.</button>
+      <p data-explain>A skeleton is specific by design; that specificity is why it beats a spinner.
+        The same specificity means it is a promise about what is coming, and an empty state breaks
+        it. Where the result count is unknowable, a skeleton is a guess dressed as information.</p>
+    </div>
+
+    <div data-q data-answer="4">
+      <p class="qz-stem">An export takes between four and ninety seconds, and the backend cannot
+        report how far along it is. Someone proposes a progress bar "so it feels faster".</p>
+      <button data-opt>Agree — an approximate bar is better than nothing at long durations.</button>
+      <button data-opt>Agree, but have it fill to 90% and hold there until the file arrives.</button>
+      <button data-opt>Refuse, and use a spinner: at this length an indeterminate indicator is
+        fine.</button>
+      <button data-opt>Refuse the bar, because it claims a proportion nobody can compute — and
+        refuse the plain spinner too, because at ninety seconds it cannot distinguish working from
+        hung. This wait needs stages or an elapsed count.</button>
+      <p data-explain>A determinate indicator is a checkable promise, and the 90%-and-hold version
+        is the broken promise made deliberately. But a spinner is not the fallback at this
+        length — anything that looks identical at second five and second eighty gives the reader no
+        evidence it is alive. Named stages, or a running elapsed time, restore the one thing a
+        long wait has to have: something that changes.</p>
+    </div>
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">Which of these should <em>not</em> get an optimistic update?</p>
+      <button data-opt>"Send" on a message to a client, in a flow that closes the composer
+        immediately afterwards.</button>
+      <button data-opt>Starring an email in a list you stay on.</button>
+      <button data-opt>Adding a tag to a document you are editing.</button>
+      <button data-opt>Toggling a notification preference on a settings page.</button>
+      <p data-explain>Two conditions fail at once. The failure is not cheap to undo — the reader
+        believes another person has the message — and closing the composer means the rollback has
+        nowhere to land. The other three are cheap, reversible, and happen somewhere the reader is
+        still standing.</p>
+    </div>
+  </div>
+
+  <h2>What you can now do</h2>
+
+  <p>Look at any loading state and say what the wait's two facts are — how long, and whether the
+  length is knowable — then say whether the treatment on screen follows from them or from the
+  component library. Catch the flash of loading before it ships, because it will not show up in a
+  mock. Say what a skeleton is promising and whether the arriving content can keep that promise.
+  And when optimism is proposed, take the conversation straight to the failure: how often, how
+  expensive, and where the reader will be standing when you take it back.</p>
+
+  <p>Next: the biggest wait most products have is the one between pages — and there the design
+  problem stops being "is something happening" and becomes "where am I now".</p>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="D010-navigation-and-transitions.html">Lesson D010 — Navigation and page transitions →</a>
+      <a href="D008-text-that-arrives.html">← Lesson D008 — Text that arrives</a>
+      <a href="D007-scroll-as-a-timeline.html">Lesson D007 — Scroll as a timeline</a>
+      <a href="D006-decks-and-dots.html">Lesson D006 — Decks, and what the dots promise</a>
+      <a href="D005-things-you-drag.html">Lesson D005 — Things you drag</a>
+      <a href="D004-the-button.html">Lesson D004 — The button</a>
+      <a href="D003-motion-is-hierarchy.html">Lesson D003 — Motion is hierarchy</a>
+      <a href="D002-where-things-live.html">Lesson D002 — Where things live when they're off screen</a>
+      <a href="D001-the-map-and-the-words.html">Lesson D001 — The map, and the words for it</a>
+      <a href="0013-reveals-with-clip-path.html">Lesson 0013 — Reveals with clip-path</a>
+      <a href="0012-things-that-just-appeared.html">Lesson 0012 — Things that just appeared</a>
+      <a href="0011-layout-animation.html">Lesson 0011 — Layout animation</a>
+      <a href="0010-hover-and-press.html">Lesson 0010 — Hover and press</a>
+      <a href="0009-reduced-motion.html">Lesson 0009 — Reduced motion</a>
+      <a href="0008-springs.html">Lesson 0008 — Springs</a>
+      <a href="0007-transform-origin.html">Lesson 0007 — Transform-origin</a>
+      <a href="0006-choosing-a-tool.html">Lesson 0006 — Choosing a tool</a>
+      <a href="0005-exits.html">Lesson 0005 — Exits</a>
+      <a href="0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal</a>
+      <a href="0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration</a>
+      <a href="0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+      <a href="0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing (printable)</a>
+      <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers (printable)</a>
+      <a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course (printable)</a>
+      <a href="../reference/04-the-workbench.html">Reference 04 — The Workbench (every lab, live)</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+      <span style="color:var(--ink-faint)">Next: <strong>D010 — Navigation and page
+        transitions</strong>. The where-am-I problem: menu overlays, shared elements, and
+        continuity as orientation.</span>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/wait-lab.js"></script>
+<script src="../assets/optimistic-lab.js"></script>
+<script src="../assets/quiz.js"></script>

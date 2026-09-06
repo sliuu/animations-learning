@@ -38,13 +38,9 @@ PLANNED_ENG = [
 # the whole vocabulary, and D008 is the biggest gap against the mission's own
 # north star, so both come before the ones numbered between them.
 PLANNED_DES = [
-    ('D09', 'Loading, waiting, and optimism',
-     'Perceived performance as a design material. Skeleton against spinner against progress, and '
-     'the trick of animating before the response arrives.',
-     'next in this track'),
     ('D10', 'Navigation and page transitions',
      'The where-am-I problem. Menu overlays, shared elements, and continuity as orientation.',
-     'queued · may fold into 0011 instead'),
+     'next in this track · may fold into 0011 instead'),
     ('D11', 'The motion budget',
      'Expensive against busy, and answering “should this animate?” with a principled no.',
      'queued'),
@@ -74,6 +70,7 @@ ASSETS = ['easing-lab.js', 'cost-lab.js', 'stagger-lab.js', 'scroll-lab.js', 'ex
           'pattern-lab.js', 'home-lab.js', 'return-lab.js', 'channel-lab.js', 'rank-lab.js',
           'flip-lab.js', 'vt-lab.js', 'state-lab.js', 'hold-lab.js', 'grab-lab.js', 'drag-lab.js', 'deck-lab.js', 'autoplay-lab.js',
           'timeline-lab.js', 'scroll-contract-lab.js', 'split-lab.js', 'text-arrival-lab.js',
+          'wait-lab.js', 'optimistic-lab.js',
           'playground.js', 'quiz.js']
 
 
@@ -183,9 +180,13 @@ dark_tokens = re.search(
     r'@media \(prefers-color-scheme: dark\) \{\n  :root \{\n(.*?)\n  \}', css, re.S).group(1)
 dark_tokens = re.sub(r'^    ', '  ', dark_tokens, flags=re.M)
 
-theme_fix = f""":root[data-theme="dark"] {{
+theme_fix = f""":root {{ color-scheme: light; }}
+@media (prefers-color-scheme: dark) {{ :root {{ color-scheme: dark; }} }}
+:root[data-theme="dark"] {{
+  color-scheme: dark;
 {dark_tokens}
 }}
+:root[data-theme="light"] {{ color-scheme: light; }}
 @media (prefers-color-scheme: dark) {{
   :root[data-theme="light"] {{
 {light_tokens}
@@ -226,6 +227,25 @@ def toc_break(label):
     return f'      <div class="toc-break"><span>{label}</span></div>'
 
 
+def toc_group(label, count, rows):
+    # <details>, not a scripted accordion: it collapses with no JS, it is
+    # keyboard- and screen-reader-correct for free, and find-in-page opens it.
+    # Shut by default so the three tracks are all visible at once — the first
+    # thing this page has to answer is what kinds of thing are in here.
+    return f"""      <details class="toc-group">
+        <summary class="toc-sum">
+          <span class="toc-caret" aria-hidden="true"></span>
+          <span class="toc-sum-body">
+            <span class="toc-sum-title">{label}</span>
+            <span class="toc-sum-count">{count}</span>
+          </span>
+        </summary>
+        <div class="toc-list">
+{rows}
+        </div>
+      </details>"""
+
+
 def section(rows):
     return chr(10).join(r for r in rows if r)
 
@@ -238,31 +258,38 @@ ref_docs = docs[lesson_count:]
 # The design track is meant to be readable from D001 with none of the numbered
 # lessons behind it, so its unwritten rows have to be findable without scrolling
 # through an engineering backlog first.
+def count(shipped, planned, noun):
+    tail = f' \u00b7 {planned} planned' if planned else ''
+    return f'{shipped} {noun}{tail}'
+
+
+# Design first. It is the track with no prerequisites — a designer can open D001
+# having read none of the numbered lessons — so it is the one that should be
+# reachable without scrolling past somebody else's backlog.
 toc_rows = section([
-    section(toc_entry(d) for d in eng_docs),
-    toc_break('Still to write \u00b7 engineering track'),
-    section(toc_ghost(*x) for x in PLANNED_ENG),
+    toc_group('The design track', count(len(des_docs), len(PLANNED_DES), 'lessons'), section([
+        section(toc_entry(d) for d in des_docs),
+        toc_break('Still to write'),
+        section(toc_ghost(*x) for x in PLANNED_DES),
+    ])) if des_docs else '',
 
-    toc_break('The design track') if des_docs else '',
-    section(toc_entry(d) for d in des_docs),
-    toc_break('Still to write \u00b7 design track'),
-    section(toc_ghost(*x) for x in PLANNED_DES),
+    toc_group('The engineering track', count(len(eng_docs), len(PLANNED_ENG), 'lessons'), section([
+        section(toc_entry(d) for d in eng_docs),
+        toc_break('Still to write'),
+        section(toc_ghost(*x) for x in PLANNED_ENG),
+    ])),
 
-    toc_break('Reference sheets'),
-    section(toc_entry(d) for d in ref_docs),
-    section(toc_ghost(*x) for x in PLANNED_REF),
+    toc_group('Reference sheets', count(len(ref_docs), len(PLANNED_REF), 'sheets'), section([
+        section(toc_entry(d) for d in ref_docs),
+        section(toc_ghost(*x) for x in PLANNED_REF),
+    ])),
 ])
 
 contents = f"""<div class="page">
   <header class="masthead cover">
     <p class="eyebrow">Interactive course · {lesson_count} lessons · {len(docs) - lesson_count} references · {len(PLANNED)} more planned</p>
     <h1>Defensible&nbsp;Motion</h1>
-    <p class="dek">Name what a well-made site is doing, rebuild it, and defend every timing
-      decision out loud.</p>
   </header>
-
-  <p class="lead">Every number in these lessons is a knob. Drag it, retype it, break it — the
-  reading is the smaller half.</p>
 
   <nav class="toc">
 {toc_rows}
@@ -306,16 +333,73 @@ shell_css = """
   border-bottom: 1px solid var(--rule);
 }
 .rail-home {
-  flex: none;
+  flex: none; order: 1;
   display: grid; place-items: center;
   padding: 0 0.7rem 0 0.95rem;
-  font-family: var(--sans); font-size: 0.7rem; font-weight: 700;
-  letter-spacing: 0.12em; text-transform: uppercase;
+  font-family: var(--sans); font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.11em; text-transform: uppercase; white-space: nowrap;
   color: var(--ink-faint); text-decoration: none; border: 0;
   border-right: 1px solid var(--rule);
 }
 .rail-home:hover { background: var(--paper-sunk); color: var(--accent); }
+/* The theme control is the last thing in the rail's DOM so that it can pin to
+   the bottom of the left column. In the top bar `order` brings it back to the
+   far right, past the scrolling chips. */
+.rail-foot {
+  order: 3; flex: none; margin-left: auto;
+  display: flex; align-items: center;
+  padding: 0 0.6rem; border-left: 1px solid var(--rule);
+}
+.rail-btn {
+  flex: none; display: grid; place-items: center; cursor: pointer;
+  width: 1.85rem; height: 1.85rem; padding: 0;
+  border: 0; border-radius: 7px;
+  background: none; color: var(--ink-faint);
+  transition: color 140ms var(--ease-out-strong);
+}
+.rail-btn:hover { color: var(--ink); }
+.rail-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Sun and moon are drawn, not set in a glyph: U+2600 and U+263E render as
+   colour emoji on some platforms, as tofu on others, and neither would take
+   currentColor. The icon shows the theme you would GET, which is the thing a
+   reader is deciding about. */
+.theme-icon {
+  display: block; width: 14px; height: 14px; border-radius: 50%;
+  transition: box-shadow 200ms var(--ease-out-strong),
+              width 200ms var(--ease-out-strong),
+              height 200ms var(--ease-out-strong);
+}
+.theme-toggle[data-icon="dark"] .theme-icon {
+  box-shadow: inset -4px -1.5px 0 0 currentColor;
+}
+.theme-toggle[data-icon="light"] .theme-icon {
+  width: 8px; height: 8px; background: currentColor;
+  box-shadow: 0 -5.5px 0 -2.6px currentColor,  0 5.5px 0 -2.6px currentColor,
+              -5.5px 0 0 -2.6px currentColor,  5.5px 0 0 -2.6px currentColor,
+              3.9px 3.9px 0 -2.6px currentColor, -3.9px -3.9px 0 -2.6px currentColor,
+              3.9px -3.9px 0 -2.6px currentColor, -3.9px 3.9px 0 -2.6px currentColor;
+}
+
+/* One caret, drawn rather than set in a glyph: U+2039 renders at a different
+   weight in every fallback font and would not take currentColor. Open and shut
+   are the same mark at two rotations, so the change reads as the caret turning
+   to point the way the panel will travel — not as two icons swapping. */
+.rail-icon {
+  display: block; width: 8px; height: 8px;
+  border-left: 1.6px solid currentColor;
+  border-bottom: 1.6px solid currentColor;
+  /* translate runs in the caret's own rotated frame, so this 1.4px nudge
+     optically centres the apex in both directions without a second rule. */
+  transform: rotate(45deg) translate(1px, -1px);
+  transition: transform 320ms var(--ease-drawer);
+}
+.shell[data-rail="collapsed"] .rail-icon {
+  transform: rotate(225deg) translate(1px, -1px);
+}
+
 .rail-scroll {
+  order: 2; flex: 1 1 auto; min-width: 0;
   display: flex; gap: 0; overflow-x: auto; scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
@@ -345,6 +429,8 @@ shell_css = """
 .chip[aria-current="true"] b { color: var(--ink-soft); }
 .rail-inner { display: contents; }
 .rail-top { display: contents; }
+/* No collapsing below the two-column breakpoint — there is nothing to collapse
+   into. The theme control stays; it is useful at every width. */
 .rail-toggle { display: none; }
 .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .chip-group { display: none; }
@@ -360,6 +446,14 @@ shell_css = """
     display: grid;
     grid-template-columns: 17rem minmax(0, 1fr);
     align-items: stretch;
+    /* The panel slides. Animating a grid track is a layout animation and the
+       course spends lesson 0002 arguing against exactly that — so this is a
+       deliberate exception, and worth naming: it is chrome rather than content,
+       it runs once per click rather than continuously, and only one <article>
+       is ever un-hidden, so the reflow is a single document wide. A transform
+       would be cheaper but would not push the prose over, and the prose moving
+       is the whole point of a rail that takes room rather than covering it. */
+    transition: grid-template-columns 320ms var(--ease-drawer);
   }
   .shell[data-rail="collapsed"] { grid-template-columns: 3.6rem minmax(0, 1fr); }
   .rail {
@@ -378,32 +472,43 @@ shell_css = """
   /* The rail element is full height; its contents stick to the top of it, so
      the list follows you down a long lesson. See the note above for what
      happens where the frame itself never scrolls. */
+  /* A column: masthead, the list taking whatever is left, the theme control
+     pinned to the floor. The list is the only part that scrolls, so the title
+     and the control stay reachable from anywhere in a long index. */
   .rail-inner {
-    display: block; position: sticky; top: 0;
-    max-height: 100vh; overflow-y: auto; scrollbar-width: thin;
-    padding-bottom: 2rem;
+    display: flex; flex-direction: column; position: sticky; top: 0;
+    height: 100vh; overflow: hidden;
   }
   .rail-top {
-    display: flex; align-items: stretch; justify-content: space-between;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 0.45rem; padding: 1.1rem 0.55rem 0.9rem 0.95rem;
     border-bottom: 1px solid var(--rule);
   }
   .rail-home {
-    display: flex; align-items: center; place-items: initial;
-    padding: 1.5rem 0.6rem 0.85rem 1.15rem;
-    border-right: 0; border-bottom: 0;
+    display: block; place-items: initial;
+    padding: 0; border-right: 0; border-bottom: 0;
+    font-family: var(--serif); font-size: 1.05rem; font-weight: 600;
+    letter-spacing: 0; text-transform: none; color: var(--ink);
+    order: 0; max-width: 11rem; overflow: hidden;
+    transition: max-width 320ms var(--ease-drawer),
+                opacity 180ms var(--ease-out-strong);
   }
-  .rail-toggle {
-    display: block; flex: none; cursor: pointer;
-    margin: 1.15rem 0.7rem 0.5rem 0;
-    width: 1.7rem; height: 1.7rem; padding: 0;
-    border: 1px solid var(--rule); border-radius: 6px;
-    background: var(--paper); color: var(--ink-faint);
-    font: 600 0.8rem/1 var(--sans);
+  .rail-home:hover { background: none; color: var(--accent); }
+  .rail-toggle { display: grid; order: 1; }
+  .rail-scroll {
+    order: 0; flex: 1 1 auto; min-height: 0;
+    display: block; overflow-y: auto; overflow-x: hidden;
+    scrollbar-width: thin; padding: 0.55rem 0 1.5rem;
   }
-  .rail-toggle::before { content: "‹‹"; }
-  .rail-toggle:hover { color: var(--ink); border-color: var(--ink-faint); }
-  .rail-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .rail-scroll { display: block; overflow: visible; padding: 0.55rem 0 0; }
+  /* overflow-x is what makes the slide work: nothing is switched off on
+     collapse, the labels keep their layout and simply travel out past the edge
+     of a narrower column. The reveal is one continuous movement of the whole
+     list rather than text popping in when the animation lands. */
+  .rail-foot {
+    order: 0; flex: none; margin-left: 0;
+    justify-content: center; padding: 0.6rem;
+    border-left: 0; border-top: 1px solid var(--rule);
+  }
   .chip {
     display: grid; grid-template-columns: 2.6rem minmax(0, 1fr);
     gap: 0.5rem; align-items: baseline;
@@ -411,6 +516,12 @@ shell_css = """
     border-bottom: 0; border-left: 2px solid transparent;
     white-space: normal; line-height: 1.3;
     font-size: 0.86rem;
+    transition: padding-left 320ms var(--ease-drawer),
+                color 140ms var(--ease-out-strong),
+                border-color 140ms var(--ease-out-strong);
+  }
+  .chip span, .chip-group {
+    transition: opacity 200ms var(--ease-out-strong);
   }
   .chip[aria-current="true"] {
     border-bottom-color: transparent; border-left-color: var(--ink-faint);
@@ -428,18 +539,28 @@ shell_css = """
 
   /* Collapsed: the numbers alone. Still a full index — every document is one
      click away — but 3.6rem wide, which is what gives a margin sidenote its
-     room back on a 1400px screen. */
-  .shell[data-rail="collapsed"] .rail-home,
+     room back on a 1400px screen. The labels are faded, never display:none,
+     so that opening the rail slides them in from behind the edge; and every
+     row keeps its height, so the list does not jump vertically either way. */
+  .shell[data-rail="collapsed"] .rail-home { max-width: 0; opacity: 0; }
   .shell[data-rail="collapsed"] .chip span,
-  .shell[data-rail="collapsed"] .chip-group { display: none; }
-  .shell[data-rail="collapsed"] .rail-top { justify-content: center; }
-  .shell[data-rail="collapsed"] .rail-toggle { margin: 1.15rem 0 0.5rem; }
-  .shell[data-rail="collapsed"] .rail-toggle::before { content: "››"; }
-  .shell[data-rail="collapsed"] .chip {
-    grid-template-columns: minmax(0, 1fr); gap: 0;
-    padding: 0.42rem 0.2rem; justify-items: center;
+  .shell[data-rail="collapsed"] .chip-group { opacity: 0; }
+  .shell[data-rail="collapsed"] .chip span { white-space: nowrap; }
+  /* gap: 0 matters — the zero-width title is still a flex item, so the row's
+     gap would otherwise shove the lone caret 3.6px off the rail's centre line
+     and out of column with the numbers below it. */
+  .shell[data-rail="collapsed"] .rail-top {
+    justify-content: center; gap: 0;
+    padding-left: 0.5rem; padding-right: 0.5rem;
   }
+  /* Centred, not right-aligned: 2px border + 0.375rem + half of the 2.6rem
+     number column lands on 1.8rem, the middle of the 3.6rem rail. Right-align
+     would also stagger "01" against "D01", which reads as a ragged edge. */
+  .shell[data-rail="collapsed"] .chip { padding-left: 0.375rem; padding-right: 0; }
   .shell[data-rail="collapsed"] .chip b { text-align: center; }
+  /* A thin scrollbar costs ~11px, which out of 3.6rem is enough to clip the
+     numbers it exists to help you read. Collapsed, the list scrolls bare. */
+  .shell[data-rail="collapsed"] .rail-scroll { scrollbar-width: none; }
 
   /* The column, not the window, is what decides whether a margin sidenote fits
      — and with a collapsible rail the column changes width without the window
@@ -452,13 +573,80 @@ shell_css = """
   .docs { container-type: inline-size; }
 }
 
+/* The stance 0009 demands, stated for the chrome as well as the labs: the rail
+   slide is a 300ms relayout of the entire visible document, which is the single
+   largest-area movement anywhere on the page. It is also the one piece of motion
+   here that carries no information — the destination is the whole point of the
+   control, and arriving instantly loses nothing. So it goes, completely, rather
+   than being shortened. The theme change was never animated for the same reason:
+   a whole page cross-fading its background is worse than a page that has simply
+   changed. */
+@media (prefers-reduced-motion: reduce) {
+  .shell, .rail-home, .chip, .chip span, .chip-group,
+  .rail-icon, .theme-icon {
+    transition: none;
+  }
+}
+
 .doc[hidden] { display: none; }
 .doc .page { padding-top: 2.5rem; }
 
 /* ---------- contents ---------- */
 .cover { border-bottom: 1px solid var(--rule); }
 .cover h1 { font-size: 2.8rem; }
-.toc { display: grid; gap: 0; margin: 2rem 0 3rem; border-top: 1px solid var(--rule); }
+/* No border-top: the cover already closes on a rule, and with the dek gone the
+   two lines sat an empty 2rem apart with nothing between them. */
+.toc { display: grid; gap: 0; margin: 1.7rem 0 2rem; }
+
+/* ---------- the three tracks, shut ---------- */
+.toc-group { border-bottom: 1px solid var(--rule); }
+.toc-sum {
+  display: grid; grid-template-columns: 3.2rem minmax(0, 1fr);
+  gap: 0.4rem; align-items: center;
+  padding: 1.3rem 0.5rem 1.3rem 0;
+  cursor: pointer; list-style: none;
+  transition: background-color 160ms var(--ease-out-strong);
+}
+/* Both are needed: `list-style` covers the standards marker, the pseudo covers
+   the older WebKit triangle, and either one left in place would sit beside the
+   caret this row draws for itself. */
+.toc-sum::-webkit-details-marker { display: none; }
+.toc-sum:hover { background: var(--paper-sunk); }
+.toc-sum:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+/* The rule under the summary only exists while the group is open, where it
+   separates the heading from its own lessons. Shut, the group's own bottom
+   border is already doing that job and a second line would double up. */
+.toc-group[open] > .toc-sum { border-bottom: 1px solid var(--rule); }
+.toc-list > :last-child { border-bottom: 0; }
+
+/* Same drawn caret as the rail's, at the two rotations a disclosure wants:
+   right when shut, down when open. Rotating rather than swapping glyphs keeps
+   it one mark turning to point where the content will appear. */
+.toc-caret {
+  justify-self: start; margin-left: 0.15rem;
+  display: block; width: 8px; height: 8px;
+  border-left: 1.7px solid var(--accent);
+  border-bottom: 1.7px solid var(--accent);
+  transform: rotate(225deg) translate(1px, -1px);
+  transition: transform 260ms var(--ease-out-strong);
+}
+.toc-group[open] > .toc-sum .toc-caret {
+  transform: rotate(315deg) translate(1px, -1px);
+}
+
+.toc-sum-body { display: grid; gap: 0.25rem; }
+.toc-sum-title { font-size: 1.34rem; line-height: 1.2; }
+.toc-sum-count {
+  font-family: var(--sans); font-size: 0.72rem; color: var(--ink-faint);
+  letter-spacing: 0.01em;
+}
+
+/* Print gets everything. A collapsed group on paper is a group that does not
+   exist, and the contents page is the one sheet worth printing whole. */
+@media print {
+  .toc-caret { display: none; }
+  .toc-sum { padding-bottom: 0.4rem; }
+}
 .toc-item {
   display: grid; grid-template-columns: 3.2rem minmax(0, 1fr);
   gap: 0.4rem; align-items: start;
@@ -484,10 +672,11 @@ shell_css = """
   font-family: var(--sans); font-size: 0.72rem; color: var(--ink-faint);
   letter-spacing: 0.01em;
 }
+/* No rule of its own: the contents list already closes on one, and with three
+   collapsed groups the two lines sat close enough to read as a mistake. */
 .sidenote-static {
   font-family: var(--sans); font-size: 0.76rem; line-height: 1.5;
   color: var(--ink-faint);
-  border-top: 1px solid var(--rule); padding-top: 0.7rem;
 }
 .nav-off { color: var(--ink-faint); }
 
@@ -553,7 +742,9 @@ shell_css = """
 
 @media print { .doc-end { display: none; } }
 @media (prefers-reduced-motion: reduce) {
-  .chip, .toc-item, .de-btn { transition-duration: 0.01ms; }
+  /* The caret loses its turn, not its two positions — which way it points is
+     the state, and the state stays. Only the travel between them goes. */
+  .chip, .toc-item, .toc-sum, .toc-caret, .de-btn { transition-duration: 0.01ms; }
 }
 """
 
@@ -592,6 +783,36 @@ shell_js = """
     show(id, false);
   });
 
+  // ---- theme ----------------------------------------------------------
+  // The <head> script has already stamped an explicit choice, if there was one.
+  // Until the reader makes one, nothing is stamped and the OS setting rules —
+  // including if it changes while the page is open, which is why the icon is
+  // repainted on the media query rather than only on click.
+  const THEME_KEY = 'defensible-motion:theme';
+  const themeToggle = document.querySelector('[data-theme-toggle]');
+  const darkQuery = matchMedia('(prefers-color-scheme: dark)');
+
+  function effectiveTheme() {
+    const stamped = document.documentElement.dataset.theme;
+    if (stamped === 'dark' || stamped === 'light') return stamped;
+    return darkQuery.matches ? 'dark' : 'light';
+  }
+
+  function paintThemeToggle() {
+    const next = effectiveTheme() === 'dark' ? 'light' : 'dark';
+    themeToggle.dataset.icon = next;
+    themeToggle.setAttribute('aria-label', 'Switch to the ' + next + ' theme');
+  }
+
+  themeToggle.addEventListener('click', () => {
+    document.documentElement.dataset.theme = effectiveTheme() === 'dark' ? 'light' : 'dark';
+    paintThemeToggle();
+    try { localStorage.setItem(THEME_KEY, document.documentElement.dataset.theme); }
+    catch (e) { /* no-op */ }
+  });
+  darkQuery.addEventListener('change', paintThemeToggle);
+  paintThemeToggle();
+
   const RAIL_KEY = 'defensible-motion:rail';
   const shell = document.querySelector('.shell');
   const railToggle = document.querySelector('[data-rail-toggle]');
@@ -600,7 +821,7 @@ shell_js = """
     shell.dataset.rail = state;
     const open = state !== 'collapsed';
     railToggle.setAttribute('aria-expanded', String(open));
-    railToggle.setAttribute('aria-label', open ? 'Collapse contents' : 'Expand contents');
+    railToggle.setAttribute('aria-label', open ? 'Collapse contents' : 'Open contents');
     try { localStorage.setItem(RAIL_KEY, state); } catch (e) { /* no-op */ }
   }
 
@@ -610,6 +831,18 @@ shell_js = """
   railToggle.addEventListener('click',
     () => setRail(shell.dataset.rail === 'collapsed' ? 'open' : 'collapsed'));
 
+  /* CSS cannot force a <details> open, and a shut group prints as a group that
+     is not there. Open them all for the print, put them back afterwards. */
+  let printed = [];
+  window.addEventListener('beforeprint', () => {
+    printed = [...document.querySelectorAll('.toc-group:not([open])')];
+    printed.forEach((d) => { d.open = true; });
+  });
+  window.addEventListener('afterprint', () => {
+    printed.forEach((d) => { d.open = false; });
+    printed = [];
+  });
+
   let start = location.hash.slice(1);
   if (!ids.includes(start)) {
     try { start = localStorage.getItem(KEY) || 'contents'; } catch (e) { start = 'contents'; }
@@ -618,19 +851,46 @@ shell_js = """
 })();
 """
 
+# Runs in <head>, before the first paint, so a reader who chose dark never sees
+# a white page flash first. It only reads storage — the toggle's own logic lives
+# in shell_js with the rest of the chrome.
+theme_init = """(() => {
+  try {
+    const t = localStorage.getItem('defensible-motion:theme');
+    if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+  } catch (e) { /* private mode throws on read; fall through to the OS setting */ }
+})();"""
+
 parts = [
+    # A real document, not a fragment. Without a doctype the browser renders in
+    # quirks mode, which changes the box model out from under every lesson.
+    '<!doctype html>',
+    '<html lang="en">',
+    '<head>',
+    '<meta charset="utf-8">',
+    '<meta name="viewport" content="width=device-width, initial-scale=1">',
+    '<meta name="description" content="A self-paced course on web animation '
+    'and design engineering: 21 lessons, each with something to turn.">',
     '<title>Defensible Motion</title>',
     '<style>\n' + css + '\n' + theme_fix + '\n' + shell_css + '</style>',
+    '<script>' + theme_init + '</script>',
+    '</head>',
+    '<body>',
     '<div class="shell">',
     '<nav class="rail">',
     '  <div class="rail-inner">',
     '    <div class="rail-top">',
-    '      <a class="rail-home" href="#contents">Contents</a>',
-    '      <button class="rail-toggle" type="button" data-rail-toggle'
-    ' aria-expanded="true" aria-label="Collapse contents"></button>',
+    '      <a class="rail-home" href="#contents">Defensible Motion</a>',
+    '      <button class="rail-btn rail-toggle" type="button" data-rail-toggle'
+    ' aria-expanded="true" aria-label="Collapse contents">'
+    '<span class="rail-icon"></span></button>',
     '    </div>',
     '    <div class="rail-scroll">',
     chips,
+    '    </div>',
+    '    <div class="rail-foot">',
+    '      <button class="rail-btn theme-toggle" type="button" data-theme-toggle'
+    ' aria-label="Switch theme"><span class="theme-icon"></span></button>',
     '    </div>',
     '  </div>',
     '</nav>',
@@ -666,6 +926,8 @@ for a in ASSETS:
     # A literal </script> anywhere in the source would end the tag early.
     parts.append('<script>\n' + read('assets/' + a).replace('</script', r'<\/script') + '\n</script>')
 parts.append('<script>' + shell_js + '</script>')
+parts.append('</body>')
+parts.append('</html>')
 
 OUT.parent.mkdir(exist_ok=True)
 OUT.write_text('\n'.join(parts) + '\n')

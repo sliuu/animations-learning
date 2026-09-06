@@ -23,6 +23,8 @@
     <p><strong>Kinetic type</strong> — text whose movement is part of its meaning.<br>
     <strong>Split granularity</strong> — the unit you animate: phrase, line, word, or character.<br>
     <strong>Stagger</strong> — a deliberate delay between units.<br>
+    <strong>Duration</strong> — how long one unit takes to change from its first frame to rest.<br>
+    <strong>Easing curve</strong> — where an animation spends that time: early, evenly, or near the end.<br>
     <strong>Mask reveal</strong> — the words stay in place while a window uncovers them.<br>
     <strong>Fade-up</strong> — the words arrive from dimmer and lower, then settle.<br>
     <strong>Reading unit</strong> — the chunk the reader can understand in one glance.</p>
@@ -37,12 +39,24 @@
   <div class="callout"><span class="label">Try this, in order</span><ol>
     <li>Play <strong>lines + together</strong>. The paragraph keeps its reading shape.</li>
     <li>Choose <strong>characters + countable</strong>. The hero gains a pulse; the paragraph shows
-      its tax in beats and milliseconds.</li>
-    <li>Switch to <strong>mask</strong>. It reads as uncovering. Switch back to fade-up: it reads as
-      arrival. That is a change in promise, not a skin.</li>
-    <li>Try <strong>words + quick</strong> on a short headline, then on body copy. Keep the smallest
-      unit that changes meaning, not the smallest unit the browser can animate.</li>
+      its tax in beats and milliseconds, and the counter under it is doing arithmetic you would
+      otherwise have to trust someone about.</li>
+    <li>Try <strong>words + quick</strong> on the hero, then read the same setting on the body copy.
+      Keep the smallest unit that changes meaning, not the smallest unit the browser can animate.</li>
+    <li>Now leave the split alone and move <strong>Order</strong> to <em>last&nbsp;&rarr;&nbsp;first</em>,
+      then to <em>centre out</em>. Nothing about the type changed and nothing about the timing
+      changed. What changed is which unit the reader meets first — which is a ranking, and it is
+      free.</li>
+    <li>Drag the window narrower with <strong>lines</strong> selected. The line count changes on its
+      own, because a line is not a durable unit. Hold on to that; the last section is about it.</li>
   </ol></div>
+
+  <p class="sidenote wild"><span class="wild-label">Go and look</span>
+    <a target="_blank" rel="noopener noreferrer" href="https://www.apple.com/macbook-pro/">Apple &mdash; MacBook&nbsp;Pro</a>. Scroll until a
+    big headline arrives and name its unit: whole block, line, word, or character. Then find any
+    paragraph of ordinary body copy on the same page and name that one. They are not the same
+    answer, and the page is a long argument for why. Do it on two more product pages and the rule
+    stops being something you were told.</p>
 
   <h2>A split is a hierarchy made in time</h2>
   <p>Lines are usually the right first experiment for body copy. They preserve the sentence's
@@ -55,9 +69,18 @@
     forming,” split by character. A 35ms delay can feel like a quick beat; 80ms is countable. The
     more units you create, the more total time you spend even when each delay looks tiny.</p>
 
+  <p>The split decides how many things there are. The <strong>order</strong> decides which of them
+    the reader meets first, and that is a second, separate ranking — the lab's Order knob changes
+    nothing but the schedule. Reading order is the default and usually the honest one: it agrees
+    with the direction the eye was already travelling. Reversing it says the end of the phrase is
+    the point, which is occasionally true and mostly an accident of a preset. Centre-out says the
+    thing is unfolding rather than being read, which is why it flatters a single hero word and
+    fights a sentence. Whichever you pick, you have told the reader what to rank first, so pick
+    it on purpose.</p>
+
   <p class="sidenote"><strong>If you have read the engineering track:</strong> 0003's stagger lab
-    gives you the arithmetic. D003's hierarchy claim is the design test: the unit that moves first
-    is the unit you have ranked first. No engineering-track lesson is required to use that test.</p>
+    gives you the arithmetic for the delays. No engineering-track lesson is required for the
+    decision above.</p>
 
   <h2>Mask or fade: uncovering or arriving?</h2>
   <p>A mask reveal changes the window in front of still type. It says, “this was here; now you can
@@ -67,15 +90,38 @@
 
   <div data-text-arrival-lab data-title="Same words, different promise"></div>
 
+  <p>Both panes share every setting, so the only difference between them is the promise. That is
+    the point of running them side by side: play them one after the other and your memory will
+    quietly award the win to whichever you saw second.</p>
+
+  <div class="callout"><span class="label">Try this, in order</span><ol>
+    <li>Press <strong>Play both</strong> at the default settings and say which pane is
+      <em>uncovering</em> and which is <em>arriving</em>, out loud, before reading on.</li>
+    <li>Set <strong>theatrical&nbsp;&middot;&nbsp;1000ms</strong>. The mask becomes a curtain; the
+      fade-up becomes a slow drift. Long durations do not flatter both promises equally.</li>
+    <li>Keep that duration and walk <strong>Curve</strong> from <em>ease-out</em> to <em>linear</em>
+      to <em>ease-in</em>, pressing <strong>Hold at 50% time</strong> after each. Half the clock has
+      passed every time; the verdict measures how much of the <em>change</em> has been spent. That
+      gap between the two is the entire job of a curve.</li>
+    <li>Push <strong>Fade-up travel</strong> to <em>28px</em>. Only the right pane moves, and it now
+      announces its arrival much more loudly. Distance is a volume knob, not a detail.</li>
+    <li>Set <strong>Line delay</strong> to <em>together</em>, then <em>countable&nbsp;&middot;&nbsp;180ms</em>.
+      The cadence of the group is a separate decision from the speed of one line.</li>
+  </ol></div>
+
   <p>Use a mask when the spatial place is stable and the reveal itself is the story: a line being
     uncovered, a crop opening, a title emerging from behind a surface. Use fade-up when arrival is
     the story: a new section, a caption gaining focus, or a sequence where the words should feel
     newly present. If the type should not move, do not fake its movement just because a split-text
     preset offers one.</p>
 
-  <p class="sidenote"><strong>If you have read 0013:</strong> that lesson calls this the window-
-    versus-content decision. D008 applies the same distinction to typography, where a few pixels of
-    travel can change whether the reader experiences “uncovering” or “entering.”</p>
+  <p class="sidenote wild"><span class="wild-label">Go and look</span>
+    <a target="_blank" rel="noopener noreferrer" href="https://tympanus.net/Development/OnScrollTypographyAnimations/">Codrops&rsquo;
+    On-Scroll Typography Animations</a> &mdash; fifteen numbered effects on one page, most of them
+    louder than anything you would ship. That is what makes it useful. Scroll slowly and ask two
+    questions of each: what is the unit, and was the type always there with something moving in
+    front of it, or did the type change state? Effect 1 and effect 9 answer that second question
+    differently; say which is which out loud before deciding whether you like either.</p>
 
   <h2>Keep the reading intact</h2>
   <p>Runtime line splitting depends on font metrics and available width. Fonts load, windows resize,
@@ -83,10 +129,46 @@
     changes, preserves the original text for assistive technology, and keeps generated units out of
     the accessibility tree. If the effect is decorative, the sentence must remain a sentence when
     motion is removed.</p>
+
+  <p class="sidenote"><strong>If you have read 0013:</strong> that lesson calls this the window-
+    versus-content decision. D008 applies the same distinction to typography, where a few pixels of
+    travel can change whether the reader experiences “uncovering” or “entering.”</p>
   <p>There is also a practical CSS detail: character spans can break words if they are allowed to
     wrap independently. Keep characters inside word-sized wrappers, or the demo teaches a broken
     line break instead of kinetic type. The lab does this deliberately so you can resize it without
     losing the thing being taught.</p>
+
+  <p class="sidenote wild"><span class="wild-label">Go and look</span>
+    <a target="_blank" rel="noopener noreferrer" href="https://gsap.com/docs/v3/Plugins/SplitText/">GSAP&rsquo;s
+    SplitText documentation</a> &mdash; not to learn the library, which this course does not use, but
+    because the page is the most honest published account of everything on this list going wrong.
+    Find <code>autoSplit</code> and <code>onSplit</code> and read what they exist for; that is the
+    re-splitting problem, named. Then run the demo at the top and try to select the split headline
+    with your cursor and copy it. Whatever you get in your clipboard is what a screen reader was
+    being offered before someone did the work.
+    <span class="wild-note">All three links checked 2026-09-05. Sites get redesigned; if one has,
+    the exercise is still to name what replaced it.</span></p>
+
+  <h2>Reduced motion is the sentence, present</h2>
+  <p>Kinetic type is close to the top of the list of things a reduced-motion reader wants spared.
+    A split turns one calm element into dozens of small moving parts, all of them inside the thing
+    the reader is trying to read, and the reader cannot look away from it because it is the content.
+    A vestibular trigger is bad; a vestibular trigger you have to stare at to get the information is
+    worse.</p>
+  <p>The accommodation is not a faster version of the same reveal. There is no honest short version
+    of a letter-by-letter formation — at 60ms it is not a gentler effect, it is a flicker. Remove the
+    schedule entirely and let the sentence be present. Both labs on this page do exactly that, and
+    each says so in a comment: the words were always the content, and the split was always
+    decoration on top of them.</p>
+  <p>What you keep is the information. If the stagger was carrying an order — this heading, then its
+    subhead, then the button — that order still exists in the layout and in the reading direction.
+    It was never the animation's to give. The test is simple and you can apply it to any design:
+    <strong>turn the motion off and see whether anything you were relying on has gone.</strong> If
+    something has, it was load-bearing motion, and it needed a second home.</p>
+
+  <p class="sidenote"><strong>If you have read 0009:</strong> this is that lesson's stance applied to
+    the case where the moving thing <em>is</em> the text. Nothing there is needed to run the test
+    above.</p>
 
   <h2>The CSS behind it</h2>
   <details><summary>Show the mechanism</summary><pre><code>/* Split only as finely as the idea changes. */
@@ -95,8 +177,8 @@
 .unit { display: inline-block; }
 
 .is-playing .unit {
-  animation: arrive 520ms var(--ease-out-strong) both;
-  animation-delay: calc(var(--i) * var(--step));
+  animation: arrive var(--duration) var(--curve) both;
+  animation-delay: var(--delay); /* JS spends the stagger per unit. */
 }
 
 @keyframes arrive {
@@ -120,10 +202,27 @@
     <div data-q data-answer="1"><p class="qz-stem">What does a mask reveal promise?</p>
       <button data-opt>The words were already in place; a window is uncovering them.</button><button data-opt>The words are dimmer and lower while they enter.</button><button data-opt>The reader should wait for every character.</button><button data-opt>The page is scrubbing against scroll.</button>
       <p data-explain>A mask changes visibility, not the type's position. That reads as uncovering. Fade-up changes the content's state and reads as arrival.</p></div>
+    <div data-q data-answer="2"><p class="qz-stem">You reverse a line stagger so the last line arrives first. What have you changed?</p>
+      <button data-opt>Nothing meaningful — the same units move for the same total time.</button><button data-opt>The ranking: you have told the reader the end of the phrase is the thing to meet first.</button><button data-opt>The duration of each line.</button><button data-opt>Whether the reveal is a mask or a fade-up.</button>
+      <p data-explain>The split decides how many units there are; the order decides which one the reader meets first. That is a second ranking, it costs nothing to change, and it is worth choosing on purpose rather than accepting from a preset.</p></div>
+    <div data-q data-answer="3"><p class="qz-stem">A reader has reduced motion turned on. What should your character-split hero do?</p>
+      <button data-opt>Run the same reveal at a much shorter duration.</button><button data-opt>Hide the headline until the reader interacts with the page.</button><button data-opt>Drop the schedule and let the sentence simply be present.</button><button data-opt>Keep the stagger but remove the travel, so only opacity animates.</button>
+      <p data-explain>There is no honest short version of a letter-by-letter formation — at 60ms it reads as a flicker, not a gentler effect. The words were the content and the split was decoration, so the decoration goes. If the stagger was carrying an order, that order still lives in the layout.</p></div>
     <div data-q data-answer="4"><p class="qz-stem">What should a responsive split-text implementation do when the font or width changes?</p>
       <button data-opt>Keep the original spans even if line breaks become wrong.</button><button data-opt>Hide the text until the next page load.</button><button data-opt>Split every character again and allow words to break.</button><button data-opt>Remove the text from the accessibility tree permanently.</button>
       <p data-explain>Line boundaries depend on measured font metrics. Re-split after relevant changes, keep an accessible original sentence, and preserve word wrapping.</p></div>
   </div>
+
+  <h2>What you can now do</h2>
+  <p>Look at any headline that moves and name its unit in one word: block, line, word, character.
+    Say whether the reader is being shown an uncovering or an arrival, and point at the thing that
+    tells you — still type behind a moving window, or type that is itself dim and low. Price the
+    split: units times delay, plus one duration, is the wait you are asking for, and you can say
+    that number out loud before anyone builds it. Name the ranking the order implies and check it
+    is the ranking you meant. Then turn the motion off and confirm the sentence is still a sentence
+    and the order is still legible without it. When someone offers you a preset, you now have four
+    questions to ask it, and “character-by-character, because it looks expensive” is not an answer
+    to any of them.</p>
 
   <p class="ask-teacher"><strong>Ask yourself:</strong> what is the smallest unit of meaning in the
     real page you want to animate? Bring one headline and one paragraph next time; we can choose

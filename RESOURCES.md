@@ -287,6 +287,49 @@
   `power2.out`/`power3.out`/`expo.out`, `stagger: 0.075`, travel distances 10–24px,
   UI durations 0.2–0.45s. **Use for:** proof that the principles hold in production.
 
+### In the wild — the sites D007 and D008 send you to
+
+These are linked from the lessons themselves, in the margin, each with a question attached. They
+are listed here so the set survives a lesson being rewritten. Every one is a single concrete page
+with a specific thing on it — a gallery or a tag archive is not an example, it is a place examples
+might be. All checked 2026-09-05; the point of each is a pattern, not a layout, so a redesign
+changes the exercise rather than ending it.
+
+- [Apple — AirPods Pro](https://www.apple.com/airpods-pro/)
+  Scrubbed product sequences and pinned sections, and the markup says so — `sticky` and `parallax`
+  both appear in the shipped HTML. **Use for:** D007's first question. Stop anywhere and ask
+  whether the frame you landed on is a finished picture.
+- [Stripe](https://stripe.com)
+  The restraint case. Nothing pinned for long, short travel, roughly one idea per screen-height.
+  **Use for:** D007's *distance is duration* — the pacing number to have in your head before
+  someone proposes a three-screen section.
+- [Firewatch](https://www.firewatchgame.com/)
+  Layered illustrated parallax, a decade old and still legible. **Use for:** D007's *deep* — name
+  the planes nearest to farthest, then notice how little each one travels.
+- [scroll-driven-animations.style](https://scroll-driven-animations.style/)
+  Also listed under Scroll above. **Use for:** D007's native contract, from the side that keeps
+  it — drag the scrollbar and watch every demo track your hand exactly.
+- [Bramus — image-reveal demo](https://scroll-driven-animations.style/demos/image-reveal/css/)
+  One page, no library: `view-timeline` and a `clip-path`, nothing else. **Use for:** D007's native
+  contract from the side that keeps it. Drag the scrollbar in jerks and watch the reveal track your
+  hand exactly, because nothing is chasing anything.
+- [Dennis Snellenberg — portfolio](https://www.dennissnellenberg.com/)
+  A beautiful site that replaces the browser's scroll with its own — Locomotive Scroll plus GSAP's
+  ScrollTrigger, both in the shipped page. **Use for:** D007's native contract from the side that
+  gives it away. Press `End`, drag the scrollbar, flick hard and let go.
+- [Apple — MacBook Pro](https://www.apple.com/macbook-pro/)
+  **Use for:** D008's split granularity. Name the unit the headline uses, then name the unit the
+  body copy uses. They differ, and the page is a long argument for why.
+- [Codrops — On-Scroll Typography Animations, Set 1](https://tympanus.net/Development/OnScrollTypographyAnimations/)
+  Fifteen numbered type effects on one page, most louder than anything you would ship, which is what
+  makes them useful. **Use for:** D008's mask-or-fade question, asked fifteen times in a row —
+  effects 1 and 9 answer it differently.
+- [GSAP — SplitText docs](https://gsap.com/docs/v3/Plugins/SplitText/)
+  Linked as documentation, not as a dependency; the course ships no libraries. It is the most honest
+  published account of split text going wrong — `autoSplit`, `onSplit`, and a long accessibility
+  section. **Use for:** D008's *keep the reading intact*. Run the demo, then try to select and copy
+  the split headline.
+
 ## Wisdom (Communities)
 
 - [r/web_design](https://reddit.com/r/web_design) and [r/Frontend](https://reddit.com/r/Frontend)
