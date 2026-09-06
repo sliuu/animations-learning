@@ -72,7 +72,7 @@
     }
     .xl-panel {
       width: 100%; max-width: 230px; padding: 0.75rem 0.85rem;
-      border-radius: 8px; background: var(--accent); color: #fffef9;
+      border-radius: 8px; background: var(--accent); color: var(--paper);
       font-family: var(--sans); font-size: 0.8rem; line-height: 1.45;
       box-shadow: 0 6px 18px rgba(0,0,0,.16);
       opacity: 0;

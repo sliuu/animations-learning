@@ -369,7 +369,7 @@
       padding: 0.4rem 0.7rem; border: 0; border-right: 1px solid var(--rule);
       background: transparent; color: var(--ink-soft); cursor: pointer; }
     .pt-seg button:last-child { border-right: 0; }
-    .pt-seg button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+    .pt-seg button[aria-pressed="true"] { background: var(--accent); color: var(--paper); }
     .pt-seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
     .pt-count { font-family: var(--sans); font-size: 0.72rem; color: var(--ink-faint);
       margin-left: auto; }
@@ -473,7 +473,7 @@
     .pt-hero .pt-h2 { color: var(--ink-faint); }
     .pt-cta { margin-top: 0.25rem; font-size: 0.68rem; font-weight: 600;
       padding: 0.35rem 0.65rem; border-radius: 999px;
-      background: var(--accent); color: #fff; }
+      background: var(--accent); color: var(--paper); }
 
     /* line reveal */
     .pt-lines, .pt-chars { position: absolute; inset: 0;
@@ -556,7 +556,7 @@
     /* swipe */
     .pt-behind { position: absolute; inset: 0.7rem; border-radius: 6px;
       display: flex; align-items: center; justify-content: flex-end;
-      padding-right: 0.8rem; background: var(--bad); color: #fff;
+      padding-right: 0.8rem; background: var(--bad); color: var(--paper);
       font-family: var(--sans); font-size: 0.7rem; font-weight: 600; }
     .pt-card2 { position: absolute; inset: 0.7rem; border-radius: 6px;
       display: grid; align-content: center; gap: 0.15rem; padding: 0 0.8rem;

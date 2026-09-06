@@ -1,21 +1,30 @@
 /* ============================================================
    lesson.css — shared stylesheet for all lessons & references
    Tufte-inspired: generous margins, serif prose, restrained
-   palette, sidenotes. Prints cleanly. Light + dark.
+   palette, sidenotes. Prints cleanly. Dark by default, light on ask.
    ============================================================ */
 
+/* Dark is the default. Not "dark if the OS says so" — the OS is deliberately
+   not consulted, so the course looks the same on every machine until a reader
+   asks it not to. The bundle's toggle is that ask: it stamps
+   data-theme="light" on :root, which is the only thing that switches the
+   palette. A single lesson file opened on its own has no toggle, so it is
+   always dark, which is the ground every lab was tuned against. */
 :root {
-  --ink: #16150f;
-  --ink-soft: #55524a;
-  --ink-faint: #8b877c;
-  --paper: #fffef9;
-  --paper-sunk: #f6f4ec;
-  --rule: #e0ddd1;
-  --accent: #9a3412;      /* burnt sienna — links, emphasis */
-  --accent-soft: #f0e2d8;
-  --good: #3f6212;
-  --bad: #9f1239;
-  --code-bg: #f4f2ea;
+  color-scheme: dark;
+
+  --ink: #eceadf;
+  --ink-soft: #a8a49a;
+  --ink-faint: #736f66;
+  --paper: #14140f;
+  --paper-sunk: #1c1c16;
+  --rule: #302f27;
+  --accent: #a5cdf2;      /* baby blue — links, emphasis */
+  --accent-hover: #c6ddf7; /* the accent lifted, for a fill under the pointer */
+  --accent-soft: #1a232c;
+  --good: #a3c76d;
+  --bad: #f2789a;
+  --code-bg: #1e1e17;
 
   /* The curve library. Referenced by name all through the course. */
   --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
@@ -27,20 +36,24 @@
   --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --ink: #eceadf;
-    --ink-soft: #a8a49a;
-    --ink-faint: #736f66;
-    --paper: #14140f;
-    --paper-sunk: #1c1c16;
-    --rule: #302f27;
-    --accent: #f0a882;
-    --accent-soft: #33241c;
-    --good: #a3c76d;
-    --bad: #f2789a;
-    --code-bg: #1e1e17;
-  }
+/* The light palette, reached only by an explicit choice. Same roles, same
+   names — the blue darkens because it now has to hold contrast against paper
+   rather than against ink. */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --ink: #16150f;
+  --ink-soft: #55524a;
+  --ink-faint: #8b877c;
+  --paper: #fffef9;
+  --paper-sunk: #f6f4ec;
+  --rule: #e0ddd1;
+  --accent: #1d5fa8;
+  --accent-hover: #2a74c4;
+  --accent-soft: #dbe9f8;
+  --good: #3f6212;
+  --bad: #9f1239;
+  --code-bg: #f4f2ea;
 }
 
 /* ---------- reset-ish ---------- */
@@ -500,7 +513,7 @@ select, input[type="text"] {
   :root {
     --ink: #000; --ink-soft: #333; --ink-faint: #666;
     --paper: #fff; --paper-sunk: #fafafa; --rule: #ccc;
-    --accent: #000; --accent-soft: #f0f0f0; --code-bg: #f7f7f7;
+    --accent: #000; --accent-hover: #000; --accent-soft: #f0f0f0; --code-bg: #f7f7f7;
   }
   body { font-size: 11pt; }
   .page { max-width: none; padding: 0; }

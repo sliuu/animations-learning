@@ -93,7 +93,7 @@
       border: 0; border-right: 1px solid var(--rule); background: transparent;
       color: var(--ink-soft); cursor: pointer; }
     .mpl-seg button:last-child { border-right: 0; }
-    .mpl-seg button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+    .mpl-seg button[aria-pressed="true"] { background: var(--accent); color: var(--paper); }
     .mpl-seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
     .mpl-seg.off { opacity: 0.4; pointer-events: none; }
 

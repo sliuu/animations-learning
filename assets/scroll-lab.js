@@ -51,7 +51,7 @@
     }
     .scl-card {
       height: 84px; margin: 12px 0; border-radius: 9px;
-      background: var(--accent); color: #fffef9;
+      background: var(--accent); color: var(--paper);
       display: grid; place-items: center;
       font-family: var(--sans); font-size: 0.8rem; font-weight: 600;
     }
@@ -77,7 +77,7 @@
       letter-spacing: 0.04em; text-transform: none;
     }
     .scl-modes button + button { border-left: 1px solid var(--rule); }
-    .scl-modes button[aria-pressed="true"] { background: var(--accent); color: #fffef9; }
+    .scl-modes button[aria-pressed="true"] { background: var(--accent); color: var(--paper); }
     .scl-drive { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.6rem 0.85rem 0; }
     .scl-banner {
       margin: 0.6rem 0.85rem 0; padding: 0.5rem 0.7rem; border-radius: 5px;
@@ -103,7 +103,7 @@
       letter-spacing: 0.04em; text-transform: none;
     }
     .scl-modes button + button { border-left: 1px solid var(--rule); }
-    .scl-modes button[aria-pressed="true"] { background: var(--accent); color: #fffef9; }
+    .scl-modes button[aria-pressed="true"] { background: var(--accent); color: var(--paper); }
     .scl-drive { display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0.6rem 0.85rem 0; }
     .scl-banner {
       margin: 0.6rem 0.85rem 0; padding: 0.5rem 0.7rem; border-radius: 5px;

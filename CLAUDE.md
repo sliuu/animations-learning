@@ -128,9 +128,24 @@ don't drop it.
 Shared classes from `lesson.css`: `.page .masthead .eyebrow .dek .meta .lead .callout
 .sidenote .stage .stage-head .stage-body .stage-foot .controls .control .control-label
 .control-value .btn .btn.primary .wide .ask-teacher .footer-nav .nav-links`. Tokens:
-`--ink --ink-soft --ink-faint --paper --paper-sunk --rule --accent --accent-soft --good
---bad --code-bg --ease-out-strong --ease-in-out-strong --ease-drawer --serif --sans --mono`.
+`--ink --ink-soft --ink-faint --paper --paper-sunk --rule --accent --accent-hover
+--accent-soft --good --bad --code-bg --ease-out-strong --ease-in-out-strong --ease-drawer
+--serif --sans --mono`.
 Serif body, sans for controls and labels — that is the house style; match `press-lab.js`.
+
+**`lesson.css` is the only place a colour is written down.** It holds all three palettes —
+`:root` is dark, `:root[data-theme="light"]` is the light choice, and the `@media print`
+block is the third. Dark is the *unconditional* default: `prefers-color-scheme` is
+deliberately never consulted, so a lesson opened on its own is always dark, and light is
+reached only by the bundle's toggle stamping `data-theme="light"`. Consequences:
+
+- **Never write a hex outside `lesson.css`.** Text on an `--accent` or `--bad` fill is
+  `var(--paper)`, not `#fff` — white on the dark theme's baby blue is unreadable.
+- **A canvas cannot use `var()`,** so `spring-lab.js` and `cost-lab.js` copy the tokens out
+  with `getComputedStyle`. A copy goes stale on a theme switch, so each watches
+  `data-theme` on `:root` with a `MutationObserver` and repaints.
+- **An iframe inherits no custom properties.** `playground.js` carries the tokens across
+  explicitly and re-mounts on the same observer.
 
 ## Lab conventions (`assets/*-lab.js`)
 

@@ -162,28 +162,13 @@ def rewrite(markup):
 
 
 # ---- theme tokens ----------------------------------------------------------
-# lesson.css only handles the un-stamped prefers-color-scheme case. A host that
-# offers an explicit light/dark choice stamps data-theme on :root instead, so
-# mirror the same token sets into both stamped states — without editing their
-# stylesheet, which still has to stand alone for a single lesson opened direct.
+# Nothing to patch. lesson.css owns all three states on its own: :root is the
+# dark default, :root[data-theme="light"] is the explicit light choice, and a
+# stamped data-theme="dark" simply lands back on :root. The bundle used to
+# mirror both token sets into the stamped states because the stylesheet only
+# handled the un-stamped prefers-color-scheme case; it no longer does, and a
+# second copy of the palette here is exactly the thing that drifts.
 css = read('assets/lesson.css')
-light_tokens = re.search(r':root \{\n(.*?)\n\}', css, re.S).group(1)
-dark_tokens = re.search(
-    r'@media \(prefers-color-scheme: dark\) \{\n  :root \{\n(.*?)\n  \}', css, re.S).group(1)
-dark_tokens = re.sub(r'^    ', '  ', dark_tokens, flags=re.M)
-
-theme_fix = f""":root {{ color-scheme: light; }}
-@media (prefers-color-scheme: dark) {{ :root {{ color-scheme: dark; }} }}
-:root[data-theme="dark"] {{
-  color-scheme: dark;
-{dark_tokens}
-}}
-:root[data-theme="light"] {{ color-scheme: light; }}
-@media (prefers-color-scheme: dark) {{
-  :root[data-theme="light"] {{
-{light_tokens}
-  }}
-}}"""
 
 # ---- contents --------------------------------------------------------------
 def toc_entry(d):
@@ -777,17 +762,14 @@ shell_js = """
 
   // ---- theme ----------------------------------------------------------
   // The <head> script has already stamped an explicit choice, if there was one.
-  // Until the reader makes one, nothing is stamped and the OS setting rules —
-  // including if it changes while the page is open, which is why the icon is
-  // repainted on the media query rather than only on click.
+  // Until the reader makes one nothing is stamped, and an un-stamped page is
+  // dark — that is lesson.css's :root, not a media query, so the OS setting
+  // never enters into it and the icon can be painted from the stamp alone.
   const THEME_KEY = 'defensible-motion:theme';
   const themeToggle = document.querySelector('[data-theme-toggle]');
-  const darkQuery = matchMedia('(prefers-color-scheme: dark)');
 
   function effectiveTheme() {
-    const stamped = document.documentElement.dataset.theme;
-    if (stamped === 'dark' || stamped === 'light') return stamped;
-    return darkQuery.matches ? 'dark' : 'light';
+    return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
   }
 
   function paintThemeToggle() {
@@ -802,7 +784,6 @@ shell_js = """
     try { localStorage.setItem(THEME_KEY, document.documentElement.dataset.theme); }
     catch (e) { /* no-op */ }
   });
-  darkQuery.addEventListener('change', paintThemeToggle);
   paintThemeToggle();
 
   const RAIL_KEY = 'defensible-motion:rail';
@@ -843,14 +824,14 @@ shell_js = """
 })();
 """
 
-# Runs in <head>, before the first paint, so a reader who chose dark never sees
-# a white page flash first. It only reads storage — the toggle's own logic lives
-# in shell_js with the rest of the chrome.
+# Runs in <head>, before the first paint, so a reader who chose light never
+# sees a dark page flash first. It only reads storage — the toggle's own logic
+# lives in shell_js with the rest of the chrome.
 theme_init = """(() => {
   try {
     const t = localStorage.getItem('defensible-motion:theme');
     if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
-  } catch (e) { /* private mode throws on read; fall through to the OS setting */ }
+  } catch (e) { /* private mode throws on read; fall through to the dark default */ }
 })();"""
 
 parts = [
@@ -864,7 +845,7 @@ parts = [
     '<meta name="description" content="A self-paced course on web animation '
     'and design engineering: 21 lessons, each with something to turn.">',
     '<title>Defensible Motion</title>',
-    '<style>\n' + css + '\n' + theme_fix + '\n' + shell_css + '</style>',
+    '<style>\n' + css + '\n' + shell_css + '</style>',
     '<script>' + theme_init + '</script>',
     '</head>',
     '<body>',

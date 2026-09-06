@@ -169,7 +169,7 @@
       border: 0; border-right: 1px solid var(--rule); background: transparent;
       color: var(--ink-soft); cursor: pointer; }
     .vt-seg button:last-child { border-right: 0; }
-    .vt-seg button[aria-pressed="true"] { background: var(--accent); color: #fffef9; }
+    .vt-seg button[aria-pressed="true"] { background: var(--accent); color: var(--paper); }
     .vt-seg button[disabled] { opacity: 0.45; cursor: not-allowed; }
     .vt-seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
     .vt-foot input[disabled] { opacity: 0.45; cursor: not-allowed; }

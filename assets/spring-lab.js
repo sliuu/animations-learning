@@ -278,22 +278,26 @@
     const canvas = el('[data-graph]');
     const ctx = canvas.getContext('2d');
 
+    // A canvas cannot use a custom property, so the palette is copied out of
+    // CSS rather than written down here — one source of truth in lesson.css,
+    // and the fallback is the inherited text colour, never a second hex.
     let colors = {};
     function readColors() {
       const cs = getComputedStyle(root);
+      const pick = (n) => cs.getPropertyValue(n).trim() || cs.color;
       colors = {
-        accent: cs.getPropertyValue('--accent').trim() || '#9a3412',
-        ink: cs.getPropertyValue('--ink').trim() || '#16150f',
-        faint: cs.getPropertyValue('--ink-faint').trim() || '#8a8778',
-        rule: cs.getPropertyValue('--rule').trim() || '#ddd',
+        accent: pick('--accent'),
+        ink: pick('--ink'),
+        faint: pick('--ink-faint'),
+        rule: pick('--rule'),
       };
     }
     readColors();
-    if (window.matchMedia) {
-      const mq = window.matchMedia('(prefers-color-scheme: dark)');
-      const onChange = () => { readColors(); draw(); };
-      if (mq.addEventListener) mq.addEventListener('change', onChange);
-    }
+    // The theme is switched by stamping data-theme on :root, so that is what
+    // the copied colours have to watch. Nothing else repaints this canvas.
+    const onTheme = () => { readColors(); draw(); };
+    new MutationObserver(onTheme).observe(document.documentElement,
+      { attributes: true, attributeFilter: ['data-theme'] });
 
     /* ---- runtime ---- */
     let travel = 0;

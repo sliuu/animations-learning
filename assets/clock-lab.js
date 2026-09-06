@@ -132,7 +132,7 @@
       padding: 0.4rem 0.3rem; border: 0; border-right: 1px solid var(--rule);
       background: transparent; color: var(--ink-soft); cursor: pointer; }
     .ck-seg button:last-child { border-right: 0; }
-    .ck-seg button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+    .ck-seg button[aria-pressed="true"] { background: var(--accent); color: var(--paper); }
     .ck-seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 
     .ck-side { display: grid; gap: 0.85rem; }

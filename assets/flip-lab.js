@@ -71,8 +71,8 @@
       height: 58px; border-radius: 6px;
       display: flex; align-items: center; justify-content: center;
       font-family: var(--mono); font-size: 0.85rem; font-weight: 600;
-      color: #fffef9;
-      background: color-mix(in srgb, var(--accent) calc(28% + var(--i) * 6%), #6b6357);
+      color: var(--paper);
+      background: color-mix(in srgb, var(--accent) calc(28% + var(--i) * 6%), var(--ink-faint));
       will-change: transform;
     }
     .fl-card[hidden] { display: none; }
@@ -151,7 +151,7 @@
       border: 0; border-right: 1px solid var(--rule); background: transparent;
       color: var(--ink-soft); cursor: pointer; }
     .fl-seg button:last-child { border-right: 0; }
-    .fl-seg button[aria-pressed="true"] { background: var(--accent); color: #fffef9; }
+    .fl-seg button[aria-pressed="true"] { background: var(--accent); color: var(--paper); }
     .fl-seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
     .fl-foot input[disabled] { opacity: 0.45; cursor: not-allowed; }
     .fl-foot .fl-seg button[disabled] { opacity: 0.45; cursor: not-allowed; }

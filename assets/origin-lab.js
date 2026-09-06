@@ -145,7 +145,7 @@
       cursor: pointer;
     }
     .ol-grid button[aria-pressed="true"] {
-      background: var(--accent); color: #fffef9; border-color: var(--accent);
+      background: var(--accent); color: var(--paper); border-color: var(--accent);
     }
     .ol-drift { grid-column: 1 / -1; margin: 0;
       border-top: 1px dotted var(--rule); padding-top: 0.7rem;

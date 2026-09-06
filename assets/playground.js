@@ -76,35 +76,44 @@
     }
   `;
 
-  // Base CSS handed to every iframe. Gives demos a neutral, theme-aware
-  // canvas so lessons only write the CSS that is actually being taught.
-  const BASE = `
+  // Base CSS handed to every iframe. Gives demos a neutral canvas so lessons
+  // only write the CSS that is actually being taught.
+  //
+  // An iframe is its own document, so it inherits none of the page's custom
+  // properties — they have to be carried across. They are read off the host
+  // root rather than restated here, which is the only way the playground and
+  // the lesson around it can stay the same colour: lesson.css is the palette,
+  // and this is a copy of whichever half of it is currently in force.
+  const CARRIED = ['--ink', '--paper', '--accent', '--accent-hover', '--accent-soft',
+                   '--rule', '--good', '--bad',
+                   '--ease-out-strong', '--ease-in-out-strong', '--ease-drawer'];
+
+  function baseCss() {
+    const cs = getComputedStyle(document.documentElement);
+    const tokens = CARRIED
+      .map((n) => `      ${n}: ${cs.getPropertyValue(n).trim()};`)
+      .join('\n');
+    return `
     *, *::before, *::after { box-sizing: border-box; }
     html, body { margin: 0; height: 100%; }
+    :root {
+${tokens}
+    }
     body {
       display: grid; place-items: center;
       font-family: ui-sans-serif, -apple-system, "Segoe UI", system-ui, sans-serif;
       font-size: 14px;
-      color: #16150f; background: #fffef9;
+      color: var(--ink); background: var(--paper);
       overflow: hidden;
     }
-    @media (prefers-color-scheme: dark) {
-      body { color: #eceadf; background: #14140f; }
-    }
-    :root {
-      --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
-      --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
-      --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
-      --accent: #9a3412;
-    }
-    @media (prefers-color-scheme: dark) { :root { --accent: #f0a882; } }
     .box {
       width: 84px; height: 84px; border-radius: 12px;
-      background: var(--accent); color: #fffef9;
+      background: var(--accent); color: var(--paper);
       display: grid; place-items: center;
       font-weight: 600; font-size: 12px;
     }
   `;
+  }
 
   function injectStyles() {
     if (document.getElementById('pg-styles')) return;
@@ -224,7 +233,7 @@
       doc.body.className = '';
 
       const base = doc.createElement('style');
-      base.textContent = BASE;
+      base.textContent = baseCss();
       doc.head.appendChild(base);
 
       styleEl = doc.createElement('style');
@@ -246,6 +255,12 @@
     }
 
     mount();
+
+    // The carried palette is a copy, so it goes stale the moment the reader
+    // switches theme. Re-mounting is the honest fix: the demo is rebuilt in
+    // the new colours rather than left sitting in the old ones.
+    new MutationObserver(() => mount()).observe(document.documentElement,
+      { attributes: true, attributeFilter: ['data-theme'] });
 
     function apply() {
       if (styleEl) styleEl.textContent = textarea.value;

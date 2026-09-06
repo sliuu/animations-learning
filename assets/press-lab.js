@@ -56,7 +56,7 @@
       border: 0; border-right: 1px solid var(--rule); background: transparent;
       color: var(--ink-soft); cursor: pointer; }
     .pl-seg button:last-child { border-right: 0; }
-    .pl-seg button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+    .pl-seg button[aria-pressed="true"] { background: var(--accent); color: var(--paper); }
     .pl-seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 
     .pl-body { display: grid; gap: 0; background: var(--paper); }
@@ -79,7 +79,7 @@
 
     .pl-btn { font-family: var(--sans); font-size: 0.8rem; font-weight: 600;
       border: 1px solid transparent; border-radius: 7px; padding: 0.5rem 0.9rem;
-      background: var(--accent); color: #fff; cursor: pointer;
+      background: var(--accent); color: var(--paper); cursor: pointer;
       transform: scale(1);
       box-shadow: 0 1px 2px color-mix(in srgb, var(--ink) 14%, transparent);
       transition: transform var(--up) var(--ease),
@@ -90,7 +90,7 @@
        class with a finger. They cannot drift because it is one rule. */
     .pl-stage.mouse .pl-btn:hover,
     .pl-btn.faux-hover {
-      background: color-mix(in srgb, var(--accent) 82%, #ffffff);
+      background: var(--accent-hover);
       box-shadow: 0 4px 12px color-mix(in srgb, var(--ink) 22%, transparent); }
 
     /* Same idea for the press. Note the transition is re-declared, not
@@ -115,7 +115,7 @@
     .pl-chip { font-family: var(--mono); font-size: 0.67rem; padding: 0.25rem 0.5rem;
       border-radius: 5px; border: 1px solid var(--rule);
       color: var(--ink-faint); background: var(--paper-sunk); white-space: nowrap; }
-    .pl-chip.on { border-color: var(--accent); background: var(--accent); color: #fff; }
+    .pl-chip.on { border-color: var(--accent); background: var(--accent); color: var(--paper); }
     .pl-chip.stuck { border-color: var(--bad); background: var(--bad); color: var(--paper); }
 
     .pl-verdict { font-family: var(--sans); font-size: 0.7rem; line-height: 1.45;

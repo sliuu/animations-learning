@@ -148,7 +148,7 @@
       color: var(--ink-soft);
     }
     .cl-banner.show { opacity: 1; }
-    .cl-banner.hot { background: var(--bad); color: #fff; }
+    .cl-banner.hot { background: var(--bad); color: var(--paper); }
 
     /* --- main thread vs compositor, side by side --- */
     .cl-vitals {
@@ -358,21 +358,26 @@
     const HIST = 150;
     const hist = [];
 
+    // Same rule as the spring graph: the strip is a canvas, so the palette is
+    // copied out of CSS instead of restated here, and the fallback is the
+    // inherited text colour rather than a second set of hexes.
     let colors = readColors();
     function readColors() {
       const cs = getComputedStyle(root);
-      const pick = (n, f) => (cs.getPropertyValue(n) || '').trim() || f;
+      const pick = (n) => (cs.getPropertyValue(n) || '').trim() || cs.color;
       return {
-        good: pick('--good', '#3f6212'),
-        warn: pick('--accent', '#9a3412'),
-        bad: pick('--bad', '#9f1239'),
-        rule: pick('--ink-faint', '#8a8778'),
+        good: pick('--good'),
+        warn: pick('--accent'),
+        bad: pick('--bad'),
+        rule: pick('--ink-faint'),
       };
     }
-    if (window.matchMedia) {
-      const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    // The theme switch stamps data-theme on :root; a copied palette has to
+    // watch for it or the strip keeps drawing in the palette it started in.
+    {
       const onScheme = () => { colors = readColors(); drawStrip(); };
-      if (mq.addEventListener) mq.addEventListener('change', onScheme);
+      new MutationObserver(onScheme).observe(document.documentElement,
+        { attributes: true, attributeFilter: ['data-theme'] });
     }
 
     function sizeStrip() {
