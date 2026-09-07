@@ -1,0 +1,124 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reference — The Composer</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <style>
+    /* Local to this sheet. The lab carries its own styles; these are the
+       few labels that sit around it. */
+    .cm-note {
+      font-family: var(--sans); font-size: 0.78rem; line-height: 1.5;
+      color: var(--ink-faint);
+      border-top: 1px solid var(--rule); padding-top: 0.7rem; margin-top: 2.25rem;
+    }
+    .cm-steps { font-family: var(--sans); font-size: 0.85rem; line-height: 1.6; }
+    .cm-steps li { margin-bottom: 0.3rem; }
+    .cm-steps b { font-weight: 600; color: var(--ink); }
+    @media print {
+      .cm-noprint { display: none; }
+    }
+  </style>
+
+  <header class="masthead">
+    <p class="eyebrow">Reference · 06</p>
+    <h1>The Composer</h1>
+    <p class="dek">Say what should happen in words, watch the CSS write itself, and then
+      change one thing and see what that one thing did.</p>
+    <div class="meta">
+      <span>Companions: <a href="easing-and-timing.html">Reference 01</a> ·
+        <a href="02-the-numbers.html">Reference 02</a> ·
+        <a href="04-the-workbench.html">Reference 04</a></span>
+      <span>Updated 2026-09-06</span>
+    </div>
+  </header>
+
+  <p class="lead">This sheet has no argument in it. Pick an object, pick a moment, switch
+  words on and off, and the code and the result keep up. The question it exists to answer is
+  <em>what does that change look like</em> — when you tune a number yourself, when you take the
+  fade out, when you put it back.</p>
+
+  <div class="callout cm-noprint">
+    <span class="label">Two stages, on purpose</span>
+    <p>The upper stage is the composition <em>one edit ago</em>. The lower one is now. Every
+    time you touch something, now becomes before, and you can see the pair run together. A
+    change you can only remember is a change you can't judge.</p>
+  </div>
+
+  <div data-compose-lab data-title="The composer"></div>
+
+  <h2>How to drive it</h2>
+  <ol class="cm-steps">
+    <li><b>Button and Drawer</b> are the objects. Switching object is a reset — a button's
+      composition means nothing on a drawer — so it starts each one from its own default.</li>
+    <li><b>The moments</b> are the row underneath. Each holds its own set of words, and the
+      code panel prints all of them at once — the receipt is for the whole object. The last
+      moment in each row (<em>Return</em>, <em>Close</em>) takes no words: it is the way back,
+      and the only thing it owns is its own duration and curve. That is why a drawer can open
+      in 220ms and close in 120ms, and why the code shows exactly where the second number
+      lives.</li>
+    <li><b>The checkboxes</b> add and remove words. Two words that fight over the same channel
+      (lift and sink both want <code>translate</code>) can't both be on, and the picker says so
+      instead of letting the second one win silently.</li>
+    <li><b>The code is editable.</b> The words are the coarse path; clicking a value in panel 2
+      and typing is the exact one. A value the CSS parser would drop is flagged rather than
+      applied, so nothing fails quietly.</li>
+    <li><b>Play it, Loop, 0.25×, Hold this.</b> <em>Hold this</em> freezes the upper stage so
+      you can make several edits against one fixed reference instead of only the last one.</li>
+    <li><b>The scrub</b> runs both stages against the same clock, not each against its own
+      duration — otherwise a 120ms and a 400ms version would look identical at every position
+      of the slider, which is the one difference the comparison exists to show.</li>
+  </ol>
+
+  <h2>What the readout says</h2>
+  <p>Duration, how many properties are being animated, how many of the three moments are in
+  use, and the most expensive tier anything on the page touches — compositor, paint, or layout,
+  in the sense <a href="../lessons/0002-the-four-property-budget.html">Lesson 0002</a> uses
+  them. It reports. It has no opinion about what it reports; the numbers are there so a
+  judgment is yours to make and not the page's.</p>
+
+  <h2>What's in it so far</h2>
+  <p>Two objects. <b>The button</b>, with the words that
+  <a href="../lessons/D004-the-button.html">D004</a> and
+  <a href="../lessons/0010-hover-and-press.html">0010</a> put on a control — lift, sink, grow,
+  shrink, fade, darken, lighten, shadow, tint, ring. <b>The drawer</b>, with the words
+  <a href="../lessons/D002-where-things-live.html">D002</a> uses for a surface that lives off
+  screen — slide, fade in, scale up, dim, shadow. A drawer's rest state <em>is</em> off screen,
+  so those words write two rules rather than one: where the panel waits and where it arrives.
+  Its stage has a real switch — click <em>Filters</em>, the scrim, or <em>Apply</em> and the
+  printed CSS runs for real, rather than the scrubbed copy of it.</p>
+
+  <p>The object list is meant to keep growing across the design track: the card, the deck, the
+  drag, the scroll section, the hero. The parts list lives in one file
+  (<code>assets/compose-catalogue.js</code>), so adding an object is adding data, not adding a
+  page.</p>
+
+  <p class="cm-note">Nothing plays on load, and nothing loops unless you switch loop on. An
+  edit does preview itself, because watching the change <em>is</em> the sheet — but if your
+  system asks for reduced motion, that preview is dropped and only <em>Play</em>, <em>Loop</em>
+  and the scrubber move anything, since pressing one of those is the request. Every comparison
+  is still readable standing still. Nothing you do here is saved — reload to reset it.</p>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="easing-and-timing.html">Reference 01 — Easing &amp; Timing</a>
+      <a href="02-the-numbers.html">Reference 02 — The Numbers</a>
+      <a href="03-the-whole-course.html">Reference 03 — The Whole Course</a>
+      <a href="04-the-workbench.html">Reference 04 — The Workbench</a>
+      <a href="../lessons/D012-the-critique-drill.html">Lesson D012 — The critique drill</a>
+      <a href="../lessons/D011-the-motion-budget.html">Lesson D011 — The motion budget</a>
+      <a href="../lessons/D004-the-button.html">Lesson D004 — The button</a>
+      <a href="../lessons/0010-hover-and-press.html">Lesson 0010 — Hover and press</a>
+      <a href="../lessons/0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+      <a href="../lessons/0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/compose-catalogue.js"></script>
+<script src="../assets/compose-lab.js"></script>

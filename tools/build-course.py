@@ -13,7 +13,7 @@ import re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = ROOT / 'dist' / 'course.html'
-BUILT = '2026-09-06'
+BUILT = '2026-09-07'
 
 # What is written next, in the order it is currently planned. Shown faded in
 # the contents so the shape of the whole course is visible from lesson one —
@@ -34,13 +34,9 @@ PLANNED_ENG = [
 # the whole vocabulary, and D008 is the biggest gap against the mission's own
 # north star, so both come before the ones numbered between them.
 PLANNED_DES = [
-    ('D12', 'The critique drill',
-     'Name the flaw, name the fix, name the principle. Ten before-and-afters, verdict hidden '
-     'until you commit.',
-     'next in this track'),
     ('D13', 'Motion in a design system',
      'Tokens and handoff: what belongs in a Figma spec, and what only ever exists in code.',
-     'queued'),
+     'next in this track'),
 ]
 
 # The design track's endpoint artifact, listed with the sheets rather than the
@@ -61,7 +57,8 @@ ASSETS = ['easing-lab.js', 'cost-lab.js', 'stagger-lab.js', 'scroll-lab.js', 'ex
           'flip-lab.js', 'vt-lab.js', 'state-lab.js', 'hold-lab.js', 'grab-lab.js', 'drag-lab.js', 'deck-lab.js', 'autoplay-lab.js',
           'timeline-lab.js', 'scroll-contract-lab.js', 'split-lab.js', 'text-arrival-lab.js',
           'wait-lab.js', 'optimistic-lab.js', 'nav-lab.js', 'continuity-lab.js',
-          'budget-lab.js', 'repeat-lab.js',
+          'budget-lab.js', 'repeat-lab.js', 'critique-lab.js',
+          'compose-catalogue.js', 'compose-lab.js',
           'performance-lab.js',
           'playground.js', 'quiz.js']
 
@@ -127,13 +124,24 @@ for i, p in enumerate(des_paths, start=1):
                  'path': p.relative_to(ROOT), 'meta': meta_of(p.relative_to(ROOT))})
 lesson_count = len(docs)
 
-# Reference sheets, in filename order. easing-and-timing.html predates the
-# numbered naming, so it sorts last alphabetically — pin it first by hand.
+# Reference sheets, ordered and labelled by the number each sheet claims in its
+# own eyebrow rather than by filename or position. easing-and-timing.html
+# predates the numbered naming and would otherwise sort last; and the numbers
+# are not contiguous — Ref 05, the pattern catalogue, is still planned while
+# Ref 06 ships — so a positional label would print "Ref5" on a sheet whose own
+# masthead says 06. The bundle ids stay positional; only the label is claimed.
+def ref_number(path, fallback):
+    m = re.search(r'<p class="eyebrow">Reference\s*·\s*(\d+)</p>',
+                  read(path.relative_to(ROOT)))
+    return int(m.group(1)) if m else fallback
+
+
 ref_paths = sorted((p for p in (ROOT / 'reference').glob('*.html')),
-                   key=lambda p: (p.name != 'easing-and-timing.html', p.name))
+                   key=lambda p: (ref_number(p, 99), p.name))
 for i, p in enumerate(ref_paths, start=1):
+    n = ref_number(p, i)
     docs.append({'id': 'reference' if i == 1 else f'reference-{i}',
-                 'num': 'Ref' if i == 1 else f'Ref{i}',
+                 'num': 'Ref' if n == 1 else f'Ref{n}',
                  'path': p.relative_to(ROOT),
                  'meta': meta_of(p.relative_to(ROOT))})
 

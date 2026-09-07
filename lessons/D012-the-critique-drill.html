@@ -1,0 +1,276 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D012 — The critique drill</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lesson D012 · 25 minutes</p>
+    <h1>The critique drill</h1>
+    <p class="dek">Ten animations, one flaw each. Name how it feels and what to change, and only
+      then find out. This is where the vocabulary stops being a list and becomes something you can
+      say in a room.</p>
+    <div class="meta">
+      <span>Skill: look at an animation and say what is wrong with it in one sentence someone can act on</span>
+      <span><a href="D011-the-motion-budget.html">← Lesson D011</a></span>
+    </div>
+  </header>
+
+  <p class="lead">D011 ended with a way to say no: an animation is worth its cost or it isn't, and
+  the cost is its length times how often it plays. That gets you through a review where the
+  question is <em>should this exist</em>. It does not get you through the far more common one,
+  where the animation should exist, is going to ship, and is subtly wrong — and the only thing
+  between it and production is whether you can say what's wrong before the meeting ends.</p>
+
+  <div class="callout">
+    <span class="label">Say it out loud</span>
+    <p><strong>A critique in three parts</strong> — the flaw (how it feels, in one word), the fix
+    (the change to make, in one clause), the principle (why that fix, in one sentence). All three,
+    or it isn't one.<br>
+    <strong>A hedge</strong> — "it feels a bit off to me." True, unarguable, and unusable: there is
+    nothing in it for the other person to do or to disagree with.<br>
+    <strong>An adjective</strong> — <em>mushy, floaty, twitchy, sluggish, busy, disorienting,
+    unanchored, gratuitous</em>. Each names a specific defect with a specific repair, so the wrong
+    one sends the fix in the wrong direction.</p>
+  </div>
+
+  <p>They are deliberately not defined yet. You get them by feeling them, one specimen at a time,
+  and the table that separates them is at the bottom of this page where it belongs.</p>
+
+  <div data-critique-lab data-title="Ten specimens, one flaw each"></div>
+
+  <div class="callout">
+    <span class="label">How to use the drill</span>
+    <p>Run the left pane twice before you answer, and answer from the feeling rather than from the
+    description underneath — the description is there so the drill still works with motion turned
+    off, not as a hint. Commit even when you are unsure; a wrong word you committed to teaches you
+    more than a right word you hedged into. Once you have committed, both panes replay in the same
+    instant, which is the only honest way to compare two things that differ in how they feel.</p>
+  </div>
+
+  <h2>The adjectives, now that you have felt them</h2>
+
+  <p>Every word below names a different defect and — this is the part that makes them worth
+  learning — a different repair. Reaching for the wrong word does not just describe the problem
+  imprecisely; it sends the other person off to fix the wrong thing.</p>
+
+  <div class="wide">
+  <table>
+    <thead>
+      <tr><th>Word</th><th>What it actually means</th><th>The repair it asks for</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Mushy</strong></td>
+        <td>Feedback to something the reader is physically doing arrives late. Almost always a
+          symmetric curve on a press.</td>
+        <td>Make the response half immediate. The recovery half can stay slow.</td></tr>
+      <tr><td><strong>Sluggish</strong></td>
+        <td>Correct in every respect except that it takes too long. The most over-diagnosed word
+          on the list.</td>
+        <td>Cut the duration — or, for a group, cut the offset between items.</td></tr>
+      <tr><td><strong>Floaty</strong></td>
+        <td>No sense of weight or arrival. Usually a long symmetric curve, or a scale that starts
+          from nothing.</td>
+        <td>Ease out, start near the final size, and land it in about 200ms.</td></tr>
+      <tr><td><strong>Twitchy</strong></td>
+        <td>Too much motion for how easily it is triggered. Hover is where this lives, because
+          hover is triggered by accident.</td>
+        <td>Shrink the distance and the duration, and remove any overshoot.</td></tr>
+      <tr><td><strong>Busy</strong></td>
+        <td>Too many things claiming to have changed at once. A failure of quantity, not of
+          pace.</td>
+        <td>Remove claims. Speeding a busy animation up produces a fast mess.</td></tr>
+      <tr><td><strong>Disorienting</strong></td>
+        <td>The reader lost track of where something went, or where it came from. A spatial
+          failure.</td>
+        <td>Give it a consistent off-screen home, and enter from there.</td></tr>
+      <tr><td><strong>Unanchored</strong></td>
+        <td>Arrived from nowhere in particular, so there is no implied way back. The signature of
+          a bare fade on a panel.</td>
+        <td>Enter from the edge it will leave by, or grow it from the control that opened it.</td></tr>
+      <tr><td><strong>Gratuitous</strong></td>
+        <td>Nothing changed. The motion is not reporting, guiding or confirming anything at
+          all.</td>
+        <td>Delete it. The only word here whose repair is removal.</td></tr>
+      <tr><td><strong>Janky</strong></td>
+        <td>Dropped frames. A rendering fault rather than a design one — and the one word here you
+          should check before using.</td>
+        <td>Not a design note. Hand it over with a recording, not an adjective.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>Saying it in a room</h2>
+
+  <p>The three-part form is not a script for sounding rigorous. It is a filter that catches your
+  own bad notes before you give them, because a note that cannot produce all three parts is
+  usually a note about your taste.</p>
+
+  <p>Try it against the hedges. <em>"It feels a bit off"</em> is a flaw and nothing else — no fix,
+  no principle, so the other person's only move is to guess. <em>"Can we make it faster?"</em> is
+  all fix: it might be right, but with no flaw named you cannot tell whether faster addresses the
+  actual problem, and half the time it doesn't — busy gets faster and stays busy. <em>"Motion
+  should always be purposeful"</em> is all principle, which is the worst of the three, because it
+  is unarguable and applies to everything, so it lands as a verdict on the designer rather than as
+  a note on the work.</p>
+
+  <p>It fails in the other direction too. A flaw with no fix is a complaint. A fix with no
+  principle is an instruction, and it will be followed exactly once — the next screen will have
+  the same problem, because nobody learned anything transferable. The principle is the part that
+  makes the note worth the meeting.</p>
+
+  <div class="callout">
+    <span class="label">The form, filled in</span>
+    <p><strong>Flaw:</strong> "The menu feels unanchored."<br>
+    <strong>Fix:</strong> "Slide it in from the right edge instead of fading it up."<br>
+    <strong>Principle:</strong> "The direction it enters from is the promise about where it goes
+    when it closes — a fade doesn't make one, so there's no implied way back."</p>
+    <p>Thirty-five words, and every part of it is arguable. That is the point: the other person can
+    now tell you the menu is deliberately centred, or that the right edge is already taken, and you
+    have a conversation instead of a standoff.</p>
+  </div>
+
+  <p class="sidenote">The engineering track argues most of these from the mechanism, if you have
+  read it: 0001 for floaty, 0002 for busy, 0010 for mushy and twitchy, 0009 for what gratuitous
+  costs a reader who has asked for less motion.</p>
+
+  <h2>The one you should not give</h2>
+
+  <p>"Janky" is on the vocabulary list because you will hear it, not because you should say it. It
+  means dropped frames — a specific, measurable rendering fault — and it is the one word here that
+  a designer cannot verify by looking. Everything else you can settle by watching the thing twice.
+  This one needs a recording, and the difference between an animation that drops frames and one
+  that is merely floaty is invisible to the naked eye and enormous to whoever has to fix it.</p>
+
+  <p>So when something feels wrong in a way none of the other eight words fit: say what you saw,
+  hand over the case, and let it be measured. "It stutters on my machine when the sidebar is open"
+  is a better note than "it's janky", because it is a note someone else can reproduce.</p>
+
+  <p class="sidenote">Lesson 0014 is the reading-a-recording lesson, for being the person who
+  settles it rather than the person who reports it.</p>
+
+  <h2>Check yourself</h2>
+
+  <div data-quiz data-quiz-title="Name the flaw">
+    <div data-q data-answer="4">
+      <p class="qz-stem">A row of eight filter chips. Every chip fades and lifts in when the filter
+        panel opens, each one 90ms after the last. The panel is opened dozens of times a day.</p>
+      <button data-opt>Gratuitous — the chips have not changed, so nothing here needs reporting.</button>
+      <button data-opt>Busy — eight separate elements are moving at once, which is too many claims.</button>
+      <button data-opt>Unanchored — the chips fade up rather than entering from a consistent edge.</button>
+      <button data-opt>Sluggish — 630ms of offset before the last chip starts, on a frequent action.</button>
+      <p data-explain>The offset is the fault, not the animation. Eight chips at 90ms apart means
+        the last one has not begun until well after the reader has read the first, and this plays
+        dozens of times a day. Busy is the tempting answer, but a stagger is one claim made in
+        sequence rather than eight claims at once — a group arriving is a single event.</p>
+    </div>
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">A toggle switch. On tap, the knob slides across in 260ms with a spring
+        that overshoots slightly before settling into the far end of the track.</p>
+      <button data-opt>Mushy — 260ms is far too long for feedback to a direct tap on a control.</button>
+      <button data-opt>Fine — the state changed, the knob went where the state went, it reads.</button>
+      <button data-opt>Twitchy — the overshoot is unearned motion on something tapped constantly.</button>
+      <button data-opt>Floaty — a spring on a small control gives it weight it has not earned.</button>
+      <p data-explain>Not every specimen is broken, and the reflex to find a flaw is itself worth
+        drilling against. The knob travels a real distance to a real new position, the overshoot is
+        a physical claim that a sliding object plausibly makes, and 260ms for a state change is
+        ordinary. Mushy would apply if the knob waited before starting. It does not.</p>
+    </div>
+
+    <div data-q data-answer="1">
+      <p class="qz-stem">An engineer shows you a modal that scales up from the centre of the screen
+        over 500ms on an ease-in-out curve. You have ten seconds to give one note.</p>
+      <button data-opt>"It's floaty — start it near full size and land it in 200ms, ease-out."</button>
+      <button data-opt>"It's a bit slow — could we take the duration down a little from there?"</button>
+      <button data-opt>"Motion like this should feel purposeful rather than merely decorative."</button>
+      <button data-opt>"Can you scale it from the button instead of from the centre of screen?"</button>
+      <p data-explain>Only the first has all three parts inside one sentence: the flaw is floaty,
+        the fix is the two numbers, and the principle rides on "ease-out" — a thing arrives, it does
+        not accelerate into place. The second is a fix with no flaw. The third is a principle with
+        no note in it. The fourth is a defensible fix that leaves the curve, which is the actual
+        defect, untouched.</p>
+    </div>
+
+    <div data-q data-answer="3">
+      <p class="qz-stem">A search field shows a spinner while results load. Results usually come
+        back in about 100ms, and the spinner appears and disappears within that time.</p>
+      <button data-opt>Add a minimum display time so the spinner never flickers on fast queries.</button>
+      <button data-opt>Fade the spinner out rather than cutting it, so the exit is less abrupt.</button>
+      <button data-opt>Delay the spinner 300ms, so a fast query never shows one in the first place.</button>
+      <button data-opt>Replace the spinner with a skeleton, which reads as content rather than wait.</button>
+      <p data-explain>The two repairs point in opposite directions and only one is right by
+        default. A delay means fast responses show nothing at all. A minimum display time fixes the
+        flicker by making every fast response artificially slow — the right tool only for cases
+        that survive the delay and then finish just after it. Delay first.</p>
+    </div>
+
+    <div data-q data-answer="2">
+      <p class="qz-stem">You tell a designer their card hover is twitchy. They ask what to change,
+        and you have to pick the repair that actually follows from the word you used.</p>
+      <button data-opt>Delay the lift so it only plays when the pointer actually settles on a card.</button>
+      <button data-opt>Cut the distance and the duration, and take the bounce out of the end of it.</button>
+      <button data-opt>Ease the lift out rather than in and out, so the card arrives, not floats.</button>
+      <button data-opt>Lift the whole list on hover instead, so only one thing moves at any moment.</button>
+      <p data-explain>Twitchy is a mismatch between how much motion plays and how easily it is
+        triggered, so the repair is always to shrink the motion. The delay is the trap: it stops the
+        accidental triggers, but it also makes the deliberate ones feel unresponsive, which trades
+        a twitchy hover for a mushy one.</p>
+    </div>
+  </div>
+
+  <h2>What you have now</h2>
+
+  <p>Nine words, each attached to a specimen you have actually watched and a repair that follows
+  from it. That is the whole trick. Vocabulary is worth building not for precision's own sake but
+  because "mushy" and "sluggish" send the fix to two different places, and saying the wrong one
+  costs a round trip that a design review does not have time for.</p>
+
+  <p>The drill is re-runnable, and it is worth re-running cold in a month. The specimens will not
+  have changed, but the thing being tested is whether the word arrives before the explanation
+  does — and that is the only measure of whether the vocabulary is yours yet.</p>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="D011-the-motion-budget.html">← Lesson D011 — The motion budget</a>
+      <a href="D010-navigation-and-transitions.html">Lesson D010 — Navigation and page transitions</a>
+      <a href="D009-loading-waiting-and-optimism.html">Lesson D009 — Loading, waiting, and optimism</a>
+      <a href="D008-text-that-arrives.html">Lesson D008 — Text that arrives</a>
+      <a href="D007-scroll-as-a-timeline.html">Lesson D007 — Scroll as a timeline</a>
+      <a href="D006-decks-and-dots.html">Lesson D006 — Decks, and what the dots promise</a>
+      <a href="D005-things-you-drag.html">Lesson D005 — Things you drag</a>
+      <a href="D004-the-button.html">Lesson D004 — The button</a>
+      <a href="D003-motion-is-hierarchy.html">Lesson D003 — Motion is hierarchy</a>
+      <a href="D002-where-things-live.html">Lesson D002 — Where things live when they're off screen</a>
+      <a href="D001-the-map-and-the-words.html">Lesson D001 — The map, and the words for it</a>
+      <a href="0014-reading-a-performance-recording.html">Lesson 0014 — Reading a performance recording</a>
+      <a href="0013-reveals-with-clip-path.html">Lesson 0013 — Reveals with clip-path</a>
+      <a href="0012-things-that-just-appeared.html">Lesson 0012 — Things that just appeared</a>
+      <a href="0011-layout-animation.html">Lesson 0011 — Layout animation</a>
+      <a href="0010-hover-and-press.html">Lesson 0010 — Hover and press</a>
+      <a href="0009-reduced-motion.html">Lesson 0009 — Reduced motion</a>
+      <a href="0008-springs.html">Lesson 0008 — Springs</a>
+      <a href="0007-transform-origin.html">Lesson 0007 — Transform-origin</a>
+      <a href="0006-choosing-a-tool.html">Lesson 0006 — Choosing a tool</a>
+      <a href="0005-exits.html">Lesson 0005 — Exits</a>
+      <a href="0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal</a>
+      <a href="0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration</a>
+      <a href="0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+      <a href="0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing (printable)</a>
+      <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers (printable)</a>
+      <a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course (printable)</a>
+      <a href="../reference/04-the-workbench.html">Reference 04 — The Workbench (every lab, live)</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+      <span style="color:var(--ink-faint)">Next: the design track's last stretch — the handoff, and
+        what a motion spec has to say that a prototype cannot.</span>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/critique-lab.js"></script>
+<script src="../assets/quiz.js"></script>
