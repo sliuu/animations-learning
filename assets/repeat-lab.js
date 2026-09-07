@@ -36,6 +36,9 @@
   const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)';
   const CYCLES = 6;       // how many opens the demo actually plays
   const DWELL = 200;      // pause between them, so it reads as use rather than a loop
+  // Long enough to read the reset before the run starts, short enough that
+  // pressing the button still feels like it did something immediately.
+  const RESET_HOLD = 320;
 
   function injectStyles() {
     if (document.getElementById('repeat-lab-styles')) return;
@@ -75,6 +78,13 @@
     .rp-body { padding: 0.6rem; }
     .rp-card { border: 1px solid var(--rule); border-radius: 6px; padding: 0.55rem 0.6rem 0.65rem;
                background: var(--paper); }
+    /* The card waits in an off-state until the page "arrives". Without this the
+       left pane began and ended identical: the arrival faded 0 to 1 and landed
+       back on the card's resting appearance, so a finished run left no trace and
+       the pane read as broken. The right pane always had a before and an after.
+       This gives the left one the same, without either pane waiting on the
+       other. */
+    .rp-card[data-off="1"] { opacity: 0; }
     /* display:block on both: these are spans in a block parent, and an inline
        box ignores height — it would paint as nothing at all. */
     .rp-h { display: block; height: 0.5rem; width: 58%; border-radius: 3px;
@@ -171,7 +181,7 @@
         <section class="rp-cell">
           <h3 class="rp-name">Seen <em>once</em> &middot; the page arriving</h3>
           <div class="rp-frame">
-            <div class="rp-bar"><span class="rp-btitle">Reports</span><span class="rp-chip">new</span></div>
+            <div class="rp-bar"><span class="rp-btitle">Reports</span><span class="rp-chip" data-hero-count>0 of 1</span></div>
             <div class="rp-body">
               <div class="rp-card" data-hero>
                 <span class="rp-h"></span>
@@ -208,16 +218,27 @@
     const hero = root.querySelector('[data-hero]');
     const drawer = root.querySelector('[data-drawer]');
     const counter = root.querySelector('[data-count]');
+    const heroCount = root.querySelector('[data-hero-count]');
     const playBtn = root.querySelector('[data-play]');
 
     // `hidden` rather than display:none in a stylesheet, so the drawer is out of
     // the accessibility tree between opens as well as out of sight.
     drawer.hidden = true;
+    hero.dataset.off = '1';
 
     function playHero() {
-      if (reduced()) return;
       hero.getAnimations().forEach(a => a.cancel());
-      hero.animate([{ opacity: 0, transform: 'translateY(0.6rem)' }, { opacity: 1, transform: 'none' }],
+      // The off-state and the counter come off first, before the reduced-motion
+      // return: someone who has asked for less motion still gets the arrival,
+      // as a cut. Silently doing nothing is what "reduced" must never mean.
+      hero.dataset.off = '0';
+      heroCount.textContent = '1 of 1';
+      if (reduced()) return;
+      // 1.5rem of travel, not 0.6rem. On this curve the animation is 97% done by
+      // the halfway point, so at 0.6rem the visible part of a 600ms arrival was
+      // a blip too small to catch -- which undercut the very duration the lab is
+      // arguing about. Distance is what makes a length legible.
+      hero.animate([{ opacity: 0, transform: 'translateY(1.5rem)' }, { opacity: 1, transform: 'none' }],
         { duration: dur, easing: EASE });
     }
 
@@ -246,6 +267,18 @@
       playBtn.disabled = true;
       drawer.hidden = true;
       counter.textContent = `0 of ${CYCLES}`;
+      hero.getAnimations().forEach(a => a.cancel());
+      hero.dataset.off = '1';
+      heroCount.textContent = '0 of 1';
+      // Reset, then hold a beat before anything moves. Without the hold, a
+      // second run reset and restarted inside one tick, so the left pane's
+      // before-state never reached the screen and a repeat viewing showed
+      // nothing but the card already sitting there. The hold applies to both
+      // panes at once: the single arrival and the first of six opens still
+      // start on the same tick, because a feeling cannot be taught by showing
+      // one thing and then the other.
+      await wait(RESET_HOLD);
+      if (mine !== runId) return;
       playHero();
       for (let i = 0; i < CYCLES; i += 1) {
         await openDrawer();

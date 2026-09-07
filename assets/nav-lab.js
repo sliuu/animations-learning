@@ -42,6 +42,12 @@
   let uid = 0;
 
   const DUR = 420;
+  // How long the destination is held before all four frames cut back to where
+  // they started. Long enough to read four screens at once; short enough that
+  // pressing the button again is never a wait. The return is a cut on purpose:
+  // an animated return would be a fifth transition on screen, and she would be
+  // judging that one instead of the four the lab is about.
+  const HOLD = 1400;
   const EASE = 'cubic-bezier(0.16, 1, 0.3, 1)';
 
   const MODELS = [
@@ -385,13 +391,29 @@
           'it is the half that only exists if someone designed it.';
     }
 
+    // A run in progress is abandoned rather than queued: pressing play again, or
+    // turning a knob mid-run, has to answer with the new setting immediately.
+    let playId = 0;
+    let returnTimer = 0;
+
     function play() {
       const forward = dir === 'fwd';
+      const mine = ++playId;
+      const state = root.querySelector('[data-state]');
       frames.forEach(f => run(f, forward));
-      root.querySelector('[data-state]').textContent =
+      state.textContent =
         reduced() ? 'motion reduced · cut' : (forward ? 'list → detail' : 'detail → list');
       claims();
       verdict();
+      // Then put all four back where they started. Without this the lab ended
+      // stuck on the destination, so a second press had nothing to travel from
+      // and the four models could only be compared once.
+      clearTimeout(returnTimer);
+      returnTimer = setTimeout(() => {
+        if (mine !== playId) return;
+        frames.forEach(f => rest(f, forward ? 'list' : 'detail'));
+        state.textContent = forward ? 'back on the list' : 'back on the detail';
+      }, DUR + HOLD);
     }
 
     function knob(role, apply) {
