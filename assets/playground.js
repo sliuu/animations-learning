@@ -101,6 +101,12 @@ ${tokens}
     }
     body {
       display: grid; place-items: center;
+      /* Deliberately the system stack, not Archivo. The colours are carried
+         across because a demo in the wrong palette is a wrong demo; the
+         typeface is not, because the only type in here is a 12px label on a
+         box, and an iframe cannot reach the host's @font-face — the woff2
+         would have to be re-embedded per frame, ~65 KB each, to restyle two
+         words. If a demo ever teaches type, embed it in that demo's own CSS. */
       font-family: ui-sans-serif, -apple-system, "Segoe UI", system-ui, sans-serif;
       font-size: 14px;
       color: var(--ink); background: var(--paper);

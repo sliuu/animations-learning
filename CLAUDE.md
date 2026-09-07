@@ -130,8 +130,42 @@ Shared classes from `lesson.css`: `.page .masthead .eyebrow .dek .meta .lead .ca
 .control-value .btn .btn.primary .wide .ask-teacher .footer-nav .nav-links`. Tokens:
 `--ink --ink-soft --ink-faint --paper --paper-sunk --rule --accent --accent-hover
 --accent-soft --good --bad --code-bg --ease-out-strong --ease-in-out-strong --ease-drawer
---serif --sans --mono`.
-Serif body, sans for controls and labels — that is the house style; match `press-lab.js`.
+--serif --sans --mono --display`.
+**There is one typeface.** Archivo sets everything — prose, chrome, labels and the
+masthead. `--serif`, `--sans` and `--display` all resolve to it: the first two keep
+their names because 47 files reference them, and `--display` keeps its own so the
+masthead's intent is legible at the use site and a second face would be one line.
+There is no serif in the course; a display serif was tried and cut. Two variable
+faces (roman, italic), subsetted to latin and base64'd into `lesson.css`, 65 KB.
+
+The masthead `h1` is **large and light** — 2.9rem at weight 300 — so the size does
+the announcing and the weight stays out of the way. All caps was tried first and
+rejected as shouting: caps remove ascender and descender variety, so the word becomes
+an even rectangle the eye reads as volume rather than as a name. Note that **tracking
+flips sign with case** — lowercase at display size needs *negative* tracking because
+its sidebearings are drawn for text sizes, where caps need positive. Moving a
+treatment between cases without flipping it is the trap.
+
+Weight 300 exists only because the face is cut `wght=300:700`. At a 400 floor this
+rule renders at 400 silently and looks like a design mistake rather than a subsetting
+one — so if the masthead ever looks wrong, check the axis range before the CSS.
+Match `press-lab.js`.
+
+**`<mark>` is the skim highlight**, authored, not reader-applied. The rule is a test,
+not a quota: **read only the marked sentences, in order, and you should come away
+knowing what the lesson argues.** That puts it around 15–20 marks in a 20-minute
+lesson (~7% of the words) — several per `h2` section, not one. Two constraints keep
+it from becoming a highlighter-pen mess:
+
+- **Every mark must be readable standing alone.** No opening pronoun with its
+  referent outside the mark, no "the other kind", no ending on a comma. Print the
+  chain and read it before shipping; D011's first pass failed on three of eighteen.
+- **Mark rules, not observations.** Where a section offers both, the rule wins.
+
+Two implementation facts: `box-decoration-break: clone`, or the padding and rounding
+apply once across the whole inline box rather than per line; and an explicit `color`,
+because the UA default is black-on-yellow and the black survives if you only override
+the background.
 
 **`lesson.css` is the only place a colour is written down.** It holds all three palettes —
 `:root` is dark, `:root[data-theme="light"]` is the light choice, and the `@media print`
@@ -180,11 +214,16 @@ the whole publish step** — there is nothing to upload by hand. Both `dist/` an
 gitignored; they are generated wholesale from `lessons/`, `assets/` and `reference/`, and the
 `diff` above is the safety check that a build only changed what you meant it to.
 
-One CSS trap worth keeping, learned the hard way:
+Two CSS traps worth keeping, learned the hard way:
 
 - **`ch` resolves against the element's own font.** A `max-width: 68ch` on an element that
   sets `font-family: var(--sans)` comes out wider than `.page`'s 68ch in the inherited serif.
   This is also why sidenotes position off `.page`'s right edge in rem and not in `ch`.
+- **A lab that scopes CSS by string substitution must not use `%` as the token.** `critique-lab.js`
+  builds each specimen's stylesheet by replacing a placeholder with the stage's id; `%` also
+  appears in `width: 95%`, `inset: 0 0 0 42%` and `border-radius: 50%`, and the mangled
+  declarations are dropped *silently*, so the layout is wrong while still looking plausible. Use
+  `&` — a character a CSS value cannot contain.
 
 `.doc-end` — the static navigation bar at the end of every document — stays. The rail is
 `position: sticky` and works in a browser, but the bar is what a reader at the bottom of a
@@ -205,6 +244,18 @@ so it cannot drive view transitions; `--user-data-dir` on a fresh path makes hea
 macOS has no `timeout`. Verify pane heights are equal (no layout jump) and
 `scrollWidth === clientWidth` (no overflow) as a matter of course, not just the effect
 being taught.
+
+The frozen clock **also freezes transitions**, so a transitioned property never leaves its start
+value no matter how long the probe waits. Any probe reading a computed colour has to inject
+`*, *::before, *::after { transition: none !important }` first — without it every element with a
+`transition: background-color` reports the *outgoing* theme's fill and a contrast sweep is all
+false failures.
+
+**A probe and a screenshot catch different things — run both.** A probe reads the property, a
+screenshot reads the pixel, and D012 shipped a bug that passed the first and failed the second:
+`el.hidden = true` on an element whose class sets `display: grid` leaves it on screen, because
+the class outranks the UA rule for `[hidden]`. Any lab element toggled with `.hidden` needs its
+own `.thing[hidden] { display: none }`.
 
 ## Working style
 
