@@ -274,7 +274,7 @@ toc_rows = section([
 contents = f"""<div class="page">
   <header class="masthead cover">
     <p class="eyebrow">Interactive course · {lesson_count} lessons · {len(docs) - lesson_count} references · {len(PLANNED)} more planned</p>
-    <h1>Defensible&nbsp;Motion</h1>
+    <h1>Motion&nbsp;Design</h1>
   </header>
 
   <nav class="toc">
@@ -853,7 +853,7 @@ parts = [
     '<meta name="viewport" content="width=device-width, initial-scale=1">',
     '<meta name="description" content="A self-paced course on web animation '
     'and design engineering: 21 lessons, each with something to turn.">',
-    '<title>Defensible Motion</title>',
+    '<title>Motion Design</title>',
     '<style>\n' + css + '\n' + shell_css + '</style>',
     '<script>' + theme_init + '</script>',
     '</head>',
@@ -862,7 +862,7 @@ parts = [
     '<nav class="rail">',
     '  <div class="rail-inner">',
     '    <div class="rail-top">',
-    '      <a class="rail-home" href="#contents">Defensible Motion</a>',
+    '      <a class="rail-home" href="#contents">Motion Design</a>',
     '      <button class="rail-btn rail-toggle" type="button" data-rail-toggle'
     ' aria-expanded="true" aria-label="Collapse contents">'
     '<span class="rail-icon"></span></button>',

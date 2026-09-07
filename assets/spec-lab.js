@@ -107,139 +107,139 @@
     const s = document.createElement('style');
     s.id = 'spec-lab-styles';
     s.textContent = `
-    .sp-lab { margin: 2rem 0; border: 1px solid var(--rule); border-radius: 10px;
+    .hd-lab { margin: 2rem 0; border: 1px solid var(--rule); border-radius: 10px;
               background: var(--paper-sunk); overflow: hidden; color: var(--ink); }
-    @media (min-width: 1000px) { .sp-lab { width: calc(100% + 13rem); margin-left: -6.5rem; } }
+    @media (min-width: 1000px) { .hd-lab { width: calc(100% + 13rem); margin-left: -6.5rem; } }
 
-    .sp-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    .hd-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem;
                min-height: 2.75rem; padding: 0.65rem 1rem; background: var(--paper);
                border-bottom: 1px solid var(--rule); font: 600 0.76rem/1.35 var(--sans);
                color: var(--ink-soft); }
-    .sp-state { font: 500 0.74rem/1.35 var(--mono); color: var(--ink-faint); }
+    .hd-state { font: 500 0.74rem/1.35 var(--mono); color: var(--ink-faint); }
 
     /* Reserved to the tallest specimen per band, because switching specimens
        must not move the controls out from under her finger. The three sheets
        are deliberately seven rows each so most of the difference is already
        gone; what is left is the header's longer reasons. Measured maxima:
        407px above 1100, 449px from 1100 down, 720px once the panes stack. */
-    .sp-board { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 21rem);
+    .hd-board { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 21rem);
                 gap: 1px; background: var(--rule); min-height: 26.4rem; }
-    .sp-pane { background: var(--paper); padding: 0.9rem 1rem 1rem; min-width: 0; }
-    .sp-pname { margin: 0 0 0.55rem; font: 600 0.66rem/1.3 var(--sans); letter-spacing: 0.12em;
+    .hd-pane { background: var(--paper); padding: 0.9rem 1rem 1rem; min-width: 0; }
+    .hd-pname { margin: 0 0 0.55rem; font: 600 0.66rem/1.3 var(--sans); letter-spacing: 0.12em;
                 text-transform: uppercase; color: var(--ink-faint); }
     /* Reserved per specimen: the lead rewrites on every switch and the two
        panes must not step up and down as it does. */
-    .sp-lead { margin: 0 0 0.7rem; min-height: 3.9rem;
+    .hd-lead { margin: 0 0 0.7rem; min-height: 3.9rem;
                font: 400 0.72rem/1.5 var(--sans); color: var(--ink-soft); }
 
     /* ----- shared stage furniture ----- */
-    .sp-frames { display: grid; gap: 0.55rem; grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
-    .sp-frames.one { grid-template-columns: minmax(0, 1fr); }
-    .sp-fwrap { min-width: 0; }
-    .sp-flabel { display: block; min-height: 1.75rem; margin: 0 0 0.3rem;
+    .hd-frames { display: grid; gap: 0.55rem; grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+    .hd-frames.one { grid-template-columns: minmax(0, 1fr); }
+    .hd-fwrap { min-width: 0; }
+    .hd-flabel { display: block; min-height: 1.75rem; margin: 0 0 0.3rem;
                  font: 600 0.62rem/1.3 var(--sans);
                  letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
-    .sp-flabel em { font-style: normal; color: var(--accent); }
-    .sp-flabel em.bad { color: var(--bad); }
-    .sp-frame { position: relative; overflow: hidden; height: 12.5rem;
+    .hd-flabel em { font-style: normal; color: var(--accent); }
+    .hd-flabel em.bad { color: var(--bad); }
+    .hd-frame { position: relative; overflow: hidden; height: 12.5rem;
                 border: 1px solid var(--rule); border-radius: 7px; background: var(--paper); }
 
-    .sp-bar { display: flex; align-items: center; justify-content: space-between;
+    .hd-bar { display: flex; align-items: center; justify-content: space-between;
               padding: 0.4rem 0.55rem; background: var(--paper-sunk);
               border-bottom: 1px solid var(--rule); }
-    .sp-btitle { font: 600 0.68rem/1.2 var(--sans); color: var(--ink); }
-    .sp-chip { border-radius: 4px; padding: 0.1rem 0.36rem; background: var(--rule);
+    .hd-btitle { font: 600 0.68rem/1.2 var(--sans); color: var(--ink); }
+    .hd-chip { border-radius: 4px; padding: 0.1rem 0.36rem; background: var(--rule);
                font: 600 0.56rem/1.35 var(--sans); color: var(--ink-soft); }
-    .sp-rows { display: grid; gap: 0.3rem; padding: 0.5rem; }
-    .sp-row { height: 1.2rem; border: 1px solid var(--rule); border-radius: 5px;
+    .hd-rows { display: grid; gap: 0.3rem; padding: 0.5rem; }
+    .hd-row { height: 1.2rem; border: 1px solid var(--rule); border-radius: 5px;
               background: var(--paper); }
 
-    .sp-drawer { position: absolute; inset: 0 0 0 auto; width: 62%; padding: 0.6rem;
+    .hd-drawer { position: absolute; inset: 0 0 0 auto; width: 62%; padding: 0.6rem;
                  background: var(--paper); border-left: 1px solid var(--rule);
                  box-shadow: -8px 0 20px -14px rgba(0,0,0,0.5);
                  transform: translateX(100%); }
-    .sp-dtitle { margin: 0 0 0.45rem; font: 600 0.66rem/1.3 var(--sans); color: var(--ink); }
-    .sp-drawer span { display: block; height: 0.34rem; margin-top: 0.34rem; border-radius: 3px;
+    .hd-dtitle { margin: 0 0 0.45rem; font: 600 0.66rem/1.3 var(--sans); color: var(--ink); }
+    .hd-drawer span { display: block; height: 0.34rem; margin-top: 0.34rem; border-radius: 3px;
                       background: var(--paper-sunk); }
     /* Only the left frame transitions. The right one is animated with explicit
        keyframes, which is the faithful build of a spec that says nothing about
        being interrupted: every close starts from fully open. */
-    .sp-drawer.built { transition: transform ${DRAWER_MS}ms ${EASE}; }
-    .sp-drawer.built[data-on="1"] { transform: none; }
+    .hd-drawer.built { transition: transform ${DRAWER_MS}ms ${EASE}; }
+    .hd-drawer.built[data-on="1"] { transform: none; }
 
-    .sp-grid { display: grid; gap: 0.26rem; padding: 0.5rem;
+    .hd-grid { display: grid; gap: 0.26rem; padding: 0.5rem;
                grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .sp-cell { height: 0.95rem; border-radius: 4px; background: var(--accent-soft);
+    .hd-cell { height: 0.95rem; border-radius: 4px; background: var(--accent-soft);
                border: 1px solid var(--rule); opacity: 0; transform: translateY(8px); }
-    .sp-clock { position: absolute; right: 0.45rem; bottom: 0.45rem; border-radius: 5px;
+    .hd-clock { position: absolute; right: 0.45rem; bottom: 0.45rem; border-radius: 5px;
                 padding: 0.12rem 0.4rem; background: var(--paper-sunk); border: 1px solid var(--rule);
                 font: 600 0.62rem/1.4 var(--mono); color: var(--ink-soft); }
 
-    .sp-hbar { position: absolute; inset: 0 0 auto 0; display: flex; align-items: center;
+    .hd-hbar { position: absolute; inset: 0 0 auto 0; display: flex; align-items: center;
                justify-content: space-between; padding: 0 0.6rem; overflow: hidden;
                background: var(--paper-sunk); border-bottom: 1px solid var(--rule); }
-    .sp-hname { font: 600 1.05rem/1 var(--sans); color: var(--ink); transform-origin: left center; }
-    .sp-hsub { font: 400 0.62rem/1.3 var(--sans); color: var(--ink-faint); }
-    .sp-page { position: absolute; inset: auto 0 0 0; top: 0; padding: 0.5rem;
+    .hd-hname { font: 600 1.05rem/1 var(--sans); color: var(--ink); transform-origin: left center; }
+    .hd-hsub { font: 400 0.62rem/1.3 var(--sans); color: var(--ink-faint); }
+    .hd-page { position: absolute; inset: auto 0 0 0; top: 0; padding: 0.5rem;
                display: grid; gap: 0.3rem; align-content: start; }
-    .sp-page span { display: block; height: 0.36rem; border-radius: 3px; background: var(--paper-sunk); }
+    .hd-page span { display: block; height: 0.36rem; border-radius: 3px; background: var(--paper-sunk); }
 
-    .sp-scrub { display: flex; align-items: center; gap: 0.55rem; margin-top: 0.6rem; }
-    .sp-scrub span { font: 600 0.66rem/1.3 var(--sans); color: var(--ink-soft); flex: none; }
-    .sp-scrub input[type=range] { flex: 1; min-width: 0; accent-color: var(--accent); height: 1rem; }
-    .sp-scrub output { font: 600 0.68rem/1.3 var(--mono); color: var(--ink); flex: none;
+    .hd-scrub { display: flex; align-items: center; gap: 0.55rem; margin-top: 0.6rem; }
+    .hd-scrub span { font: 600 0.66rem/1.3 var(--sans); color: var(--ink-soft); flex: none; }
+    .hd-scrub input[type=range] { flex: 1; min-width: 0; accent-color: var(--accent); height: 1rem; }
+    .hd-scrub output { font: 600 0.68rem/1.3 var(--mono); color: var(--ink); flex: none;
                        min-width: 3.4rem; text-align: right; }
 
     /* ----- the card ----- */
-    .sp-card { display: grid; gap: 0.3rem; }
-    .sp-crow { border: 1px solid var(--rule); border-radius: 6px; padding: 0.36rem 0.5rem;
+    .hd-card { display: grid; gap: 0.3rem; }
+    .hd-crow { border: 1px solid var(--rule); border-radius: 6px; padding: 0.36rem 0.5rem;
                background: var(--paper); }
-    .sp-crow[data-src="code"] { background: var(--paper-sunk); border-style: dashed; }
-    .sp-crow[data-src="wrong"] { border-color: var(--bad); }
-    .sp-ctop { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
+    .hd-crow[data-src="code"] { background: var(--paper-sunk); border-style: dashed; }
+    .hd-crow[data-src="wrong"] { border-color: var(--bad); }
+    .hd-ctop { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
     /* Flex, not inline, so a field name never breaks around the badge: as an
        item it moves under the badge whole rather than leaving "What" stranded
        beside CODE DECIDES and "starts it" on the line below. */
-    .sp-cfield { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.3rem;
+    .hd-cfield { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.3rem;
                  font: 600 0.66rem/1.3 var(--sans); color: var(--ink); }
-    .sp-cfield .sp-badge { margin-right: 0; }
-    .sp-cval { font: 500 0.66rem/1.35 var(--mono); color: var(--ink-soft); text-align: right; }
-    .sp-badge { display: inline-block; border-radius: 4px; padding: 0.02rem 0.3rem; margin-right: 0.3rem;
+    .hd-cfield .hd-badge { margin-right: 0; }
+    .hd-cval { font: 500 0.66rem/1.35 var(--mono); color: var(--ink-soft); text-align: right; }
+    .hd-badge { display: inline-block; border-radius: 4px; padding: 0.02rem 0.3rem; margin-right: 0.3rem;
                 font: 600 0.54rem/1.5 var(--sans); letter-spacing: 0.07em; text-transform: uppercase;
                 background: var(--accent); color: var(--paper); vertical-align: 0.08rem; }
-    .sp-crow[data-src="code"] .sp-badge { background: var(--rule); color: var(--ink-soft); }
-    .sp-crow[data-src="wrong"] .sp-badge { background: var(--bad); color: var(--paper); }
-    .sp-why { display: block; margin-top: 0.24rem; font: 400 0.64rem/1.45 var(--sans);
+    .hd-crow[data-src="code"] .hd-badge { background: var(--rule); color: var(--ink-soft); }
+    .hd-crow[data-src="wrong"] .hd-badge { background: var(--bad); color: var(--paper); }
+    .hd-why { display: block; margin-top: 0.24rem; font: 400 0.64rem/1.45 var(--sans);
               color: var(--ink-faint); }
-    .sp-crow[data-src="wrong"] .sp-why { color: var(--ink-soft); }
+    .hd-crow[data-src="wrong"] .hd-why { color: var(--ink-soft); }
 
-    .sp-readwrap { display: flex; align-items: center; min-height: 6.6rem;
+    .hd-readwrap { display: flex; align-items: center; min-height: 6.6rem;
                    padding: 0.85rem 1rem; border-top: 1px solid var(--rule); background: var(--paper); }
-    .sp-read { margin: 0; font: 400 0.8rem/1.5 var(--sans); color: var(--ink-soft); }
-    .sp-read b { color: var(--ink); font-weight: 600; }
+    .hd-read { margin: 0; font: 400 0.8rem/1.5 var(--sans); color: var(--ink-soft); }
+    .hd-read b { color: var(--ink); font-weight: 600; }
 
-    .sp-foot { display: grid; gap: 0.55rem; padding: 0.9rem 1rem 1rem;
+    .hd-foot { display: grid; gap: 0.55rem; padding: 0.9rem 1rem 1rem;
                border-top: 1px solid var(--rule); background: var(--paper-sunk);
                font-family: var(--sans); }
-    .sp-ctl { display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap; }
-    .sp-ctl[hidden] { display: none; }
-    .sp-cap { min-width: 8.4rem; font: 600 0.7rem/1.3 var(--sans); color: var(--ink-soft); }
-    .sp-seg { display: flex; gap: 0.3rem; flex-wrap: wrap; }
-    .sp-seg button { border: 1px solid var(--rule); border-radius: 6px; padding: 0.32rem 0.56rem;
+    .hd-ctl { display: flex; align-items: center; gap: 0.65rem; flex-wrap: wrap; }
+    .hd-ctl[hidden] { display: none; }
+    .hd-cap { min-width: 8.4rem; font: 600 0.7rem/1.3 var(--sans); color: var(--ink-soft); }
+    .hd-seg { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+    .hd-seg button { border: 1px solid var(--rule); border-radius: 6px; padding: 0.32rem 0.56rem;
                      background: var(--paper); color: var(--ink-soft); cursor: pointer;
                      font: 500 0.73rem/1.3 var(--sans); }
-    .sp-seg button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent);
+    .hd-seg button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent);
                                           color: var(--paper); }
-    .sp-seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-    .sp-actions { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-left: 9.05rem; }
-    .sp-actions[hidden] { display: none; }
-    .sp-actions .btn[disabled] { opacity: 0.5; cursor: default; }
+    .hd-seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .hd-actions { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-left: 9.05rem; }
+    .hd-actions[hidden] { display: none; }
+    .hd-actions .btn[disabled] { opacity: 0.5; cursor: default; }
 
     @media (max-width: 1099px) {
-      .sp-board { grid-template-columns: minmax(0,1fr) minmax(0,18rem); min-height: 29.8rem; }
+      .hd-board { grid-template-columns: minmax(0,1fr) minmax(0,18rem); min-height: 29.8rem; }
       /* Measured: the list's lead wraps to three lines from 1050px down, and
          the reserve has to hold the tallest of the three, not the current one. */
-      .sp-lead { min-height: 4.5rem; }
+      .hd-lead { min-height: 4.5rem; }
     }
     /* 901-1099px is the one band where the board is still two columns and the
        left one is narrow enough that "nothing about state" wraps to a third
@@ -247,30 +247,30 @@
        of blank above both frames everywhere else, and the frames have to line
        up with each other, not merely be tall enough. */
     @media (min-width: 901px) and (max-width: 1099px) {
-      .sp-flabel { min-height: 2.5rem; }
+      .hd-flabel { min-height: 2.5rem; }
     }
-    @media (max-width: 900px) { .sp-board { grid-template-columns: minmax(0, 1fr); min-height: 46.3rem; } }
+    @media (max-width: 900px) { .hd-board { grid-template-columns: minmax(0, 1fr); min-height: 46.3rem; } }
     /* The two drawer frames stay side by side at every width. Stacking them
        would halve this lab's stage height budget and, more importantly, the
        claim is that one of them snaps and the other does not — which is a
        comparison, and a comparison you scroll between is not one. The frames
        get shorter instead. */
     @media (max-width: 700px) {
-      .sp-frame { height: 10.5rem; }
-      .sp-ctl { align-items: flex-start; }
-      .sp-cap { min-width: 100%; }
-      .sp-actions { margin-left: 0; }
-      .sp-state { display: none; }
-      .sp-lead { min-height: 5.3rem; }
-      .sp-readwrap { min-height: 9rem; }
+      .hd-frame { height: 10.5rem; }
+      .hd-ctl { align-items: flex-start; }
+      .hd-cap { min-width: 100%; }
+      .hd-actions { margin-left: 0; }
+      .hd-state { display: none; }
+      .hd-lead { min-height: 5.3rem; }
+      .hd-readwrap { min-height: 9rem; }
     }
     @media (max-width: 470px) {
-      .sp-frame { height: 9rem; }
-      .sp-lead { min-height: 6.8rem; }
-      .sp-readwrap { min-height: 9.8rem; }
+      .hd-frame { height: 9rem; }
+      .hd-lead { min-height: 6.8rem; }
+      .hd-readwrap { min-height: 9.8rem; }
     }
-    @media (max-width: 380px) { .sp-readwrap { min-height: 11.6rem; } }
-    @media print { .sp-foot { display: none; } }
+    @media (max-width: 380px) { .hd-readwrap { min-height: 11.6rem; } }
+    @media print { .hd-foot { display: none; } }
     `;
     document.head.appendChild(s);
   }
@@ -280,41 +280,41 @@
   function seg(role, caption, opts, chosen, hidden) {
     const buttons = opts.map(([v, label]) =>
       `<button type="button" data-value="${v}" aria-pressed="${v === chosen}">${label}</button>`).join('');
-    return `<div class="sp-ctl" data-ctl="${role}"${hidden ? ' hidden' : ''}>
-              <span class="sp-cap">${caption}</span>
-              <div class="sp-seg" data-role="${role}">${buttons}</div></div>`;
+    return `<div class="hd-ctl" data-ctl="${role}"${hidden ? ' hidden' : ''}>
+              <span class="hd-cap">${caption}</span>
+              <div class="hd-seg" data-role="${role}">${buttons}</div></div>`;
   }
 
   function mount(root) {
     injectStyles();
     uid += 1;
-    root.classList.add('sp-lab');
+    root.classList.add('hd-lab');
 
     let which = 'drawer';
     let count = 5;
     let runId = 0;
 
     root.innerHTML = `
-      <div class="sp-head">
+      <div class="hd-head">
         <strong>${root.dataset.title || 'What the spec can say'}</strong>
-        <span class="sp-state" data-state>&mdash;</span>
+        <span class="hd-state" data-state>&mdash;</span>
       </div>
-      <div class="sp-board">
-        <section class="sp-pane">
-          <h3 class="sp-pname">The animation</h3>
-          <p class="sp-lead" data-lead></p>
+      <div class="hd-board">
+        <section class="hd-pane">
+          <h3 class="hd-pname">The animation</h3>
+          <p class="hd-lead" data-lead></p>
           <div data-stage></div>
         </section>
-        <section class="sp-pane">
-          <h3 class="sp-pname">The spec someone hands over</h3>
-          <div class="sp-card" data-card></div>
+        <section class="hd-pane">
+          <h3 class="hd-pname">The spec someone hands over</h3>
+          <div class="hd-card" data-card></div>
         </section>
       </div>
-      <div class="sp-readwrap"><p class="sp-read" data-read aria-live="polite"></p></div>
-      <div class="sp-foot">
+      <div class="hd-readwrap"><p class="hd-read" data-read aria-live="polite"></p></div>
+      <div class="hd-foot">
         ${seg('which', 'The animation', [['drawer', 'a drawer'], ['list', 'a list'], ['header', 'a header on scroll']], 'drawer')}
         ${seg('count', 'rows the query returned', [['5', '5'], ['12', '12'], ['40', '40']], '5', true)}
-        <div class="sp-actions" data-actions>
+        <div class="hd-actions" data-actions>
           <button class="btn primary" type="button" data-play>Run it</button>
         </div>
       </div>`;
@@ -328,20 +328,20 @@
     // ---------- stage builders ----------
     function buildDrawer() {
       stage.innerHTML = `
-        <div class="sp-frames">
+        <div class="hd-frames">
           ${['built', 'spec'].map((k) => `
-            <div class="sp-fwrap">
-              <span class="sp-flabel">${k === 'built'
+            <div class="hd-fwrap">
+              <span class="hd-flabel">${k === 'built'
                 ? 'as <em>built</em> &middot; interruptible'
                 : 'as <em class="bad">specified</em> &middot; nothing about state'}</span>
-              <div class="sp-frame">
-                <div class="sp-bar"><span class="sp-btitle">Settings</span>
-                  <span class="sp-chip">${DRAWER_MS}ms</span></div>
-                <div class="sp-rows"><div class="sp-row"></div><div class="sp-row"></div>
-                  <div class="sp-row"></div><div class="sp-row"></div>
-                  <div class="sp-row"></div><div class="sp-row"></div></div>
-                <aside class="sp-drawer ${k}" data-d="${k}">
-                  <h4 class="sp-dtitle">Billing history</h4>
+              <div class="hd-frame">
+                <div class="hd-bar"><span class="hd-btitle">Settings</span>
+                  <span class="hd-chip">${DRAWER_MS}ms</span></div>
+                <div class="hd-rows"><div class="hd-row"></div><div class="hd-row"></div>
+                  <div class="hd-row"></div><div class="hd-row"></div>
+                  <div class="hd-row"></div><div class="hd-row"></div></div>
+                <aside class="hd-drawer ${k}" data-d="${k}">
+                  <h4 class="hd-dtitle">Billing history</h4>
                   <span></span><span></span><span></span>
                 </aside>
               </div>
@@ -351,36 +351,36 @@
 
     function buildList() {
       stage.innerHTML = `
-        <div class="sp-frames one">
-          <div class="sp-fwrap">
-            <span class="sp-flabel">exactly <em>as specified</em> &middot; ${ITEM_MS}ms, ${STAGGER_MS}ms apart</span>
-            <div class="sp-frame">
-              <div class="sp-bar"><span class="sp-btitle">Results</span>
-                <span class="sp-chip" data-n>${count} rows</span></div>
-              <div class="sp-grid" data-grid></div>
-              <span class="sp-clock" data-clock>0.00s</span>
+        <div class="hd-frames one">
+          <div class="hd-fwrap">
+            <span class="hd-flabel">exactly <em>as specified</em> &middot; ${ITEM_MS}ms, ${STAGGER_MS}ms apart</span>
+            <div class="hd-frame">
+              <div class="hd-bar"><span class="hd-btitle">Results</span>
+                <span class="hd-chip" data-n>${count} rows</span></div>
+              <div class="hd-grid" data-grid></div>
+              <span class="hd-clock" data-clock>0.00s</span>
             </div>
           </div>
         </div>`;
       const grid = stage.querySelector('[data-grid]');
-      grid.innerHTML = Array.from({ length: count }, () => '<span class="sp-cell"></span>').join('');
+      grid.innerHTML = Array.from({ length: count }, () => '<span class="hd-cell"></span>').join('');
     }
 
     function buildHeader() {
       stage.innerHTML = `
-        <div class="sp-frames one">
-          <div class="sp-fwrap">
-            <span class="sp-flabel">driven by <em class="bad">the scrollbar</em>, not by a clock</span>
-            <div class="sp-frame">
-              <div class="sp-page" data-page style="padding-top:5.6rem">
+        <div class="hd-frames one">
+          <div class="hd-fwrap">
+            <span class="hd-flabel">driven by <em class="bad">the scrollbar</em>, not by a clock</span>
+            <div class="hd-frame">
+              <div class="hd-page" data-page style="padding-top:5.6rem">
                 ${'<span></span>'.repeat(9)}
               </div>
-              <div class="sp-hbar" data-hbar style="height:5rem">
-                <span class="sp-hname" data-hname>Quarterly</span>
-                <span class="sp-hsub" data-hsub>18 reports</span>
+              <div class="hd-hbar" data-hbar style="height:5rem">
+                <span class="hd-hname" data-hname>Quarterly</span>
+                <span class="hd-hsub" data-hsub>18 reports</span>
               </div>
             </div>
-            <div class="sp-scrub">
+            <div class="hd-scrub">
               <span>scroll</span>
               <input type="range" min="0" max="180" step="1" value="0" data-scrub
                      aria-label="Scroll position in pixels">
@@ -454,7 +454,7 @@
     async function runList() {
       const mine = ++runId;
       playBtn.disabled = true;
-      const cells = [...stage.querySelectorAll('.sp-cell')];
+      const cells = [...stage.querySelectorAll('.hd-cell')];
       const clock = stage.querySelector('[data-clock]');
       const total = reduced() ? ITEM_MS : (count - 1) * STAGGER_MS + ITEM_MS;
 
@@ -494,10 +494,10 @@
       root.querySelector('[data-card]').innerHTML = spec.rows.map(([field, value, src, why]) => {
         const badge = src === 'spec' ? 'spec' : src === 'code' ? 'code decides' : 'says nothing';
         const val = which === 'list' && field === 'How many rows' ? `${count}, today` : value;
-        return `<div class="sp-crow" data-src="${src}">
-          <span class="sp-ctop"><span class="sp-cfield"><span class="sp-badge">${badge}</span>${field}</span>
-          <span class="sp-cval">${val}</span></span>
-          ${why ? `<span class="sp-why">${why}</span>` : ''}
+        return `<div class="hd-crow" data-src="${src}">
+          <span class="hd-ctop"><span class="hd-cfield"><span class="hd-badge">${badge}</span>${field}</span>
+          <span class="hd-cval">${val}</span></span>
+          ${why ? `<span class="hd-why">${why}</span>` : ''}
         </div>`;
       }).join('');
     }

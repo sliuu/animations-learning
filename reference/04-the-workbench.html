@@ -17,7 +17,13 @@
     }
     .wb-from a { color: var(--ink-faint); text-decoration-color: var(--rule); }
     .wb-from a:hover { color: var(--accent); }
-    .wb-lab { margin: 1.25rem 0 2.75rem; }
+    /* Vertical only. This <style> sits inside .page, so it comes after every
+       lab's injected stylesheet in document order and wins any tie — and the
+       `margin: x 0 y` shorthand was therefore quietly cancelling each lab's
+       own `margin-left: -6.5rem`, leaving it bleeding 13rem to the right of
+       the text and flush left with it. The labs that looked right were only
+       the ones that overwrite className and drop .wb-lab entirely. */
+    .wb-lab { margin-top: 1.25rem; margin-bottom: 2.75rem; }
     .wb-sep { margin: 0 0.45rem; color: var(--rule); }
   .wb-note {
     font-family: var(--sans); font-size: 0.78rem; line-height: 1.5;
@@ -104,6 +110,11 @@
       <tr><td><a href="#wb-d10b">D10 · What stays put</a></td><td>A full swap beside one that keeps its chrome</td><td>What persists, and where you navigate to</td></tr>
       <tr><td><a href="#wb-d11a">D11 · Eight places it could show</a></td><td>One refresh on a dashboard, and what moves for it</td><td>Size of the event, size of the budget</td></tr>
       <tr><td><a href="#wb-d11b">D11 · The same duration, twice</a></td><td>One panel opened once beside the same panel all day</td><td>Duration, and how often it plays</td></tr>
+      <tr><td><a href="#wb-d12">D12 · Ten specimens, one flaw each</a></td><td>Ten before/afters, the verdict withheld until you commit</td><td>Which specimen, and when the answer appears</td></tr>
+      <tr><td><a href="#wb-d13a">D13 · One set, five components</a></td><td>Three durations and a curve, fanned out across one screen</td><td>Each duration, the curve, the naming scheme, and whether the modal detaches</td></tr>
+      <tr><td><a href="#wb-d13b">D13 · What the spec can say</a></td><td>One spec built twice, beside the sheet that was handed over</td><td>Which animation — a drawer, a list, a header on scroll</td></tr>
+      <tr><td><a href="#wb-ref06">Ref 06 · The composer</a></td><td>A sequence built a moment at a time, named back to you</td><td>Object, moment, target, word and value</td></tr>
+      <tr><td><a href="#wb-0014">0014 · Read a recording</a></td><td>One Performance recording with a long frame in it</td><td>Which recording, and which stage you blame</td></tr>
       <tr><td><a href="#wb-scratch">Scratch</a></td><td>Nothing — it is a bare patch</td><td>The markup and the CSS</td></tr>
     </tbody>
   </table>
@@ -429,6 +440,34 @@
     the frequency is what decides whether it is generous or a tax.</p>
   <div class="wb-lab" data-repeat-lab data-title="The same duration, twice"></div>
 
+  <h2 id="wb-d12">D12 &middot; Ten specimens, one flaw each</h2>
+  <p class="wb-from"><a href="../lessons/D012-the-critique-drill.html">Lesson D012 — The critique drill</a>
+    <span class="wb-sep">&middot;</span> ten before/afters with the verdict withheld until you commit</p>
+  <p>Reach for it when you can feel that something is wrong and cannot yet say what. Watch, name the
+    flaw in one word, then reveal &mdash; the gap between your word and the given one is the drill.</p>
+  <div class="wb-lab" data-critique-lab data-title="Ten specimens, one flaw each"></div>
+
+  <h2 id="wb-d13a">D13 &middot; One set, five components</h2>
+  <p class="wb-from"><a href="../lessons/D013-motion-in-a-design-system.html">Lesson D013 — Motion in a design system</a>
+    <span class="wb-sep">&middot;</span> three durations and a curve, dressing five components at once</p>
+  <p>Reach for it when a token set is being named. Switch to value naming and retune anything: the
+    stage does not change, the names start lying, and nothing anywhere reports it.</p>
+  <div class="wb-lab" data-token-lab data-title="One set, five components"></div>
+
+  <h2 id="wb-d13b">D13 &middot; What the spec can say, and what it cannot</h2>
+  <p class="wb-from"><a href="../lessons/D013-motion-in-a-design-system.html">Lesson D013 — Motion in a design system</a>
+    <span class="wb-sep">&middot;</span> one spec built twice, and the fields that never make it across</p>
+  <p>Reach for it before a handoff. Run each specimen, then read the sheet beside it for the rows
+    marked <em>code decides</em> &mdash; those are the sentences your spec still owes someone.</p>
+  <div class="wb-lab" data-spec-lab data-title="What the spec can say, and what it cannot"></div>
+
+  <h2 id="wb-ref06">Ref 06 &middot; The composer</h2>
+  <p class="wb-from"><a href="06-the-composer.html">Reference 06 — The Composer</a>
+    <span class="wb-sep">&middot;</span> build a sequence a moment at a time and read it back</p>
+  <p>Reach for it when you have a sequence in your head and no words for it. It is the only lab here
+    with no fixed experiment: you compose, and it names what you built.</p>
+  <div class="wb-lab" data-compose-lab data-title="The composer"></div>
+
   <h2 id="wb-0014">0014 · Read a recording</h2>
   <p class="wb-from"><a href="../lessons/0014-reading-a-performance-recording.html">Lesson 0014 — Reading a Performance recording</a>
     <span class="wb-sep">·</span> find the long frame, then name the pipeline stage</p>
@@ -545,5 +584,10 @@
 <script src="../assets/continuity-lab.js"></script>
 <script src="../assets/budget-lab.js"></script>
 <script src="../assets/repeat-lab.js"></script>
+<script src="../assets/critique-lab.js"></script>
+<script src="../assets/token-lab.js"></script>
+<script src="../assets/spec-lab.js"></script>
+<script src="../assets/compose-catalogue.js"></script>
+<script src="../assets/compose-lab.js"></script>
 <script src="../assets/performance-lab.js"></script>
 <script src="../assets/playground.js"></script>
