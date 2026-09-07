@@ -34,8 +34,9 @@ PLANNED_ENG = [
 # the whole vocabulary, and D008 is the biggest gap against the mission's own
 # north star, so both come before the ones numbered between them.
 PLANNED_DES = [
-    ('D13', 'Motion in a design system',
-     'Tokens and handoff: what belongs in a Figma spec, and what only ever exists in code.',
+    ('D14', 'Doing all of this in Framer',
+     'A primer for the tool the work actually gets built in: how Framer names the same ideas, '
+     'where its model differs from the one this course teaches, and what it cannot express.',
      'next in this track'),
 ]
 
@@ -58,7 +59,7 @@ ASSETS = ['easing-lab.js', 'cost-lab.js', 'stagger-lab.js', 'scroll-lab.js', 'ex
           'timeline-lab.js', 'scroll-contract-lab.js', 'split-lab.js', 'text-arrival-lab.js',
           'wait-lab.js', 'optimistic-lab.js', 'nav-lab.js', 'continuity-lab.js',
           'budget-lab.js', 'repeat-lab.js', 'critique-lab.js',
-          'compose-catalogue.js', 'compose-lab.js',
+          'compose-catalogue.js', 'compose-lab.js', 'token-lab.js', 'spec-lab.js',
           'performance-lab.js',
           'playground.js', 'quiz.js']
 

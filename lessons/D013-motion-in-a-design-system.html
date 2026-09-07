@@ -1,0 +1,360 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D013 — Motion in a design system</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lesson D013 · 30 minutes</p>
+    <h1>Motion in a design system</h1>
+    <p class="dek">Tokens and handoff. What a name has to say, what a Figma spec can carry, and the
+      three kinds of thing that only ever exist once something is running.</p>
+    <div class="meta">
+      <span>Skill: turn a motion decision into something a team can reuse without you in the room</span>
+      <span><a href="D012-the-critique-drill.html">← Lesson D012</a></span>
+    </div>
+  </header>
+
+  <p class="lead">D012 left you able to look at an animation and say what is wrong with it in one
+  sentence someone can act on. That is the skill a design review runs on, and it has a ceiling:
+  giving the same critique twelve times, in twelve reviews, about twelve components, is not a
+  critique problem. <mark>A token is a critique you only have to give once.</mark> The rest of this
+  lesson is about what has to be true of that token for it to survive being reused by people who
+  were not in the room.</p>
+
+  <div class="callout">
+    <span class="label">Say it out loud</span>
+    <p><strong>A motion token</strong> — a named motion decision that components read rather than
+    restate. <code>--motion-enter: 240ms</code> is one; a 240 typed into a component is not.<br>
+    <strong>Role naming vs. value naming</strong> — <code>--motion-enter</code> says what the number
+    is <em>for</em>; <code>--duration-240</code> says what the number <em>is</em>. Same number, and
+    only one of them can be edited.<br>
+    <strong>Drift</strong> — what happens when a component stops reading the token and keeps its own
+    copy. Nothing breaks at the moment it happens, which is why it happens.<br>
+    <strong>The spec</strong> — the artifact handed from design to engineering. Its job is to carry
+    decisions, not measurements.</p>
+  </div>
+
+  <p>Below is one small screen with five moving parts and three durations. Turn a duration and watch
+  how much of the screen answers; then switch the naming knob, which changes nothing on the stage
+  and everything about whether the set can be edited a year from now.</p>
+
+  <div data-token-lab data-title="One set, five components"></div>
+
+  <h2>What a token actually buys</h2>
+
+  <p>The fan-out is the part everyone demonstrates. One value moves and five components restyle,
+  and that is real, and it is not the reason to do this. A find-and-replace would also have moved
+  five numbers. <mark>What you are buying is that the argument about 240 versus 400 happens once, in
+  one place, instead of in every component review for the next year.</mark></p>
+
+  <p>Think about what the alternative actually costs. Without a set, every new panel arrives at a
+  review with its own duration, chosen by whoever built it, and that duration is a fresh question:
+  is it right? Compared to what? The reviewer has to reconstruct, from memory, how fast the other
+  panels are — and memory is a bad instrument for a difference of eighty milliseconds. The
+  conversation is unwinnable in both directions, so it usually ends in "looks fine" and the product
+  gets one more slightly-different number in it.</p>
+
+  <p>With a set, the same review is a much smaller question: which token is this, and does the
+  component's job match the token's job? That question has an answer, and the answer does not
+  depend on anyone's memory of a different screen.</p>
+
+  <p class="sidenote"><strong>If you have read D011:</strong> this is where that lesson's two
+  durations were heading. <code>--motion-quick</code> and <code>--motion-considered</code> were
+  named by frequency because frequency was the deciding question, and a set is just that move made
+  general — the name carries the rule you used, so the next person does not have to rediscover
+  it.</p>
+
+  <h2>The name is the whole thing</h2>
+
+  <p>Switch the lab to value naming and retune anything. The stage does not change — the numbers are
+  identical, the motion is identical, and nothing about the product is different. The rail is what
+  changes: <code>--duration-120</code> is now holding 200ms.</p>
+
+  <p><mark>A token named for its value is a number with a nickname.</mark> It looks like a system,
+  it lives in the same file as a system, and it fails at the one moment a system is supposed to
+  earn its keep, which is when a decision changes. <mark>Retune it and the name is a lie that no
+  build, no linter and no review will ever catch.</mark> The value is right and the label is wrong,
+  and those two facts can coexist indefinitely because nothing in the toolchain knows the name was
+  ever supposed to mean anything.</p>
+
+  <p>You have two ways out and both are worse than not having got here. Rename the token, which
+  means finding every use across the codebase and the design file for the sake of a label — a
+  refactor with no user-visible outcome, which is the first thing cut from any sprint. Or leave it,
+  and accept that from now on the names are decoration and the only way to know what a token does is
+  to look up its value. That second one is what almost always happens, and it is the moment the set
+  quietly stops being a system.</p>
+
+  <p>Now the same argument from the other end. The lab asks you where a brand-new tooltip should get
+  its duration. Under role naming, the rail answers it: a tooltip arrives in place, so it takes the arriving
+  duration — and <mark>you can pick the right token without knowing what any of the numbers
+  are.</mark> <mark>Under value naming there is nothing to answer with: the only moves available are
+  to guess, or to copy whatever the nearest component happened to use.</mark> That copy is the
+  mechanism by which a token set turns back into a pile of numbers, one plausible decision at a
+  time.</p>
+
+  <div class="callout">
+    <span class="label">The test</span>
+    <p>Hand the token list to someone who has never seen the product and describe a component you
+    are about to build. If they can pick the right token from the names alone, the names are doing
+    their job. If they ask you what the numbers are, the names are decoration and you have a
+    spreadsheet with a stylesheet's file extension.</p>
+  </div>
+
+  <h2>How many tokens</h2>
+
+  <p>Both failure modes are common and they fail in opposite directions.</p>
+
+  <p>A token per component — <code>--drawer-duration</code>, <code>--toast-duration</code>,
+  <code>--modal-duration</code> — is a spreadsheet. It has all the ceremony of a system and none of
+  the leverage, because nothing is ever shared, so no change is ever made in one place. It also
+  cannot be reasoned about: there is no way to ask whether the drawer and the modal should match,
+  because they were never claimed to be the same kind of thing.</p>
+
+  <p>One token is the other failure. <mark>A single duration is a system that cannot say a modal is
+  heavier than a hover.</mark> That difference is not a nicety — it is the hierarchy signal D003
+  spent a whole lesson on. Collapse it and every layer of the interface arrives at the same
+  speed, which reads as an interface with no layers.</p>
+
+  <p><mark>The right number of tokens is the number of genuinely distinct decisions, not the number
+  of components.</mark> In practice that lands around three durations, two curves, and — if the
+  system has any expressive surface at all — a small distance scale. Three durations because there
+  are three recognisably different jobs: feedback on something you just touched, something arriving
+  in place, and something covering what was there. Two curves because entering and leaving are the
+  one asymmetry worth encoding.</p>
+
+  <p class="sidenote"><strong>If you have read 0005:</strong> the second curve is that lesson's
+  point, promoted to a token. An exit is allowed to be faster and flatter than an entrance, and a
+  system with a single shared curve makes that impossible to express without a local override —
+  which is drift, arriving by the front door.</p>
+
+  <details><summary>The CSS behind it</summary><pre><code>/* Three durations, named for the job rather than the number, so the
+   name survives being retuned. The comment is not decoration: it is
+   the rule that decides which one a new component takes. */
+:root {
+  --motion-state:   120ms;  /* feedback on the thing you just touched */
+  --motion-enter:   240ms;  /* something arriving in place */
+  --motion-overlay: 320ms;  /* something covering what was there */
+
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);   /* decelerate in */
+  --ease-exit:  cubic-bezier(0.4, 0, 1, 1);      /* accelerate out */
+}
+
+/* One place decides what happens for a reader who asked for less. Not
+   five components each remembering separately — that is the decision
+   most likely to be forgotten in the sixth. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-state: 0.01ms;
+    --motion-enter: 0.01ms;
+    --motion-overlay: 0.01ms;
+  }
+}
+
+.toast  { transition: transform var(--motion-enter) var(--ease-enter); }
+.drawer { transition: transform var(--motion-overlay) var(--ease-enter); }</code></pre></details>
+
+  <p>That last block is worth saying out loud, because it is the strongest practical argument for
+  having a set at all. <mark>The reduced-motion rule belongs in the token set, because it is one
+  decision rather than five.</mark> A decision spread across five components is a decision that will
+  be right in four of them. Every audit that finds a component ignoring
+  <code>prefers-reduced-motion</code> finds it in the newest one, built by someone who copied an
+  older component that predated the rule.</p>
+
+  <h2>Drift, and why it never looks like a problem</h2>
+
+  <p>Turn the lab's last knob: the modal is hardcoded at 320ms and stops reading the token. Now
+  retune the overlay duration. Four things move and one does not.</p>
+
+  <p>What is worth noticing is how unalarming that is. The modal still opens. It still looks fine on
+  its own. Nothing in the build says anything, nobody's test fails, and the component works exactly
+  as well as it did yesterday. <mark>Nothing broke, which is the problem: a detached component keeps
+  working perfectly while the system quietly loses the ability to change it.</mark></p>
+
+  <p>Drift almost never arrives as a decision to leave the system. It arrives as a deadline: the
+  modal needed to be a little slower for one release, the token was owned by another team, and a
+  local override was the twenty-second version of a two-week conversation. That is a reasonable
+  trade, made under real pressure, and the cost of it is invisible for months — until someone
+  retunes the overlay duration and one dialog in the product is subtly out of step with every other
+  layer, and nobody can say why.</p>
+
+  <p>The practical defence is not discipline. It is making the override <em>visible</em>: a lint
+  rule, a comment convention, a list of known exceptions that a human reads once a quarter. What
+  matters is that the exception has a name and an owner, because an exception you can see is a
+  decision and an exception you cannot see is just the current state of the code.</p>
+
+  <h2>The handoff</h2>
+
+  <p>The set is half the job. The other half is the artifact you hand over, and this is where most
+  motion work goes wrong — not because designers write bad specs, but because a static file has a
+  shape, and some things do not fit inside that shape at all.</p>
+
+  <p>Three animations below, three specs, and three different kinds of silence. The card on the
+  right is generated from the same data that drives the demo, so it cannot quietly disagree with
+  what is on screen — which, worth saying, is the one property a real spec never has.</p>
+
+  <div data-spec-lab data-title="What the spec can say, and what it cannot"></div>
+
+  <h2>Three kinds of silence</h2>
+
+  <p>Start with what does hand over, because it is most of it. Property, distance, duration, easing,
+  direction, stagger, and the reduced-motion rule all survive being written down. A spec that
+  carries those seven is a good spec and most specs do not carry all seven. If you take one
+  practical thing from this lesson, it is that the reduced-motion row belongs on the sheet, spelled
+  out as a design decision, not left as an implementation detail for someone to remember.</p>
+
+  <p><strong>The drawer is silent about state.</strong> Both panes have the same duration, the same
+  curve, the same distance — everything the handoff contained — and the right one snaps back to
+  fully open before it closes, because it was told where the drawer starts and where it ends and
+  nothing else. <mark>Interruption is not a missing detail, it is a missing category: a spec
+  describes two states, and a reader can be in any of the ones between them.</mark> You cannot draw "and if
+  she changes her mind at 40%", because there is no 40% in a static file.</p>
+
+  <p><strong>The list is silent about data.</strong> Every number in that spec is correct. 200ms per
+  row, 60ms apart, signed off against a mock with five rows — and at forty rows the last one arrives
+  two and a half seconds after the first. <mark>A stagger is not a duration, it is a duration
+  multiplied by a number the design file never contained.</mark> The fix is a cap, stop staggering
+  after row eight, and that cap is a real design decision that gets invented at build time by
+  whoever happens to notice.</p>
+
+  <p><strong>The header is worse than silent.</strong> Its spec has a Duration field and an Easing
+  field and both are filled in, and both mean nothing. <mark>When the clock is the scrollbar there
+  is no duration to specify: the reader sets the speed, can run it backwards, and can park it half
+  done.</mark> That is a state no timed animation ever sits in. Park it half way and look at it:
+  that half-condensed header has to be something a person could screenshot, and it is not on the
+  sheet, because the sheet has two frames and this has a continuum.</p>
+
+  <p><mark>A wrong number in a spec is more expensive than a blank one, because a blank gets a
+  question and a number gets built.</mark> The 300ms in that field will become a 300ms transition
+  layered on top of the scroll, fighting it, and the resulting lag will be reported as a performance
+  bug six weeks later.</p>
+
+  <div class="callout">
+    <span class="label">Say it out loud</span>
+    <p><strong>State silence</strong> — the spec describes two frames and the reader can be
+    anywhere between them. Interruption, reversal, re-trigger.<br>
+    <strong>Data silence</strong> — the spec is per-item and production sets the item count.
+    Staggers, lists, grids, anything where <em>n</em> comes from a server.<br>
+    <strong>Driver silence</strong> — the animation's clock is not a clock. Scroll, drag, pointer
+    position; a duration field here is not blank, it is wrong.</p>
+  </div>
+
+  <h2>What to write down</h2>
+
+  <p>The useful reframe: <mark>a handoff's job is to carry decisions, not measurements.</mark>
+  A measurement can be read off a prototype. A decision cannot, and it is the
+  thing that will otherwise be made silently by whoever is holding the ticket.</p>
+
+  <p>So the sheet has two halves. The first is the seven fields above, filled in — and filled in
+  with token names, not numbers, wherever a token exists, because <code>--motion-overlay</code>
+  hands over the rule as well as the value while <code>320ms</code> hands over only the value.</p>
+
+  <p>The second half is a short list of sentences, and these are the ones that get left off:</p>
+
+  <ul>
+    <li><strong>What happens when it is interrupted.</strong> "Closing mid-open reverses from where
+      it is" is one sentence and it is the entire difference between the two panes above.</li>
+    <li><strong>What happens at the extremes of the data.</strong> One row, forty rows, zero rows.
+      Name the cap.</li>
+    <li><strong>What happens for a reader who asked for less motion.</strong> Not "respect reduced
+      motion" — say what the interaction does instead.</li>
+    <li><strong>What is allowed to be dropped under pressure.</strong> If the animation has to go,
+      what is the interface without it? This one is a gift to the engineer.</li>
+  </ul>
+
+  <p>That last one is the D011 test written into the handoff. <mark>If the interface only makes
+  sense once the animation plays, the animation was never the problem</mark> — and finding that out
+  during the handoff is enormously cheaper than finding it out from a bug report about a reader who
+  turned motion off.</p>
+
+  <h2>The parts that only exist in code</h2>
+
+  <p>Some things are not being withheld from the spec. They genuinely do not exist until something
+  runs, and the honest move is to mark them as such rather than to invent a number.</p>
+
+  <p>Springs are the clearest case. A spring has no duration — it has stiffness, damping and a
+  starting velocity, and that velocity comes from the reader's finger. Two people can flick the same
+  card and get two different settle times, both correct. A spec can say "springy, and it should feel
+  like it carries the reader's momentum"; it cannot say 400ms, and a spec that says 400ms has
+  converted a physical system into a timed one, which is a different design.</p>
+
+  <p class="sidenote"><strong>If you have read 0008:</strong> this is why that lesson insisted the
+  spring's parameters are not a curve in disguise. The reason it matters at handoff is that the one
+  field a spec most wants to fill in — duration — is the one field a spring does not have.</p>
+
+  <p>Interruption is the second. Reversal, re-triggering, what happens when three toasts arrive at
+  once — all of it is state machinery, and the design decision is which behaviour is correct, not
+  how it is implemented. Write the sentence; leave the implementation alone.</p>
+
+  <p>The third is anything counted at runtime: list lengths, grid sizes, how many items are on
+  screen. And the fourth is performance. Whether an animation holds sixty frames on the oldest
+  device you support is not knowable from a design file, and it is the one item on this list where
+  the right answer might be to change the design.</p>
+
+  <p><mark>Where the engineer has to invent a decision, that is where the spec should have had a
+  sentence.</mark> Which makes the review question at the end of a handoff a simple one: what did
+  you have to decide that I did not tell you?</p>
+
+  <h2>What you have now</h2>
+
+  <p>A token set is not a list of durations. It is a set of decisions already made, named so that
+  the next person can apply them without redoing the reasoning — which is why the naming is not
+  cosmetic, and why a name minted from a value is a system with a fuse in it.</p>
+
+  <p>And a spec is not a description of an animation. It is the decisions that a running interface
+  cannot infer on its own. Most of those write down cleanly. The four that do not — state, data,
+  driver, and the physical ones — are exactly the four that end up being decided by whoever is
+  building it at eleven at night, which is a fine way to make a decision and a terrible way to make
+  it consistently.</p>
+
+  <p>This is the last of the judgment lessons, and the design track's shape is now complete: D001
+  gave the words, D004 through D010 gave the patterns, D011 gave a way to say no, D012 gave a way to
+  say what is wrong, and this one gives a way to make either of those stick after you have left the
+  room.</p>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="D012-the-critique-drill.html">← Lesson D012 — The critique drill</a>
+      <a href="D011-the-motion-budget.html">Lesson D011 — The motion budget</a>
+      <a href="D010-navigation-and-transitions.html">Lesson D010 — Navigation and page transitions</a>
+      <a href="D009-loading-waiting-and-optimism.html">Lesson D009 — Loading, waiting, and optimism</a>
+      <a href="D008-text-that-arrives.html">Lesson D008 — Text that arrives</a>
+      <a href="D007-scroll-as-a-timeline.html">Lesson D007 — Scroll as a timeline</a>
+      <a href="D006-decks-and-dots.html">Lesson D006 — Decks, and what the dots promise</a>
+      <a href="D005-things-you-drag.html">Lesson D005 — Things you drag</a>
+      <a href="D004-the-button.html">Lesson D004 — The button</a>
+      <a href="D003-motion-is-hierarchy.html">Lesson D003 — Motion is hierarchy</a>
+      <a href="D002-where-things-live.html">Lesson D002 — Where things live when they're off screen</a>
+      <a href="D001-the-map-and-the-words.html">Lesson D001 — The map, and the words for it</a>
+      <a href="0014-reading-a-performance-recording.html">Lesson 0014 — Reading a performance recording</a>
+      <a href="0013-reveals-with-clip-path.html">Lesson 0013 — Reveals with clip-path</a>
+      <a href="0012-things-that-just-appeared.html">Lesson 0012 — Things that just appeared</a>
+      <a href="0011-layout-animation.html">Lesson 0011 — Layout animation</a>
+      <a href="0010-hover-and-press.html">Lesson 0010 — Hover and press</a>
+      <a href="0009-reduced-motion.html">Lesson 0009 — Reduced motion</a>
+      <a href="0008-springs.html">Lesson 0008 — Springs</a>
+      <a href="0007-transform-origin.html">Lesson 0007 — Transform-origin</a>
+      <a href="0006-choosing-a-tool.html">Lesson 0006 — Choosing a tool</a>
+      <a href="0005-exits.html">Lesson 0005 — Exits</a>
+      <a href="0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal</a>
+      <a href="0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration</a>
+      <a href="0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+      <a href="0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing (printable)</a>
+      <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers (printable)</a>
+      <a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course (printable)</a>
+      <a href="../reference/04-the-workbench.html">Reference 04 — The Workbench (every lab, live)</a>
+      <a href="../reference/06-the-composer.html">Reference 06 — The Composer (build a sequence)</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+      <span style="color:var(--ink-faint)">Next: doing all of this in Framer — the primer, and where
+        the tool's model differs from the one this course has been teaching.</span>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/token-lab.js"></script>
+<script src="../assets/spec-lab.js"></script>
