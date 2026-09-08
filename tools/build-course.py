@@ -13,7 +13,7 @@ import re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = ROOT / 'dist' / 'course.html'
-BUILT = '2026-09-07'
+BUILT = '2026-09-08'
 
 # What is written next, in the order it is currently planned. Shown faded in
 # the contents so the shape of the whole course is visible from lesson one —
@@ -294,17 +294,33 @@ def chip(d):
             f'<b>{d["num"]}</b><span>{d["meta"]["title"].split("—", 1)[-1].strip()}</span></a>')
 
 
-def chip_group(label):
-    # Invisible in the horizontal bar, a section heading in the left column.
-    return f'      <span class="chip-group">{label}</span>'
+def chip_section(sid, label, group):
+    """One folding block of the index.
+
+    Thirty-two rows in one column reads as a single stripe with no landmarks,
+    which is a lot to arrive at. The section is both the landmark and the lever:
+    the header names the block and, folded, takes it off screen entirely, so the
+    rail while reading can be the track you are in plus two headings.
+
+    The headers are invisible in the horizontal bar — the wrappers go to
+    `display: contents` there and the chips fall back into one flex row."""
+    rows = '\n'.join(chip(d) for d in group)
+    return (f'      <section class="chip-sec" data-sec="{sid}" data-open="true">\n'
+            f'        <button class="chip-group" type="button" data-sec-toggle="{sid}"'
+            f' aria-expanded="true" aria-controls="chips-{sid}">'
+            f'<span class="chip-caret"></span>'
+            f'<span class="chip-glabel">{label}</span>'
+            f'<span class="chip-count">{len(group)}</span></button>\n'
+            f'        <div class="chip-list" id="chips-{sid}"><div class="chip-list-in">\n'
+            f'{rows}\n'
+            f'        </div></div>\n'
+            f'      </section>')
 
 
 chips = '\n'.join([
-    chip_group('Engineering'),
-    *[chip(d) for d in eng_docs],
-    *([chip_group('Design')] + [chip(d) for d in des_docs] if des_docs else []),
-    chip_group('Reference'),
-    *[chip(d) for d in ref_docs],
+    chip_section('eng', 'Engineering', eng_docs),
+    *([chip_section('des', 'Design', des_docs)] if des_docs else []),
+    chip_section('ref', 'Reference', ref_docs),
 ])
 
 shell_css = """
@@ -420,6 +436,10 @@ shell_css = """
 .rail-toggle { display: none; }
 .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .chip-group { display: none; }
+/* The horizontal bar has no room for section headings and no column for them
+   to head, so the wrappers dissolve and every chip is a direct flex child of
+   .rail-scroll again — the bar is byte-for-byte what it was. */
+.chip-sec, .chip-list, .chip-list-in { display: contents; }
 
 /* ---------- the rail as a left column ---------- */
 /* The breakpoint is 1180px rather than 1000px because the column has to stay
@@ -484,7 +504,11 @@ shell_css = """
   .rail-scroll {
     order: 0; flex: 1 1 auto; min-height: 0;
     display: block; overflow-y: auto; overflow-x: hidden;
-    scrollbar-width: thin; padding: 0.55rem 0 1.5rem;
+    /* No padding at the top: a sticky section header pins to the padding-box
+       edge, so 0.55rem of padding there is 0.55rem the header does not cover,
+       and the row underneath it scrolls past in that gap. The breathing room
+       moves into the first header instead. */
+    scrollbar-width: thin; padding: 0 0 1.5rem;
   }
   /* overflow-x is what makes the slide work: nothing is switched off on
      collapse, the labels keep their layout and simply travel out past the edge
@@ -514,14 +538,57 @@ shell_css = """
     background: var(--paper); color: var(--ink);
   }
   .chip b { text-align: right; font-size: 0.76rem; }
+  .chip-sec, .chip-list-in { display: block; }
+  /* The fold is a grid track going 1fr -> 0fr, which is the one way to
+     transition to a height nobody measured. The inner div is not decoration:
+     the overflow has to be clipped by a child of the track, or the rows spill
+     out of the collapsing row and the fold looks like a jump-cut. */
+  .chip-list {
+    display: grid; grid-template-rows: 1fr;
+    transition: grid-template-rows 300ms var(--ease-drawer);
+  }
+  .chip-list-in { overflow: hidden; padding-bottom: 0.5rem; }
+  .chip-sec[data-open="false"] .chip-list { grid-template-rows: 0fr; }
+  /* A clipped row is still a focusable link and still a row a screen reader
+     reads out, so the fold has to switch it off as well as squash it. The delay
+     is what keeps the animation: visibility flips at the end of the collapse on
+     the way shut, and immediately on the way open. */
+  .chip-sec[data-open="false"] .chip-list-in { visibility: hidden; transition: visibility 0s 300ms; }
+  /* The rule lives on the section rather than on the header, because the header
+     fades to nothing when the rail collapses to 3.6rem and the grouping has to
+     survive that — collapsed, these hairlines are the only thing separating
+     three runs of numbers. */
+  .chip-sec + .chip-sec { border-top: 1px solid var(--rule); }
   .chip-group {
-    display: block;
-    padding: 1.15rem 1.1rem 0.3rem 0.95rem;
+    /* Sticky, so the name of the block you are scrolling through is still on
+       screen when you are twelve rows into it. */
+    position: sticky; top: 0; z-index: 2;
+    display: flex; align-items: center; gap: 0.5rem;
+    width: 100%; cursor: pointer; text-align: left;
+    padding: 0.95rem 0.85rem 0.45rem 0.95rem;
+    border: 0; background: var(--paper-sunk);
     font: 700 0.64rem/1.4 var(--sans);
     letter-spacing: 0.13em; text-transform: uppercase;
-    color: var(--ink-faint);
+    color: var(--ink-soft);
+    transition: color 140ms var(--ease-out-strong), opacity 200ms var(--ease-out-strong);
   }
-  .chip-group:first-child { padding-top: 0.4rem; }
+  .chip-group:hover { color: var(--ink); }
+  .chip-group:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .chip-glabel { flex: 1 1 auto; }
+  .chip-count {
+    font-family: var(--mono); font-size: 0.62rem; font-weight: 600;
+    letter-spacing: 0; color: var(--ink-faint);
+  }
+  /* Same drawn caret as the rail's and the contents page's, at the two
+     rotations a disclosure wants. Down is open, right is shut. */
+  .chip-caret {
+    flex: none; width: 6px; height: 6px;
+    border-left: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+    transform: rotate(-45deg) translate(1px, -1px);
+    transition: transform 260ms var(--ease-drawer);
+  }
+  .chip-sec[data-open="false"] .chip-caret { transform: rotate(-135deg) translate(1px, -1px); }
+  .chip-sec:first-child .chip-group { padding-top: 0.75rem; }
 
   /* Collapsed: the numbers alone. Still a full index — every document is one
      click away — but 3.6rem wide, which is what gives a margin sidenote its
@@ -569,7 +636,7 @@ shell_css = """
    changed. */
 @media (prefers-reduced-motion: reduce) {
   .shell, .rail-home, .chip, .chip span, .chip-group,
-  .rail-icon, .theme-icon {
+  .chip-list, .chip-caret, .rail-icon, .theme-icon {
     transition: none;
   }
 }
@@ -745,6 +812,11 @@ shell_js = """
     if (!ids.includes(id)) id = 'contents';
     docs.forEach((d) => { d.hidden = d.id !== id; });
     chips.forEach((c) => c.setAttribute('aria-current', String(c.dataset.chip === id)));
+    // Never navigate into a folded section. The chip you just used may have
+    // been on the contents page rather than in the rail, and a rail that
+    // answers a jump by hiding where you landed is worse than no fold at all.
+    const here = chips.find((c) => c.dataset.chip === id);
+    if (here) setSection(here.closest('.chip-sec'), true);
     if (push && location.hash !== '#' + id) history.replaceState(null, '', '#' + id);
     window.scrollTo(0, 0);
     // Storage throws outright in some embedded contexts, so never let a
@@ -795,6 +867,41 @@ shell_js = """
   });
   paintThemeToggle();
 
+  /* Which sections are folded, by id. Remembered, because the fold is a
+     statement about what she is working on this week rather than a per-visit
+     preference — and because a rail that reopens everything on reload is a
+     control that undoes itself. */
+  const SEC_KEY = 'defensible-motion:sections';
+  const secs = [...document.querySelectorAll('.chip-sec')];
+
+  function readSecs() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(SEC_KEY) || '{}');
+      return raw && typeof raw === 'object' ? raw : {};
+    } catch (e) { return {}; }
+  }
+
+  function setSection(sec, open) {
+    if (!sec) return;
+    sec.dataset.open = String(open);
+    sec.querySelector('[data-sec-toggle]').setAttribute('aria-expanded', String(open));
+    const state = readSecs();
+    state[sec.dataset.sec] = open;
+    try { localStorage.setItem(SEC_KEY, JSON.stringify(state)); } catch (e) { /* no-op */ }
+  }
+
+  // Open is the default: an index that arrives already hidden is not an index.
+  // Folding is the reader's move, and it survives the reload.
+  const savedSecs = readSecs();
+  secs.forEach((sec) => {
+    if (savedSecs[sec.dataset.sec] === false) {
+      sec.dataset.open = 'false';
+      sec.querySelector('[data-sec-toggle]').setAttribute('aria-expanded', 'false');
+    }
+  });
+  secs.forEach((sec) => sec.querySelector('[data-sec-toggle]').addEventListener('click',
+    () => setSection(sec, sec.dataset.open === 'false')));
+
   const RAIL_KEY = 'defensible-motion:rail';
   const shell = document.querySelector('.shell');
   const railToggle = document.querySelector('[data-rail-toggle]');
@@ -816,13 +923,18 @@ shell_js = """
   /* CSS cannot force a <details> open, and a shut group prints as a group that
      is not there. Open them all for the print, put them back afterwards. */
   let printed = [];
+  let foldedForPrint = [];
   window.addEventListener('beforeprint', () => {
     printed = [...document.querySelectorAll('.toc-group:not([open])')];
     printed.forEach((d) => { d.open = true; });
+    foldedForPrint = secs.filter((sec) => sec.dataset.open === 'false');
+    foldedForPrint.forEach((sec) => { sec.dataset.open = 'true'; });
   });
   window.addEventListener('afterprint', () => {
     printed.forEach((d) => { d.open = false; });
     printed = [];
+    foldedForPrint.forEach((sec) => { sec.dataset.open = 'false'; });
+    foldedForPrint = [];
   });
 
   let start = location.hash.slice(1);
