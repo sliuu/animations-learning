@@ -86,35 +86,35 @@
     <tbody>
       <tr>
         <td><strong>CSS transition</strong></td>
-        <td>Two states, and the user can change their mind. Hover, focus, open/closed,
+        <td data-label="Reach for it when">Two states, and the user can change their mind. Hover, focus, open/closed,
           selected. <em>Interruptible by default</em>, which is why it's the right default for
           interactive UI.</td>
-        <td>0 KB</td>
+        <td data-label="Cost">0 KB</td>
       </tr>
       <tr>
         <td><strong>CSS keyframes</strong></td>
-        <td>Three or more steps, or it loops, or it runs on its own without a state change. A
+        <td data-label="Reach for it when">Three or more steps, or it loops, or it runs on its own without a state change. A
           spinner, a pulse, a marquee, a page-load entrance.</td>
-        <td>0 KB</td>
+        <td data-label="Cost">0 KB</td>
       </tr>
       <tr>
         <td><strong>Web Animations API</strong><br><code>el.animate()</code></td>
-        <td>You need the playhead: pause, seek, reverse from here, read progress, know exactly
+        <td data-label="Reach for it when">You need the playhead: pause, seek, reverse from here, read progress, know exactly
           when it's finished (<code>.finished</code> is a promise). Also when the keyframes
           themselves are computed at runtime.</td>
-        <td>0 KB</td>
+        <td data-label="Cost">0 KB</td>
       </tr>
       <tr>
         <td><strong>Motion</strong><br><span style="color:var(--ink-faint)">motion.dev</span></td>
-        <td>React, and specifically: animating things that are being <em>removed from the
+        <td data-label="Reach for it when">React, and specifically: animating things that are being <em>removed from the
           tree</em>, layout animations, and springs. All three are painful by hand.</td>
-        <td>~18–34 KB</td>
+        <td data-label="Cost">~18–34 KB</td>
       </tr>
       <tr>
         <td><strong>GSAP</strong></td>
-        <td>Choreography — a timeline with a dozen things at labelled offsets — and
+        <td data-label="Reach for it when">Choreography — a timeline with a dozen things at labelled offsets — and
           ScrollTrigger. Marketing pages, hero sequences, scroll-driven narrative.</td>
-        <td>~23 KB + plugins</td>
+        <td data-label="Cost">~23 KB + plugins</td>
       </tr>
     </tbody>
   </table>

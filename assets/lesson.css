@@ -138,10 +138,22 @@ body {
    beside the rail. */
 body { container-type: inline-size; }
 
-/* Full-bleed escape hatch for demos that want to breathe */
+/* Full-bleed escape hatch for content that wants to breathe past the 68ch
+   measure — a wide table, mostly.
+
+   Every length here is `cqi`, the container's inline size, and that is the whole
+   point. It used to be `vw`, which measures the window, while the centring
+   offset next to it measured the containing block. In a standalone lesson those
+   are the same box and the mistake is invisible; in the bundle the containing
+   block is the column beside the rail, so the block was sized to the window and
+   centred on the column at once. At a 1280px window that put 36px of the table
+   underneath the rail and 36px past the right edge, and gave the whole page a
+   horizontal scrollbar — the third column was unreadable without scrolling the
+   document sideways. Both halves now measure the same box, so it stays inside
+   the column at every width and the rail can collapse without breaking it. */
 .wide {
-  width: min(96vw, 1080px);
-  margin-inline: calc(50% - min(48vw, 540px));
+  width: min(96cqi, 1080px);
+  margin-inline: calc(50% - min(48cqi, 540px));
 }
 
 /* ---------- masthead ---------- */
@@ -322,12 +334,6 @@ table {
   font-family: var(--sans);
   font-size: 0.85rem;
   margin: 1.5rem 0;
-  display: block;
-  overflow-x: auto;
-  white-space: nowrap;
-}
-@media (min-width: 640px) {
-  table { display: table; white-space: normal; }
 }
 th {
   text-align: left;
@@ -346,6 +352,48 @@ td {
 }
 tbody tr:last-child td { border-bottom: 0; }
 td code { font-size: 0.78rem; }
+
+/* Narrow: every row becomes a small card, and the column headings come back per
+   cell out of `data-label` (stamped from the <th> when the lesson was written,
+   so the label and the heading cannot drift apart).
+
+   The previous answer here was `white-space: nowrap` plus a horizontal scroller,
+   which is right for a table of numbers and wrong for every table in this course
+   — these cells hold whole sentences, so nowrap turned each one into a single
+   line hundreds of pixels long inside a box the reader had to scrub sideways.
+   Stacking loses the grid, which is a real cost: you can no longer compare two
+   rows down a column at a glance. It is the cheaper loss. A column you cannot
+   read at all compares with nothing.
+
+   `thead` goes rather than being visually hidden. With `display: block` the table
+   role is gone from the accessibility tree either way, so a header row still
+   announcing itself as headers for a grid that no longer exists would describe a
+   structure the reader is not in. The labels carry the same words, in place.
+
+   Measured against the container, not the window: in the bundle the column is
+   narrower than the viewport by the width of the rail, and the rail collapses
+   without the window moving. Same reason sidenotes query it. */
+@container (max-width: 700px) {
+  table, tbody, tr, td { display: block; }
+  thead { display: none; }
+  tr { padding: 0.75rem 0; border-bottom: 1px solid var(--rule); }
+  tbody tr:last-child { border-bottom: 0; }
+  td { padding: 0.1rem 0; border-bottom: 0; }
+  /* The first column is the row's subject in every table here, so stacked it is
+     the card's title — which is also why it is the one cell with no label. */
+  td:first-child {
+    font-size: 0.95rem; font-weight: 650; color: var(--ink);
+    margin-bottom: 0.15rem;
+  }
+  td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.62rem; font-weight: 650;
+    letter-spacing: 0.09em; text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+}
 
 /* ---------- callouts ---------- */
 .callout {

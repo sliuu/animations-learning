@@ -168,21 +168,21 @@ clip-path: polygon(0 0, 134% 0, 100% 100%, -34% 100%);</code></pre>
     <tbody>
       <tr>
         <td><code>clip-path</code></td>
-        <td>Paint tier, on credit</td>
-        <td>Any shape it can name, any number of edges, radius on a moving edge</td>
-        <td>The answer to any of the four questions was yes</td>
+        <td data-label="Animating">Paint tier, on credit</td>
+        <td data-label="Can express">Any shape it can name, any number of edges, radius on a moving edge</td>
+        <td data-label="Reach for it when">The answer to any of the four questions was yes</td>
       </tr>
       <tr>
         <td>Moving window<br><span style="color:var(--ink-soft)">wrapper + counter-transform</span></td>
-        <td>Two transforms, composited</td>
-        <td>One straight edge, with the content perfectly still</td>
-        <td>Masking type line by line — this is what a split-text library emits</td>
+        <td data-label="Animating">Two transforms, composited</td>
+        <td data-label="Can express">One straight edge, with the content perfectly still</td>
+        <td data-label="Reach for it when">Masking type line by line — this is what a split-text library emits</td>
       </tr>
       <tr>
         <td>Static window<br><span style="color:var(--ink-soft)">wrapper + sliding content</span></td>
-        <td>One transform, composited</td>
-        <td>One straight edge, radius that stays put, content that slides</td>
-        <td>The default. Most reveals on the web are this, correctly</td>
+        <td data-label="Animating">One transform, composited</td>
+        <td data-label="Can express">One straight edge, radius that stays put, content that slides</td>
+        <td data-label="Reach for it when">The default. Most reveals on the web are this, correctly</td>
       </tr>
     </tbody>
   </table>

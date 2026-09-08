@@ -249,15 +249,15 @@ document.startViewTransition(() =&gt; {
       <tr><th>&nbsp;</th><th>FLIP, by hand</th><th>View Transitions</th></tr>
     </thead>
     <tbody>
-      <tr><td>Who computes the movement</td><td>You, from two rects</td><td>The browser, from two snapshots</td></tr>
-      <tr><td>What is animating</td><td>Your real elements</td><td>Pictures of them, in a pseudo-element tree</td></tr>
-      <tr><td>Scope</td><td>Exactly the elements you measured</td><td>The whole document, always</td></tr>
-      <tr><td>Interruptible</td><td>Yes — measure again mid-flight</td><td>No. Skip it and start over</td></tr>
-      <tr><td>Enter and exit</td><td>You write them separately</td><td>Included, and stylable</td></tr>
-      <tr><td>Resizing without stretching</td><td>Inverse-scale a child, by hand</td><td>Included</td></tr>
-      <tr><td>Across a page navigation</td><td>No</td><td>Yes — but not in Firefox yet</td></tr>
-      <tr><td>How it fails</td><td>A silent jump (the missing flush)</td><td>A silent cut (a duplicated name)</td></tr>
-      <tr><td>Where the code lives</td><td>JS</td><td>One JS call, then CSS</td></tr>
+      <tr><td>Who computes the movement</td><td data-label="FLIP, by hand">You, from two rects</td><td data-label="View Transitions">The browser, from two snapshots</td></tr>
+      <tr><td>What is animating</td><td data-label="FLIP, by hand">Your real elements</td><td data-label="View Transitions">Pictures of them, in a pseudo-element tree</td></tr>
+      <tr><td>Scope</td><td data-label="FLIP, by hand">Exactly the elements you measured</td><td data-label="View Transitions">The whole document, always</td></tr>
+      <tr><td>Interruptible</td><td data-label="FLIP, by hand">Yes — measure again mid-flight</td><td data-label="View Transitions">No. Skip it and start over</td></tr>
+      <tr><td>Enter and exit</td><td data-label="FLIP, by hand">You write them separately</td><td data-label="View Transitions">Included, and stylable</td></tr>
+      <tr><td>Resizing without stretching</td><td data-label="FLIP, by hand">Inverse-scale a child, by hand</td><td data-label="View Transitions">Included</td></tr>
+      <tr><td>Across a page navigation</td><td data-label="FLIP, by hand">No</td><td data-label="View Transitions">Yes — but not in Firefox yet</td></tr>
+      <tr><td>How it fails</td><td data-label="FLIP, by hand">A silent jump (the missing flush)</td><td data-label="View Transitions">A silent cut (a duplicated name)</td></tr>
+      <tr><td>Where the code lives</td><td data-label="FLIP, by hand">JS</td><td data-label="View Transitions">One JS call, then CSS</td></tr>
     </tbody>
   </table>
 

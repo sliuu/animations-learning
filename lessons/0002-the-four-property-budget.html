@@ -85,10 +85,10 @@
   <table>
     <thead><tr><th>Stage</th><th>What it decides</th><th>Blast radius</th></tr></thead>
     <tbody>
-      <tr><td><strong>Style</strong></td><td>What the computed values are</td><td>The element</td></tr>
-      <tr><td><strong>Layout</strong></td><td>How big everything is and where it sits</td><td>Siblings, ancestors, potentially the document</td></tr>
-      <tr><td><strong>Paint</strong></td><td>What colour each pixel is, drawn into layers</td><td>The element and anything overlapping it</td></tr>
-      <tr><td><strong>Composite</strong></td><td>Where each finished layer lands on screen</td><td>The GPU, and almost nothing else</td></tr>
+      <tr><td><strong>Style</strong></td><td data-label="What it decides">What the computed values are</td><td data-label="Blast radius">The element</td></tr>
+      <tr><td><strong>Layout</strong></td><td data-label="What it decides">How big everything is and where it sits</td><td data-label="Blast radius">Siblings, ancestors, potentially the document</td></tr>
+      <tr><td><strong>Paint</strong></td><td data-label="What it decides">What colour each pixel is, drawn into layers</td><td data-label="Blast radius">The element and anything overlapping it</td></tr>
+      <tr><td><strong>Composite</strong></td><td data-label="What it decides">Where each finished layer lands on screen</td><td data-label="Blast radius">The GPU, and almost nothing else</td></tr>
     </tbody>
   </table>
 
@@ -107,10 +107,10 @@
   <table>
     <thead><tr><th>Tier</th><th>Properties</th><th>Runs each frame</th></tr></thead>
     <tbody>
-      <tr><td><strong>Free</strong></td><td><code>transform</code>, <code>opacity</code></td><td>Composite only</td></tr>
-      <tr><td><strong>On credit</strong></td><td><code>filter</code>, <code>clip-path</code></td><td>Skips layout; costs GPU fill rate</td></tr>
-      <tr><td><strong>Paint</strong></td><td><code>color</code>, <code>background-color</code>, <code>box-shadow</code>, <code>border-radius</code>, <code>outline</code></td><td>Paint + Composite</td></tr>
-      <tr><td><strong>Expensive</strong></td><td><code>width</code>, <code>height</code>, <code>top</code>/<code>left</code>, <code>margin</code>, <code>padding</code>, <code>font-size</code></td><td>Layout + Paint + Composite</td></tr>
+      <tr><td><strong>Free</strong></td><td data-label="Properties"><code>transform</code>, <code>opacity</code></td><td data-label="Runs each frame">Composite only</td></tr>
+      <tr><td><strong>On credit</strong></td><td data-label="Properties"><code>filter</code>, <code>clip-path</code></td><td data-label="Runs each frame">Skips layout; costs GPU fill rate</td></tr>
+      <tr><td><strong>Paint</strong></td><td data-label="Properties"><code>color</code>, <code>background-color</code>, <code>box-shadow</code>, <code>border-radius</code>, <code>outline</code></td><td data-label="Runs each frame">Paint + Composite</td></tr>
+      <tr><td><strong>Expensive</strong></td><td data-label="Properties"><code>width</code>, <code>height</code>, <code>top</code>/<code>left</code>, <code>margin</code>, <code>padding</code>, <code>font-size</code></td><td data-label="Runs each frame">Layout + Paint + Composite</td></tr>
     </tbody>
   </table>
 

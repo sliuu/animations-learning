@@ -108,23 +108,23 @@
     <tbody>
       <tr>
         <td><strong>Ambient</strong><br><span style="color:var(--ink-faint)">decoration</span></td>
-        <td>Parallax, drifting gradients, marquees, auto-advancing carousels, floating blobs,
+        <td data-label="Examples">Parallax, drifting gradients, marquees, auto-advancing carousels, floating blobs,
           anything that moves without being asked</td>
-        <td><strong>Remove it.</strong> Nothing is lost. This bucket is also where nearly all of
+        <td data-label="Under reduce"><strong>Remove it.</strong> Nothing is lost. This bucket is also where nearly all of
           the actual harm lives.</td>
       </tr>
       <tr>
         <td><strong>Informational</strong><br><span style="color:var(--ink-faint)">most of lessons 0001–0008</span></td>
-        <td>Entrances and exits, toasts, drawers, modals, scroll reveals, layout shifts after a
+        <td data-label="Examples">Entrances and exits, toasts, drawers, modals, scroll reveals, layout shifts after a
           filter</td>
-        <td><strong>Keep the timing, drop the travel.</strong> Cross-fade in place. The message
+        <td data-label="Under reduce"><strong>Keep the timing, drop the travel.</strong> Cross-fade in place. The message
           — <em>this is new, this left, these are related</em> — survives without displacement.</td>
       </tr>
       <tr>
         <td><strong>Status</strong><br><span style="color:var(--ink-faint)">the motion is the content</span></td>
-        <td>Spinners, indeterminate progress, typing indicators, live audio meters, a pulsing
+        <td data-label="Examples">Spinners, indeterminate progress, typing indicators, live audio meters, a pulsing
           "recording" dot</td>
-        <td><strong>Leave it alone.</strong> It's small, contained, and removing it deletes
+        <td data-label="Under reduce"><strong>Leave it alone.</strong> It's small, contained, and removing it deletes
           information rather than decoration.</td>
       </tr>
     </tbody>
@@ -147,28 +147,28 @@
     <tbody>
       <tr>
         <td>Motion covering a large share of the viewport</td>
-        <td>Motion confined to a small element</td>
+        <td data-label="Safer">Motion confined to a small element</td>
       </tr>
       <tr>
         <td>Parallax — planes moving at different rates, which manufactures a depth cue your
           balance system didn't ask for</td>
-        <td>Everything moving together, or nothing moving</td>
+        <td data-label="Safer">Everything moving together, or nothing moving</td>
       </tr>
       <tr>
         <td>Scaling and zooming large elements; spinning and rotation</td>
-        <td>Opacity and colour, which have no direction at all</td>
+        <td data-label="Safer">Opacity and colour, which have no direction at all</td>
       </tr>
       <tr>
         <td>Oscillation — bounce, wobble, anything that reverses more than once</td>
-        <td>A single monotonic move that arrives and stops</td>
+        <td data-label="Safer">A single monotonic move that arrives and stops</td>
       </tr>
       <tr>
         <td>Long travel distances, and high speed over that distance</td>
-        <td>Short travel; a slower version of the same move</td>
+        <td data-label="Safer">Short travel; a slower version of the same move</td>
       </tr>
       <tr>
         <td>Motion the user didn't start</td>
-        <td>Motion that answers a click they just made</td>
+        <td data-label="Safer">Motion that answers a click they just made</td>
       </tr>
     </tbody>
   </table>

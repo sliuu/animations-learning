@@ -188,11 +188,11 @@
       <tr><th>Element</th><th>Scale</th><th>Its edges move</th><th>Reads as</th></tr>
     </thead>
     <tbody>
-      <tr><td>96px button</td><td>0.96</td><td>1.9px</td><td>A press</td></tr>
-      <tr><td>96px button</td><td>0.90</td><td>4.8px</td><td>A press, at the limit</td></tr>
-      <tr><td>320px card</td><td>0.96</td><td>6.4px</td><td>Shrinking, not pressing</td></tr>
-      <tr><td>320px card</td><td>0.985</td><td>2.4px</td><td>A press</td></tr>
-      <tr><td>Full-width row</td><td>0.98</td><td>~7px+</td><td>The row is collapsing</td></tr>
+      <tr><td>96px button</td><td data-label="Scale">0.96</td><td data-label="Its edges move">1.9px</td><td data-label="Reads as">A press</td></tr>
+      <tr><td>96px button</td><td data-label="Scale">0.90</td><td data-label="Its edges move">4.8px</td><td data-label="Reads as">A press, at the limit</td></tr>
+      <tr><td>320px card</td><td data-label="Scale">0.96</td><td data-label="Its edges move">6.4px</td><td data-label="Reads as">Shrinking, not pressing</td></tr>
+      <tr><td>320px card</td><td data-label="Scale">0.985</td><td data-label="Its edges move">2.4px</td><td data-label="Reads as">A press</td></tr>
+      <tr><td>Full-width row</td><td data-label="Scale">0.98</td><td data-label="Its edges move">~7px+</td><td data-label="Reads as">The row is collapsing</td></tr>
     </tbody>
   </table>
 
@@ -217,23 +217,23 @@
     <tbody>
       <tr>
         <td><code>:hover</code></td>
-        <td>Any hover decoration. Always. It costs nothing and needs no state.</td>
-        <td>Latches on touch. Gate it.</td>
+        <td data-label="When">Any hover decoration. Always. It costs nothing and needs no state.</td>
+        <td data-label="Watch for">Latches on touch. Gate it.</td>
       </tr>
       <tr>
         <td><code>:active</code></td>
-        <td>Press feedback, on every device. It also fires for a keyboard user pressing
+        <td data-label="When">Press feedback, on every device. It also fires for a keyboard user pressing
           Enter or Space on a real <code>&lt;button&gt;</code>, which you get free.</td>
-        <td>iOS Safari has historically not applied it on tap unless the element or an ancestor
+        <td data-label="Watch for">iOS Safari has historically not applied it on tap unless the element or an ancestor
           carries a touch listener — the folk fix is <code>&lt;body ontouchstart=""&gt;</code>.
           Test it on a device; don't assume either way.</td>
       </tr>
       <tr>
         <td><a href="https://developer.mozilla.org/en-US/docs/Web/API/Pointer_events">Pointer
           events</a></td>
-        <td>When the press has to survive the pointer leaving the element (a drag handle, a
+        <td data-label="When">When the press has to survive the pointer leaving the element (a drag handle, a
           slider, hold-to-delete), or when the state has to exist in JS anyway.</td>
-        <td><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/setPointerCapture"><code>setPointerCapture</code></a>
+        <td data-label="Watch for"><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/setPointerCapture"><code>setPointerCapture</code></a>
           is the piece people miss — without it, a drag dies the moment the cursor exits the
           element's box.</td>
       </tr>
@@ -255,15 +255,15 @@
   <table>
     <thead><tr><th>Query</th><th>Means</th><th>Use it for</th></tr></thead>
     <tbody>
-      <tr><td><code>(hover: hover)</code></td><td>The primary input can hover</td>
-        <td><strong>Hover decoration.</strong> This is the one you want.</td></tr>
-      <tr><td><code>(any-hover: hover)</code></td><td>Some input can hover</td>
-        <td>Rarely. It's true on a tablet with a trackpad attached — where the person is usually
+      <tr><td><code>(hover: hover)</code></td><td data-label="Means">The primary input can hover</td>
+        <td data-label="Use it for"><strong>Hover decoration.</strong> This is the one you want.</td></tr>
+      <tr><td><code>(any-hover: hover)</code></td><td data-label="Means">Some input can hover</td>
+        <td data-label="Use it for">Rarely. It's true on a tablet with a trackpad attached — where the person is usually
           still using their finger.</td></tr>
-      <tr><td><code>(pointer: coarse)</code></td><td>The primary input is imprecise</td>
-        <td>Hit-target sizing, not motion. A different problem that happens to correlate.</td></tr>
-      <tr><td><code>(prefers-reduced-motion)</code></td><td>Covered in
-        <a href="0009-reduced-motion.html">0009</a></td><td>Composes with all of the above.</td></tr>
+      <tr><td><code>(pointer: coarse)</code></td><td data-label="Means">The primary input is imprecise</td>
+        <td data-label="Use it for">Hit-target sizing, not motion. A different problem that happens to correlate.</td></tr>
+      <tr><td><code>(prefers-reduced-motion)</code></td><td data-label="Means">Covered in
+        <a href="0009-reduced-motion.html">0009</a></td><td data-label="Use it for">Composes with all of the above.</td></tr>
     </tbody>
   </table>
 

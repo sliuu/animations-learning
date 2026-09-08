@@ -81,12 +81,12 @@
   <table>
     <thead><tr><th>Number</th><th>Physically</th><th>Turn it up and…</th></tr></thead>
     <tbody>
-      <tr><td><strong>stiffness</strong></td><td>How hard the band pulls toward the target</td>
-        <td>Everything gets faster and more urgent</td></tr>
-      <tr><td><strong>damping</strong></td><td>Friction — resistance to movement</td>
-        <td>Bounce disappears; too much and it crawls</td></tr>
-      <tr><td><strong>mass</strong></td><td>Inertia — resistance to changing speed</td>
-        <td>It feels heavier, starts slower, overshoots further</td></tr>
+      <tr><td><strong>stiffness</strong></td><td data-label="Physically">How hard the band pulls toward the target</td>
+        <td data-label="Turn it up and…">Everything gets faster and more urgent</td></tr>
+      <tr><td><strong>damping</strong></td><td data-label="Physically">Friction — resistance to movement</td>
+        <td data-label="Turn it up and…">Bounce disappears; too much and it crawls</td></tr>
+      <tr><td><strong>mass</strong></td><td data-label="Physically">Inertia — resistance to changing speed</td>
+        <td data-label="Turn it up and…">It feels heavier, starts slower, overshoots further</td></tr>
     </tbody>
   </table>
 
@@ -103,9 +103,9 @@
   <table>
     <thead><tr><th>ζ</th><th>Called</th><th>Behaviour</th></tr></thead>
     <tbody>
-      <tr><td>&lt; 1</td><td>underdamped</td><td>Overshoots the target and comes back. Bounce.</td></tr>
-      <tr><td>= 1</td><td>critically damped</td><td>The fastest possible arrival with <em>no</em> overshoot.</td></tr>
-      <tr><td>&gt; 1</td><td>overdamped</td><td>No overshoot, and slower than it needs to be. Sluggish.</td></tr>
+      <tr><td>&lt; 1</td><td data-label="Called">underdamped</td><td data-label="Behaviour">Overshoots the target and comes back. Bounce.</td></tr>
+      <tr><td>= 1</td><td data-label="Called">critically damped</td><td data-label="Behaviour">The fastest possible arrival with <em>no</em> overshoot.</td></tr>
+      <tr><td>&gt; 1</td><td data-label="Called">overdamped</td><td data-label="Behaviour">No overshoot, and slower than it needs to be. Sluggish.</td></tr>
     </tbody>
   </table>
 
@@ -119,11 +119,11 @@
   <table>
     <thead><tr><th>Preset</th><th>k / c / m</th><th>ζ</th><th>Overshoot</th><th>Settles</th></tr></thead>
     <tbody>
-      <tr><td>gentle</td><td>130 / 18 / 1</td><td>0.79</td><td>1%</td><td>733ms</td></tr>
-      <tr><td>snappy</td><td>420 / 30 / 1</td><td>0.73</td><td>3%</td><td>417ms</td></tr>
-      <tr><td>bouncy</td><td>320 / 12 / 1</td><td>0.34</td><td>32%</td><td>1062ms</td></tr>
-      <tr><td>no bounce</td><td>220 / 30 / 1</td><td>1.01</td><td>0%</td><td>629ms</td></tr>
-      <tr><td>heavy</td><td>180 / 24 / 2.4</td><td>0.58</td><td>10%</td><td>1192ms</td></tr>
+      <tr><td>gentle</td><td data-label="k / c / m">130 / 18 / 1</td><td data-label="ζ">0.79</td><td data-label="Overshoot">1%</td><td data-label="Settles">733ms</td></tr>
+      <tr><td>snappy</td><td data-label="k / c / m">420 / 30 / 1</td><td data-label="ζ">0.73</td><td data-label="Overshoot">3%</td><td data-label="Settles">417ms</td></tr>
+      <tr><td>bouncy</td><td data-label="k / c / m">320 / 12 / 1</td><td data-label="ζ">0.34</td><td data-label="Overshoot">32%</td><td data-label="Settles">1062ms</td></tr>
+      <tr><td>no bounce</td><td data-label="k / c / m">220 / 30 / 1</td><td data-label="ζ">1.01</td><td data-label="Overshoot">0%</td><td data-label="Settles">629ms</td></tr>
+      <tr><td>heavy</td><td data-label="k / c / m">180 / 24 / 2.4</td><td data-label="ζ">0.58</td><td data-label="Overshoot">10%</td><td data-label="Settles">1192ms</td></tr>
     </tbody>
   </table>
 
@@ -182,13 +182,13 @@
   <table>
     <thead><tr><th><code>bounce</code></th><th>ζ</th><th>First overshoot</th></tr></thead>
     <tbody>
-      <tr><td>0</td><td>1.00</td><td>0%</td></tr>
-      <tr><td>0.25</td><td>0.75</td><td>2.8%</td></tr>
-      <tr><td>0.4</td><td>0.60</td><td>9.5%</td></tr>
-      <tr><td>0.5</td><td>0.50</td><td>16.3%</td></tr>
-      <tr><td>0.6</td><td>0.40</td><td>25.4%</td></tr>
-      <tr><td>0.75</td><td>0.25</td><td>44.4%</td></tr>
-      <tr><td>0.95</td><td>0.05</td><td>85.4%</td></tr>
+      <tr><td>0</td><td data-label="ζ">1.00</td><td data-label="First overshoot">0%</td></tr>
+      <tr><td>0.25</td><td data-label="ζ">0.75</td><td data-label="First overshoot">2.8%</td></tr>
+      <tr><td>0.4</td><td data-label="ζ">0.60</td><td data-label="First overshoot">9.5%</td></tr>
+      <tr><td>0.5</td><td data-label="ζ">0.50</td><td data-label="First overshoot">16.3%</td></tr>
+      <tr><td>0.6</td><td data-label="ζ">0.40</td><td data-label="First overshoot">25.4%</td></tr>
+      <tr><td>0.75</td><td data-label="ζ">0.25</td><td data-label="First overshoot">44.4%</td></tr>
+      <tr><td>0.95</td><td data-label="ζ">0.05</td><td data-label="First overshoot">85.4%</td></tr>
     </tbody>
   </table>
 

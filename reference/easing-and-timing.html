@@ -25,10 +25,10 @@
       <tr><th>How often the user sees it</th><th>Verdict</th></tr>
     </thead>
     <tbody>
-      <tr><td>100+ times/day — keyboard shortcuts, command palette, arrow-key navigation</td><td><strong>No animation. Ever.</strong></td></tr>
-      <tr><td>Tens of times/day — hover states, list selection, tab switches</td><td>Remove, or cut to 100–150ms</td></tr>
-      <tr><td>Occasional — modals, drawers, toasts, dropdowns</td><td>Standard animation</td></tr>
-      <tr><td>Rare or once — onboarding, empty states, success moments, marketing</td><td>Room for delight</td></tr>
+      <tr><td>100+ times/day — keyboard shortcuts, command palette, arrow-key navigation</td><td data-label="Verdict"><strong>No animation. Ever.</strong></td></tr>
+      <tr><td>Tens of times/day — hover states, list selection, tab switches</td><td data-label="Verdict">Remove, or cut to 100–150ms</td></tr>
+      <tr><td>Occasional — modals, drawers, toasts, dropdowns</td><td data-label="Verdict">Standard animation</td></tr>
+      <tr><td>Rare or once — onboarding, empty states, success moments, marketing</td><td data-label="Verdict">Room for delight</td></tr>
     </tbody>
   </table>
 
@@ -47,12 +47,12 @@
   <table>
     <thead><tr><th>Purpose</th><th>Looks like</th></tr></thead>
     <tbody>
-      <tr><td><strong>Feedback</strong></td><td>Button scales to 0.97 on press — the interface confirms it heard you</td></tr>
-      <tr><td><strong>Orientation</strong></td><td>Drawer slides up from the edge it lives on, so you know where it went</td></tr>
-      <tr><td><strong>Spatial consistency</strong></td><td>Toast enters and exits the same direction, making swipe-to-dismiss obvious</td></tr>
-      <tr><td><strong>State indication</strong></td><td>A morphing button shows something changed</td></tr>
-      <tr><td><strong>Explanation</strong></td><td>Marketing animation demonstrating how a feature works</td></tr>
-      <tr><td><strong>Preventing jarring change</strong></td><td>Content appearing from nothing reads as broken; a transition reads as intended</td></tr>
+      <tr><td><strong>Feedback</strong></td><td data-label="Looks like">Button scales to 0.97 on press — the interface confirms it heard you</td></tr>
+      <tr><td><strong>Orientation</strong></td><td data-label="Looks like">Drawer slides up from the edge it lives on, so you know where it went</td></tr>
+      <tr><td><strong>Spatial consistency</strong></td><td data-label="Looks like">Toast enters and exits the same direction, making swipe-to-dismiss obvious</td></tr>
+      <tr><td><strong>State indication</strong></td><td data-label="Looks like">A morphing button shows something changed</td></tr>
+      <tr><td><strong>Explanation</strong></td><td data-label="Looks like">Marketing animation demonstrating how a feature works</td></tr>
+      <tr><td><strong>Preventing jarring change</strong></td><td data-label="Looks like">Content appearing from nothing reads as broken; a transition reads as intended</td></tr>
     </tbody>
   </table>
 
@@ -99,11 +99,11 @@
   <table>
     <thead><tr><th>Keyword</th><th>Equivalent</th></tr></thead>
     <tbody>
-      <tr><td><code>linear</code></td><td><code>cubic-bezier(0, 0, 1, 1)</code></td></tr>
-      <tr><td><code>ease</code></td><td><code>cubic-bezier(0.25, 0.1, 0.25, 1)</code></td></tr>
-      <tr><td><code>ease-in</code></td><td><code>cubic-bezier(0.42, 0, 1, 1)</code></td></tr>
-      <tr><td><code>ease-out</code></td><td><code>cubic-bezier(0, 0, 0.58, 1)</code></td></tr>
-      <tr><td><code>ease-in-out</code></td><td><code>cubic-bezier(0.42, 0, 0.58, 1)</code></td></tr>
+      <tr><td><code>linear</code></td><td data-label="Equivalent"><code>cubic-bezier(0, 0, 1, 1)</code></td></tr>
+      <tr><td><code>ease</code></td><td data-label="Equivalent"><code>cubic-bezier(0.25, 0.1, 0.25, 1)</code></td></tr>
+      <tr><td><code>ease-in</code></td><td data-label="Equivalent"><code>cubic-bezier(0.42, 0, 1, 1)</code></td></tr>
+      <tr><td><code>ease-out</code></td><td data-label="Equivalent"><code>cubic-bezier(0, 0, 0.58, 1)</code></td></tr>
+      <tr><td><code>ease-in-out</code></td><td data-label="Equivalent"><code>cubic-bezier(0.42, 0, 0.58, 1)</code></td></tr>
     </tbody>
   </table>
 
@@ -124,11 +124,11 @@
   <table>
     <thead><tr><th>Element</th><th>Duration</th></tr></thead>
     <tbody>
-      <tr><td>Button press feedback</td><td>100–160ms</td></tr>
-      <tr><td>Tooltips, small popovers</td><td>125–200ms</td></tr>
-      <tr><td>Dropdowns, selects, menus</td><td>150–250ms</td></tr>
-      <tr><td>Modals, drawers, sheets</td><td>200–500ms</td></tr>
-      <tr><td>Marketing / explanatory</td><td>Longer is allowed</td></tr>
+      <tr><td>Button press feedback</td><td data-label="Duration">100–160ms</td></tr>
+      <tr><td>Tooltips, small popovers</td><td data-label="Duration">125–200ms</td></tr>
+      <tr><td>Dropdowns, selects, menus</td><td data-label="Duration">150–250ms</td></tr>
+      <tr><td>Modals, drawers, sheets</td><td data-label="Duration">200–500ms</td></tr>
+      <tr><td>Marketing / explanatory</td><td data-label="Duration">Longer is allowed</td></tr>
     </tbody>
   </table>
 
@@ -161,13 +161,13 @@
   <table>
     <thead><tr><th>GSAP</th><th>Named curve</th><th>Approximate CSS</th></tr></thead>
     <tbody>
-      <tr><td><code>power1.out</code></td><td>easeOutQuad</td><td><code>cubic-bezier(0.25, 0.46, 0.45, 0.94)</code></td></tr>
-      <tr><td><code>power2.out</code></td><td>easeOutCubic</td><td><code>cubic-bezier(0.215, 0.61, 0.355, 1)</code></td></tr>
-      <tr><td><code>power3.out</code></td><td>easeOutQuart</td><td><code>cubic-bezier(0.165, 0.84, 0.44, 1)</code></td></tr>
-      <tr><td><code>power4.out</code></td><td>easeOutQuint</td><td><code>cubic-bezier(0.23, 1, 0.32, 1)</code></td></tr>
-      <tr><td><code>expo.out</code></td><td>easeOutExpo</td><td><code>cubic-bezier(0.19, 1, 0.22, 1)</code></td></tr>
-      <tr><td><code>power1.inOut</code></td><td>easeInOutQuad</td><td><code>cubic-bezier(0.455, 0.03, 0.515, 0.955)</code></td></tr>
-      <tr><td><code>none</code></td><td>linear</td><td><code>linear</code></td></tr>
+      <tr><td><code>power1.out</code></td><td data-label="Named curve">easeOutQuad</td><td data-label="Approximate CSS"><code>cubic-bezier(0.25, 0.46, 0.45, 0.94)</code></td></tr>
+      <tr><td><code>power2.out</code></td><td data-label="Named curve">easeOutCubic</td><td data-label="Approximate CSS"><code>cubic-bezier(0.215, 0.61, 0.355, 1)</code></td></tr>
+      <tr><td><code>power3.out</code></td><td data-label="Named curve">easeOutQuart</td><td data-label="Approximate CSS"><code>cubic-bezier(0.165, 0.84, 0.44, 1)</code></td></tr>
+      <tr><td><code>power4.out</code></td><td data-label="Named curve">easeOutQuint</td><td data-label="Approximate CSS"><code>cubic-bezier(0.23, 1, 0.32, 1)</code></td></tr>
+      <tr><td><code>expo.out</code></td><td data-label="Named curve">easeOutExpo</td><td data-label="Approximate CSS"><code>cubic-bezier(0.19, 1, 0.22, 1)</code></td></tr>
+      <tr><td><code>power1.inOut</code></td><td data-label="Named curve">easeInOutQuad</td><td data-label="Approximate CSS"><code>cubic-bezier(0.455, 0.03, 0.515, 0.955)</code></td></tr>
+      <tr><td><code>none</code></td><td data-label="Named curve">linear</td><td data-label="Approximate CSS"><code>linear</code></td></tr>
     </tbody>
   </table>
 
@@ -184,13 +184,13 @@
   <table>
     <thead><tr><th>What</th><th>Value found</th><th>Rule it follows</th></tr></thead>
     <tbody>
-      <tr><td>Entrance eases</td><td><code>power2.out</code>, <code>power3.out</code>, <code>expo.out</code></td><td>Entrances are ease-out — 12 of 12</td></tr>
-      <tr><td>On-screen movement</td><td><code>power1.inOut</code></td><td>A-to-B movement is ease-in-out</td></tr>
-      <tr><td>Scroll-linked</td><td><code>none</code> (linear)</td><td>Progress tied to input is linear</td></tr>
-      <tr><td>Stagger</td><td><code>0.075</code> (75ms)</td><td>Inside the 30–80ms band</td></tr>
-      <tr><td>Travel distance</td><td><code>y: 10</code>, <code>20</code>, <code>24</code></td><td>Small. Motion suggests, it does not transport</td></tr>
-      <tr><td>UI durations</td><td><code>0.2</code>–<code>0.45</code>s</td><td>Under 300ms for UI; longer only for hero</td></tr>
-      <tr><td>Instances of <code>ease-in</code> on an entrance</td><td>zero</td><td>—</td></tr>
+      <tr><td>Entrance eases</td><td data-label="Value found"><code>power2.out</code>, <code>power3.out</code>, <code>expo.out</code></td><td data-label="Rule it follows">Entrances are ease-out — 12 of 12</td></tr>
+      <tr><td>On-screen movement</td><td data-label="Value found"><code>power1.inOut</code></td><td data-label="Rule it follows">A-to-B movement is ease-in-out</td></tr>
+      <tr><td>Scroll-linked</td><td data-label="Value found"><code>none</code> (linear)</td><td data-label="Rule it follows">Progress tied to input is linear</td></tr>
+      <tr><td>Stagger</td><td data-label="Value found"><code>0.075</code> (75ms)</td><td data-label="Rule it follows">Inside the 30–80ms band</td></tr>
+      <tr><td>Travel distance</td><td data-label="Value found"><code>y: 10</code>, <code>20</code>, <code>24</code></td><td data-label="Rule it follows">Small. Motion suggests, it does not transport</td></tr>
+      <tr><td>UI durations</td><td data-label="Value found"><code>0.2</code>–<code>0.45</code>s</td><td data-label="Rule it follows">Under 300ms for UI; longer only for hero</td></tr>
+      <tr><td>Instances of <code>ease-in</code> on an entrance</td><td data-label="Value found">zero</td><td data-label="Rule it follows">—</td></tr>
     </tbody>
   </table>
 
@@ -202,13 +202,13 @@
   <table>
     <thead><tr><th>#</th><th>Check</th><th>Failing looks like</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td><strong>Natural</strong> — obeys physics you already know</td><td>Appears from <code>scale(0)</code>; constant velocity; no weight</td></tr>
-      <tr><td>2</td><td><strong>Fast</strong> — improves perceived performance</td><td>Over 300ms in product UI; user waits on the animation</td></tr>
-      <tr><td>3</td><td><strong>Purposeful</strong> — has a stated job</td><td>Everything moves; the eye has nowhere to rest</td></tr>
-      <tr><td>4</td><td><strong>Performant</strong> — holds 60fps</td><td>Animating <code>height</code>, <code>margin</code>, <code>top</code>; visible jank</td></tr>
-      <tr><td>5</td><td><strong>Interruptible</strong> — redirects mid-flight</td><td>Keyframes restarting from zero when re-triggered</td></tr>
-      <tr><td>6</td><td><strong>Accessible</strong> — honours reduced motion</td><td>No <code>prefers-reduced-motion</code> branch at all</td></tr>
-      <tr><td>7</td><td><strong>Coherent</strong> — matches the product's voice</td><td>Bouncy springs in a banking dashboard</td></tr>
+      <tr><td>1</td><td data-label="Check"><strong>Natural</strong> — obeys physics you already know</td><td data-label="Failing looks like">Appears from <code>scale(0)</code>; constant velocity; no weight</td></tr>
+      <tr><td>2</td><td data-label="Check"><strong>Fast</strong> — improves perceived performance</td><td data-label="Failing looks like">Over 300ms in product UI; user waits on the animation</td></tr>
+      <tr><td>3</td><td data-label="Check"><strong>Purposeful</strong> — has a stated job</td><td data-label="Failing looks like">Everything moves; the eye has nowhere to rest</td></tr>
+      <tr><td>4</td><td data-label="Check"><strong>Performant</strong> — holds 60fps</td><td data-label="Failing looks like">Animating <code>height</code>, <code>margin</code>, <code>top</code>; visible jank</td></tr>
+      <tr><td>5</td><td data-label="Check"><strong>Interruptible</strong> — redirects mid-flight</td><td data-label="Failing looks like">Keyframes restarting from zero when re-triggered</td></tr>
+      <tr><td>6</td><td data-label="Check"><strong>Accessible</strong> — honours reduced motion</td><td data-label="Failing looks like">No <code>prefers-reduced-motion</code> branch at all</td></tr>
+      <tr><td>7</td><td data-label="Check"><strong>Coherent</strong> — matches the product's voice</td><td data-label="Failing looks like">Bouncy springs in a banking dashboard</td></tr>
     </tbody>
   </table>
 
@@ -217,19 +217,19 @@
   <table>
     <thead><tr><th>Symptom</th><th>Fix</th></tr></thead>
     <tbody>
-      <tr><td><code>transition: all 300ms</code></td><td>Name the properties: <code>transition: transform 200ms var(--ease-out-strong)</code></td></tr>
-      <tr><td><code>transform: scale(0)</code> entrance</td><td><code>scale(0.95)</code> + <code>opacity: 0</code> — nothing real appears from nothing</td></tr>
-      <tr><td><code>ease-in</code> anywhere in UI</td><td>Swap to <code>ease-out</code></td></tr>
-      <tr><td>Animating <code>height</code> / <code>width</code> / <code>top</code></td><td><code>transform</code> and <code>opacity</code> only</td></tr>
-      <tr><td>Popover scaling from its own centre</td><td>Set <code>transform-origin</code> to the trigger (modals stay centred)</td></tr>
-      <tr><td>Duration over 300ms in product UI</td><td>Cut to 150–250ms</td></tr>
-      <tr><td>Hover animation with no media query</td><td>Wrap in <code>@media (hover: hover)</code> — <em>not</em> <code>and (pointer: fine)</code>, which narrows it for nothing (see 0010)</td></tr>
-      <tr><td><code>:active</code> inside <code>@media (hover: hover)</code></td><td>Move it out. A finger cannot hover but it can press</td></tr>
-      <tr><td>Press feedback over 100ms</td><td>Cut to 0&ndash;100ms. The release can stay at ~180ms</td></tr>
-      <tr><td>The same press <code>scale()</code> on buttons and on cards</td><td>Derive it from the width: keep edge displacement at 2&ndash;4px</td></tr>
-      <tr><td>Enter and exit at the same speed</td><td>Halve the exit</td></tr>
-      <tr><td>Everything arrives simultaneously</td><td>Stagger 30–80ms</td></tr>
-      <tr><td>Animation on a keyboard action</td><td>Delete it</td></tr>
+      <tr><td><code>transition: all 300ms</code></td><td data-label="Fix">Name the properties: <code>transition: transform 200ms var(--ease-out-strong)</code></td></tr>
+      <tr><td><code>transform: scale(0)</code> entrance</td><td data-label="Fix"><code>scale(0.95)</code> + <code>opacity: 0</code> — nothing real appears from nothing</td></tr>
+      <tr><td><code>ease-in</code> anywhere in UI</td><td data-label="Fix">Swap to <code>ease-out</code></td></tr>
+      <tr><td>Animating <code>height</code> / <code>width</code> / <code>top</code></td><td data-label="Fix"><code>transform</code> and <code>opacity</code> only</td></tr>
+      <tr><td>Popover scaling from its own centre</td><td data-label="Fix">Set <code>transform-origin</code> to the trigger (modals stay centred)</td></tr>
+      <tr><td>Duration over 300ms in product UI</td><td data-label="Fix">Cut to 150–250ms</td></tr>
+      <tr><td>Hover animation with no media query</td><td data-label="Fix">Wrap in <code>@media (hover: hover)</code> — <em>not</em> <code>and (pointer: fine)</code>, which narrows it for nothing (see 0010)</td></tr>
+      <tr><td><code>:active</code> inside <code>@media (hover: hover)</code></td><td data-label="Fix">Move it out. A finger cannot hover but it can press</td></tr>
+      <tr><td>Press feedback over 100ms</td><td data-label="Fix">Cut to 0&ndash;100ms. The release can stay at ~180ms</td></tr>
+      <tr><td>The same press <code>scale()</code> on buttons and on cards</td><td data-label="Fix">Derive it from the width: keep edge displacement at 2&ndash;4px</td></tr>
+      <tr><td>Enter and exit at the same speed</td><td data-label="Fix">Halve the exit</td></tr>
+      <tr><td>Everything arrives simultaneously</td><td data-label="Fix">Stagger 30–80ms</td></tr>
+      <tr><td>Animation on a keyboard action</td><td data-label="Fix">Delete it</td></tr>
     </tbody>
   </table>
 

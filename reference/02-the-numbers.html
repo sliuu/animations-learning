@@ -50,13 +50,13 @@
   <table>
     <thead><tr><th>Thing</th><th>Enter</th><th>Exit</th></tr></thead>
     <tbody>
-      <tr><td><strong>Press feedback under a finger</strong> (0010)</td><td>0–100ms</td><td>~180ms</td></tr>
-      <tr><td>Hover, focus, small state change</td><td>120–160ms</td><td>same or less</td></tr>
-      <tr><td>The state change a press <em>causes</em> — toggle, checkbox</td><td>150–200ms</td><td>100–150ms</td></tr>
-      <tr><td>Dropdown, tooltip, popover</td><td>180–250ms</td><td>120–160ms</td></tr>
-      <tr><td>Modal, dialog, sheet</td><td>280–360ms</td><td>160–220ms</td></tr>
-      <tr><td>Full-screen or page transition</td><td>400–500ms</td><td>250–300ms</td></tr>
-      <tr><td>Hero entrance (per element)</td><td>400–560ms</td><td>—</td></tr>
+      <tr><td><strong>Press feedback under a finger</strong> (0010)</td><td data-label="Enter">0–100ms</td><td data-label="Exit">~180ms</td></tr>
+      <tr><td>Hover, focus, small state change</td><td data-label="Enter">120–160ms</td><td data-label="Exit">same or less</td></tr>
+      <tr><td>The state change a press <em>causes</em> — toggle, checkbox</td><td data-label="Enter">150–200ms</td><td data-label="Exit">100–150ms</td></tr>
+      <tr><td>Dropdown, tooltip, popover</td><td data-label="Enter">180–250ms</td><td data-label="Exit">120–160ms</td></tr>
+      <tr><td>Modal, dialog, sheet</td><td data-label="Enter">280–360ms</td><td data-label="Exit">160–220ms</td></tr>
+      <tr><td>Full-screen or page transition</td><td data-label="Enter">400–500ms</td><td data-label="Exit">250–300ms</td></tr>
+      <tr><td>Hero entrance (per element)</td><td data-label="Enter">400–560ms</td><td data-label="Exit">—</td></tr>
     </tbody>
   </table>
 
@@ -78,10 +78,10 @@
   <table>
     <thead><tr><th>Overlap</th><th>Reads as</th><th>Verdict</th></tr></thead>
     <tbody>
-      <tr><td>0</td><td>Everything at once</td><td>A flash. No hierarchy.</td></tr>
-      <tr><td>≤ 0.35</td><td>One gesture</td><td><strong>Target.</strong></td></tr>
-      <tr><td>0.35–0.8</td><td>A visible wave</td><td>Only if the wave is the point.</td></tr>
-      <tr><td>&gt; 1</td><td>A queue</td><td>Each finishes before the next starts. Wrong.</td></tr>
+      <tr><td>0</td><td data-label="Reads as">Everything at once</td><td data-label="Verdict">A flash. No hierarchy.</td></tr>
+      <tr><td>≤ 0.35</td><td data-label="Reads as">One gesture</td><td data-label="Verdict"><strong>Target.</strong></td></tr>
+      <tr><td>0.35–0.8</td><td data-label="Reads as">A visible wave</td><td data-label="Verdict">Only if the wave is the point.</td></tr>
+      <tr><td>&gt; 1</td><td data-label="Reads as">A queue</td><td data-label="Verdict">Each finishes before the next starts. Wrong.</td></tr>
     </tbody>
   </table>
 
@@ -94,11 +94,11 @@
   <table>
     <thead><tr><th>Use</th><th>CSS</th></tr></thead>
     <tbody>
-      <tr><td>Entrance (strong, most-used)</td><td><code>cubic-bezier(0.23, 1, 0.32, 1)</code></td></tr>
-      <tr><td>Entrance (standard)</td><td><code>cubic-bezier(0, 0, 0.2, 1)</code></td></tr>
-      <tr><td>Exit</td><td><code>cubic-bezier(0.4, 0, 1, 1)</code></td></tr>
-      <tr><td>Move between two on-screen points</td><td><code>cubic-bezier(0.65, 0, 0.35, 1)</code></td></tr>
-      <tr><td>Scroll-scrubbed anything</td><td><code>linear</code> — the reader is the curve</td></tr>
+      <tr><td>Entrance (strong, most-used)</td><td data-label="CSS"><code>cubic-bezier(0.23, 1, 0.32, 1)</code></td></tr>
+      <tr><td>Entrance (standard)</td><td data-label="CSS"><code>cubic-bezier(0, 0, 0.2, 1)</code></td></tr>
+      <tr><td>Exit</td><td data-label="CSS"><code>cubic-bezier(0.4, 0, 1, 1)</code></td></tr>
+      <tr><td>Move between two on-screen points</td><td data-label="CSS"><code>cubic-bezier(0.65, 0, 0.35, 1)</code></td></tr>
+      <tr><td>Scroll-scrubbed anything</td><td data-label="CSS"><code>linear</code> — the reader is the curve</td></tr>
     </tbody>
   </table>
 
@@ -178,10 +178,10 @@ const io = new IntersectionObserver((entries) =&gt; {
   <table>
     <thead><tr><th>Tier</th><th>Properties</th><th>Stages per frame</th></tr></thead>
     <tbody>
-      <tr><td><strong>Free</strong></td><td><code>transform</code>, <code>opacity</code></td><td>Composite</td></tr>
-      <tr><td><strong>On credit</strong></td><td><code>filter</code>, <code>clip-path</code></td><td>GPU, but scales with area</td></tr>
-      <tr><td><strong>Paint</strong></td><td><code>color</code>, <code>background-color</code>, <code>box-shadow</code>, <code>border-radius</code></td><td>Paint + Composite</td></tr>
-      <tr><td><strong>Expensive</strong></td><td><code>width</code>, <code>height</code>, <code>top</code>, <code>margin</code>, <code>padding</code></td><td>Layout + Paint + Composite</td></tr>
+      <tr><td><strong>Free</strong></td><td data-label="Properties"><code>transform</code>, <code>opacity</code></td><td data-label="Stages per frame">Composite</td></tr>
+      <tr><td><strong>On credit</strong></td><td data-label="Properties"><code>filter</code>, <code>clip-path</code></td><td data-label="Stages per frame">GPU, but scales with area</td></tr>
+      <tr><td><strong>Paint</strong></td><td data-label="Properties"><code>color</code>, <code>background-color</code>, <code>box-shadow</code>, <code>border-radius</code></td><td data-label="Stages per frame">Paint + Composite</td></tr>
+      <tr><td><strong>Expensive</strong></td><td data-label="Properties"><code>width</code>, <code>height</code>, <code>top</code>, <code>margin</code>, <code>padding</code></td><td data-label="Stages per frame">Layout + Paint + Composite</td></tr>
     </tbody>
   </table>
 

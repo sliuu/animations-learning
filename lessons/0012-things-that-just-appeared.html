@@ -70,24 +70,24 @@
     <tbody>
       <tr>
         <td><code>transition</code> alone</td>
-        <td>nowhere</td>
-        <td>never — this row is the bug, not an option</td>
+        <td data-label="Where the &quot;before&quot; lives">nowhere</td>
+        <td data-label="Reach for it when">never — this row is the bug, not an option</td>
       </tr>
       <tr>
         <td><code>@starting-style</code></td>
-        <td>a rule that only applies during the element's first style update, and is unreachable
+        <td data-label="Where the &quot;before&quot; lives">a rule that only applies during the element's first style update, and is unreachable
           afterwards</td>
-        <td>the entrance can be interrupted, or it shares properties with an exit</td>
+        <td data-label="Reach for it when">the entrance can be interrupted, or it shares properties with an exit</td>
       </tr>
       <tr>
         <td><code>@keyframes … from</code></td>
-        <td>inside the animation's own timeline</td>
-        <td>fire and forget: it arrives, it stays, nobody can cancel it</td>
+        <td data-label="Where the &quot;before&quot; lives">inside the animation's own timeline</td>
+        <td data-label="Reach for it when">fire and forget: it arrives, it stays, nobody can cancel it</td>
       </tr>
       <tr>
         <td>start class + forced reflow</td>
-        <td>a class your script adds and removes a frame later</td>
-        <td>the start value is a number you had to measure</td>
+        <td data-label="Where the &quot;before&quot; lives">a class your script adds and removes a frame later</td>
+        <td data-label="Reach for it when">the start value is a number you had to measure</td>
       </tr>
     </tbody>
   </table>
