@@ -8,17 +8,17 @@
   <header class="masthead">
     <p class="eyebrow">Lesson D005 · 17 minutes</p>
     <h1>Things you drag</h1>
-    <p class="dek">While your finger is on it there is almost nothing to design — the thing has to
+    <p class="dek">While your finger is on it there is almost nothing to design — <mark>the thing has to
       be exactly where your hand is, and that's the whole rule. Everything a designer decides
-      happens at the two ends.</p>
+      happens at the two ends.</mark></p>
     <div class="meta">
       <span>Skill: review a drag by its pickup and its release, not its middle</span>
       <span><a href="D004-the-button.html">← Lesson D004</a></span>
     </div>
   </header>
 
-  <p class="lead">A button is a request: you press it and something else happens. A drag is not a
-  request. The thing is in your hand, and the interface has agreed to pretend that a rectangle of
+  <p class="lead">A button is a request: you press it and something else happens. <mark>A drag is not a
+  request.</mark> The thing is in your hand, and the interface has agreed to pretend that a rectangle of
   pixels is a physical object you have picked up. Every rule in this lesson comes out of protecting
   that pretence.</p>
 
@@ -54,8 +54,8 @@
 
   <p>The ring is your actual pointer. On one chip the ring stays inside it; on the other the ring
   runs out ahead and the chip catches up afterwards. That gap is the whole failure, and it is worth
-  naming precisely: the chip is no longer the thing you are holding. It has become a thing that is
-  following you.</p>
+  naming precisely: <mark>the chip is no longer the thing you are holding. It has become a thing that is
+  following you</mark>.</p>
 
   <p>At 220&nbsp;ms nobody misses it. At 60&nbsp;ms most people can't name what's wrong and still
   behave differently — they overshoot, they move slower, they check. That is the part worth taking
@@ -64,15 +64,15 @@
 
   <div class="callout">
     <span class="label">The one to remember</span>
-    <p>Nothing under the finger gets a transition. Not an easing curve, not a hundred milliseconds,
-    not <em>a touch of smoothing</em>. Interpolation is a claim about where the object is, and while
-    someone is holding it, only they get to make that claim.</p>
+    <p><mark>Nothing under the finger gets a transition.</mark> Not an easing curve, not a hundred milliseconds,
+    not <em>a touch of smoothing</em>. <mark>Interpolation is a claim about where the object is, and while
+    someone is holding it, only they get to make that claim.</mark></p>
   </div>
 
   <p>This is almost never a decision anyone made. It is what you get when a drag handler is added
   to a component that already had a hover transition on it, and it is what <code>transition:
-  all</code> guarantees. The fix is one line — the dragged element gets
-  <code>transition: none</code> for as long as it is held — and the bug is invisible in every
+  all</code> guarantees. The fix is one line — <mark>the dragged element gets
+  <code>transition: none</code> for as long as it is held</mark> — and the bug is invisible in every
   medium except a real finger on a real screen.</p>
 
   <p class="sidenote"><strong>If you have read the engineering track:</strong> lesson 0002 is about
@@ -101,14 +101,14 @@
 
   <div data-drag-lab data-title="Five moments"></div>
 
-  <p><strong>Lift</strong> is the entire vocabulary of <em>picked up</em>, and it is borrowed from
+  <p><mark><strong>Lift</strong> is the entire vocabulary of <em>picked up</em></mark>, and it is borrowed from
   the physical world without apology: the thing rises toward you, so it casts a bigger shadow and
-  grows very slightly. Two per cent of scale is plenty. Its job is to answer the question the hand
+  grows very slightly. <mark>Two per cent of scale is plenty.</mark> Its job is to answer the question the hand
   asks first — <em>am I holding this yet, or am I about to scroll the page?</em></p>
 
   <p><strong>Gap</strong> and <strong>ghost</strong> answer two different questions and most
-  implementations only answer one. The gap says <em>this is where it will land</em>. The ghost says
-  <em>this is where it came from, and where it goes back to if you change your mind.</em> Showing
+  implementations only answer one. <mark>The gap says <em>this is where it will land</em>. The ghost says
+  <em>this is where it came from, and where it goes back to if you change your mind.</em></mark> Showing
   both at once costs one row of reserved space and is the more generous choice in any list long
   enough that the origin can scroll away from you.</p>
 
@@ -116,12 +116,12 @@
   layout animation of the kind 0011 is about, and it should be built the same way — four rows each
   changing one transform. Nothing here animates height or margin.</p>
 
-  <p><strong>Settle</strong> is the accepted ending. The row leaves your hand and travels into the
+  <p><mark><strong>Settle</strong> is the accepted ending.</mark> The row leaves your hand and travels into the
   slot it has been showing you, in about two hundred milliseconds, and it <em>lands</em> — no
-  bounce. A bounce here is the most common way a competent drag ends up feeling like a toy, because
+  bounce. <mark>A bounce here is the most common way a competent drag ends up feeling like a toy</mark>, because
   overshoot implies momentum and there was none: you put it down, you didn't throw it.</p>
 
-  <p><strong>Snap-back</strong> is the refused ending, and it is the one that gets skipped, on the
+  <p><mark><strong>Snap-back</strong> is the refused ending, and it is the one that gets skipped</mark>, on the
   grounds that people don't often drop things in the wrong place. They do, and the moment they do
   is the moment they most need an answer. Watch what happens with it switched off: the row is in
   your hand, you let go, and it is somehow back in the list with nothing joining the two. The first
@@ -134,14 +134,14 @@
   <h2>Nobody can drag with a keyboard</h2>
 
   <p>Drag is the least accessible interaction pattern in wide use, and the fix is not an
-  attribute. There is no ARIA that makes a pointer gesture available to someone who doesn't have a
-  pointer. The only fix is a second path to the same outcome, and it is usually about ten lines:
+  attribute. <mark>There is no ARIA that makes a pointer gesture available to someone who doesn't have a
+  pointer.</mark> The only fix is a second path to the same outcome, and it is usually about ten lines:
   focus a row in the lab and press ↑ or ↓.</p>
 
   <p>Worth being honest about who that serves, because "keyboard" undersells it. It serves someone
   with a tremor, someone using a switch or voice control, someone on a phone on a moving bus, and
-  someone who simply finds a five-slot drag more fiddly than two key presses. A drag with no
-  alternative path is a feature that quietly excludes people who have no way to report why they
+  someone who simply finds a five-slot drag more fiddly than two key presses. <mark>A drag with no
+  alternative path is a feature that quietly excludes people</mark> who have no way to report why they
   stopped using it.</p>
 
   <p class="lead">The review question: what is the non-drag path?</p>
@@ -181,7 +181,7 @@
       <button data-opt>Springs cannot be expressed in CSS, so it will not survive handoff.</button>
       <button data-opt>Overshoot always reads as unpolished, in every context.</button>
       <button data-opt>Because the drop should have no animation at all.</button>
-      <p data-explain>Springs are right where the release carries velocity — a flung card, a sheet
+      <p data-explain><mark>Springs are right where the release carries velocity</mark> — a flung card, a sheet
         shoved downward. Borrowed physics has to match the physics the hand just performed, or it
         reads as a toy.</p>
     </div>
@@ -202,7 +202,7 @@
 
   <h2>What you can now do</h2>
 
-  <p>Review a drag in three passes instead of one. Is the held thing exactly under the hand — no
+  <p><mark>Review a drag in three passes instead of one.</mark> Is the held thing exactly under the hand — no
   transition, no smoothing, no lag. Are both during-questions answered — where will it land, where
   did it come from. Do both endings exist — the settle and the snap-back, not just the happy one.
   Then ask what happens without a pointer. Four questions, none of which require a word about

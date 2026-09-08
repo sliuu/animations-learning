@@ -8,8 +8,8 @@
   <header class="masthead">
     <p class="eyebrow">Lesson D009 · 17 minutes</p>
     <h1>Loading, waiting, and optimism</h1>
-    <p class="dek">You almost never get to make the wait shorter. You do get to decide what is true
-      on screen while it happens — and that decision is worth more than the milliseconds you were
+    <p class="dek"><mark>You almost never get to make the wait shorter. You do get to decide what is true
+      on screen while it happens</mark> — and that decision is worth more than the milliseconds you were
       never going to win.</p>
     <div class="meta">
       <span>Skill: pick a waiting treatment from the length of the wait, and defend it</span>
@@ -55,43 +55,43 @@
 
   <h2>Two facts decide the treatment</h2>
 
-  <p>A wait has exactly two properties that matter to a designer: <strong>how long it is</strong>,
-  and <strong>whether you know how long it is</strong>. Every choice on that stage follows from
+  <p><mark>A wait has exactly two properties that matter to a designer: <strong>how long it is</strong>,
+  and <strong>whether you know how long it is</strong>.</mark> Every choice on that stage follows from
   those, and neither of them is a taste question you can settle in a design review by preference.</p>
 
-  <p>Under roughly a quarter of a second, the correct treatment is nothing at all. You saw why: a
-  spinner that lives for 150ms is not feedback, it is a flicker, and the eye files a flicker under
+  <p><mark>Under roughly a quarter of a second, the correct treatment is nothing at all.</mark> You saw why: <mark>a
+  spinner that lives for 150ms is not feedback, it is a flicker</mark>, and the eye files a flicker under
   <em>something went wrong with the page</em> rather than <em>something is happening for me</em>.
   This is the failure that gets shipped most often, because it is invisible in a design file — the
   mock shows the loading state as a still image, and a still image of a spinner always looks like
   it is doing its job.</p>
 
-  <p>The consequence is a rule worth saying out loud in a review: <em>don't render the loader
-  immediately</em>. Start it after 300 to 500 milliseconds, and most waits never reach it — they
+  <p>The consequence is a rule worth saying out loud in a review: <em><mark>don't render the loader
+  immediately</mark></em>. <mark>Start it after 300 to 500 milliseconds, and most waits never reach it</mark> — they
   resolve first and the reader simply sees the answer, which is what a fast interface feels like.
   The ones that do reach it were genuinely slow, and now the loader is telling the truth.</p>
 
   <p>From about half a second to a couple of seconds, something has to acknowledge the press, and
-  here the skeleton beats the spinner on a second job as well as the first. A spinner says
+  here the skeleton beats the spinner on a second job as well as the first. <mark>A spinner says
   <em>working</em>. A skeleton says <em>working</em> and <em>here is the shape of what is
-  coming</em>, so when the content lands it fills a frame the reader has already read, instead of
+  coming</em></mark>, so when the content lands it fills a frame the reader has already read, instead of
   arriving as a jump.</p>
 
-  <p>Past about five seconds the indeterminate indicator stops working entirely, and it fails in a
+  <p><mark>Past about five seconds the indeterminate indicator stops working entirely</mark>, and it fails in a
   specific way rather than just getting boring. The spinner at second eight is identical to the
   spinner at second two — it has no way to distinguish <em>still working</em> from <em>hung</em>,
   so a reader with a slow connection has no evidence either way and does the rational thing, which
   is reload and start the whole wait again. A determinate bar is the only thing on that stage still
   making a claim you can check against the clock.</p>
 
-  <p>Which is also the catch. A determinate indicator is a <em>promise about a proportion</em>, and
-  a promise can be broken in public. A bar that races to 90% and sits there is worse than no bar at
-  all, because it made a specific claim and you watched it fail. If you cannot compute the fraction
-  honestly, you do not have a progress bar; you have a spinner wearing a costume.</p>
+  <p>Which is also the catch. <mark>A determinate indicator is a <em>promise about a proportion</em>, and
+  a promise can be broken in public.</mark> A bar that races to 90% and sits there is worse than no bar at
+  all, because it made a specific claim and you watched it fail. <mark>If you cannot compute the fraction
+  honestly, you do not have a progress bar; you have a spinner wearing a costume.</mark></p>
 
   <div class="callout">
     <span class="label">The one to remember</span>
-    <p>Choose the treatment from the <em>length</em> of the wait, not from the component library.
+    <p><mark>Choose the treatment from the <em>length</em> of the wait, not from the component library.</mark>
     Under ~250ms show nothing; to a couple of seconds show the shape of the answer; past five
     seconds you owe a number you can actually stand behind.</p>
   </div>
@@ -104,13 +104,13 @@
   <h2>A skeleton is a claim about layout</h2>
 
   <p>The reason a skeleton earns its place is that it is specific. It is not a polite grey
-  rectangle; it is the layout of the thing you are about to receive, with the content taken out. An
+  rectangle; <mark>it is the layout of the thing you are about to receive, with the content taken out</mark>. An
   avatar-sized circle means an avatar is coming. Three rows of decreasing width mean a name, a line
   of text, and a timestamp. The reader is given a map, and a map is only useful if it matches the
   territory.</p>
 
-  <p>So the skeleton's failure mode is not ugliness, it is <em>a broken promise about
-  geometry</em>. When the real content arrives at a different size, everything below it jumps — and
+  <p>So <mark>the skeleton's failure mode is not ugliness, it is <em>a broken promise about
+  geometry</em></mark>. When the real content arrives at a different size, everything below it jumps — and
   that jump is worse than the one you would have got from a spinner, because the reader had already
   started reading the layout. You did not save them the shift; you made them a false map first and
   then shifted anyway.</p>
@@ -118,8 +118,8 @@
   <p>Two consequences that come up constantly in review, both of them worth having a sentence
   ready for. A skeleton for content whose size you genuinely cannot predict — a comment thread, a
   search result set, anything of unknown length — is a guess presented as a promise, and one
-  generic block that resolves into nine items is not better than a spinner. And a skeleton that
-  resolves to an <em>empty state</em> is the sharpest version of the same fault: you showed the
+  generic block that resolves into nine items is not better than a spinner. And <mark>a skeleton that
+  resolves to an <em>empty state</em> is the sharpest version of the same fault</mark>: you showed the
   reader the shape of three results and then told them there were none.</p>
 
   <p class="sidenote"><strong>If you have read the engineering track:</strong> 0011 is the argument
@@ -133,14 +133,14 @@
   attention-taking movement that starts without the reader doing anything — which is the precise
   description of what somebody is switching off when they turn on reduced motion.</p>
 
-  <p>The mistake is to read that as "so remove the feedback". The loop is the problem, not the
-  indicator. Turn on reduced motion in your system settings and look at the lab above again: the
+  <p>The mistake is to read that as "so remove the feedback". <mark>The loop is the problem, not the
+  indicator.</mark> Turn on reduced motion in your system settings and look at the lab above again: the
   spinner stops turning and the caption beside it is doing the work it was always doing, and the
   skeleton stops shimmering and is still, unmistakably, a skeleton. Nothing was lost that was
   carrying information.</p>
 
-  <p>The progress bar keeps moving, and that is deliberate. Its movement is not decoration applied
-  to a state — it <em>is</em> the state, drawn. Freezing it would be removing information rather
+  <p>The progress bar keeps moving, and that is deliberate. <mark>Its movement is not decoration applied
+  to a state — it <em>is</em> the state, drawn.</mark> Freezing it would be removing information rather
   than removing an effect, which is a good general test for what survives that setting.</p>
 
   <p class="sidenote"><strong>If you have read the engineering track:</strong> 0009 makes this
@@ -175,24 +175,24 @@
   back — and that second change is not an error state you bolt on afterwards, it is the feature you
   are actually designing when you choose optimism.</p>
 
-  <p>Which gives three conditions, and they hold together. Optimism is right when the action
+  <p>Which gives three conditions, and they hold together. <mark>Optimism is right when the action
   <strong>almost always succeeds</strong>, when the failure is <strong>cheap to undo</strong>, and
-  when the reader will still be there to be told. Starring a message, adding to a list, toggling a
+  when the reader will still be there to be told.</mark> Starring a message, adding to a list, toggling a
   setting: all three hold, and the interaction is transformed. Submitting a payment, sending a
   message to another person, confirming a booking: the first condition might hold, the second never
   does, and a rollback on the third one is not a rollback, it is an apology for something the
   reader has already told someone else about.</p>
 
   <p>The last condition is the one that gets forgotten, and it is a design constraint rather than
-  an engineering one. An optimistic update is only safe while the reader is still looking at the
-  place where you would take it back. If the pattern lets them start the action and immediately
+  an engineering one. <mark>An optimistic update is only safe while the reader is still looking at the
+  place where you would take it back.</mark> If the pattern lets them start the action and immediately
   move on — hit save, close the panel, go to another page — then the rollback has nowhere to
   land, and a toast that appears on a screen they have left is not a rollback at all.</p>
 
   <div class="callout">
     <span class="label">The one to remember</span>
-    <p>Optimism does not remove the wait. It moves the cost from <em>everyone, every time</em> to
-    <em>the few people whose request failed</em> — and it only pays if you have designed what those
+    <p><mark>Optimism does not remove the wait. It moves the cost from <em>everyone, every time</em> to
+    <em>the few people whose request failed</em></mark> — and it only pays if you have designed what those
     people see.</p>
   </div>
 

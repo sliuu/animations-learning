@@ -16,8 +16,8 @@
     </div>
   </header>
 
-  <p class="lead"><code>prefers-reduced-motion: reduce</code> is a request for less
-  <em>movement</em>. It is not a request for a faster website, and those are different axes.</p>
+  <p class="lead"><mark><code>prefers-reduced-motion: reduce</code> is a request for less
+  <em>movement</em>. It is not a request for a faster website, and those are different axes.</mark></p>
 
   <p>Somebody turned on a setting in their operating system — <em>Reduce motion</em> on macOS and
   iOS, <em>Show animations</em> off on Windows, <em>Remove animations</em> on Android. The browser
@@ -26,8 +26,8 @@
   — your inner ear's balance system, which takes moving imagery as evidence that your body is
   moving, and objects when the rest of your body says otherwise.</p>
 
-  <p>So this isn't a preference in the way dark mode is a preference. And the value in the spec is
-  <code>reduce</code>, not <code>none</code>.</p>
+  <p>So this isn't a preference in the way dark mode is a preference. And <mark>the value in the spec is
+  <code>reduce</code>, not <code>none</code></mark>.</p>
 
   <div class="callout">
     <span class="label">Try this, in order</span>
@@ -67,24 +67,24 @@
 
   <p><strong>It freezes the spinner.</strong> <code>animation-iteration-count: 1</code> applies to
   every looping animation on the page, and a spinner's whole job is to loop. What's left is a
-  static ring next to the words "Syncing 3 files…", with nothing corroborating them. The
+  static ring next to the words "Syncing 3 files…", with nothing corroborating them. <mark>The
   interface now claims to be working and shows no evidence of it. That's not a reduced
-  experience, it's a broken one.</p>
+  experience, it's a broken one.</mark></p>
 
   <p><strong>And it turns the entrances into jump cuts.</strong> A <em>jump cut</em> is the card
   appearing in its final position in a single frame, with nothing in between. Notice what
   <code>0.01ms</code> actually did there: the card still moved 24px. It just did it too fast for
-  you to see the path. The displacement is identical; only the smoothing is gone. For a reader
+  you to see the path. <mark>The displacement is identical; only the smoothing is gone.</mark> For a reader
   who is sensitive to motion, an unexplained instant relocation is not obviously easier to take
   than a short smooth one — and it's harder for <em>everyone</em> to follow, because the thing
   that told you where the card came from has been deleted.</p>
 
   <div class="callout principle">
     <span class="label">The rule this gives you</span>
-    <p><code>reduce</code> is a request about <strong>distance</strong>, not about
-    <strong>time</strong>.</p>
-    <p>Take away the travel and keep the fade. A 300ms cross-fade in place is a perfectly good
-    reduced-motion animation. A 0.01ms 300px slide is not.</p>
+    <p><mark><code>reduce</code> is a request about <strong>distance</strong>, not about
+    <strong>time</strong>.</mark></p>
+    <p><mark>Take away the travel and keep the fade. A 300ms cross-fade in place is a perfectly good
+    reduced-motion animation. A 0.01ms 300px slide is not.</mark></p>
   </div>
 
   <p class="sidenote">Why <code>0.01ms</code> and not <code>0s</code>, though? Because events.
@@ -92,7 +92,7 @@
   <code>animationend</code>, and any JavaScript waiting on that callback to remove a class,
   unmount a node or release a focus trap simply hangs. <code>0.01ms</code> is fast enough to be
   invisible and slow enough to still be an animation. Whoever wrote that reset knew exactly what
-  they were doing — the mistake is treating a <em>safety floor</em> as a <em>policy</em>. Keep it
+  they were doing — <mark>the mistake is treating a <em>safety floor</em> as a <em>policy</em></mark>. Keep it
   at the bottom of your stylesheet to catch third-party CSS you don't control. Then write real
   rules for the code you do.</p>
 
@@ -173,12 +173,12 @@
     </tbody>
   </table>
 
-  <p>Two things to take from that. First, <strong>opacity is the workhorse substitute</strong> —
+  <p>Two things to take from that. First, <mark><strong>opacity is the workhorse substitute</strong></mark> —
   it carries the "something changed here" signal with no direction, no displacement and no depth
   cue, which is why "fade in place" is the default answer for the whole informational bucket.
   Second, none of these have a number attached. There's no threshold in the spec, no "under 20px
-  is fine." These are heuristics from accessibility practice, so when a case is genuinely
-  borderline, fade it.</p>
+  is fine." These are heuristics from accessibility practice, so <mark>when a case is genuinely
+  borderline, fade it</mark>.</p>
 
   <h2>Springs, specifically</h2>
 
@@ -191,8 +191,8 @@
   indefinite move that is still <em>drifting</em> a second later. That's a compromise nobody
   asked for.</p>
 
-  <p>Under <code>reduce</code>, replace the spring outright with a short tween — 120–200ms, ease-out,
-  no displacement. In Motion that's <a
+  <p><mark>Under <code>reduce</code>, replace the spring outright with a short tween — 120–200ms, ease-out,
+  no displacement.</mark> In Motion that's <a
   href="https://motion.dev/docs/react-use-reduced-motion"><code>useReducedMotion()</code></a>
   returning a boolean you branch the whole transition on, not a parameter you soften.</p>
 
@@ -240,9 +240,9 @@
   <p class="sidenote">In Tailwind this is the <code>motion-safe:</code> and
   <code>motion-reduce:</code> variant pair — <code>motion-safe:translate-y-6</code> gives you
   idiom 2 per-utility, <code>motion-reduce:translate-y-0</code> gives you idiom 1. Prefer
-  <code>motion-safe:</code>: an unprefixed utility is unprotected, and a
+  <code>motion-safe:</code>: an unprefixed utility is unprotected, and <mark>a
   <code>motion-safe:</code> one that you forget to write just means no animation, which fails in
-  the safe direction. <a href="https://tailwindcss.com/docs/hover-focus-and-other-states">Docs
+  the safe direction</mark>. <a href="https://tailwindcss.com/docs/hover-focus-and-other-states">Docs
   here.</a></p>
 
   <h2>JavaScript gets none of this for free</h2>
@@ -258,7 +258,7 @@ const travel = reduce.matches ? 0 : 24;
 // People toggle this mid-session — often *because* your page made them queasy.
 reduce.addEventListener('change', (e) => applyMotionPolicy(e.matches));</code></pre>
 
-  <p>Reading <code>.matches</code> once at boot and caching it is the common bug. Someone hits
+  <p><mark>Reading <code>.matches</code> once at boot and caching it is the common bug.</mark> Someone hits
   your page, feels ill, goes to system settings, comes back — and your single-page app is still
   running the animations it decided on three minutes ago. The lab's live readout under the table
   is doing exactly this listen-and-repaint, which is why it updates if you change the real OS
@@ -279,15 +279,15 @@ reduce.addEventListener('change', (e) => applyMotionPolicy(e.matches));</code></
   <h2>Three ways to get this wrong</h2>
 
   <p><strong>Treating it as a performance switch.</strong> Cutting durations is the reflex, and
-  it's the wrong axis — you've made the same displacement happen faster. If you only change one
-  number, change the distance.</p>
+  it's the wrong axis — you've made the same displacement happen faster. <mark>If you only change one
+  number, change the distance.</mark></p>
 
-  <p><strong>Removing the animation and the element with it.</strong> This one bites hard. An
+  <p><strong>Removing the animation and the element with it.</strong> This one bites hard. <mark>An
   element that starts at <code>opacity: 0</code> and is only ever made visible by its own
   keyframe becomes permanently invisible the moment you write <code>animation: none</code> in
-  your reduce block. The global reset happens to dodge this — <code>0.01ms</code> is still an
-  animation, so it still lands on its end state — but hand-written overrides don't. Every time
-  you write a reduced-motion rule, actually turn the preference on and look at the page. Which
+  your reduce block.</mark> The global reset happens to dodge this — <code>0.01ms</code> is still an
+  animation, so it still lands on its end state — but hand-written overrides don't. <mark>Every time
+  you write a reduced-motion rule, actually turn the preference on and look at the page.</mark> Which
   brings us to:</p>
 
   <p><strong>Never testing the reduced path.</strong> In Chrome: DevTools → ⋮ → More tools →
@@ -300,9 +300,9 @@ reduce.addEventListener('change', (e) => applyMotionPolicy(e.matches));</code></
 
   <div class="callout warn">
     <span class="label">The mistake this lesson exists to prevent</span>
-    <p>Shipping a reduced-motion version you have never looked at. A media query you wrote and
+    <p>Shipping a reduced-motion version you have never looked at. <mark>A media query you wrote and
     never rendered is not accessibility work — it's the appearance of it, and it fails silently,
-    for exactly the users least able to tolerate the failure.</p>
+    for exactly the users least able to tolerate the failure.</mark></p>
   </div>
 
   <h2>What this changes about the previous eight lessons</h2>
@@ -310,8 +310,8 @@ reduce.addEventListener('change', (e) => applyMotionPolicy(e.matches));</code></
   <p>Not much, structurally, and that's the good news. Everything you've built already separates
   <em>transform</em> from <em>opacity</em> because of <a
   href="0002-the-four-property-budget.html">0002's</a> four-property budget — and that separation
-  turns out to be exactly the seam you cut along here. Reduced motion drops the transform and
-  keeps the opacity. You've been writing reduced-motion-ready CSS since lesson two without
+  turns out to be exactly the seam you cut along here. <mark>Reduced motion drops the transform and
+  keeps the opacity.</mark> You've been writing reduced-motion-ready CSS since lesson two without
   knowing it.</p>
 
   <p>The three things that need real re-examination: the <a

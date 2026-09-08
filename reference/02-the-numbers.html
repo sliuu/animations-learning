@@ -18,31 +18,31 @@
     </div>
   </header>
 
-  <p class="lead">Six things belong in memory. Everything below that line is lookup.</p>
+  <p class="lead"><mark>Six things belong in memory. Everything below that line is lookup.</mark></p>
 
   <h2>The six</h2>
 
   <div class="callout principle">
     <span class="label">Memorise these</span>
-    <p><strong>1. Ease-out in, ease-in out.</strong> Entrances decelerate into place; exits
-    accelerate away. An ease-out exit lingers at near-zero opacity, which is the worst place to
+    <p><strong>1. Ease-out in, ease-in out.</strong> <mark>Entrances decelerate into place; exits
+    accelerate away.</mark> An ease-out exit lingers at near-zero opacity, which is the worst place to
     spend time.</p>
 
-    <p><strong>2. Exits run about half the entrance.</strong> 320ms in, 180ms out. The ratio
+    <p><strong>2. <mark>Exits run about half the entrance.</mark></strong> 320ms in, 180ms out. The ratio
     that matters is 0.5–0.65. Nobody has ever complained a dismissal was too fast.</p>
 
-    <p><strong>3. <code>transform</code> and <code>opacity</code> are free.</strong> Anything
-    that changes geometry — width, height, top, margin, padding — costs Layout on every frame.
+    <p><strong>3. <code>transform</code> and <code>opacity</code> are free.</strong> <mark>Anything
+    that changes geometry — width, height, top, margin, padding — costs Layout on every frame.</mark>
     If you can express the effect as a transform, do.</p>
 
-    <p><strong>4. Overlap ≤ 0.35, and check the total separately.</strong> Two independent
+    <p><strong>4. <mark>Overlap ≤ 0.35, and check the total separately.</mark></strong> Two independent
     failures: the group can read as a queue, or it can simply take too long.</p>
 
-    <p><strong>5. Reveals want a trigger, never a scrub.</strong> If the element carries
+    <p><strong>5. <mark>Reveals want a trigger, never a scrub.</mark></strong> If the element carries
     meaning, its legibility must not depend on where the reader stopped scrolling.</p>
 
-    <p><strong>6. Content must survive its own animation not running.</strong> Never hide
-    something in a stylesheet that only JavaScript can unhide.</p>
+    <p><strong>6. <mark>Content must survive its own animation not running.</mark></strong> <mark>Never hide
+    something in a stylesheet that only JavaScript can unhide.</mark></p>
   </div>
 
   <h2>Durations that work</h2>
@@ -65,8 +65,8 @@
   limit for it still feeling like direct manipulation. The two press rows are different
   animations — the button yielding under the finger, and the checkbox filling in afterwards.</p>
 
-  <p class="sidenote">Ceiling: if a single element's animation exceeds ~500ms, it needs a
-  reason. Above ~1s the reader thinks the page is broken, not elegant.</p>
+  <p class="sidenote">Ceiling: <mark>if a single element's animation exceeds ~500ms, it needs a
+  reason</mark>. Above ~1s the reader thinks the page is broken, not elegant.</p>
 
   <h2>The two stagger equations</h2>
 
@@ -86,8 +86,8 @@
   </table>
 
   <p>Keep total under <strong>~800ms</strong> for a hero, <strong>~500ms</strong> for a menu or
-  list. More items means a smaller step, not a longer wait — budget the total first, then
-  divide.</p>
+  list. <mark>More items means a smaller step, not a longer wait — budget the total first, then
+  divide.</mark></p>
 
   <h2>Curves worth keeping</h2>
 
@@ -129,8 +129,8 @@ const io = new IntersectionObserver((entries) =&gt; {
   fires <em>later</em>. Positive grows it past the viewport and fires <em>earlier</em>.
   <code>-15%</code> is the working default.</p>
 
-  <p><strong>Observe the container, not the items,</strong> when the group should read as one
-  gesture — otherwise scroll speed decides your stagger for you.</p>
+  <p><mark><strong>Observe the container, not the items,</strong> when the group should read as one
+  gesture</mark> — otherwise scroll speed decides your stagger for you.</p>
 
   <h3>Asymmetric enter/exit in pure CSS</h3>
 
@@ -148,7 +148,7 @@ const io = new IntersectionObserver((entries) =&gt; {
 }
 @starting-style { .panel.open { opacity: 0; transform: translateY(10px); } }</code></pre>
 
-  <p>A transition on a rule governs the journey <em>to</em> that rule. That is how you get two
+  <p><mark>A transition on a rule governs the journey <em>to</em> that rule.</mark> That is how you get two
   durations and two curves without any JavaScript.</p>
 
   <h3>The <code>--i</code> stagger</h3>

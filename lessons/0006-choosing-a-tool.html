@@ -17,7 +17,7 @@
     </div>
   </header>
 
-  <p class="lead">Libraries don't save you judgment. They save you plumbing.</p>
+  <p class="lead"><mark>Libraries don't save you judgment. They save you plumbing.</mark></p>
 
   <p>Everything you've learned so far — ease-out in, ease-in out, exits at half, transform and
   opacity only, overlap under 0.35, reveals get a trigger — is <em>tool-independent</em>. Those
@@ -25,7 +25,7 @@
   save a badly-timed animation.</p>
 
   <p>So the question isn't "which tool is best." It's narrower and much easier to answer:
-  <strong>what does this specific animation need to be able to do?</strong> Four things
+  <mark><strong>what does this specific animation need to be able to do?</strong></mark> Four things
   separate the tools, and you can feel all four in about ninety seconds.</p>
 
   <div class="callout">
@@ -50,14 +50,14 @@
   thinking about it.</p>
 
   <p><strong>Interrupt</strong> is where lane 2 falls apart. The transition eases back from
-  wherever it had got to — 40-ish percent — because a transition interpolates from the
-  <em>current computed value</em>, always. The keyframe animation snaps to zero, because a
-  running <code>@keyframes</code> owns the property outright: take the animation away and the
+  wherever it had got to — 40-ish percent — because <mark>a transition interpolates from the
+  <em>current computed value</em>, always.</mark> The keyframe animation snaps to zero, because <mark>a
+  running <code>@keyframes</code> owns the property outright</mark>: take the animation away and the
   element is instantly wherever the base rule says it is. There is no "from here."</p>
 
   <p><strong>Pause</strong> flips the loser. Keyframes have
-  <code>animation-play-state: paused</code>. Transitions have nothing — no pause, no scrub, no
-  playhead of any kind. A transition is a one-way trip between two states that the browser is
+  <code>animation-play-state: paused</code>. <mark>Transitions have nothing — no pause, no scrub, no
+  playhead of any kind.</mark> A transition is a one-way trip between two states that the browser is
   managing on your behalf, and you are not invited.</p>
 
   <p><strong>Seek</strong> is where the Web Animations API stops being optional. Lane 3 sets
@@ -68,10 +68,10 @@
 
   <div class="callout principle">
     <span class="label">The rule this gives you</span>
-    <p>A <strong>CSS transition</strong> is a rule about two states. A <strong>CSS keyframe
+    <p><mark>A <strong>CSS transition</strong> is a rule about two states. A <strong>CSS keyframe
     animation</strong> is a recording you can start and stop. The <strong>Web Animations
-    API</strong> is the same recording with a playhead you can hold.</p>
-    <p>Pick by what you need to hold onto.</p>
+    API</strong> is the same recording with a playhead you can hold.</mark></p>
+    <p><mark>Pick by what you need to hold onto.</mark></p>
   </div>
 
   <h2>The four real tools</h2>
@@ -121,8 +121,8 @@
 
   <p class="sidenote">The first three are free in every sense: no download, no dependency, no
   version to keep current, and no risk that the animation is missing while a bundle loads. That
-  is a real argument, not a purist one. Reach past them when there's a capability you actually
-  need — not by default.</p>
+  is a real argument, not a purist one. <mark>Reach past them when there's a capability you actually
+  need — not by default.</mark></p>
 
   <h2>What the two libraries actually give you</h2>
 
@@ -145,8 +145,8 @@
 
   <ul>
     <li><strong>Layout animations.</strong> An element's position changes because the layout
-      changed — an item was filtered out, a card moved to a new column. Motion measures before
-      and after and animates the difference with a transform. That's the FLIP technique, and
+      changed — an item was filtered out, a card moved to a new column. <mark>Motion measures before
+      and after and animates the difference with a transform. That's the FLIP technique</mark>, and
       doing it by hand is measurably annoying.</li>
     <li><strong>Springs.</strong> Motion expresses stiffness and damping instead of duration and
       curve, which is a different model of time — one that survives interruption naturally
@@ -158,10 +158,10 @@
 
   <h3>GSAP solves choreography</h3>
 
-  <p>Everything in lesson 0003 was one group with one stagger, which CSS handles fine. GSAP
-  earns its place when the sequence has <em>structure</em>: this starts, then this overlaps by
-  0.2s, then these four stagger, then the whole block reverses on a scroll-out. A GSAP timeline
-  is a first-class object — you can name positions, insert relative to a label, reverse the
+  <p>Everything in lesson 0003 was one group with one stagger, which CSS handles fine. <mark>GSAP
+  earns its place when the sequence has <em>structure</em></mark>: this starts, then this overlaps by
+  0.2s, then these four stagger, then the whole block reverses on a scroll-out. <mark>A GSAP timeline
+  is a first-class object</mark> — you can name positions, insert relative to a label, reverse the
   whole thing, and seek to any point in it.</p>
 
   <p>Expressing that in CSS means hand-computing every delay, and then re-computing all of them
@@ -177,7 +177,7 @@
     <p>Your north star, <a href="https://claude.com/claude-for-chrome">claude.com/claude-for-chrome</a>,
     is GSAP. Emil Kowalski's work, the other north star, is mostly CSS and Motion. Both are
     correct choices for what they are: a choreographed marketing page, and interactive product
-    UI. The tool follows the job.</p>
+    UI. <mark>The tool follows the job.</mark></p>
   </div>
 
   <h2>The decision, in the order you should ask it</h2>
@@ -185,7 +185,7 @@
   <div class="callout principle">
     <span class="label">Five questions, top to bottom</span>
     <ol>
-      <li><strong>Can it be two states?</strong> → CSS transition. Stop here most of the time.</li>
+      <li><mark><strong>Can it be two states?</strong> → CSS transition. Stop here most of the time.</mark></li>
       <li><strong>Does it loop, or have 3+ steps, or run unprompted?</strong> → CSS keyframes.</li>
       <li><strong>Do I need to pause, seek, reverse from here, or await the end?</strong>
         → <code>el.animate()</code>.</li>
@@ -196,13 +196,13 @@
     </ol>
   </div>
 
-  <p>Read that top-down and take the first yes. The order isn't arbitrary — it goes from least
-  to most machinery, and the honest observation about production code is that most of it should
+  <p>Read that top-down and take the first yes. <mark>The order isn't arbitrary — it goes from least
+  to most machinery</mark>, and the honest observation about production code is that most of it should
   stop at line 1 and a lot of it stops at line 2.</p>
 
   <h2>The mistake this lesson exists to prevent</h2>
 
-  <p>Reaching for GSAP to fade in a card.</p>
+  <p><mark>Reaching for GSAP to fade in a card.</mark></p>
 
   <p>It's a common one, and it doesn't look like a mistake, because the result is fine. The cost
   is indirect: a dependency for something the platform does natively, an animation that can't
@@ -211,8 +211,8 @@
   you have to arrange it.</p>
 
   <p>The inverse mistake is rarer but more expensive: hand-writing a twelve-step timeline with
-  <code>setTimeout</code> because adding a library felt like defeat. If you find yourself
-  maintaining a table of delays, the library was always the right call.</p>
+  <code>setTimeout</code> because adding a library felt like defeat. <mark>If you find yourself
+  maintaining a table of delays, the library was always the right call.</mark></p>
 
   <h2>What doesn't change, no matter what you pick</h2>
 
@@ -230,8 +230,8 @@
     <li><code>prefers-reduced-motion</code> is yours to honour in all five.</li>
   </ul>
 
-  <p>A library that made those decisions for you would be a design system, not an animation
-  library. None of these are.</p>
+  <p><mark>A library that made those decisions for you would be a design system, not an animation
+  library.</mark> None of these are.</p>
 
   <div data-quiz data-quiz-title="Check yourself">
 

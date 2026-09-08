@@ -81,10 +81,15 @@ def meta_of(path):
     def grab(pattern, default=''):
         m = re.search(pattern, text, re.S)
         return ' '.join(m.group(1).split()) if m else default
+    def grab_plain(pattern, default=''):
+        # The contents list is a summary, not the page: a dek's skim highlights
+        # would render as a wall of yellow in the TOC, so drop the <mark>s here
+        # and leave them where they belong, on the lesson itself.
+        return re.sub(r'</?mark>', '', grab(pattern, default))
     return {
         'title': grab(r'<title>(.*?)</title>'),
         'eyebrow': grab(r'<p class="eyebrow">(.*?)</p>'),
-        'dek': grab(r'<p class="dek">(.*?)</p>'),
+        'dek': grab_plain(r'<p class="dek">(.*?)</p>'),
         'skill': grab(r'<span>Skill: (.*?)</span>'),
     }
 

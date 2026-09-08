@@ -16,8 +16,8 @@
     </div>
   </header>
 
-  <p class="lead">One element arriving is a transition. Twelve elements arriving is an
-  argument about what matters.</p>
+  <p class="lead"><mark>One element arriving is a transition. Twelve elements arriving is an
+  argument about what matters.</mark></p>
 
   <p>You can now pick a curve (0001) and pick a property that doesn't cost anything (0002).
   Both of those are decisions about a <em>single</em> element. Almost nothing on a real page
@@ -30,17 +30,17 @@
 
   <div class="callout principle">
     <span class="label">First principle</span>
-    <p>Motion captures attention before content does. So <strong>arrival order becomes reading
+    <p><mark>Motion captures attention before content does. So <strong>arrival order becomes reading
     order</strong> — the first thing to move is the first thing read, whether or not you meant
-    it that way.</p>
+    it that way.</mark></p>
     <p>Stagger is therefore a claim about priority. Staggering in DOM order is fine when your
     markup order <em>is</em> your priority order. It usually is. Make it a decision anyway.</p>
   </div>
 
   <p>There's a second effect that's easy to miss. Spreading the same total movement across
   time reduces how much is moving <em>at any one instant</em>, and simultaneous motion is most
-  of what makes a page feel frantic. A staggered entrance is calmer than a synchronised one
-  even though it contains exactly as much animation.</p>
+  of what makes a page feel frantic. <mark>A staggered entrance is calmer than a synchronised one
+  even though it contains exactly as much animation.</mark></p>
 
   <h2>The two numbers</h2>
 
@@ -50,8 +50,8 @@
   <pre><code>total   = duration + (n - 1) × step
 overlap = step ÷ duration</code></pre>
 
-  <p><strong>Total</strong> is what the user waits. <strong>Overlap</strong> is what it feels
-  like — and it's the one nobody says out loud. Drag things until the timeline underneath
+  <p><mark><strong>Total</strong> is what the user waits. <strong>Overlap</strong> is what it feels
+  like</mark> — and it's the one nobody says out loud. Drag things until the timeline underneath
   makes sense; the bars are when each item is actually moving.</p>
 
   <div data-stagger-lab
@@ -73,11 +73,11 @@ overlap = step ÷ duration</code></pre>
 
   <div class="callout">
     <span class="label">The number to remember</span>
-    <p>Keep <strong>overlap ratio under about 0.35</strong>. Each item should start well before
-    the one ahead of it has finished. Above ~0.8 the items read as separate events, and that is
+    <p><mark>Keep <strong>overlap ratio under about 0.35</strong>. Each item should start well before
+    the one ahead of it has finished.</mark> Above ~0.8 the items read as separate events, and that is
     the difference between an entrance and a queue.</p>
-    <p>In practice that means <strong>40–90ms steps against 300–500ms durations</strong>, and
-    it's why you cannot pick a stagger value without knowing the duration it sits against.</p>
+    <p><mark>In practice that means <strong>40–90ms steps against 300–500ms durations</strong>, and
+    it's why you cannot pick a stagger value without knowing the duration it sits against.</mark></p>
   </div>
 
   <p>Check it against the page that started this course. Measured on 2026-07-29, it uses
@@ -95,7 +95,7 @@ overlap = step ÷ duration</code></pre>
   with six items and shipped against a grid with forty. There are exactly two honest fixes.</p>
 
   <h4>1. Budget the total, derive the step</h4>
-  <p>Decide the whole orchestration is allowed 600ms, then <code>step = budget ÷ (n − 1)</code>.
+  <p><mark>Decide the whole orchestration is allowed 600ms, then <code>step = budget ÷ (n − 1)</code>.</mark>
   More items means a tighter step, and the entrance keeps its length no matter what the CMS
   returns.</p>
 
@@ -163,8 +163,8 @@ overlap = step ÷ duration</code></pre>
     </textarea>
   </div>
 
-  <p>Without a fill mode, an element sits in its <em>normal</em> state during its delay — fully
-  visible — and then snaps to the animation's first keyframe the instant the delay ends. Five
+  <p><mark>Without a fill mode, an element sits in its <em>normal</em> state during its delay — fully
+  visible — and then snaps to the animation's first keyframe the instant the delay ends.</mark> Five
   boxes appear, then blink out one by one, then rise. It looks like a bug because it is one.</p>
 
   <p><code>backwards</code> tells the element to adopt the first keyframe's values during the
@@ -240,11 +240,11 @@ button.primary { background: var(--accent); color: var(--paper); }
   <code>--i:3</code> and <code>--i:4</code> in the playground and it immediately feels fussy:
   you've asserted that "Get started" matters more than "Read the docs" by a measurable 70
   milliseconds, and the user's eye now travels left-to-right through a button pair it wanted to
-  compare at a glance. <strong>Stagger between groups, not between every element.</strong></p>
+  compare at a glance. <mark><strong>Stagger between groups, not between every element.</strong></mark></p>
 
   <h4>The art moves slower, not later</h4>
-  <p>It gets 560ms instead of 420ms. Larger objects that move at the same speed as small ones
-  read as weightless — this is straight out of animation's classic weight principles, and it's
+  <p>It gets 560ms instead of 420ms. <mark>Larger objects that move at the same speed as small ones
+  read as weightless</mark> — this is straight out of animation's classic weight principles, and it's
   why the hero image on a good marketing page always feels slightly more settled than the text
   above it. Give <code>.art</code> the same duration as everything else and it reads as a
   sticker.</p>
@@ -259,15 +259,15 @@ button.primary { background: var(--accent); color: var(--paper); }
   bites harder here because stagger multiplies the wait.</p>
 
   <ul>
-    <li><strong>Menus and dropdowns.</strong> The user opened it to click something. Staggering
-    the items delays the moment the list is readable. Fade the container, not the children.</li>
+    <li><strong>Menus and dropdowns.</strong> The user opened it to click something. <mark>Staggering
+    the items delays the moment the list is readable. Fade the container, not the children.</mark></li>
     <li><strong>Scroll reveals on long grids.</strong> People scroll faster than your stagger.
     Items arrive after the eye has already passed them, which reads as lag. Keep it under 40ms
     and cap how many participate.</li>
     <li><strong>Anything a returning user sees daily.</strong> A 900ms hero orchestration is
     delightful once and a tax on the fortieth visit.</li>
-    <li><strong>Exits.</strong> Almost never stagger an exit. The user has decided; drawn-out
-    departure reads as the interface arguing. If you must, reverse the order and halve every
+    <li><strong>Exits.</strong> <mark>Almost never stagger an exit. The user has decided; drawn-out
+    departure reads as the interface arguing.</mark> If you must, reverse the order and halve every
     number — which is 0001's enter/exit asymmetry applied to a group.</li>
   </ul>
 

@@ -19,14 +19,14 @@
   <p class="lead">You have 16.7 milliseconds. That is the entire budget.</p>
 
   <p>At 60Hz the browser gets about 16.7ms to turn your CSS into pixels on the glass, and it
-  has to do it again before the next refresh, and the one after that. Miss the deadline and
-  the frame doesn't arrive late — it doesn't arrive. The previous frame stays up twice as
+  has to do it again before the next refresh, and the one after that. <mark>Miss the deadline and
+  the frame doesn't arrive late — it doesn't arrive.</mark> The previous frame stays up twice as
   long. That doubled frame is what you see as a stutter, and there's a precise vocabulary for
   it that I'll lay out in a moment.</p>
 
   <p>Lesson 0001 was about <em>when</em> and <em>how fast</em>. This one is about <em>what</em>
-  — and the surprise is that whether motion looks smooth has almost nothing to do with how
-  much you animate. It has to do with <strong>which property</strong>, because the property
+  — and the surprise is that <mark>whether motion looks smooth has almost nothing to do with how
+  much you animate</mark>. It has to do with <strong>which property</strong>, because the property
   decides how much work the browser has to redo on every single one of those frames.</p>
 
   <h2>The words, first</h2>
@@ -47,13 +47,13 @@
     animation, that means the object doesn't move for twice as long as it should, then jumps
     twice as far to catch up.</p>
 
-    <p><strong>Smooth</strong> therefore has a precise meaning: frames are arriving at a
-    <em>regular cadence</em>, so movement per frame is even. It is not about speed, or blur, or
+    <p><mark><strong>Smooth</strong> therefore has a precise meaning: frames are arriving at a
+    <em>regular cadence</em>, so movement per frame is even.</mark> It is not about speed, or blur, or
     the easing curve. Motion can be slow and smooth, or fast and smooth. Smooth means
     <em>evenly spaced</em>.</p>
 
-    <p><strong>Jank</strong> is the standard word for the visible result of dropped frames —
-    that stall-then-jump. <strong>Hitch</strong>, <strong>stutter</strong>, <strong>chugging</strong>,
+    <p><mark><strong>Jank</strong> is the standard word for the visible result of dropped frames —
+    that stall-then-jump.</mark> <strong>Hitch</strong>, <strong>stutter</strong>, <strong>chugging</strong>,
     <strong>choppy</strong> and <strong>stuttery</strong> are all informal words for the same
     thing, and I'll use "jank" from here on. If you see one of the others in this lesson, it's
     a slip — they all mean "frames aren't arriving on schedule."</p>
@@ -62,8 +62,8 @@
   <p>Two more, and these are the ones the second half of the lesson depends on.</p>
 
   <div class="callout">
-    <p><strong>The main thread</strong> is the single queue where the browser runs your
-    JavaScript, calculates layout, and paints pixels. One thing at a time. If your code is busy
+    <p><mark><strong>The main thread</strong> is the single queue where the browser runs your
+    JavaScript, calculates layout, and paints pixels. One thing at a time.</mark> If your code is busy
     for 300ms, nothing else on that list happens for 300ms — including drawing frames.</p>
 
     <p><strong>Compositing</strong> is the last step: taking already-drawn rectangles of pixels
@@ -94,12 +94,12 @@
 
   <div class="callout principle">
     <span class="label">First principle</span>
-    <p>You don't choose an animatable property for what it looks like. You choose it for
-    <strong>where it enters the pipeline</strong>. Enter at the top and you pay for every
+    <p><mark>You don't choose an animatable property for what it looks like. You choose it for
+    <strong>where it enters the pipeline</strong>.</mark> Enter at the top and you pay for every
     stage beneath it — every frame, for the whole duration. Enter at the bottom and the frame
     is close to free.</p>
-    <p>Animating <code>margin-left</code> and animating <code>translateX</code> can look
-    pixel-identical. One re-runs layout sixty times a second; the other re-runs nothing.</p>
+    <p><mark>Animating <code>margin-left</code> and animating <code>translateX</code> can look
+    pixel-identical. One re-runs layout sixty times a second; the other re-runs nothing.</mark></p>
   </div>
 
   <p>So the budget sorts itself, and it isn't a matter of taste:</p>
@@ -117,8 +117,8 @@
   <p>Why <em>those two</em> are the free ones is worth understanding rather than memorising.
   Once an element sits on its own compositor layer, the browser has already rasterised it into
   a texture. Moving that texture, scaling it, rotating it, or turning down its alpha are
-  operations the GPU performs on the finished picture. <strong>Neither property can change
-  what any pixel is — only where it lands and how much of it you see.</strong> That is the
+  operations the GPU performs on the finished picture. <mark><strong>Neither property can change
+  what any pixel is — only where it lands and how much of it you see.</strong></mark> That is the
   whole reason they're cheap, and it also tells you exactly where they'll let you down. We'll
   get to that.</p>
 
@@ -140,8 +140,8 @@
   turning orange, then red — those are frames that missed the 16.7ms budget, and the top lane
   visibly stalls and jumps. The bottom lane keeps moving evenly the whole time.</p>
 
-  <p>If 400 elements doesn't faze your machine, push to 1200. <strong>The number where it
-  breaks is your hardware; the fact that it breaks at all is the property.</strong> The control
+  <p>If 400 elements doesn't faze your machine, push to 1200. <mark><strong>The number where it
+  breaks is your hardware; the fact that it breaks at all is the property.</strong></mark> The control
   lane has no breaking point in this range, because compositing 1,500 already-drawn rectangles
   is precisely what GPUs were built to do.</p>
 
@@ -189,17 +189,17 @@ while (performance.now() &lt; end) { /* do nothing, on purpose */ }</code></pre>
   <div class="callout principle">
     <span class="label">The real reason transform wins</span>
     <p><strong>Compositing happens on a different thread.</strong> Layout, paint, your
-    JavaScript, and every framework render all share the main thread. A composited animation
+    JavaScript, and every framework render all share the main thread. <mark>A composited animation
     is handed to the compositor once and runs there independently — so it survives a main
-    thread that is completely blocked.</p>
+    thread that is completely blocked.</mark></p>
   </div>
 
   <p>That freeze is not a contrivance. It's a heavy React re-render, a large JSON parse,
   a hydration pass, an expensive <code>IntersectionObserver</code> callback — the ordinary
-  stuff of real apps. A composited animation is the only kind that stays smooth <em>while your
-  app is busy</em> — where "busy" means exactly what the loop above simulates. And your app is
+  stuff of real apps. <mark>A composited animation is the only kind that stays smooth <em>while your
+  app is busy</em></mark> — where "busy" means exactly what the loop above simulates. <mark>And your app is
   busiest at precisely the moments things are animating:
-  route changes, modal opens, list loads.</p>
+  route changes, modal opens, list loads.</mark></p>
 
   <p class="sidenote">This also explains why native scrolling stays smooth on a page whose
   JavaScript is struggling — scrolling is handled by the compositor too — and why a
@@ -208,8 +208,8 @@ while (performance.now() &lt; end) { /* do nothing, on purpose */ }</code></pre>
 
   <h2>“So why not transform everything?”</h2>
 
-  <p>Because <code>scale</code> is not <code>width</code>. Transform scales the finished
-  picture — including the text, the border radius, and the border. Both cards below travel
+  <p>Because <code>scale</code> is not <code>width</code>. <mark>Transform scales the finished
+  picture — including the text, the border radius, and the border.</mark> Both cards below travel
   from narrow to wide. Only one of them stays itself.</p>
 
   <div data-pg
@@ -259,10 +259,10 @@ while (performance.now() &lt; end) { /* do nothing, on purpose */ }</code></pre>
 
   <div class="callout">
     <span class="label">The rule</span>
-    <p><strong>Use transform when the element's contents should travel with it.</strong>
+    <p><mark><strong>Use transform when the element's contents should travel with it.</strong></mark>
     Moving, revealing, entering, exiting, pressing, hovering — the content is coming along for
     the ride, so scaling the picture is exactly right.</p>
-    <p><strong>Reach for layout when the element's contents must re-flow.</strong> A box that
+    <p><mark><strong>Reach for layout when the element's contents must re-flow.</strong></mark> A box that
     genuinely becomes a different size, with text that must re-wrap inside it, is a layout
     change. Pretending otherwise looks broken.</p>
   </div>
@@ -318,8 +318,8 @@ while (performance.now() &lt; end) { /* do nothing, on purpose */ }</code></pre>
 
   <div class="callout principle">
     <span class="label">The budget is a budget, not a ban</span>
-    <p>Cost is only half the equation. The other half is <strong>cost × frequency ×
-    count</strong>. One accordion, opening once, on a small subtree, is a rounding error —
+    <p><mark>Cost is only half the equation. The other half is <strong>cost × frequency ×
+    count</strong>.</mark> One accordion, opening once, on a small subtree, is a rounding error —
     pay it and get correct behaviour. The same layout animation on two hundred cards, or
     running on every scroll event, or on a hover that fires constantly, is what kills a page.</p>
   </div>
@@ -340,9 +340,9 @@ while (performance.now() &lt; end) { /* do nothing, on purpose */ }</code></pre>
 }
 .card:hover::after { opacity: 1; }</code></pre>
 
-  <p>The shadow is painted once, at load. The hover only changes an alpha. This trade —
+  <p>The shadow is painted once, at load. The hover only changes an alpha. <mark>This trade —
   <em>pre-render the expensive thing, then animate opacity between states</em> — is one of the
-  most reusable moves in the craft, and it works for gradients and filters too.</p>
+  most reusable moves in the craft</mark>, and it works for gradients and filters too.</p>
 
   <h2>will-change, and how to misuse it</h2>
 
@@ -351,7 +351,7 @@ while (performance.now() &lt; end) { /* do nothing, on purpose */ }</code></pre>
   land on the first frame. It is a real optimisation and it is the most over-applied property
   in CSS.</p>
 
-  <p>Every promoted layer holds its own texture in GPU memory. Put
+  <p><mark>Every promoted layer holds its own texture in GPU memory.</mark> Put
   <code>will-change: transform</code> on a grid of cards and you've allocated a texture per
   card, permanently, for an animation that plays for 200ms when hovered. On a phone that is
   how a fast page becomes a slow one.</p>

@@ -17,8 +17,8 @@
 
   <h2>Gate 1 — Should this animate at all?</h2>
 
-  <p>Frequency of use decides. The more often a user sees it, the shorter and subtler it
-  must be — and past a threshold, absent.</p>
+  <p>Frequency of use decides. <mark>The more often a user sees it, the shorter and subtler it
+  must be — and past a threshold, absent.</mark></p>
 
   <table>
     <thead>
@@ -34,7 +34,7 @@
 
   <div class="callout warn">
     <span class="label">Hard rule</span>
-    <p><strong>Never animate keyboard-initiated actions.</strong> They repeat hundreds of
+    <p><strong><mark>Never animate keyboard-initiated actions.</mark></strong> They repeat hundreds of
     times a day, and animation makes them feel slow, delayed, and disconnected from the
     keypress. Raycast has no open/close animation — that is the correct call for something
     opened all day long.</p>
@@ -56,7 +56,7 @@
     </tbody>
   </table>
 
-  <p>“It looks cool” is not on this list. If that is the only answer and the user sees it
+  <p><mark>“It looks cool” is not on this list.</mark> If that is the only answer and the user sees it
   often, cut it.</p>
 
   <h2>Gate 3 — Which curve?</h2>
@@ -71,14 +71,14 @@
 
   <div class="callout warn">
     <span class="label">Never</span>
-    <p><code>ease-in</code> on UI. It withholds movement during the exact window the user is
-    watching most closely, so a 300ms <code>ease-in</code> <em>feels</em> slower than a 300ms
+    <p><code>ease-in</code> on UI. <mark>It withholds movement during the exact window the user is
+    watching most closely</mark>, so a 300ms <code>ease-in</code> <em>feels</em> slower than a 300ms
     <code>ease-out</code> at identical duration.</p>
   </div>
 
   <h3>The curve library</h3>
 
-  <p>The CSS keywords are too weak to feel intentional. Use custom curves. Paste this block
+  <p><mark>The CSS keywords are too weak to feel intentional. Use custom curves.</mark> Paste this block
   into any project:</p>
 
   <pre><code>:root {
@@ -109,8 +109,8 @@
 
   <h3>Reading a cubic-bezier</h3>
 
-  <p>Four numbers: <code>cubic-bezier(x1, y1, x2, y2)</code> — two control points. X is time,
-  Y is progress. Both curves always run from (0,0) to (1,1); only the handles differ.</p>
+  <p>Four numbers: <code>cubic-bezier(x1, y1, x2, y2)</code> — two control points. <mark>X is time,
+  Y is progress. Both curves always run from (0,0) to (1,1); only the handles differ.</mark></p>
 
   <ul>
     <li><strong>First handle low and left</strong> (<code>x1</code> small, <code>y1</code> large) → leaps forward immediately. That is ease-out character.</li>
@@ -134,20 +134,20 @@
 
   <div class="callout principle">
     <span class="label">Ceiling</span>
-    <p>Product UI animations stay <strong>under 300ms</strong>. Above that the motion stops
-    reading as responsiveness and starts reading as latency. Marketing pages are the
+    <p><mark>Product UI animations stay <strong>under 300ms</strong>.</mark> <mark>Above that the motion stops
+    reading as responsiveness and starts reading as latency.</mark> Marketing pages are the
     exception — nobody is trying to get work done.</p>
   </div>
 
   <h3>Stagger</h3>
 
-  <p>30–80ms between items. Longer and the list feels like it is loading. Never block
-  interaction while a stagger plays.</p>
+  <p>30–80ms between items. Longer and the list feels like it is loading. <mark>Never block
+  interaction while a stagger plays.</mark></p>
 
   <h3>Asymmetry</h3>
 
-  <p>Exit faster than enter. Entering, the user is being shown something; leaving, they have
-  already decided and want it gone. A 300ms enter pairs with a 150–200ms exit.</p>
+  <p><mark>Exit faster than enter.</mark> <mark>Entering, the user is being shown something; leaving, they have
+  already decided and want it gone.</mark> <mark>A 300ms enter pairs with a 150–200ms exit.</mark></p>
 
   <h2>Translating GSAP to CSS</h2>
 

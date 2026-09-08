@@ -8,8 +8,8 @@
   <header class="masthead">
     <p class="eyebrow">Lesson D004 · 16 minutes</p>
     <h1>The button</h1>
-    <p class="dek">Not one animation. Seven states, each of which answers a different question
-      the user is holding — and the one everybody argues about in review is the least important
+    <p class="dek">Not one animation. <mark>Seven states, each of which answers a different question
+      the user is holding</mark> — and the one everybody argues about in review is the least important
       of them.</p>
     <div class="meta">
       <span>Skill: review a control by what it promises, state by state</span>
@@ -64,17 +64,17 @@
   <p>Every one of those states is answering a question, and the questions arrive in order.
   <em>Can I press this, and is it the one I mean?</em> — hover. <em>Where am I?</em> — focus.
   <em>Did that land?</em> — press. <em>Is it working, or is it stuck?</em> — pending.
-  <em>Did it work?</em> — success. A button with a beautiful hover and no press state has answered
-  the least urgent question on the list and skipped the most urgent one.</p>
+  <em>Did it work?</em> — success. <mark>A button with a beautiful hover and no press state has answered
+  the least urgent question on the list and skipped the most urgent one.</mark></p>
 
-  <p>Press is the one that gets cut, and it gets cut because its absence is invisible in every
-  medium a design gets reviewed in. It isn't in the mockup. It isn't in the spec. It isn't in the
+  <p><mark>Press is the one that gets cut, and it gets cut because its absence is invisible in every
+  medium a design gets reviewed in.</mark> It isn't in the mockup. It isn't in the spec. It isn't in the
   screenshot in the pull request. The only place it shows up is under a finger, and the only
   symptom is that people click twice.</p>
 
   <div class="callout">
     <span class="label">The one to remember</span>
-    <p>The press state is the only feedback you can give in under a hundred milliseconds, because
+    <p><mark>The press state is the only feedback you can give in under a hundred milliseconds</mark>, because
     it is the only one that doesn't have to wait for an answer. Everything else on the screen is
     at the mercy of the network. That one is free, and it is the one that stops the second
     click.</p>
@@ -95,32 +95,32 @@
   <p>The job of a pending state isn't really to entertain someone for a second. It is to make the
   button <strong>inert</strong> — unresponsive on purpose — while keeping it legible. Those two
   have to happen together, and the common mistake is to get inert by reaching for
-  <code>disabled</code>, which greys the label out. Grey means <em>you can't do this</em>. You want
-  <em>I am doing this</em>. Same inertness, opposite sentence.</p>
+  <code>disabled</code>, which greys the label out. <mark>Grey means <em>you can't do this</em>. You want
+  <em>I am doing this</em>. Same inertness, opposite sentence.</mark></p>
 
   <p>Which is the honest version. The other option is <strong>optimistic</strong>: show the result
   immediately, before the server has agreed, and roll it back if you were wrong. A heart that fills
   the instant you tap it is optimistic — and it is the right call, because it is nearly always
   right and the cost of being wrong is a heart quietly emptying again. A payment button is not,
-  because the cost of being wrong is a person who believes they have paid. The rule is not about
-  how long the request takes. It is about what a retraction would cost.</p>
+  because the cost of being wrong is a person who believes they have paid. <mark>The rule is not about
+  how long the request takes. It is about what a retraction would cost.</mark></p>
 
   <h2>Disabled is usually an error message with the text removed</h2>
 
   <p>The seventh state is the one the lab doesn't switch, because it deserves an argument rather
-  than a toggle. A disabled button is doing two things: refusing, and refusing to say why. The
+  than a toggle. <mark>A disabled button is doing two things: refusing, and refusing to say why.</mark> The
   reason exists — a required field is empty, the plan doesn't include this, you already used your
   three — and the design has decided to hold it back until the user guesses.</p>
 
-  <p>The alternative is nearly always better and nearly never done: leave the button live, and
-  spend the press on the explanation. They press <em>Publish</em>, nothing publishes, and the
+  <p>The alternative is nearly always better and nearly never done: <mark>leave the button live, and
+  spend the press on the explanation</mark>. They press <em>Publish</em>, nothing publishes, and the
   empty field it needs gets flagged and focused. That is one extra state and one fewer dead end,
   and it works on a touchscreen, where the tooltip strategy has never worked at all.</p>
 
   <p>Keep disabled for the case where the reason is already visible on screen and nobody could
-  miss it — the empty cart, the unticked terms box directly above. If you have to write a tooltip
+  miss it — the empty cart, the unticked terms box directly above. <mark>If you have to write a tooltip
   to explain the disabled state, the tooltip is the admission that the button should not have been
-  disabled.</p>
+  disabled.</mark></p>
 
   <h2>The state you are inside</h2>
 
@@ -149,16 +149,16 @@
   <div data-hold-lab data-title="Hold to confirm"></div>
 
   <p>With the indicator off, the button is functionally perfect and unusable, which is a cleaner
-  proof than an argument: the progress fill is not decoration on the interaction, it <em>is</em>
-  the interaction. Without it there is no way to know the hold is working, no way to know how much
-  is left, and no reason to keep holding. A gesture with no progress feedback is a gesture nobody
-  completes.</p>
+  proof than an argument: <mark>the progress fill is not decoration on the interaction, it <em>is</em>
+  the interaction</mark>. Without it there is no way to know the hold is working, no way to know how much
+  is left, and no reason to keep holding. <mark>A gesture with no progress feedback is a gesture nobody
+  completes.</mark></p>
 
-  <p>And the release is where the design actually lives. Letting go at 40% has to <strong>snap
-  back</strong>, visibly and quickly — the user needs to see the thing they escaped from being
+  <p>And the release is where the design actually lives. <mark>Letting go at 40% has to <strong>snap
+  back</strong>, visibly and quickly</mark> — the user needs to see the thing they escaped from being
   undone. Keeping the progress feels reasonable in a spec and is quietly horrible in the hand: the
   button is now armed, and nothing told you. The snap-back also runs shorter than the hold that
-  earned it, on purpose. A return is a dismissal, not a rewind, and it shouldn't charge you again
+  earned it, on purpose. <mark>A return is a dismissal, not a rewind</mark>, and it shouldn't charge you again
   for the time you already spent.</p>
 
   <p class="sidenote"><strong>If you have read the engineering track:</strong> this is 0008's
@@ -166,8 +166,8 @@
   the unit you think in — the finger sets the pace, and the only thing you get to time is what
   happens after they let go.</p>
 
-  <p>Two-and-a-half seconds is worth sitting with because it ships. Hold-to-confirm is a good
-  pattern when the action is destructive <em>and</em> frequent — a dialog every time would be worse
+  <p>Two-and-a-half seconds is worth sitting with because it ships. <mark>Hold-to-confirm is a good
+  pattern when the action is destructive <em>and</em> frequent</mark> — a dialog every time would be worse
   than the risk. It is a bad pattern when the action is destructive and rare: nobody discovers it,
   they tap, nothing happens, and they conclude the button is broken. Its real cost is that it has
   to be learned, and you only get to spend that once.</p>
@@ -228,11 +228,11 @@
 
   <h2>What you can now do</h2>
 
-  <p>Review a control by walking its states out loud instead of reacting to its animation. Name
+  <p><mark>Review a control by walking its states out loud instead of reacting to its animation.</mark> Name
   the question each one answers, and find the one that isn't answered — it will usually be press,
   pending, or the reason behind a disabled. The sentence that gets you there is not <em>I think
-  the button needs more polish.</em> It is: <em>what does this button say between the click and
-  the response?</em></p>
+  the button needs more polish.</em> It is: <em><mark>what does this button say between the click and
+  the response?</mark></em></p>
 
   <nav class="footer-nav">
     <h2>Course</h2>

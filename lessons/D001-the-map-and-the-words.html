@@ -23,7 +23,7 @@
   drawer should come from the edge it lives on, and right now it's fading in place</em> — and end
   the argument rather than start one.</p>
 
-  <p>That's a vocabulary gap, not a technique gap. So this lesson has no new CSS in it at all.</p>
+  <p><mark>That's a vocabulary gap, not a technique gap.</mark> So this lesson has no new CSS in it at all.</p>
 
   <p>Twelve patterns below. Each one plays, and each one has a switch that breaks the convention it
   depends on — never a straw man, always something real products ship. <strong>Break a few before
@@ -46,21 +46,21 @@
 
   <p>The grey chips under each pattern are the words for what you just watched; the table further
   down defines every one of them. First, the filter — which isn't decoration. The three families are the first useful cut in the whole subject,
-  because a rule that is obviously right in one family is obviously wrong in the next.</p>
+  because <mark>a rule that is obviously right in one family is obviously wrong in the next</mark>.</p>
 
-  <p><strong>Product UI</strong> is everything that appears, dismisses, and responds — modal,
-  drawer, toast, popover. Its rule is <em>get out of the way</em>. These patterns are used forty
+  <p><mark><strong>Product UI</strong> is everything that appears, dismisses, and responds — modal,
+  drawer, toast, popover. Its rule is <em>get out of the way</em>.</mark> These patterns are used forty
   times a day by someone trying to do something else, so they are judged on consistency and speed,
   and the highest compliment they can receive is that nobody mentioned them.</p>
 
-  <p><strong>Expressive page</strong> is the landing-page family — heroes, line reveals, pinned
-  sections, parallax. Its rule is <em>pacing</em>. Here the user is an audience rather than an
+  <p><mark><strong>Expressive page</strong> is the landing-page family — heroes, line reveals, pinned
+  sections, parallax. Its rule is <em>pacing</em>.</mark> Here the user is an audience rather than an
   operator: they are being walked through an argument, and motion is doing the job that
   paragraph breaks and subheads do in an essay. A 600ms reveal that would be intolerable on a
   save button is completely normal here, because nobody is waiting on it.</p>
 
-  <p><strong>Direct manipulation</strong> is anything where the thing is under your finger — drag,
-  swipe, deck, pull. Its rule is <em>one to one, and then let go gracefully</em>. This is the
+  <p><mark><strong>Direct manipulation</strong> is anything where the thing is under your finger — drag,
+  swipe, deck, pull. Its rule is <em>one to one, and then let go gracefully</em>.</mark> This is the
   family where duration mostly stops being the unit at all: while you are dragging, the only
   correct number is your own hand position, and the entire design question is what happens in the
   half-second after you release. That is why <a href="0008-springs.html">springs</a> exist, and
@@ -68,9 +68,9 @@
 
   <div class="callout principle">
     <span class="label">The gate</span>
-    <p>Before you argue about a duration, say which family the pattern is in. Half the motion
+    <p><mark>Before you argue about a duration, say which family the pattern is in.</mark> <mark>Half the motion
     arguments in a design review are two people applying two families' rules to the same element
-    and both being right.</p>
+    and both being right.</mark></p>
   </div>
 
   <h2>Say it out loud</h2>
@@ -80,7 +80,7 @@
   The <strong>adjectives</strong> are how it feels, and they come at the end. The layer in the
   middle is the one you're missing, and it's the one that makes a review sayable.</p>
 
-  <p><strong>Verbs are what the motion does.</strong> Every one of these is on screen above; the
+  <p><strong><mark>Verbs are what the motion does.</mark></strong> Every one of these is on screen above; the
   chips under each pattern tell you which cell to go back to.</p>
 
   <table>
@@ -137,12 +137,12 @@
   <p><strong>The popover growing from its own middle</strong> is a wrong
   <a href="0007-transform-origin.html"><code>transform-origin</code></a>, and nothing else — one
   value, no timing change. Lesson 0007 argued it as anchoring a scale to its source. The design
-  sentence is shorter: <em>the panel and the button stopped being the same gesture.</em></p>
+  sentence is shorter: <em><mark>the panel and the button stopped being the same gesture.</mark></em></p>
 
   <p><strong>The hero arriving all at once</strong> is <a href="0003-stagger-and-orchestration.html">
   stagger</a> removed. Note what it is not: it is not faster. Same duration, same easing, same
-  four elements. It is flatter, because four things arriving together are four things competing
-  and the eye has to pick a winner instead of being led to one.</p>
+  four elements. It is flatter, because <mark>four things arriving together are four things competing
+  and the eye has to pick a winner instead of being led to one</mark>.</p>
 
   <p><strong>The row that teleports</strong> is the whole of
   <a href="0011-layout-animation.html">FLIP</a>, in one felt moment. Lesson 0011 sold FLIP as a
@@ -151,14 +151,14 @@
   re-read four rows to find out what you just did.</p>
 
   <p><strong>The card that dismisses on any movement</strong> removes snap-back, which is the
-  single most under-appreciated pattern in this lesson. Snap-back is not an animation, it is a
-  guarantee: <em>you may begin this gesture and change your mind.</em> Take it away and every
+  single most under-appreciated pattern in this lesson. <mark>Snap-back is not an animation, it is a
+  guarantee: <em>you may begin this gesture and change your mind.</em></mark> Take it away and every
   swipe becomes a commitment, which is why the broken version feels less like a bug and more like
   a threat.</p>
 
   <div class="callout">
     <span class="label">The pattern under all four</span>
-    <p>None of the breaks looks wrong in a still frame. Screenshot the broken popover and the
+    <p><mark>None of the breaks looks wrong in a still frame.</mark> Screenshot the broken popover and the
     correct one and they are the same image. Every one of these conventions lives entirely in
     time, which is exactly why they are hard to review and easy to lose — and why having a word
     for each of them is worth twenty minutes.</p>
@@ -187,23 +187,23 @@
       say out loud and the most often correct.</li>
   </ul>
 
-  <p>Notice that seven of the eight are design faults with design fixes. "Janky" is the only one
+  <p>Notice that <mark>seven of the eight are design faults with design fixes</mark>. "Janky" is the only one
   that sends you to DevTools, and it is the one that gets blamed most often — usually by someone
   who means "mushy" and doesn't have the word.</p>
 
   <h2>The habit</h2>
 
   <p>The rest of this track goes family by family and pattern by pattern. What makes it stick
-  isn't the reading, it's a habit that costs nothing: <strong>when something moves, say the noun
-  and the verb.</strong> Out loud if you're alone, in the review if you aren't.</p>
+  isn't the reading, it's a habit that costs nothing: <strong><mark>when something moves, say the noun
+  and the verb.</mark></strong> Out loud if you're alone, in the review if you aren't.</p>
 
   <p>"That's a <em>drawer</em>, and it's <em>fading</em> instead of <em>sliding</em>." "That's a
   <em>deck</em> with <em>peek</em> but no <em>snap</em>." "That's a <em>hero</em> with no
   <em>stagger</em>." Three seconds each, and the sentence is already a ticket someone can pick up.</p>
 
-  <p>You will be wrong sometimes, early. Being wrong with a name is enormously more useful than
+  <p>You will be wrong sometimes, early. <mark>Being wrong with a name is enormously more useful than
   being right with a feeling, because a name is something another person can disagree with
-  specifically.</p>
+  specifically.</mark></p>
 
   <div data-quiz data-quiz-title="Check yourself">
 

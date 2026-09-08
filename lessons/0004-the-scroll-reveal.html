@@ -8,7 +8,7 @@
   <header class="masthead">
     <p class="eyebrow">Lesson 0004 · 20 minutes</p>
     <h1>The scroll reveal, and the one that isn't&nbsp;one</h1>
-    <p class="dek">Two completely different techniques share the name "scroll animation."
+    <p class="dek"><mark>Two completely different techniques share the name "scroll animation."</mark>
       Everything else in this lesson is downstream of telling them apart.</p>
     <div class="meta">
       <span>Skill: choose trigger or scrub, and place the fire point</span>
@@ -45,13 +45,13 @@
 
   <h2>What you just saw</h2>
 
-  <p>In <strong>trigger</strong> mode, scrolling past a point <em>starts</em> an ordinary
-  animation — the same kind you've written in every lesson so far, with a duration and an
+  <p><mark>In <strong>trigger</strong> mode, scrolling past a point <em>starts</em> an ordinary
+  animation</mark> — the same kind you've written in every lesson so far, with a duration and an
   easing curve. Once started it runs on its own clock and finishes no matter what the reader
   does next. Stop scrolling and it still completes.</p>
 
-  <p>In <strong>scrub</strong> mode, there is no clock. Scroll position <em>is</em> the
-  animation's progress. Half-scrolled means half-animated, and it stays half-animated for as
+  <p><mark>In <strong>scrub</strong> mode, there is no clock. Scroll position <em>is</em> the
+  animation's progress.</mark> Half-scrolled means half-animated, and it stays half-animated for as
   long as the reader sits there.</p>
 
   <p class="sidenote">The word for this in animation tools is <strong>playhead</strong> — the
@@ -102,10 +102,10 @@
 
   <div class="callout principle">
     <span class="label">The rule this gives you</span>
-    <p><strong>If the element carries meaning, trigger it.</strong> A headline, a paragraph, a
+    <p><mark><strong>If the element carries meaning, trigger it.</strong></mark> A headline, a paragraph, a
     statistic — anything someone has to read — must not have its legibility decided by where
     they happened to stop scrolling.</p>
-    <p><strong>Scrub only what can be seen at any arbitrary percentage</strong> without loss:
+    <p><mark><strong>Scrub only what can be seen at any arbitrary percentage</strong> without loss</mark>:
     a background layer, a progress indicator, an image that drifts a little.</p>
   </div>
 
@@ -130,36 +130,36 @@
 });</code></pre>
 
   <div class="callout">
-    <p><strong>The sign rule, which everyone gets backwards once:</strong> a <em>negative</em>
+    <p><strong>The sign rule, which everyone gets backwards once:</strong> <mark>a <em>negative</em>
     bottom margin <em>shrinks</em> the root box upward, so the element must travel further up
-    the screen before it counts as intersecting — it fires <strong>later</strong>. A positive
+    the screen before it counts as intersecting — it fires <strong>later</strong></mark>. A positive
     bottom margin grows the box past the viewport's edge and fires <strong>earlier</strong>,
     while the element is still below the fold.</p>
   </div>
 
-  <p>Drag the fire point in the lab above and watch the dashed line move. Around
-  <code>-15%</code> is a good default: the element is meaningfully on screen when it starts,
+  <p>Drag the fire point in the lab above and watch the dashed line move. <mark>Around
+  <code>-15%</code> is a good default</mark>: the element is meaningfully on screen when it starts,
   and it finishes well before it reaches the reader's centre of attention. Push it to
   <code>-45%</code> and you get the classic bad version — the reader is already looking
   directly at the element when it decides to move.</p>
 
   <p><code>threshold</code> is the other knob, and it's the wrong one for reveals. It asks
   "what fraction of the element is visible," which for anything taller than the viewport can
-  never be satisfied. Leave it at <code>0</code> and control the timing with
-  <code>rootMargin</code>.</p>
+  never be satisfied. <mark>Leave it at <code>0</code> and control the timing with
+  <code>rootMargin</code>.</mark></p>
 
   <h2>The cardinal sin, which you must never ship</h2>
 
   <p>Every scroll reveal works by starting the element at <code>opacity: 0</code>. Which means
-  if the thing that's supposed to reveal it never runs, your content is <em>invisible</em> —
-  not unanimated, gone. A JS error above your observer, a blocked script, a bot, a reader who
+  <mark>if the thing that's supposed to reveal it never runs, your content is <em>invisible</em> —
+  not unanimated, gone</mark>. A JS error above your observer, a blocked script, a bot, a reader who
   scrolled past before the observer attached: all of these produce a blank page, and every one
   of them is a content bug, not an animation bug.</p>
 
   <div class="callout warn">
     <span class="label">Never ship this</span>
-    <p>Hiding content in a stylesheet that only JavaScript can unhide. The rule is
-    absolute: <strong>with the animation disabled, the content must still be there.</strong></p>
+    <p>Hiding content in a stylesheet that only JavaScript can unhide. <mark>The rule is
+    absolute: <strong>with the animation disabled, the content must still be there.</strong></mark></p>
   </div>
 
   <p>The fix is three lines and belongs in the <code>&lt;head&gt;</code>, before the browser
@@ -181,8 +181,8 @@
 
   <p>Three cards in a row cross the line together, and you want lesson 0003's stagger.
   The tempting version is to key the delay off the element's index in the list. Don't — card
-  twelve then waits twelve steps for something that started when card ten crossed. Stagger
-  by position <em>within the entries the observer just handed you</em>:</p>
+  twelve then waits twelve steps for something that started when card ten crossed. <mark>Stagger
+  by position <em>within the entries the observer just handed you</em></mark>:</p>
 
   <pre><code>const io = new IntersectionObserver((entries) =&gt; {
   let batch = 0;
@@ -201,7 +201,7 @@
   permanent.</p>
 
   <p>Which is the other setting in the lab. Flip re-trigger to "every time" and scroll up and
-  down: the content re-hides. The second viewing answers no question the first didn't, and on
+  down: the content re-hides. <mark>The second viewing answers no question the first didn't</mark>, and on
   a page that people scroll back through it degrades into flicker. Reveal once.</p>
 
   <h2>The CSS version, with no JavaScript at all</h2>
@@ -301,22 +301,22 @@
 
   <div class="callout principle">
     <span class="label">First principle</span>
-    <p>A scroll reveal cannot direct attention that has already been directed. So its only
+    <p><mark>A scroll reveal cannot direct attention that has already been directed.</mark> So its only
     legitimate jobs are the remaining two: <strong>establish hierarchy within the section</strong>
     (this heading, then this data, then this caveat) and <strong>signal that a boundary was
     crossed</strong> (a new idea starts here).</p>
     <p>If a section does neither — a wall of paragraphs, a footer, a nav — the correct amount
-    of scroll animation is none. "Everything fades up 20px" is not a decision, it's a default.</p>
+    of scroll animation is none. <mark>"Everything fades up 20px" is not a decision, it's a default.</mark></p>
   </div>
 
   <p>Which is also the practical answer to the most common failure mode: revealing so much,
   so often, that a reader scrolling at normal speed is permanently reading content that is
-  still in motion. Reveal sections, not paragraphs.</p>
+  still in motion. <mark>Reveal sections, not paragraphs.</mark></p>
 
   <h2>Reduced motion</h2>
 
-  <p>The full treatment gets its own lesson. The scroll-specific version is short: remove the
-  travel, keep the fade. A reader who asked for reduced motion still needs to see the content
+  <p>The full treatment gets its own lesson. The scroll-specific version is short: <mark>remove the
+  travel, keep the fade</mark>. A reader who asked for reduced motion still needs to see the content
   appear, and a 200ms opacity change is not what they were objecting to.</p>
 
   <pre><code>@media (prefers-reduced-motion: reduce) {

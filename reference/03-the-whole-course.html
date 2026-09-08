@@ -19,8 +19,8 @@
   </header>
 
   <p class="lead">Twenty lessons across two tracks. Read a block; if none of it surprises you, you have that lesson.
-  If a bullet lands as new information, go back to the lesson — the bullet is the conclusion, not
-  the argument.</p>
+  If a bullet lands as new information, go back to the lesson — <mark>the bullet is the conclusion, not
+  the argument</mark>.</p>
 
   <div class="callout principle">
     <span class="label">One line each, if that's all you have room for</span>
@@ -56,7 +56,7 @@
   <h2>0001 · Ease-out, or nothing</h2>
   <p><em>Skill: choose a duration and a curve, and defend both.</em></p>
   <ul>
-    <li>Animation's job is to preserve cause and effect. The test for any effect: does this
+    <li><mark>Animation's job is to preserve cause and effect.</mark> The test for any effect: does this
       reduce the work of understanding what just happened, or add to it?</li>
     <li>The gate — animate only to answer <em>where did that come from</em>, <em>where did it
       go</em>, <em>did my click register</em>, <em>is this the same thing I was looking at</em>.</li>
@@ -64,7 +64,7 @@
       <code>cubic-bezier(0.23, 1, 0.32, 1)</code> is the workhorse.</li>
     <li>Linear reads mechanical; ease-in on an entrance reads sluggish. Both are recognisable on
       sight once you've seen them side by side.</li>
-    <li>Duration is a property of the thing, not of taste: 120–160ms hover, 180–250ms popover,
+    <li><mark>Duration is a property of the thing, not of taste</mark>: 120–160ms hover, 180–250ms popover,
       280–360ms modal.</li>
     <li>A polished page isn't using a secret library. It's applying a few rules consistently.</li>
   </ul>
@@ -72,14 +72,14 @@
   <h2>0002 · The four-property budget</h2>
   <p><em>Skill: pick the property that gets the effect without buying the pipeline.</em></p>
   <ul>
-    <li>16.7ms per frame, total. The pipeline is style → layout → paint → composite, and a
-      property costs you every stage from where it enters downward.</li>
+    <li>16.7ms per frame, total. The pipeline is style → layout → paint → composite, and <mark>a
+      property costs you every stage from where it enters downward</mark>.</li>
     <li><code>transform</code> and <code>opacity</code> enter at composite — effectively free, and
       run on a <em>different thread</em>, so they survive a fully blocked main thread.</li>
     <li><code>color</code>, <code>background</code>, <code>box-shadow</code>,
       <code>filter</code> → paint. <code>width</code>, <code>height</code>, <code>top</code>,
       <code>margin</code>, <code>padding</code> → layout, recomputed every frame.</li>
-    <li>Cost is <strong>cost × frequency × count</strong>. One accordion opening once is a
+    <li><mark>Cost is <strong>cost × frequency × count</strong>.</mark> One accordion opening once is a
       rounding error. The same animation on 200 cards is what kills the page.</li>
     <li>The one everybody hits is <code>height: auto</code>. Use
       <code>grid-template-rows: 0fr → 1fr</code>, or scale a wrapper.</li>
@@ -95,10 +95,10 @@
     <li><code>total = duration + (n − 1) × step</code>. Compute it before shipping.</li>
     <li><code>overlap = step ÷ duration</code>. Keep it ≤ 0.35 or the group reads as a queue
       instead of one gesture.</li>
-    <li>Overlap and total fail independently — a well-overlapped group can still take four
+    <li><mark>Overlap and total fail independently</mark> — a well-overlapped group can still take four
       seconds.</li>
-    <li>Motion captures attention before content does, so arrival order <em>becomes</em> reading
-      order. Stagger is therefore a claim about priority; make it deliberately.</li>
+    <li><mark>Motion captures attention before content does, so arrival order <em>becomes</em> reading
+      order.</mark> Stagger is therefore a claim about priority; make it deliberately.</li>
     <li>Per-item stagger breaks past roughly ten items. Stagger by batch or by row instead.</li>
     <li>The pattern: <code>--i</code> on each element,
       <code>transition-delay: calc(var(--i) * 60ms)</code>.</li>
@@ -110,11 +110,11 @@
     <li>Two unrelated techniques share one name. A <strong>trigger</strong> fires when an element
       crosses a line and then plays at its own speed. A <strong>scrub</strong> makes progress a
       function of scroll position.</li>
-    <li>If the element carries meaning, trigger it. Scrub only what is legible at any arbitrary
+    <li><mark>If the element carries meaning, trigger it.</mark> Scrub only what is legible at any arbitrary
       percentage — backgrounds, progress bars, a drifting image.</li>
     <li>Fire point: about 10–20% before the element's top reaches the viewport bottom.
       <code>rootMargin: '0px 0px -15% 0px'</code>.</li>
-    <li><strong>The cardinal sin:</strong> content that only JavaScript can unhide. Ship the
+    <li><mark><strong>The cardinal sin:</strong> content that only JavaScript can unhide.</mark> Ship the
       visible state and let the script opt into hiding it.</li>
     <li>Stagger by batch, not by global index, or item 40 waits two and a half seconds for
       nothing.</li>
@@ -125,10 +125,10 @@
   <h2>0005 · Exits</h2>
   <p><em>Skill: make a thing leave faster than it arrived, and survive its own removal.</em></p>
   <ul>
-    <li>An entrance spends time building understanding. An exit confirms a decision the reader
-      already made, which needs far less of it.</li>
+    <li>An entrance spends time building understanding. <mark>An exit confirms a decision the reader
+      already made, which needs far less of it.</mark></li>
     <li><strong>Ratio 0.5–0.65.</strong> 320ms in, 180ms out.</li>
-    <li><strong>The curve flips: ease-in out.</strong> An ease-out exit lingers at near-zero
+    <li><strong><mark>The curve flips: ease-in out.</mark></strong> An ease-out exit lingers at near-zero
       opacity, which is the worst possible place to spend time.</li>
     <li>Direction: back toward where it came from, or straight away. Never mirrored for symmetry's
       own sake.</li>
@@ -146,7 +146,7 @@
     <li>A CSS <strong>transition</strong> is a rule about two states. A CSS <strong>keyframe
       animation</strong> is a recording you can start and stop. <strong>WAAPI</strong> is the same
       recording with a playhead you can hold.</li>
-    <li>Pick by what you need to hold onto — that's the whole decision.</li>
+    <li><mark>Pick by what you need to hold onto — that's the whole decision.</mark></li>
     <li>Transitions interrupt from the current value for free. Keyframes own the property outright
       and snap when removed. Only WAAPI gives you <code>pause()</code>, <code>reverse()</code>,
       <code>currentTime</code> and <code>.finished</code>.</li>
@@ -154,20 +154,20 @@
       3+ steps, or runs unprompted? → keyframes. Pause, seek, reverse, await? →
       <code>el.animate()</code>. React, and unmounting or layout-driven? → Motion. Structured
       sequence or scroll pinning? → GSAP.</li>
-    <li>Libraries save you plumbing, not judgment. Every duration, curve and property decision
+    <li><mark>Libraries save you plumbing, not judgment.</mark> Every duration, curve and property decision
       from lessons 0001–0005 is unchanged by the tool.</li>
   </ul>
 
   <h2>0007 · Transform-origin</h2>
   <p><em>Skill: anchor a scaling element to the thing it came from.</em></p>
   <ul>
-    <li><code>transform-origin</code> is the <strong>fixed point</strong> — the one place in the
-      element that doesn't move.</li>
+    <li><mark><code>transform-origin</code> is the <strong>fixed point</strong> — the one place in the
+      element that doesn't move.</mark></li>
     <li>Put it at the point the element came from. For an anchored element, <strong>mirror the
       pinned edge</strong>: a panel below and right of its trigger gets <code>top left</code>.</li>
     <li>Get it wrong and the element drifts by <code>hypot((1−s)·W/2, (1−s)·H/2)</code> — which is
       why a wrong origin looks like the popover "landed nearby" rather than opened.</li>
-    <li>Never scale from 0. Start at 0.92–0.96, or the text is illegible and it reads as a zoom
+    <li><mark>Never scale from 0.</mark> Start at 0.92–0.96, or the text is illegible and it reads as a zoom
       rather than an appearance.</li>
     <li>The origin belongs on the element being transformed, not on its parent.</li>
     <li>It governs rotation too: centre = dial, left = door, bottom = pendulum, top = hanging tag.</li>
@@ -180,8 +180,8 @@
   <p><em>Skill: choose between a duration and a physics model, and tune a spring without
     guessing.</em></p>
   <ul>
-    <li>A tween is a <strong>function of time</strong>. A spring is a <strong>function of
-      state</strong> — position and velocity.</li>
+    <li><mark>A tween is a <strong>function of time</strong>. A spring is a <strong>function of
+      state</strong> — position and velocity.</mark></li>
     <li>Only a spring carries velocity across a mid-flight change of target. A tween produces a
       corner, because the new curve's opening slope comes from the curve, not from what the
       element was doing.</li>
@@ -193,7 +193,7 @@
     <li>Motion's <code>bounce</code> is <code>1 − ζ</code>, clamped to [0.05, 1] — so it can't
       express overdamped, and it's linear in ζ rather than in what you see.
       <code>bounce: 0.25</code> is a 2.8% overshoot, not 25%.</li>
-    <li>Duration is an <em>output</em>. Consequence: the bounciest preset is also the slowest.</li>
+    <li><mark>Duration is an <em>output</em>.</mark> Consequence: the bounciest preset is also the slowest.</li>
     <li>CSS <code>linear()</code> is a <em>baked</em> spring. Overshoot survives; velocity
       continuity does not.</li>
     <li>Don't spring a stagger (no duration to budget with), an exit, or <code>opacity</code>
@@ -203,10 +203,10 @@
   <h2>0009 · Reduced motion, done properly</h2>
   <p><em>Skill: decide, per element, what a reduced-motion user should see instead.</em></p>
   <ul>
-    <li><code>reduce</code> is a request about <strong>distance</strong>, not <strong>time</strong>.
+    <li><mark><code>reduce</code> is a request about <strong>distance</strong>, not <strong>time</strong>.</mark>
       Cutting a duration to 0.01ms moves the same 24px; it just deletes the part you could
       follow.</li>
-    <li>Take the travel away and keep the fade. A 300ms cross-fade in place is a perfectly good
+    <li><mark>Take the travel away and keep the fade.</mark> A 300ms cross-fade in place is a perfectly good
       reduced-motion animation.</li>
     <li>Three buckets. <strong>Ambient</strong> (parallax, drifting gradients, marquees) → remove.
       <strong>Informational</strong> (entrances, exits, toasts, reveals) → cross-fade in place at
@@ -233,8 +233,8 @@
   <h2>0010 · Hover and press</h2>
   <p><em>Skill: time a state change to the hand that caused it, and gate it on the input device.</em></p>
   <ul>
-    <li>Ask <strong>who moved first.</strong> Motion that answers the user is near-instant; motion
-      the system starts on its own gets a duration. This sits above every number in Reference 02.</li>
+    <li><mark>Ask <strong>who moved first.</strong> Motion that answers the user is near-instant; motion
+      the system starts on its own gets a duration.</mark> This sits above every number in Reference 02.</li>
     <li><strong>0.1 second</strong> is the limit for feeling you are directly manipulating the
       thing (Nielsen). Press-down 0&ndash;100ms; zero is a legitimate answer.</li>
     <li>Down fast, up slow — 80ms in, ~180ms out. Re-declare the transition inside
@@ -250,7 +250,7 @@
     <li>Gate hover decoration in <code>@media (hover: hover)</code>. Not
       <code>and (pointer: fine)</code>. <strong>Never put <code>:active</code> or
       <code>:focus-visible</code> inside it.</strong></li>
-    <li>Nothing that is information or a control may live behind hover. It doesn't exist on a
+    <li><mark>Nothing that is information or a control may live behind hover.</mark> It doesn't exist on a
       phone and it never appeared for a keyboard.</li>
     <li>Hover intent is an asymmetric <code>transition-delay</code>: ~300ms arriving, 0ms leaving.
       JavaScript only for the safe-triangle submenu case.</li>
@@ -266,7 +266,7 @@
     <li><strong>FLIP</strong> — First, Last, Invert, Play. Measure, change the DOM, measure again,
       apply a <code>transform</code> that maps Last back onto First, then take it off with a
       transition.</li>
-    <li>Layout runs <strong>once</strong>, at Last. Everything after is a composite-tier
+    <li><mark>Layout runs <strong>once</strong>, at Last.</mark> Everything after is a composite-tier
       <code>transform</code> — which is how a layout change gets animated inside 0002's budget.</li>
     <li>The DOM is in its final state from Last onward. Only the pixels lie.</li>
     <li><code>void el.offsetWidth;</code> between Invert and Play is load-bearing. Without it the
@@ -294,8 +294,8 @@
     <li>Support: same-document is Chrome 111, Safari 18, Firefox 144 — Baseline as of October
       2025. Cross-document (<code>@view-transition</code>) is Chrome 126 and Safari 18.2, and
       <strong>not in Firefox</strong>.</li>
-    <li>The gate: <strong>if the user can interrupt it, FLIP it; if it's over before they could,
-      hand it to the browser.</strong></li>
+    <li>The gate: <strong><mark>if the user can interrupt it, FLIP it; if it's over before they could,
+      hand it to the browser.</mark></strong></li>
   </ul>
 
   <hr>
@@ -304,7 +304,7 @@
   <p><em>Skill: animate an element that has no previous state, and pick the mechanism from whether
     it can be interrupted.</em></p>
   <ul>
-    <li>A transition needs <strong>two</strong> computed values. A just-appended element's first
+    <li><mark>A transition needs <strong>two</strong> computed values.</mark> A just-appended element's first
       computed style is its final style, so no transition is ever created — and nothing is
       logged, because not starting is not an error.</li>
     <li>Three places to keep the missing first value: <code>@starting-style</code>, the
@@ -313,14 +313,14 @@
     <li><strong><code>@starting-style</code> is a declarative <code>void el.offsetWidth</code>.</strong>
       Same fix as 0011's flush, spelled in CSS. It is consulted only on the element's <em>first</em>
       style update, which is also why it can do nothing for exits.</li>
-    <li>The gate — <strong>can she change her mind mid-entrance?</strong> A transition recomputes
+    <li>The gate — <strong><mark>can she change her mind mid-entrance?</mark></strong> A transition recomputes
       its start from the current on-screen value, so an interrupted entrance turns around. A
       keyframe animation starts a fresh timeline at its own <code>from</code>, so an interrupted
       entrance snaps to fully-arrived and leaves from there.</li>
     <li>WAAPI is the exception, not a contradiction: <code>el.animate()</code> hands back an
       <code>Animation</code> with <code>reverse()</code> and <code>playbackRate</code> —
       interruptible, as long as you kept hold of the object. That is 0006's ladder.</li>
-    <li>Where the zero lives decides what happens when the animation doesn't.
+    <li><mark>Where the zero lives decides what happens when the animation doesn't.</mark>
       <code>@starting-style</code> and <code>from</code> fail safe: an element that never animates
       is a visible element. <code>opacity: 0</code> in a base rule makes the content conditional on
       JS running, which is 0004's cardinal sin and needs 0004's <code>.js</code> guard.</li>
@@ -346,8 +346,8 @@
     <li>Two effects share the name. <strong>The window moves</strong> — the element is fully
       painted and at rest the whole time, and only what you may see of it changes.
       <strong>The content moves</strong> — the fade-and-rise, dimmer and lower than its final
-      state for the whole flight. A mask reads as <em>uncovering</em>; a fade reads as
-      <em>arriving</em>. A reveal called &ldquo;too soft&rdquo; is usually a fade where a mask
+      state for the whole flight. <mark>A mask reads as <em>uncovering</em>; a fade reads as
+      <em>arriving</em>.</mark> A reveal called &ldquo;too soft&rdquo; is usually a fade where a mask
       was wanted, and no curve fixes it.</li>
     <li><code>clip-path</code> keeps what is inside the shape and does not draw the rest. The
       layout box is unchanged, so nothing reflows, and hit-testing follows the visible shape.</li>
@@ -361,7 +361,7 @@
     <li>0002's <strong>on credit</strong> tier: it skips layout, so never the catastrophic kind of
       jank, but it re-paints and the bill scales with the <em>area</em> painted rather than with how
       complicated the shape is.</li>
-    <li>The decision is capability, not cost. <strong>Could a rectangle have done this?</strong>
+    <li>The decision is capability, not cost. <strong><mark>Could a rectangle have done this?</mark></strong>
       Stop at the first yes: (1) is the leading edge anything but horizontal or vertical;
       (2) does the window need more than one moving edge; (3) must the content stay perfectly still
       <em>and</em> the radius stay put; (4) is the element one you can't wrap.</li>
@@ -378,9 +378,9 @@
   <h2>0014 · Reading a Performance recording</h2>
   <p><em>Skill: find a long frame, follow its pipeline, and choose a mechanism-led fix.</em></p>
   <ul>
-    <li>A recording is evidence, not a score. Start with a long frame, then inspect the work nested inside it.</li>
+    <li><mark>A recording is evidence, not a score.</mark> Start with a long frame, then inspect the work nested inside it.</li>
     <li>Layout recalculates geometry; Paint fills pixels; Composite assembles painted layers.</li>
-    <li>Say what changed, how much changed, and which stage paid before proposing a remedy.</li>
+    <li><mark>Say what changed, how much changed, and which stage paid before proposing a remedy.</mark></li>
     <li>Repeat recordings across cold/warm cache and the slowest part of the gesture; machine and viewport change the numbers.</li>
   </ul>
 
@@ -393,11 +393,11 @@
   <h2>D001 · The map, and the words for it</h2>
   <p><em>Skill: name any effect, say its family, and say what it promises.</em></p>
   <ul>
-    <li><strong>Nouns</strong> name the pattern, <strong>verbs</strong> name what the motion does,
-      and <strong>adjectives</strong> diagnose how it feels.</li>
+    <li><mark><strong>Nouns</strong> name the pattern, <strong>verbs</strong> name what the motion does,
+      and <strong>adjectives</strong> diagnose how it feels.</mark></li>
     <li>Product UI values consistency and speed; expressive pages value pacing and restraint;
       direct manipulation values 1:1 tracking and what happens on release.</li>
-    <li>A convention is load-bearing when breaking it changes the promise, even if the resting
+    <li><mark>A convention is load-bearing when breaking it changes the promise</mark>, even if the resting
       frame still looks correct.</li>
     <li>The review sentence: <em>this is a [noun]; it [verb]s so the reader understands [promise].</em></li>
   </ul>
@@ -409,7 +409,7 @@
       consequences of that spatial claim.</li>
     <li>An anchored thing returns to its trigger or edge. A centred modal can come from nowhere.
       A toast belongs just beyond the edge it enters from.</li>
-    <li>Fade is not a neutral fallback. It says the thing stopped existing in place.</li>
+    <li><mark>Fade is not a neutral fallback. It says the thing stopped existing in place.</mark></li>
     <li>Exit direction confirms the same spatial model the entrance established.</li>
   </ul>
 
@@ -418,9 +418,9 @@
   <ul>
     <li>Motion is a hierarchy channel beside size, weight, colour and space — and it wins against
       all of them while it is active.</li>
-    <li>Animating an element promotes it, whether or not promotion was intended.</li>
+    <li><mark>Animating an element promotes it, whether or not promotion was intended.</mark></li>
     <li>Animate everything and the channel saturates; source order becomes the leftover ranking.</li>
-    <li>Motion cannot repair hierarchy. When it ends, the layout hands the old ranking back.</li>
+    <li><mark>Motion cannot repair hierarchy.</mark> When it ends, the layout hands the old ranking back.</li>
   </ul>
 
   <h2>D004 · The button</h2>
@@ -428,8 +428,8 @@
   <ul>
     <li>A button has seven designed states: rest, hover, focus, press, pending, success/error, and
       disabled. A mock usually shows one.</li>
-    <li>Missing feedback does not break the action; it breaks the promise that the action heard you.</li>
-    <li>Disabled is an error message with the text removed. Prefer a live control that spends the
+    <li><mark>Missing feedback does not break the action; it breaks the promise that the action heard you.</mark></li>
+    <li><mark>Disabled is an error message with the text removed.</mark> Prefer a live control that spends the
       press explaining and focusing what is missing.</li>
     <li>Hold-to-confirm is a state the reader occupies. Show progress, and make release snap back
       faster than the hold that earned it.</li>
@@ -438,11 +438,11 @@
   <h2>D005 · Things you drag</h2>
   <p><em>Skill: review a drag by its pickup and release, not its middle.</em></p>
   <ul>
-    <li>Nothing under the finger gets a transition. While held, only the hand may claim where the
+    <li><mark>Nothing under the finger gets a transition.</mark> While held, only the hand may claim where the
       object is.</li>
     <li>The five moments are <strong>lift, ghost, gap, settle, snap-back</strong>.</li>
     <li>Ghost preserves the origin; gap promises the landing. They are different pieces of evidence.</li>
-    <li>The keyboard path is part of the interaction, not an accessibility footnote.</li>
+    <li><mark>The keyboard path is part of the interaction, not an accessibility footnote.</mark></li>
   </ul>
 
   <h2>D006 · Decks, and what the dots promise</h2>
@@ -450,9 +450,9 @@
   <ul>
     <li>An indicator must answer <em>where am I</em> and <em>how much is left</em>. Dots do both at
       small counts, counters stay exact, bars preserve proportion.</li>
-    <li>Choose for the largest count the deck will ever hold, not the count in the mock.</li>
+    <li><mark>Choose for the largest count the deck will ever hold, not the count in the mock.</mark></li>
     <li>A peek is the content-level affordance that says the row continues.</li>
-    <li>Indicators imply pages, and pages imply snapping. Free-scroll belongs to continuous strips.</li>
+    <li><mark>Indicators imply pages, and pages imply snapping.</mark> Free-scroll belongs to continuous strips.</li>
     <li>Autoplay earns its place only when content fits the interval, pauses on hover/focus, stops
       permanently on interaction, and respects reduced motion.</li>
   </ul>
@@ -463,11 +463,11 @@
   <ul>
     <li><strong>Trigger</strong> when the middle frame is merely unfinished; <strong>scrub</strong>
       when every intermediate frame explains something valid.</li>
-    <li>Distance is duration. Price each beat in viewport-heights, then ask whether the idea is
+    <li><mark>Distance is duration.</mark> Price each beat in viewport-heights, then ask whether the idea is
       worth the travel it charges.</li>
     <li>Pin the visual that must remain constant for several changes to be compared. If nothing
       must remain constant, restore normal flow.</li>
-    <li>Parallax is a claim of depth. Different rates are justified only by a real foreground and
+    <li><mark>Parallax is a claim of depth.</mark> Different rates are justified only by a real foreground and
       background relationship.</li>
     <li>A horizontal section maps vertical travel onto a sideways stage; keep vertical progress,
       resting states, and the exit legible.</li>
@@ -482,7 +482,7 @@
   <ul>
     <li>Split is hierarchy made in time: lines preserve body-copy reading; words suit short headlines; characters suit one hero word.</li>
     <li>Mask reads as uncovering; fade-up reads as arriving. Compare them simultaneously before choosing.</li>
-    <li>More units multiply the waiting. A tiny per-unit delay can still make a paragraph feel like a queue.</li>
+    <li><mark>More units multiply the waiting.</mark> A tiny per-unit delay can still make a paragraph feel like a queue.</li>
     <li>Responsive line splitting must re-measure, preserve word wrapping, and keep the original sentence accessible.</li>
   </ul>
 
@@ -491,8 +491,8 @@
   <h2>D009 &middot; Loading, waiting, and optimism</h2>
   <p><em>Skill: pick a waiting treatment from the length of the wait, and defend it.</em></p>
   <ul>
-    <li>Two facts decide the treatment: how long the wait is, and whether the length is knowable. Everything else is taste.</li>
-    <li>A determinate indicator is a checkable promise. Don't make one you can't keep.</li>
+    <li><mark>Two facts decide the treatment: how long the wait is, and whether the length is knowable.</mark> Everything else is taste.</li>
+    <li><mark>A determinate indicator is a checkable promise.</mark> Don't make one you can't keep.</li>
     <li>A skeleton promises the shape of what's coming, so it lies on an empty state.</li>
     <li>Delay the loader past the common case, or most readers get a flash of loading that reads as a glitch.</li>
     <li>Optimism is a bet on the failure being cheap, reversible, and visible where the reader is still standing.</li>
@@ -504,8 +504,8 @@
   <p><em>Skill: choose a transition model from the relationship between two screens, and make the way back mean something.</em></p>
   <ul>
     <li>Four models, four claims: cut says nothing, cross-fade says <em>different</em>, push says <em>direction</em>, shared element says <em>this one</em>.</li>
-    <li>Back is not forward. One code path means one animation unless someone insists; press back and describe what you were told.</li>
-    <li>Orientation is bought by what <em>doesn't</em> take part. Persistent chrome is layout, not motion, so it survives everything.</li>
+    <li><mark>Back is not forward.</mark> One code path means one animation unless someone insists; press back and describe what you were told.</li>
+    <li><mark>Orientation is bought by what <em>doesn't</em> take part.</mark> Persistent chrome is layout, not motion, so it survives everything.</li>
     <li>Ask what the smallest region that has to change is. Most navigations change less than the implementation does.</li>
     <li>Cold entry test: load the destination with no history. Anything the transition was the only source of has gone.</li>
   </ul>
@@ -515,17 +515,17 @@
   <h2>D011 &middot; The motion budget</h2>
   <p><em>Skill: answer "should this animate?" with a reason, and price an animation by how often it plays.</em></p>
   <ul>
-    <li>The right amount of motion is the size of the event. Eight animations for a one-figure change is a lie in one direction; one animation for an eight-panel change is a lie in the other.</li>
+    <li><mark>The right amount of motion is the size of the event.</mark> Eight animations for a one-figure change is a lie in one direction; one animation for an eight-panel change is a lie in the other.</li>
     <li>Count three things, not one: signal is motion on something that changed, noise is motion on something that did not, and the third is the change that happened with no motion at all.</li>
     <li>Busy and expensive are different failures. Busy is more claims than the event deserved, at any duration — it needs subtraction. Expensive is one animation costing more than what it says is worth — it needs a lower price.</li>
-    <li>Price an animation as its length times how often it plays. A duration cannot be judged without the frequency, and the arithmetic turns taste into evidence.</li>
+    <li><mark>Price an animation as its length times how often it plays.</mark> A duration cannot be judged without the frequency, and the arithmetic turns taste into evidence.</li>
     <li>Idle motion has no event behind it, so it is a standing charge: the only justification is naming what would be untrue if it stopped.</li>
     <li>A principled no is a no with a question in it — what does this tell the reader that the layout does not, how many times a day does it play, what else claims attention in the same second, and what happens to the screen when it does not play at all.</li>
   </ul>
 
   <hr>
 
-  <p class="sidenote">What this sheet deliberately leaves out: every argument. Reference 01 holds
+  <p class="sidenote"><mark>What this sheet deliberately leaves out: every argument.</mark> Reference 01 holds
   the judgment calls for easing and timing, Reference 02 holds the numbers and the syntax, and
   this one holds the shape of the course. If a bullet here reads as an assertion you'd rather
   not take on faith — good, that's the lesson it came from doing its job.</p>

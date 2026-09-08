@@ -8,8 +8,8 @@
   <header class="masthead">
     <p class="eyebrow">Lesson D002 · 18 minutes</p>
     <h1>Where things live when they're off&nbsp;screen</h1>
-    <p class="dek">You never choose an animation. You choose where the thing came from, and the
-      animation is what falls out. This is the lesson that makes a motion decision arguable
+    <p class="dek"><mark>You never choose an animation. You choose where the thing came from, and the
+      animation is what falls out.</mark> This is the lesson that makes a motion decision arguable
       instead of a matter of taste.</p>
     <div class="meta">
       <span>Skill: answer &ldquo;should this fade or slide?&rdquo; without ever discussing fading
@@ -22,10 +22,10 @@
   review, and it is the wrong one. It has no answer, because it is a question about the animation
   — and the animation is not the decision.</p>
 
-  <p>Here is the version that does have an answer. <strong>Where is this thing when you can't see
-  it?</strong> A drawer is past the edge of the screen. An account menu is inside the button you
+  <p>Here is the version that does have an answer. <strong><mark>Where is this thing when you can't see
+  it?</mark></strong> A drawer is past the edge of the screen. An account menu is inside the button you
   clicked. A confirm dialog is nowhere at all — it did not exist a second ago. Answer that, and
-  the motion stops being a preference. It becomes arithmetic between two rectangles.</p>
+  the motion stops being a preference. <mark>It becomes arithmetic between two rectangles.</mark></p>
 
   <div class="callout">
     <span class="label">Say it out loud</span>
@@ -51,14 +51,14 @@
 
   <h2>Nothing there was an animation choice</h2>
 
-  <p>Open <strong>The CSS behind it</strong> and switch homes with it open. Every value in that
-  panel is <em>derived</em>. The panel's resting rectangle is fixed — that is what a nav panel
+  <p>Open <strong>The CSS behind it</strong> and switch homes with it open. <mark>Every value in that
+  panel is <em>derived</em>.</mark> The panel's resting rectangle is fixed — that is what a nav panel
   <em>is</em> — and the home supplies the other end. Subtract one from the other and you have the
   transform. There was no point at which anyone chose a direction, a distance, or a fade.</p>
 
   <p>This is why the question is worth changing. <em>Fade or slide</em> is a matter of taste and
-  the loudest person in the room wins it. <em>Where does this live when it's closed</em> is a
-  question about the product, and the answer is checkable: point at the button, point at the edge,
+  the loudest person in the room wins it. <mark><em>Where does this live when it's closed</em> is a
+  question about the product, and the answer is checkable</mark>: point at the button, point at the edge,
   point at the nothing.</p>
 
   <h2>Three kinds of home</h2>
@@ -66,17 +66,17 @@
   <p>Across the twenty-four combinations you just played, the ones that worked sort into three
   groups — and the three groups are the vocabulary.</p>
 
-  <p><strong>Retrieved.</strong> The thing has a home off screen and you are fetching it. Drawers,
+  <p><mark><strong>Retrieved.</strong> The thing has a home off screen and you are fetching it.</mark> Drawers,
   sheets, sliding nav, toasts. It comes from its edge and it goes back to its edge, and the
-  round trip is the point: it was put away, not destroyed. Everything in this group has a
+  round trip is the point: <mark>it was put away, not destroyed</mark>. Everything in this group has a
   <em>side</em>, and the side is not negotiable — it is wherever the product decided that thing
   lives.</p>
 
-  <p><strong>Grown.</strong> The thing lives inside the control that opens it. Account menus,
+  <p><mark><strong>Grown.</strong> The thing lives inside the control that opens it.</mark> Account menus,
   popovers, tooltips, an expanding card. There is no edge involved; the origin is another element
-  on screen — the <strong>anchor</strong> — and the motion's whole job is to say <em>these two
-  things are one thing</em>. Get the anchor wrong and you have not made it uglier, you have made
-  it a different object.</p>
+  on screen — the <strong>anchor</strong> — and <mark>the motion's whole job is to say <em>these two
+  things are one thing</em></mark>. <mark>Get the anchor wrong and you have not made it uglier, you have made
+  it a different object.</mark></p>
 
   <p class="sidenote">If you have read the engineering track: this is <a
   href="0007-transform-origin.html">lesson 0007</a> from the other side. That lesson argues
@@ -84,7 +84,7 @@
   one says the same thing as a design claim — the anchor is where the object <em>came from</em>,
   and it is a fact about the interface rather than a coefficient.</p>
 
-  <p><strong>Conjured.</strong> The thing has no home. A confirm dialog was not sitting somewhere
+  <p><mark><strong>Conjured.</strong> The thing has no home.</mark> A confirm dialog was not sitting somewhere
   waiting; it was made for this moment and it will be unmade. Modals, alerts, and command palettes
   live here.</p>
 
@@ -92,17 +92,17 @@
   something the other two get free. A retrieved element proves it still exists by going somewhere;
   a grown element proves what it belongs to by staying attached. A conjured element can prove
   neither, so something else has to carry that weight — which is what the scrim is for. Turn on
-  <strong>Confirm dialog</strong> in the lab and watch the dimming: the scrim is not decoration and
-  it is not a mood. It is the thing standing in for an origin, telling you the rest of the app is
+  <strong>Confirm dialog</strong> in the lab and watch the dimming: <mark>the scrim is not decoration and
+  it is not a mood. It is the thing standing in for an origin</mark>, telling you the rest of the app is
   still there and still yours.</p>
 
   <div class="callout principle">
     <span class="label">Falls out of this for free</span>
-    <p>A retrieved element does not need to fade, and mostly shouldn't. The edge of the screen
+    <p><mark>A retrieved element does not need to fade, and mostly shouldn't.</mark> The edge of the screen
     already hides it — a fade on top of the slide is a second answer to a question the slide has
     already answered, and it is what makes an entrance read as soft when you wanted it crisp.</p>
-    <p>A conjured element has no edge to hide behind, so it <em>must</em> fade; there is nowhere
-    else for it to be. Look back at the CSS panel: <code>opacity</code> appears only for the two
+    <p><mark>A conjured element has no edge to hide behind, so it <em>must</em> fade; there is nowhere
+    else for it to be.</mark> Look back at the CSS panel: <code>opacity</code> appears only for the two
     homes that have no edge. Nobody decided that either.</p>
   </div>
 
@@ -121,8 +121,8 @@
   was said out loud; the drawer's own path said it.</p>
 
   <p>The second is the one that ships most often, because a fade is the default and nobody argues
-  with it. Watch it again and notice what it costs: the panel is not <em>away</em>, it is
-  <em>gone</em>. That is fine for something genuinely conjured — a dialog that fades out is being
+  with it. Watch it again and notice what it costs: <mark>the panel is not <em>away</em>, it is
+  <em>gone</em></mark>. That is fine for something genuinely conjured — a dialog that fades out is being
   honest about being unmade — and it is a small lie for something that has a home. It is why a
   drawer you use forty times a day can feel slightly unmoored without anyone being able to say
   why.</p>
@@ -130,8 +130,8 @@
   <p>The third is the interesting failure, because it is the only one that is actively
   disorienting rather than merely mute. It came from the right and left on the left, so it is now
   on a side it has never been on. Reopen it and it comes from the right again, having apparently
-  travelled back around. Every time a menu overlay does this, it is teaching the user a map of the
-  interface that isn't true.</p>
+  travelled back around. <mark>Every time a menu overlay does this, it is teaching the user a map of the
+  interface that isn't true.</mark></p>
 
   <p class="sidenote">If you have read the engineering track: <a href="0005-exits.html">lesson
   0005</a> argues that exits should be faster than entrances and use a different curve. That is
@@ -143,11 +143,11 @@
   <p>You now have a question that ends arguments rather than starting them. When someone shows you
   a panel and asks whether it should fade or slide, the reply is:</p>
 
-  <p class="lead">Where does this live when it's closed?</p>
+  <p class="lead"><mark>Where does this live when it's closed?</mark></p>
 
   <p>Either they can point at something — an edge, a button, or nothing — or they can't. If they
   can, the motion is settled and you are done. If they can't, you have found a real problem, and it
-  was never a motion problem: nobody has decided what this thing <em>is</em>. That is worth
+  was never a motion problem: <mark>nobody has decided what this thing <em>is</em></mark>. That is worth
   fifteen minutes of the meeting and a fade is not.</p>
 
   <p>And when you are the one being asked, the whole answer fits in a sentence of the same shape.

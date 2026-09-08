@@ -7,9 +7,9 @@
   <header class="masthead">
     <p class="eyebrow">Lesson D008 · 18 minutes</p>
     <h1>Text that arrives</h1>
-    <p class="dek">Kinetic type is not a pile of letters with a delay. Split the sentence at the
+    <p class="dek"><mark>Kinetic type is not a pile of letters with a delay.</mark> <mark>Split the sentence at the
       level of meaning, then decide whether the reader should see a window opening or words
-      entering the room.</p>
+      entering the room.</mark></p>
     <div class="meta"><span>Skill: choose split granularity, reveal style, and stagger from the reading unit</span><span><a href="D007-scroll-as-a-timeline.html">← Lesson D007</a></span></div>
   </header>
 
@@ -42,7 +42,7 @@
       its tax in beats and milliseconds, and the counter under it is doing arithmetic you would
       otherwise have to trust someone about.</li>
     <li>Try <strong>words + quick</strong> on the hero, then read the same setting on the body copy.
-      Keep the smallest unit that changes meaning, not the smallest unit the browser can animate.</li>
+      <mark>Keep the smallest unit that changes meaning, not the smallest unit the browser can animate.</mark></li>
     <li>Now leave the split alone and move <strong>Order</strong> to <em>last&nbsp;&rarr;&nbsp;first</em>,
       then to <em>centre out</em>. Nothing about the type changed and nothing about the timing
       changed. What changed is which unit the reader meets first — which is a ranking, and it is
@@ -61,30 +61,30 @@
   <h2>A split is a hierarchy made in time</h2>
   <p>Lines are usually the right first experiment for body copy. They preserve the sentence's
     shape while giving the entrance a clear cadence. Words can work for a short headline or a list
-    whose items are genuinely separate. Characters are a special effect: one hero word, a logo-like
-    title, or a deliberate spelling-out moment. Character-splitting ordinary prose is almost always
-    wrong because the eye has to reconstruct words while the animation keeps changing the target.</p>
-  <p>This is not a ban on letters. It is a question of ownership: <strong>what is the reader waiting
-    for?</strong> If the answer is “the next idea,” split by line or word. If the answer is “this word
-    forming,” split by character. A 35ms delay can feel like a quick beat; 80ms is countable. The
-    more units you create, the more total time you spend even when each delay looks tiny.</p>
+    whose items are genuinely separate. <mark>Characters are a special effect: one hero word, a logo-like
+    title, or a deliberate spelling-out moment.</mark> <mark>Character-splitting ordinary prose is almost always
+    wrong</mark> because the eye has to reconstruct words while the animation keeps changing the target.</p>
+  <p>This is not a ban on letters. It is a question of ownership: <strong><mark>what is the reader waiting
+    for?</mark></strong> If the answer is “the next idea,” split by line or word. If the answer is “this word
+    forming,” split by character. A 35ms delay can feel like a quick beat; 80ms is countable. <mark>The
+    more units you create, the more total time you spend even when each delay looks tiny.</mark></p>
 
-  <p>The split decides how many things there are. The <strong>order</strong> decides which of them
-    the reader meets first, and that is a second, separate ranking — the lab's Order knob changes
+  <p><mark>The split decides how many things there are. The <strong>order</strong> decides which of them
+    the reader meets first</mark>, and that is a second, separate ranking — the lab's Order knob changes
     nothing but the schedule. Reading order is the default and usually the honest one: it agrees
     with the direction the eye was already travelling. Reversing it says the end of the phrase is
     the point, which is occasionally true and mostly an accident of a preset. Centre-out says the
     thing is unfolding rather than being read, which is why it flatters a single hero word and
-    fights a sentence. Whichever you pick, you have told the reader what to rank first, so pick
-    it on purpose.</p>
+    fights a sentence. Whichever you pick, <mark>you have told the reader what to rank first, so pick
+    it on purpose</mark>.</p>
 
   <p class="sidenote"><strong>If you have read the engineering track:</strong> 0003's stagger lab
     gives you the arithmetic for the delays. No engineering-track lesson is required for the
     decision above.</p>
 
   <h2>Mask or fade: uncovering or arriving?</h2>
-  <p>A mask reveal changes the window in front of still type. It says, “this was here; now you can
-    see it.” A fade-up changes the type's state. It says, “this is entering your attention.” Both
+  <p><mark>A mask reveal changes the window in front of still type.</mark> It says, “this was here; now you can
+    see it.” <mark>A fade-up changes the type's state.</mark> It says, “this is entering your attention.” Both
     can be beautiful. They are not interchangeable, and a comparison needs to be simultaneous or
     your memory will quietly pick a winner for you.</p>
 
@@ -104,14 +104,14 @@
       passed every time; the verdict measures how much of the <em>change</em> has been spent. That
       gap between the two is the entire job of a curve.</li>
     <li>Push <strong>Fade-up travel</strong> to <em>28px</em>. Only the right pane moves, and it now
-      announces its arrival much more loudly. Distance is a volume knob, not a detail.</li>
+      announces its arrival much more loudly. <mark>Distance is a volume knob, not a detail.</mark></li>
     <li>Set <strong>Line delay</strong> to <em>together</em>, then <em>countable&nbsp;&middot;&nbsp;180ms</em>.
       The cadence of the group is a separate decision from the speed of one line.</li>
   </ol></div>
 
-  <p>Use a mask when the spatial place is stable and the reveal itself is the story: a line being
-    uncovered, a crop opening, a title emerging from behind a surface. Use fade-up when arrival is
-    the story: a new section, a caption gaining focus, or a sequence where the words should feel
+  <p><mark>Use a mask when the spatial place is stable and the reveal itself is the story</mark>: a line being
+    uncovered, a crop opening, a title emerging from behind a surface. <mark>Use fade-up when arrival is
+    the story</mark>: a new section, a caption gaining focus, or a sequence where the words should feel
     newly present. If the type should not move, do not fake its movement just because a split-text
     preset offers one.</p>
 
@@ -125,16 +125,16 @@
 
   <h2>Keep the reading intact</h2>
   <p>Runtime line splitting depends on font metrics and available width. Fonts load, windows resize,
-    and a line that was one unit can become two. A robust implementation re-splits after those
+    and a line that was one unit can become two. <mark>A robust implementation re-splits after those
     changes, preserves the original text for assistive technology, and keeps generated units out of
-    the accessibility tree. If the effect is decorative, the sentence must remain a sentence when
+    the accessibility tree.</mark> If the effect is decorative, the sentence must remain a sentence when
     motion is removed.</p>
 
   <p class="sidenote"><strong>If you have read 0013:</strong> that lesson calls this the window-
     versus-content decision. D008 applies the same distinction to typography, where a few pixels of
     travel can change whether the reader experiences “uncovering” or “entering.”</p>
   <p>There is also a practical CSS detail: character spans can break words if they are allowed to
-    wrap independently. Keep characters inside word-sized wrappers, or the demo teaches a broken
+    wrap independently. <mark>Keep characters inside word-sized wrappers</mark>, or the demo teaches a broken
     line break instead of kinetic type. The lab does this deliberately so you can resize it without
     losing the thing being taught.</p>
 
@@ -153,17 +153,17 @@
   <p>Kinetic type is close to the top of the list of things a reduced-motion reader wants spared.
     A split turns one calm element into dozens of small moving parts, all of them inside the thing
     the reader is trying to read, and the reader cannot look away from it because it is the content.
-    A vestibular trigger is bad; a vestibular trigger you have to stare at to get the information is
-    worse.</p>
-  <p>The accommodation is not a faster version of the same reveal. There is no honest short version
-    of a letter-by-letter formation — at 60ms it is not a gentler effect, it is a flicker. Remove the
-    schedule entirely and let the sentence be present. Both labs on this page do exactly that, and
+    <mark>A vestibular trigger is bad; a vestibular trigger you have to stare at to get the information is
+    worse.</mark></p>
+  <p>The accommodation is not a faster version of the same reveal. <mark>There is no honest short version
+    of a letter-by-letter formation — at 60ms it is not a gentler effect, it is a flicker.</mark> <mark>Remove the
+    schedule entirely and let the sentence be present.</mark> Both labs on this page do exactly that, and
     each says so in a comment: the words were always the content, and the split was always
     decoration on top of them.</p>
   <p>What you keep is the information. If the stagger was carrying an order — this heading, then its
     subhead, then the button — that order still exists in the layout and in the reading direction.
     It was never the animation's to give. The test is simple and you can apply it to any design:
-    <strong>turn the motion off and see whether anything you were relying on has gone.</strong> If
+    <strong><mark>turn the motion off and see whether anything you were relying on has gone</mark>.</strong> If
     something has, it was load-bearing motion, and it needed a second home.</p>
 
   <p class="sidenote"><strong>If you have read 0009:</strong> this is that lesson's stance applied to

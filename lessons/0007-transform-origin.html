@@ -16,8 +16,8 @@
     </div>
   </header>
 
-  <p class="lead">A menu that appears near a button and a menu that comes <em>out of</em> a
-  button are the same pixels, in a different order.</p>
+  <p class="lead"><mark>A menu that appears near a button and a menu that comes <em>out of</em> a
+  button are the same pixels, in a different order.</mark></p>
 
   <p>Every scale you've written so far has quietly used the default,
   <code>transform-origin: 50% 50%</code> — the element grows from its own centre, in all four
@@ -46,24 +46,24 @@
   <h2>What you just saw</h2>
 
   <p><strong>The ring never moves.</strong> That's not a trick of the demo — it's the
-  definition. <code>transform-origin</code> is the fixed point of the transform: the one place
-  on the element that scaling and rotation leave exactly where it was. Everything else moves
+  definition. <mark><code>transform-origin</code> is the fixed point of the transform: the one place
+  on the element that scaling and rotation leave exactly where it was.</mark> Everything else moves
   relative to it.</p>
 
-  <p>So the question "where should this scale from?" is really the question <strong>"which point
-  on this element must not move?"</strong> And for anything anchored to a trigger, the answer is
+  <p>So <mark>the question "where should this scale from?" is really the question <strong>"which point
+  on this element must not move?"</strong></mark> And for anything anchored to a trigger, the answer is
   obvious once you ask it that way: the corner touching the button. That corner is where the
   panel came from. If it moves, the panel didn't come from anywhere.</p>
 
   <p>On the right-hand lane, the ring sits in the middle of the panel, so the anchored corner
   starts some distance away and travels in. At the default scale of 0.85 that's about 14px of
   travel — small enough that you'd never file a bug about it, large enough that the panel reads
-  as <em>sliding into place near the button</em> rather than <em>opening out of it</em>. Most
-  motion problems are this size.</p>
+  as <em>sliding into place near the button</em> rather than <em>opening out of it</em>. <mark>Most
+  motion problems are this size.</mark></p>
 
   <div class="callout principle">
     <span class="label">The rule this gives you</span>
-    <p>Put the origin at the point the element came from.</p>
+    <p><mark>Put the origin at the point the element came from.</mark></p>
     <p>For an anchored element that's the edge or corner nearest its trigger. For something that
     genuinely came from nowhere — a centred modal — the default centre is correct, and you
     should leave it alone deliberately rather than by accident.</p>
@@ -71,13 +71,13 @@
 
   <p class="sidenote"><code>transform-origin</code> is free in the sense of lesson 0002: it
   changes the matrix the compositor applies, not which pipeline stages run. Setting it costs the
-  same as not setting it. There is no performance argument for leaving it at the default —
-  only inattention.</p>
+  same as not setting it. <mark>There is no performance argument for leaving it at the default —
+  only inattention.</mark></p>
 
   <h2>Picking the origin</h2>
 
-  <p>The rule is a mirror. Whatever edge of the panel is pinned to the trigger, the origin goes
-  on that edge.</p>
+  <p><mark>The rule is a mirror. Whatever edge of the panel is pinned to the trigger, the origin goes
+  on that edge.</mark></p>
 
   <table>
     <thead>
@@ -101,8 +101,8 @@
 
   <h2>Computing it, when the position isn't known in advance</h2>
 
-  <p>A popover whose placement flips depending on available space can't have a hardcoded origin.
-  Measure instead. This is a case where a couple of lines of JavaScript are the right tool —
+  <p><mark>A popover whose placement flips depending on available space can't have a hardcoded origin.
+  Measure instead.</mark> This is a case where a couple of lines of JavaScript are the right tool —
   lesson 0006's ladder, question 1: it isn't two fixed states, it's a computed value.</p>
 
   <pre><code>function aimAt(panel, trigger) {
@@ -202,8 +202,8 @@
   <h2>It governs rotation too</h2>
 
   <p>Everything above was about scale, but the origin applies to the whole transform. Rotation
-  is where it becomes physical: change the origin and you change what kind of object you're
-  describing.</p>
+  is where it becomes physical: <mark>change the origin and you change what kind of object you're
+  describing</mark>.</p>
 
   <table>
     <thead><tr><th>Origin</th><th>A rotation reads as…</th></tr></thead>
@@ -229,30 +229,30 @@
 
   <p><strong>Scaling from zero.</strong> Drag the lab's scale down to 0.2 and open it. The panel
   arrives as a magic trick, and on the way in the text is unreadable — genuinely unreadable, not
-  just small, because the browser is rasterising type at a fraction of its size. Anchored
-  elements want <strong>0.85 to 0.95</strong>. The scale is a hint about where it came from, not
+  just small, because the browser is rasterising type at a fraction of its size. <mark>Anchored
+  elements want <strong>0.85 to 0.95</strong>.</mark> The scale is a hint about where it came from, not
   a birth.</p>
 
   <p><strong>Origin on the wrong element.</strong> If your panel has a wrapper that also
-  transforms, the origins compose and you'll chase the bug for twenty minutes. Put the scale and
-  the origin on the same element, and let the wrapper handle position only.</p>
+  transforms, the origins compose and you'll chase the bug for twenty minutes. <mark>Put the scale and
+  the origin on the same element, and let the wrapper handle position only.</mark></p>
 
   <h2>When to leave it alone</h2>
 
   <p>Two cases, and they're both about honesty.</p>
 
-  <p>A <strong>centred modal</strong> didn't come from anywhere in particular — it's a mode
+  <p><mark>A <strong>centred modal</strong> didn't come from anywhere in particular</mark> — it's a mode
   change, not an expansion of a control. Centre origin, small scale, brief fade. Aiming it at
   the button that opened it would be a lie about the interface's structure, and it looks like
   one.</p>
 
   <p>A <strong>toast or banner</strong> comes from an edge of the screen, not from a point on
-  itself. That's a <code>translate</code>, not a scale, and the origin never enters into it. If
-  you find yourself setting an origin on a toast, you've probably picked the wrong transform.</p>
+  itself. That's a <code>translate</code>, not a scale, and the origin never enters into it. <mark>If
+  you find yourself setting an origin on a toast, you've probably picked the wrong transform.</mark></p>
 
   <p>And for <code>prefers-reduced-motion</code>: the origin is the cheapest part to keep. Drop
-  the scale to something tiny or remove it entirely and keep a short fade — but if you keep
-  <em>any</em> scale at all, keep the correct origin. It's the part carrying the meaning.</p>
+  the scale to something tiny or remove it entirely and keep a short fade — but <mark>if you keep
+  <em>any</em> scale at all, keep the correct origin</mark>. It's the part carrying the meaning.</p>
 
   <div data-quiz data-quiz-title="Check yourself">
 

@@ -8,7 +8,7 @@
   <header class="masthead">
     <p class="eyebrow">Lesson D010 · 20 minutes</p>
     <h1>Navigation and page transitions</h1>
-    <p class="dek">A transition between two screens is a sentence about how they are related. You
+    <p class="dek"><mark>A transition between two screens is a sentence about how they are related.</mark> You
       are writing that sentence whether or not you meant to — and the reader reads it either
       way.</p>
     <div class="meta">
@@ -19,8 +19,8 @@
 
   <p class="lead">D009 was about the wait: something is happening, and the screen has to say so
   honestly. This is the other half of the same moment. The request came back, the new screen is
-  here, and the reader has a different question now — not <em>is it working</em> but <em>where am
-  I</em>. That question has a deadline of about a third of a second, and if the screen does not
+  here, and <mark>the reader has a different question now — not <em>is it working</em> but <em>where am
+  I</em></mark>. <mark>That question has a deadline of about a third of a second</mark>, and if the screen does not
   answer it, the reader answers it themselves by reading everything again.</p>
 
   <div class="callout">
@@ -64,33 +64,33 @@
 
   <h2>Four models, four claims</h2>
 
-  <p>A <strong>cut</strong> claims nothing. That is not a failure state — it is the right choice
+  <p><mark>A <strong>cut</strong> claims nothing.</mark> That is not a failure state — it is the right choice
   more often than transition-enthusiasts admit, particularly for navigations the reader performs
-  dozens of times an hour. Motion has a cost that gets paid on every repetition, and a cut costs
-  nothing. If you cannot say what the transition is telling the reader, the cut is telling them the
-  same amount, faster.</p>
+  dozens of times an hour. <mark>Motion has a cost that gets paid on every repetition, and a cut costs
+  nothing.</mark> <mark>If you cannot say what the transition is telling the reader, the cut is telling them the
+  same amount, faster.</mark></p>
 
-  <p>A <strong>cross-fade</strong> claims <em>a different thing, in no particular place</em>. It is
+  <p><mark>A <strong>cross-fade</strong> claims <em>a different thing, in no particular place</em>.</mark> It is
   the mildest possible statement: something changed, be calm about it. It is genuinely useful when
   two screens have no spatial relationship worth asserting — a dashboard and a settings page do not
   live next to each other in any sense the reader can hold — and it is the safest default when you
-  are not sure. Its weakness is exactly its virtue. It cannot distinguish going in from coming out,
-  so it can never help the reader retrace their steps.</p>
+  are not sure. Its weakness is exactly its virtue. <mark>It cannot distinguish going in from coming out,
+  so it can never help the reader retrace their steps.</mark></p>
 
-  <p>A <strong>push</strong> claims <em>direction</em>. The old screen is not gone, it is over
+  <p><mark>A <strong>push</strong> claims <em>direction</em>.</mark> The old screen is not gone, it is over
   there, one step behind you. This is the model that builds a mental map, and it is the reason
   phone operating systems have leaned on it for fifteen years: after a few minutes with it, the
-  reader knows there is a stack and knows which way is out. The cost is that a push commits you.
+  reader knows there is a stack and knows which way is out. <mark>The cost is that a push commits you.</mark>
   Once forward means "from the right", every navigation in the product has to have an opinion about
   which direction it is, and any screen that genuinely has no direction will feel arbitrary when you
   give it one.</p>
 
-  <p>A <strong>shared element</strong> claims <em>this specific one</em>. Of the four it is the only
-  one that says something about the <em>object</em> rather than about the screens. The reader tapped
+  <p><mark>A <strong>shared element</strong> claims <em>this specific one</em>.</mark> <mark>Of the four it is the only
+  one that says something about the <em>object</em> rather than about the screens.</mark> The reader tapped
   a row; the thumbnail from that row is now the header of the page they are on; the identity is
   established without a word of copy. That is a lot of meaning for one moving square, which is why
-  it is the model people over-reach with. It only works when the thing that persists is genuinely
-  the same thing. Fly an arbitrary rectangle across the screen because the geometry happens to work
+  it is the model people over-reach with. <mark>It only works when the thing that persists is genuinely
+  the same thing.</mark> Fly an arbitrary rectangle across the screen because the geometry happens to work
   and you have made a claim the reader will test and find false.</p>
 
   <p class="sidenote"><strong>If you have read 0011:</strong> the shared-element frame above is
@@ -115,27 +115,27 @@
   is almost invisible in review. Forward and back are the same navigation in the code — one screen
   replaced by another — so they run the same transition, and the transition plays the same way. Set
   <strong>Back behaviour</strong> to <em>repeats forward</em> in the lab and press back: the list
-  slides in from the right, exactly as the detail did. The screen has just told the reader they went
-  <em>deeper</em>, at the precise moment they were trying to get out.</p>
+  slides in from the right, exactly as the detail did. <mark>The screen has just told the reader they went
+  <em>deeper</em>, at the precise moment they were trying to get out.</mark></p>
 
-  <p>The reason this survives review is that it is invisible in every artifact a review uses. A
+  <p><mark>The reason this survives review is that it is invisible in every artifact a review uses.</mark> A
   static mock cannot show it. A screenshot of a correct back and a broken back are the same image.
   Even a recording will pass if the person recording it only went forward. It is caught by one
   thing: somebody navigating in both directions, on purpose, watching. Put that in your review
-  checklist as a sentence — <em>press back and describe what you were told</em> — because it will
+  checklist as a sentence — <em><mark>press back and describe what you were told</mark></em> — because it will
   not occur to anyone spontaneously.</p>
 
-  <p>The fix is a direction of travel, not a second animation. If forward is "in from the right",
+  <p><mark>The fix is a direction of travel, not a second animation.</mark> If forward is "in from the right",
   back is the same motion with the sign flipped, and both fall out of one variable. The same is true
   of a shared element: forward the object flies to its new home, back it flies to the row it came
   from. What makes the pair legible is that they are visibly the <em>same</em> motion undone, which
-  is also why you should resist the temptation to give back its own charming treatment. Back's job
-  is to be recognisably the reverse. Charm is forward's job.</p>
+  is also why you should resist the temptation to give back its own charming treatment. <mark>Back's job
+  is to be recognisably the reverse. Charm is forward's job.</mark></p>
 
-  <p>Reversibility also decides how much you can spend. A transition the reader will only see once
-  can be expressive. A transition they will see going both ways, thirty times a session, has to
-  survive repetition in both directions — and things that survive repetition are short, quiet, and
-  the same every time.</p>
+  <p>Reversibility also decides how much you can spend. <mark>A transition the reader will only see once
+  can be expressive.</mark> A transition they will see going both ways, thirty times a session, has to
+  survive repetition in both directions — and <mark>things that survive repetition are short, quiet, and
+  the same every time</mark>.</p>
 
   <p class="sidenote"><strong>If you have read 0005:</strong> this is that lesson's asymmetry
   argument at the scale of a whole screen. An exit is allowed to be faster than an entrance; what it
@@ -152,9 +152,9 @@
   <h2>Orientation is what did not move</h2>
 
   <p>Everything so far has been about the parts that move. The next lab is about the parts that
-  refuse to, and this is the half that is consistently underrated: a reader knows they are still in
+  refuse to, and this is the half that is consistently underrated: <mark>a reader knows they are still in
   the same app because the bar across the top is <em>the same bar it was a second ago</em>, not
-  because something slid nicely.</p>
+  because something slid nicely</mark>.</p>
 
   <div class="callout">
     <span class="label">Try this, in order</span>
@@ -175,8 +175,8 @@
 
   <p>The number in that lab is measured off the frame, and it is a blunt instrument on purpose.
   What it makes obvious is that both panes ran the same fade for the same duration — the difference
-  in how settled the right-hand one feels was not bought with better motion. It was bought by
-  excluding things from the motion.</p>
+  in how settled the right-hand one feels was not bought with better motion. <mark>It was bought by
+  excluding things from the motion.</mark></p>
 
   <p>Persistent chrome does three jobs at once. It answers <em>am I still in the same place</em>
   without the reader having to check. It gives the moving parts a frame to move inside, which is
@@ -186,9 +186,9 @@
   because it is a continuous object rather than a new arrangement.</p>
 
   <p>There is a design decision hiding in that, which is worth making explicitly rather than
-  discovering: <strong>what is the smallest region that has to change?</strong> Most navigations
-  change less than the implementation changes. If only the content area is genuinely different,
-  animating the whole viewport is not a bolder choice, it is a less accurate one.</p>
+  discovering: <strong><mark>what is the smallest region that has to change?</mark></strong> <mark>Most navigations
+  change less than the implementation changes.</mark> <mark>If only the content area is genuinely different,
+  animating the whole viewport is not a bolder choice, it is a less accurate one.</mark></p>
 
   <p class="sidenote"><strong>If you have read D003:</strong> persistent chrome is the hierarchy
   argument turned inside out. That lesson asked which element should move first; this one asks which
@@ -201,16 +201,16 @@
   ago, they hit a bookmark. There was no previous screen, so there was no transition, and every
   sentence you carefully wrote was never delivered.</p>
 
-  <p>This is the test that keeps transition design honest. Load the destination cold and ask whether
-  it still explains itself: does it say what it is, does it offer a way up that is a real
+  <p>This is the test that keeps transition design honest. <mark>Load the destination cold and ask whether
+  it still explains itself</mark>: does it say what it is, does it offer a way up that is a real
   destination rather than "back", and does it survive having no history behind it? If the answer is
-  no, the motion was carrying information — and motion is the worst possible place to keep
-  information, because it is the first thing that disappears. It is absent on cold entry, absent
+  no, the motion was carrying information — and <mark>motion is the worst possible place to keep
+  information, because it is the first thing that disappears</mark>. It is absent on cold entry, absent
   when the reader looks away mid-navigation, absent on a slow device that drops the whole animation,
   and absent by request for anyone who has turned it off.</p>
 
-  <p>The rule that falls out is short: <strong>a transition may reinforce a relationship the screen
-  already states. It may not be the only place that relationship exists.</strong> A shared element
+  <p>The rule that falls out is short: <strong><mark>a transition may reinforce a relationship the screen
+  already states. It may not be the only place that relationship exists.</mark></strong> A shared element
   that establishes "this is the kettle you tapped" is doing lovely work on top of a page whose
   heading says <em>Kettle</em>. It is doing load-bearing work — badly — on a page that expected the
   animation to introduce it.</p>
@@ -232,13 +232,13 @@
 
   <p>Notice what the second lab does under the same setting. It keeps working. Nothing animates, the
   frames swap instantly, and the right-hand one is still noticeably more settled than the left —
-  because persistence was never motion in the first place. It is a fact about the layout. That is
+  because <mark>persistence was never motion in the first place. It is a fact about the layout.</mark> That is
   why it survives the setting, the refresh, the deep link and the dropped frame, and it is the
   strongest argument in this lesson for spending your effort on what stays rather than on what
   moves.</p>
 
-  <p>There is one honest exception worth keeping. A cross-fade is opacity only — no travel, no
-  parallax, nothing for the vestibular system to object to — so it is a reasonable thing to keep
+  <p>There is one honest exception worth keeping. <mark>A cross-fade is opacity only — no travel, no
+  parallax, nothing for the vestibular system to object to</mark> — so it is a reasonable thing to keep
   when a reader has asked for less motion, where a push is not. If you want a graceful degradation
   rather than a hard cut, that is the one to reach for.</p>
 

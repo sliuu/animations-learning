@@ -8,7 +8,7 @@
   <header class="masthead">
     <p class="eyebrow">Lesson 0012 · 18 minutes</p>
     <h1>Things that just appeared</h1>
-    <p class="dek">A transition needs two values and a new element only has one. Everything in this
+    <p class="dek"><mark>A transition needs two values and a new element only has one.</mark> Everything in this
       lesson is a different place to put the missing one — and the choice between them is not
       cosmetic.</p>
     <div class="meta">
@@ -24,8 +24,8 @@
 
   <p>A CSS transition interpolates between two computed values. Two. Append a row to a list and
   its very first computed style — <code>opacity: 1</code>, no transform — is also its final style.
-  There is no pair. Nothing goes wrong, so nothing is reported: the transition was simply never
-  eligible to start.</p>
+  There is no pair. <mark>Nothing goes wrong, so nothing is reported: the transition was simply never
+  eligible to start.</mark></p>
 
   <p>Which means every entrance you have ever written had to manufacture that first value. There are
   three places to put it, they are not interchangeable, and choosing badly costs you something you
@@ -55,7 +55,7 @@
   declaration on the row, the values it names are the values that change, and the row appears.
   The count under the stage is the only thing that will ever tell you.</p>
 
-  <p><strong><code>getAnimations()</code> is the instrument to remember.</strong> It returns every
+  <p><strong><mark><code>getAnimations()</code> is the instrument to remember.</mark></strong> It returns every
   transition and animation currently attached to an element. When an entrance does nothing and you
   cannot see why, it answers the only question that matters — <em>did the browser create anything
   at all?</em> — and it distinguishes the two failures that look identical: <em>nothing started</em>
@@ -93,8 +93,8 @@
   </table>
 
   <p><code>@starting-style</code> is worth one sentence of precision because the name suggests
-  something more magical than it is: <strong>it is an ordinary rule that is only ever consulted
-  once</strong>, on the style update where the element first has a style — when it enters the
+  something more magical than it is: <strong><mark>it is an ordinary rule that is only ever consulted
+  once</mark></strong>, on the style update where the element first has a style — when it enters the
   document, or when it comes out of <code>display: none</code>. After that it may as well not
   exist. That is why the rows already sitting in the list in step 2 did not move: they had their
   first style update several presses ago.</p>
@@ -116,12 +116,12 @@
   correct and you should still use it. What is worth noticing now is that the other two mechanisms
   <strong>do not need it</strong>: with <code>@starting-style</code> or a <code>from</code>
   keyframe, an element that never animates for any reason is a visible element that did not
-  animate. The failure mode is boring, which is the highest praise an entrance can get.</p>
+  animate. <mark>The failure mode is boring, which is the highest praise an entrance can get.</mark></p>
 
   <div class="callout principle">
     <span class="label">Principle</span>
-    <p>Put the start value somewhere that only exists <em>during</em> the entrance. A start value
-    that lives in the resting rule has made your content conditional on your animation running.</p>
+    <p><mark>Put the start value somewhere that only exists <em>during</em> the entrance. A start value
+    that lives in the resting rule has made your content conditional on your animation running.</mark></p>
   </div>
 
   <h2>The gate: can she change her mind?</h2>
@@ -152,24 +152,24 @@
 
   <h2>Why A jumped</h2>
 
-  <p>A transition has no timeline. It holds a start value, an end value and a curve, and when the
-  end value changes it recomputes the start from <em>what is on screen right now</em>. That is why
+  <p><mark>A transition has no timeline.</mark> It holds a start value, an end value and a curve, and <mark>when the
+  end value changes it recomputes the start from <em>what is on screen right now</em></mark>. That is why
   B's exit began at 0.76: 0.76 was the truth at that moment, and a transition has no other source
   of truth.</p>
 
-  <p>A keyframe animation does have a timeline, and swapping one animation for another starts the
-  new one at its own zero. <code>@keyframes out</code> opens with <code>from { opacity: 1 }</code>
+  <p><mark>A keyframe animation does have a timeline, and swapping one animation for another starts the
+  new one at its own zero.</mark> <code>@keyframes out</code> opens with <code>from { opacity: 1 }</code>
   and it means it — regardless of whether the entrance had got there. So the panel snaps to fully
   arrived and then leaves, which reads to a user as the interface briefly ignoring them.</p>
 
   <p>Notice what panel A is <em>not</em> doing wrong. Its keyframes are correct, its curves are the
   ones this course would pick, and the JS that keeps it mounted for the length of its exit is the
   same bookkeeping lesson 0005 showed you and the same job <code>AnimatePresence</code> does in
-  Motion. It is careful code. It simply cannot know where the entrance had got to, because a
-  <code>from</code> keyframe is an assertion, not a question.</p>
+  Motion. It is careful code. It simply cannot know where the entrance had got to, because <mark>a
+  <code>from</code> keyframe is an assertion, not a question.</mark></p>
 
   <p>And at 500ms nothing disagrees, because by then there was no entrance left to interrupt.
-  <strong>The whole difference exists only during flight.</strong> If you test an entrance by
+  <strong><mark>The whole difference exists only during flight.</mark></strong> If you test an entrance by
   opening it, waiting, and closing it, you will never see this — which is exactly why it ships.</p>
 
   <div class="sidenote">
@@ -183,9 +183,9 @@
 
   <div class="callout principle">
     <span class="label">The gate</span>
-    <p>Can the user cancel this before it finishes? <strong>No</strong> — a keyframe animation,
-    and stop thinking about it. <strong>Yes</strong> — <code>@starting-style</code> and two rules,
-    because the entrance has to be able to become an exit.</p>
+    <p><mark>Can the user cancel this before it finishes?</mark> <strong>No</strong> — a keyframe animation,
+    and stop thinking about it. <mark><strong>Yes</strong> — <code>@starting-style</code> and two rules,
+    because the entrance has to be able to become an exit.</mark></p>
     <p>Rows in a feed, a toast that has already committed, a hero on load: no. Anything with a
     close button, a backdrop, an <kbd>Esc</kbd> key or a finger on it: yes.</p>
   </div>
@@ -206,14 +206,14 @@
 
   <div class="callout principle">
     <span class="label">Worth remembering as one sentence</span>
-    <p><code>@starting-style</code> is a declarative <code>void el.offsetWidth</code>. Both exist to
-    make one particular style real enough that the browser will transition out of it.</p>
+    <p><mark><code>@starting-style</code> is a declarative <code>void el.offsetWidth</code>. Both exist to
+    make one particular style real enough that the browser will transition out of it.</mark></p>
   </div>
 
   <p>So why keep the primitive one? Because a stylesheet can only hold values you can type. FLIP's
   before is <code>translate(-329px, -66px)</code>, computed at runtime from two measurements, and
-  there is no rule you could have written for it. <strong>When the start value is data, it has to be
-  set from script, and then it has to be flushed.</strong> That is the whole of the fourth row of
+  there is no rule you could have written for it. <strong><mark>When the start value is data, it has to be
+  set from script, and then it has to be flushed.</mark></strong> That is the whole of the fourth row of
   the table.</p>
 
   <h2>Popovers, dialogs, and the one that still catches people</h2>
@@ -222,10 +222,10 @@
   extra term. These elements are promoted to the browser's <strong>top layer</strong> — a layer
   above everything on the page, which is how a modal escapes an ancestor's
   <code>overflow: hidden</code> without anyone managing z-indexes. Promotion and demotion are
-  controlled by the browser, not by your CSS, and demotion is <em>instant</em> by default.</p>
+  controlled by the browser, not by your CSS, and <mark>demotion is <em>instant</em> by default</mark>.</p>
 
-  <p>Which produces a specific and confusing bug: the popover fades out correctly, and vanishes
-  anyway on the first frame, because it left the top layer while it was still mid-fade. Four
+  <p>Which produces a specific and confusing bug: <mark>the popover fades out correctly, and vanishes
+  anyway on the first frame</mark>, because it left the top layer while it was still mid-fade. Four
   declarations fix it and three of them are already familiar:</p>
 
   <pre><code>[popover] {
@@ -241,8 +241,8 @@
   [popover]:popover-open { opacity: 0; }
 }</code></pre>
 
-  <p>The pairing is the thing to hold on to: <code>display</code> keeps the element rendered,
-  <code>overlay</code> keeps it <em>on top</em>, and forgetting the second gives you an exit that
+  <p>The pairing is the thing to hold on to: <mark><code>display</code> keeps the element rendered,
+  <code>overlay</code> keeps it <em>on top</em></mark>, and forgetting the second gives you an exit that
   is technically running and visually absent. <code>overlay</code> can only be transitioned this
   way — it is not a property you are allowed to set yourself, only one you are allowed to delay.</p>
 
@@ -256,7 +256,7 @@
 
   <p>Check MDN's compatibility tables rather than trusting numbers written in a lesson; the point of
   quoting them is the <em>shape</em> of the degradation, not the versions. In every case here it is
-  the same shape: the element still appears, still disappears, and still works. That is what makes
+  the same shape: <mark>the element still appears, still disappears, and still works</mark>. That is what makes
   these safe to reach for without a feature query — unlike 0004's scroll-driven animations, where
   the un-animated fallback would have been an invisible page and the <code>@supports</code> gate was
   load-bearing.</p>
@@ -322,8 +322,8 @@
   <p>Write an entrance for something that did not exist a moment ago, and say which of three places
   you put its start value in and why. When an entrance silently does nothing, reach for
   <code>getAnimations()</code> before reaching for the prose. And when someone asks whether an
-  entrance should be a transition or an animation, answer with a question about the user rather than
-  about the syntax: <em>can they change their mind while it is running?</em></p>
+  entrance should be a transition or an animation, <mark>answer with a question about the user rather than
+  about the syntax: <em>can they change their mind while it is running?</em></mark></p>
 
   <div class="ask-teacher">
     <p><strong>I'm your teacher here — ask me things.</strong> Good asks for this one:

@@ -17,15 +17,15 @@
     </div>
   </header>
 
-  <p class="lead">Every animation in this course so far has been the page <em>acting</em>. Hover
-  and press are the page <em>answering</em>.</p>
+  <p class="lead"><mark>Every animation in this course so far has been the page <em>acting</em>. Hover
+  and press are the page <em>answering</em>.</mark></p>
 
   <p>That changes two things. First, the clock started before your animation did. Nobody has an
   expectation about when a scroll reveal should fire — but a finger that has already moved is
   waiting for the screen to agree, and it is counting. Second, whether half of this code runs at
-  all is decided by hardware you don't control. There is no hover on a phone. Not "hover is
-  awkward on a phone" — the event that turns a hover state <em>off</em> is never generated at
-  all.</p>
+  all is decided by hardware you don't control. <mark>There is no hover on a phone.</mark> Not "hover is
+  awkward on a phone" — <mark>the event that turns a hover state <em>off</em> is never generated at
+  all</mark>.</p>
 
   <div class="callout">
     <span class="label">Try this, in order</span>
@@ -46,12 +46,12 @@
 
   <h2>What you just saw</h2>
 
-  <p>On the mouse, a hover state is self-cancelling. <code>pointerenter</code> turns it on,
+  <p><mark>On the mouse, a hover state is self-cancelling.</mark> <code>pointerenter</code> turns it on,
   <code>pointerleave</code> turns it off, and you never think about it again. That symmetry is
   the only reason bare <code>:hover</code> has ever worked.</p>
 
-  <p>A finger doesn't do that. It arrives out of nowhere and it leaves without a forwarding
-  address, so browsers on touch devices <em>synthesise</em> the mouse half: on tap they apply
+  <p><mark>A finger doesn't do that. It arrives out of nowhere and it leaves without a forwarding
+  address</mark>, so browsers on touch devices <em>synthesise</em> the mouse half: on tap they apply
   <code>:hover</code>, and — having no leave event to work with — they keep it applied until you
   touch something else. Your button stays lit. Your card stays raised. The dropdown you were
   proud of stays open behind the page the user has already moved on to.</p>
@@ -63,12 +63,12 @@
   .btn:hover { background: var(--accent-700); }
 }</code></pre>
 
-  <p>Note what is <em>not</em> inside those braces. <code>:active</code> stays outside. A finger
-  cannot hover, but it can absolutely press — that's the entire input.</p>
+  <p>Note what is <em>not</em> inside those braces. <code>:active</code> stays outside. <mark>A finger
+  cannot hover, but it can absolutely press — that's the entire input.</mark></p>
 
   <div class="callout warn">
     <span class="label">The mistake this lesson exists to prevent</span>
-    <p>Putting <code>:active</code> inside <code>@media (hover: hover)</code>. It happens by
+    <p><mark>Putting <code>:active</code> inside <code>@media (hover: hover)</code>.</mark> It happens by
     copy-paste: you have a block of interaction styles, you wrap the block, and the press feedback
     goes with it. Touch users — the majority on most consumer sites — now get a button that does
     nothing at all when they push it. It looks fine on your laptop forever.</p>
@@ -111,9 +111,9 @@
   That is why the lab hides which side is which: told in advance that 400ms is worse, you would
   have agreed without ever checking, and this is a limit you want in your hands, not in a note.</p>
 
-  <p>So: <strong>press-down 0–100ms.</strong> Zero is a legitimate answer. And a useful corollary
-  — at 80ms, every easing curve in Reference 01 looks identical, because there aren't enough
-  frames to tell them apart. This is the one place in the course where you can stop thinking
+  <p><mark>So: <strong>press-down 0–100ms.</strong> Zero is a legitimate answer.</mark> And a useful corollary
+  — <mark>at 80ms, every easing curve in Reference 01 looks identical, because there aren't enough
+  frames to tell them apart</mark>. This is the one place in the course where you can stop thinking
   about the curve. Use <code>ease-out</code> and spend the attention elsewhere.</p>
 
   <h2>Down fast, up slow</h2>
@@ -134,13 +134,13 @@
 }</code></pre>
 
   <p>Note that the release duration is declared on the base rule and the press duration inside
-  <code>:active</code>. A transition belongs to the state being entered, so the rule that turns
+  <code>:active</code>. <mark>A transition belongs to the state being entered</mark>, so the rule that turns
   the press <em>on</em> owns the going-down time, and the resting rule owns the coming-back time.
   Override only the <code>transform</code> and you get one duration in both directions by
   accident — which is exactly B.</p>
 
-  <p>Going down is <em>your</em> action, so it has to be instant. Coming back up is the system
-  letting go, and a slightly soft release reads as physical resilience — you get most of what a
+  <p><mark>Going down is <em>your</em> action, so it has to be instant. Coming back up is the system
+  letting go, and a slightly soft release reads as physical resilience</mark> — you get most of what a
   spring would give you for one extra line and no library.</p>
 
   <h2>Who moved first</h2>
@@ -151,17 +151,17 @@
   times.</p>
 
   <p>300ms on the panel is unremarkable — it's Reference 02's number for exactly that kind of
-  move. 300ms under your finger is broken. Same duration, same curve, same property, opposite
+  move. 300ms under your finger is broken. <mark>Same duration, same curve, same property, opposite
   verdict. So the duration was never a property of the <em>animation</em>; it was a property of
-  who started it.</p>
+  who started it.</mark></p>
 
   <div class="callout principle">
     <span class="label">The rule this gives you</span>
-    <p>Motion that <strong>answers</strong> the user is as close to instant as you can make it.
-    Motion the <strong>system</strong> starts on its own gets a duration.</p>
+    <p><mark>Motion that <strong>answers</strong> the user is as close to instant as you can make it.
+    Motion the <strong>system</strong> starts on its own gets a duration.</mark></p>
     <p>A press-down answers a finger, so it's 80ms. A dismissal is the system removing something
-    on your behalf, so it's 180ms. It was never about "in versus out" — it's about who went
-    first.</p>
+    on your behalf, so it's 180ms. <mark>It was never about "in versus out" — it's about who went
+    first.</mark></p>
   </div>
 
   <p>This is also why <a href="0005-exits.html">lesson 0005</a>'s rule — exits run about half the
@@ -173,13 +173,13 @@
   <h2>Why scaling down reads as "physical"</h2>
 
   <p>Of the free properties from <a href="0002-the-four-property-budget.html">lesson 0002</a>,
-  scale is the only one that maps onto a physical press. Smaller means further away; further away
+  <mark>scale is the only one that maps onto a physical press</mark>. Smaller means further away; further away
   under a finger means pushed. Opacity has no direction, rotation has the wrong one, and
   translation reads as the button <em>sliding</em> rather than yielding — though a 1px
   <code>translateY</code> is a good second choice when you want a key rather than a surface.</p>
 
-  <p>The number is not a constant, though. <strong>Scale is a ratio and displacement is what the
-  eye reads</strong>, so the same scale on a bigger element is a bigger move:</p>
+  <p>The number is not a constant, though. <strong><mark>Scale is a ratio and displacement is what the
+  eye reads</mark></strong>, so the same scale on a bigger element is a bigger move:</p>
 
   <pre><code>edge displacement = (1 − scale) × width ÷ 2</code></pre>
 
@@ -196,8 +196,8 @@
     </tbody>
   </table>
 
-  <p>Keep the edge displacement in the <strong>2–4px</strong> band and derive the scale from the
-  width, rather than reusing <code>0.96</code> everywhere and wondering why it looks wrong on the
+  <p><mark>Keep the edge displacement in the <strong>2–4px</strong> band and derive the scale from the
+  width</mark>, rather than reusing <code>0.96</code> everywhere and wondering why it looks wrong on the
   big cards. For anything full-width, stop scaling and darken the background instead — no
   displacement, same acknowledgement.</p>
 
@@ -272,22 +272,22 @@
   here. The <code>and (pointer: fine)</code> narrows the query to devices with a
   <em>precise</em> pointer as well, which excludes hover-capable inputs that aren't precise, and
   buys you nothing: sticky hover is caused by the absence of a leave event, not by imprecision.
-  Gate on <code>hover</code> alone.</p>
+  <mark>Gate on <code>hover</code> alone.</mark></p>
 
   <p>And note the direction of failure, which is the same argument <a
   href="0009-reduced-motion.html">0009</a> made for Tailwind's <code>motion-safe:</code>. Writing
   the positive query — "when hovering is possible, add this" — means that forgetting the query
   leaves you with no hover effect, which is a nicety missing. Writing the negative one — "when
-  hovering is impossible, undo this" — means forgetting leaves a stuck state on a phone. Prefer
-  the version whose failure mode is boring.</p>
+  hovering is impossible, undo this" — means forgetting leaves a stuck state on a phone. <mark>Prefer
+  the version whose failure mode is boring.</mark></p>
 
   <div class="callout">
     <span class="label">The line you can't cross</span>
-    <p>Never put <em>information or a control</em> behind hover. The "…" menu that only appears
+    <p><mark>Never put <em>information or a control</em> behind hover.</mark> The "…" menu that only appears
     on row hover, the tooltip that holds the only explanation of an icon, the delete button that
     fades in — on a phone these do not exist, and to a keyboard user they never appeared either.
-    Hover may add emphasis to something already visible. It may not be the thing that reveals
-    it.</p>
+    <mark>Hover may add emphasis to something already visible. It may not be the thing that reveals
+    it.</mark></p>
   </div>
 
   <h2>Hover intent, in CSS</h2>
@@ -308,8 +308,8 @@
 }</code></pre>
 
   <p>The delay applies on the way in and not on the way out, so a cursor passing through gets
-  nowhere near 300ms and nothing happens, while a cursor that stops gets its tooltip. Leaving is
-  immediate because the person has already decided.</p>
+  nowhere near 300ms and nothing happens, while a cursor that stops gets its tooltip. <mark>Leaving is
+  immediate because the person has already decided.</mark></p>
 
   <p>JavaScript earns its place here in exactly one case: a submenu the cursor must cross a gap
   to reach, where it briefly leaves the trigger and hasn't arrived at the panel. That's the
@@ -319,9 +319,9 @@
   <h2>Keyboard gets neither</h2>
 
   <p>A keyboard user never hovers and never presses, and they are the reason this can't be left
-  as a CSS detail. Any hover state that signals <em>this is interactive</em> needs a
+  as a CSS detail. <mark>Any hover state that signals <em>this is interactive</em> needs a
   <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-visible"><code>:focus-visible</code></a>
-  twin — not necessarily an identical one, but something in the same place doing the same job.</p>
+  twin</mark> — not necessarily an identical one, but something in the same place doing the same job.</p>
 
   <pre><code>.btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }</code></pre>
 
@@ -356,9 +356,9 @@
   <ol>
     <li><strong>Press feedback slower than hover feedback.</strong> If the button responds faster
       to being looked at than to being pushed, the hierarchy is inverted and it reads as broken
-      without anyone being able to say why. Press is always the fastest thing on the element.</li>
-    <li><strong>Hover states on things that aren't interactive.</strong> A card that lifts on
-      hover is promising a click. If the whole card isn't clickable, you've spent the affordance
+      without anyone being able to say why. <mark>Press is always the fastest thing on the element.</mark></li>
+    <li><strong>Hover states on things that aren't interactive.</strong> <mark>A card that lifts on
+      hover is promising a click.</mark> If the whole card isn't clickable, you've spent the affordance
       on a lie and people will click the middle of it.</li>
     <li><strong>Testing with a mouse only.</strong> Chrome DevTools' device toolbar changes the
       viewport and touch emulation, and the lab above simulates the event sequence — but neither

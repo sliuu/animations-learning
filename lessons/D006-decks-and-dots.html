@@ -8,8 +8,8 @@
   <header class="masthead">
     <p class="eyebrow">Lesson D006 · 16 minutes</p>
     <h1>Decks, and what the dots promise</h1>
-    <p class="dek">Every carousel makes two claims before you touch it: where you are, and how much
-      is left. Most of the design work is picking a way to make those claims that stays true when
+    <p class="dek"><mark>Every carousel makes two claims before you touch it: where you are, and how much
+      is left.</mark> Most of the design work is picking a way to make those claims that stays true when
       the content grows.</p>
     <div class="meta">
       <span>Skill: review a deck by what its indicator promises and whether it can keep it</span>
@@ -17,7 +17,7 @@
     </div>
   </header>
 
-  <p class="lead">A deck is a room with one wall visible. That is a strange thing to put on a page,
+  <p class="lead"><mark>A deck is a room with one wall visible.</mark> That is a strange thing to put on a page,
   and it only works if the room tells you honestly how big it is. When a deck fails it is almost
   never because the sliding was badly animated. It is because you could not tell where you were,
   or you never knew there was anywhere else to go.</p>
@@ -60,18 +60,18 @@
 
   <h2>An indicator makes two promises</h2>
 
-  <p>The two questions are not the same question, and no indicator answers both well. Dots answer
-  both, brilliantly, up to about seven items — you take in <em>five, and I'm on the second</em>
+  <p>The two questions are not the same question, and no indicator answers both well. <mark>Dots answer
+  both, brilliantly, up to about seven items</mark> — you take in <em>five, and I'm on the second</em>
   without counting, the way you take in the pips on a die. That is a perceptual limit, not a style
   preference, and it is why dots feel so right in the design file where the deck has four cards in
   it.</p>
 
-  <p>Past that limit dots do not degrade gracefully; they stop being information. Forty dots tell
+  <p><mark>Past that limit dots do not degrade gracefully; they stop being information.</mark> Forty dots tell
   you <em>there are many</em> and put that non-answer in the exact place your eye goes for
   <em>where am I</em>. You saw it above: the active dot in a row of forty is not findable at a
-  glance. A counter keeps both promises at any length, but you have to read it, so it never gives
-  you the feeling of proportion. A bar gives you proportion at a glance and never tells you the
-  count, so "one more swipe or nine" stays open.</p>
+  glance. <mark>A counter keeps both promises at any length, but you have to read it, so it never gives
+  you the feeling of proportion.</mark> <mark>A bar gives you proportion at a glance and never tells you the
+  count</mark>, so "one more swipe or nine" stays open.</p>
 
   <p>So the review question is not <em>are dots right here</em>. It is <em>how many items will
   this hold in a year</em>, and then the indicator follows from the answer. A deck whose content is
@@ -81,17 +81,17 @@
 
   <div class="callout">
     <span class="label">The one to remember</span>
-    <p>Pick the indicator from the <em>largest</em> number of items the deck will ever hold, not
-    the number in the mock. Dots are a promise you can only keep at small counts.</p>
+    <p><mark>Pick the indicator from the <em>largest</em> number of items the deck will ever hold, not
+    the number in the mock.</mark> Dots are a promise you can only keep at small counts.</p>
   </div>
 
   <h2>The peek is the whole affordance</h2>
 
   <p>Set the next card to <em>hidden</em> again and look at the deck cold. It fills its box. It has
   a clean edge on the right. There is nothing about it that says it is a strip rather than a
-  panel — and a person who does not know it scrolls will not scroll it. The deck is fully
+  panel — and <mark>a person who does not know it scrolls will not scroll it</mark>. <mark>The deck is fully
   functional and completely invisible, which is the most expensive kind of broken, because it
-  reports as working.</p>
+  reports as working.</mark></p>
 
   <p>A peek fixes this with no words: half an inch of the next card, cut off by the edge, is an
   unambiguous statement that the row continues. It is doing the same job an indicator does but
@@ -101,7 +101,7 @@
   <p>This is why the peek is not a decorative margin choice, and why "make the cards fill the
   width, it looks tidier" is the single most common way a working deck gets broken in a visual
   polish pass. If someone asks for that, the thing to say is not <em>I like the peek</em>. It is
-  <em>the peek is the only thing on screen telling anyone this scrolls</em>.</p>
+  <em><mark>the peek is the only thing on screen telling anyone this scrolls</mark></em>.</p>
 
   <p class="sidenote"><strong>If you have read the engineering track:</strong> this is the same
   argument as the one in 0004 about revealing things on scroll — the cheapest affordance is always
@@ -109,17 +109,17 @@
 
   <h2>Snap, or drift</h2>
 
-  <p>Snapping is a claim about what the items <em>are</em>. Snap says: these are pages, they have
+  <p><mark>Snapping is a claim about what the items <em>are</em>.</mark> Snap says: these are pages, they have
   a correct position, and one flick moves you exactly one. Free scroll says: this is a continuous
   strip, and stopping halfway between two things is a legitimate place to be.</p>
 
   <p>You felt the mismatch above. With <em>drifts</em> on, a flick leaves the deck at rest with two
   cards half-cut at both edges, and neither of them is readable — because these cards are pages,
-  and half a page is nothing. Free scroll is right when the items are small enough that several are
-  visible at once and cutting one at the edge costs nothing: a row of thumbnails, a tag strip, an
+  and half a page is nothing. <mark>Free scroll is right when the items are small enough that several are
+  visible at once and cutting one at the edge costs nothing</mark>: a row of thumbnails, a tag strip, an
   avatar list. It is wrong the instant a single item fills most of the window.</p>
 
-  <p>There is a useful test. If the deck has an indicator at all, it must snap — an indicator says
+  <p>There is a useful test. <mark>If the deck has an indicator at all, it must snap</mark> — an indicator says
   <em>you are on item three</em>, and free scroll makes that sentence false about half the time.
   A deck that drifts should be indicated by its peek and nothing else.</p>
 
@@ -150,12 +150,12 @@
   <div data-autoplay-lab data-title="Read the slide"></div>
 
   <p>The counter names a failure that is otherwise silent. Being interrupted mid-sentence does not
-  feel like a bug while it is happening; it feels like your own failure to read fast enough. That
+  feel like a bug while it is happening; it feels like your own failure to read fast enough. <mark>That
   is exactly why autoplay survives usability reviews — the person it fails does not report it,
-  they blame themselves and leave.</p>
+  they blame themselves and leave.</mark></p>
 
-  <p>Step four is the vicious one. Clicking back to a slide is an explicit statement of intent, and
-  a deck that resumes afterwards overrules it. There is no reading of that interaction where the
+  <p>Step four is the vicious one. <mark>Clicking back to a slide is an explicit statement of intent, and
+  a deck that resumes afterwards overrules it.</mark> There is no reading of that interaction where the
   reader wanted the deck to keep going, which is why <em>stop permanently on first interaction</em>
   is not a nicety. It is the difference between a control and a fight.</p>
 
@@ -163,8 +163,8 @@
   is fine when it meets all of them: the slides carry <strong>no text that takes longer to read
   than the interval</strong> — images, or three words; it <strong>pauses on hover and on keyboard
   focus</strong>; it <strong>stops permanently the first time anyone touches it</strong>; and it
-  <strong>does not start at all</strong> for a reader who has asked for reduced motion. A hero of
-  three photographs can meet every one of those. A hero of three paragraphs cannot meet the first,
+  <strong>does not start at all</strong> for a reader who has asked for reduced motion. <mark>A hero of
+  three photographs can meet every one of those. A hero of three paragraphs cannot meet the first</mark>,
   and that is the whole argument, in one sentence you can say out loud.</p>
 
   <p class="sidenote"><strong>If you have read the engineering track:</strong> the reduced-motion

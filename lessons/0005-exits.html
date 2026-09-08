@@ -16,7 +16,7 @@
     </div>
   </header>
 
-  <p class="lead">Nobody has ever complained that a dismissed dialog left too quickly.</p>
+  <p class="lead"><mark>Nobody has ever complained that a dismissed dialog left too quickly.</mark></p>
 
   <p>Lesson 0001 gave you a rule with no exceptions in it: <strong>ease-out, or nothing</strong>
   — fast at the start, settling gently into place, because that's what physical things do when
@@ -41,16 +41,16 @@
 
   <div class="callout principle">
     <span class="label">First principle</span>
-    <p>An entrance spends time to <strong>build understanding</strong>. An exit spends time
+    <p><mark>An entrance spends time to <strong>build understanding</strong>. An exit spends time
     to <strong>confirm a decision the reader already made</strong> — which needs far less of
-    it.</p>
-    <p>So the exit keeps exactly one job: showing <em>where the thing went</em>, so it doesn't
-    just blink out of existence. That job is worth roughly half the duration of the entrance,
+    it.</mark></p>
+    <p>So <mark>the exit keeps exactly one job: showing <em>where the thing went</em>, so it doesn't
+    just blink out of existence</mark>. That job is worth roughly half the duration of the entrance,
     and sometimes none at all.</p>
   </div>
 
-  <p>There's a perceptual asymmetry underneath this too. Waiting to <em>see</em> something is
-  anticipation; waiting for something to <em>go away</em> is an obstruction, because whatever
+  <p>There's a perceptual asymmetry underneath this too. <mark>Waiting to <em>see</em> something is
+  anticipation; waiting for something to <em>go away</em> is an obstruction</mark>, because whatever
   you want next is behind it. The same 300ms is pleasant in one direction and irritating in
   the other.</p>
 
@@ -86,15 +86,15 @@
   <div data-exit-lab data-title="Open them, then close them"></div>
 
   <p>The default settings are a 320ms entrance and a 180ms exit — a ratio of about 0.56. That
-  range, roughly <strong>half to two-thirds of the entrance</strong>, is where almost every
-  well-behaved interface lives. Drag the exit up to match the entrance and the right and left
+  range, <mark>roughly <strong>half to two-thirds of the entrance</strong>, is where almost every
+  well-behaved interface lives</mark>. Drag the exit up to match the entrance and the right and left
   panels become identical; that's the version most UI ships with.</p>
 
   <p>Then drag the exit <em>past</em> the entrance and watch what a 600ms dismissal feels like.
   Nothing is technically wrong. It just feels like the interface is arguing with you.</p>
 
   <p class="sidenote">Exit duration <code>0</code> is a legitimate setting and the lab will tell
-  you so. A toast that simply vanishes is not a bug. The reader's attention has already moved
+  you so. <mark>A toast that simply vanishes is not a bug.</mark> The reader's attention has already moved
   on, and the only thing you lose is the small courtesy of showing where it went.</p>
 
   <h2>The curve flips too</h2>
@@ -122,13 +122,13 @@
     </tbody>
   </table>
 
-  <p>An ease-out exit decelerates at the end, which means it spends its final milliseconds
-  crawling the last few pixels while barely visible. That's the worst possible place to spend
+  <p><mark>An ease-out exit decelerates at the end, which means it spends its final milliseconds
+  crawling the last few pixels while barely visible.</mark> That's the worst possible place to spend
   time — it's the part of the animation with the least information in it. An ease-in exit does
   the opposite: it starts gently, so the departure is legible, then gets out fast.</p>
 
   <div class="callout">
-    <p><strong>The pairing:</strong> <code>ease-out</code> in, <code>ease-in</code> out. If you
+    <p><mark><strong>The pairing:</strong> <code>ease-out</code> in, <code>ease-in</code> out.</mark> If you
     want one set of values to memorise:</p>
     <pre><code>--enter: 320ms cubic-bezier(0.23, 1, 0.32, 1);   /* ease-out, strong */
 --exit:  180ms cubic-bezier(0.4, 0, 1, 1);      /* ease-in */</code></pre>
@@ -144,10 +144,10 @@
   A panel that slid up into view can leave two ways:</p>
 
   <ul>
-    <li><strong>Reverse</strong> — back down the way it came. Reads as <em>cancelled</em>,
-    <em>undone</em>, <em>put back</em>. Right for a dismissal, a cancel, an escape key.</li>
-    <li><strong>Continue</strong> — keeps travelling in the same direction and off. Reads as
-    <em>completed</em>, <em>sent</em>, <em>filed</em>. Right for a message that was submitted
+    <li><mark><strong>Reverse</strong> — back down the way it came. Reads as <em>cancelled</em>,
+    <em>undone</em>, <em>put back</em>.</mark> Right for a dismissal, a cancel, an escape key.</li>
+    <li><mark><strong>Continue</strong> — keeps travelling in the same direction and off. Reads as
+    <em>completed</em>, <em>sent</em>, <em>filed</em>.</mark> Right for a message that was submitted
     or an item that moved somewhere.</li>
   </ul>
 
@@ -174,7 +174,7 @@
 
   <div class="callout warn">
     <span class="label">The rule</span>
-    <p><strong>The element must outlive the state change.</strong> Something has to keep it
+    <p><mark><strong>The element must outlive the state change.</strong></mark> Something has to keep it
     alive until the exit animation finishes, and only then unmount it.</p>
   </div>
 
@@ -294,9 +294,9 @@
   turning up in lessons that aren't about performance.</p>
 
   <p>The mechanism worth taking away from that CSS is not the two new keywords — it's
-  <strong>where you put the <code>transition</code> declaration</strong>. A transition on the
+  <strong>where you put the <code>transition</code> declaration</strong>. <mark>A transition on the
   resting rule governs the journey <em>to</em> that rule, so the base rule's transition is your
-  exit and the <code>:checked</code> rule's transition is your entrance. That's how you get two
+  exit and the <code>:checked</code> rule's transition is your entrance.</mark> That's how you get two
   different durations and two different curves out of plain CSS, and it works with or without
   the discrete-animation features.</p>
 
@@ -314,12 +314,12 @@
 
   <p>That's a property of CSS transitions you get for free: they interpolate from the
   <em>current computed value</em>, not from a fixed start. Keyframe animations don't behave
-  this way by default, which is a real argument for transitions in interactive UI. If a user
+  this way by default, which is a real argument for transitions in interactive UI. <mark>If a user
   can open and close something quickly — and they can — the exit must be able to become an
-  entrance again halfway through.</p>
+  entrance again halfway through.</mark></p>
 
   <div class="callout">
-    <p><strong>The test:</strong> click your open/close control as fast as you can. If the UI
+    <p><mark><strong>The test:</strong> click your open/close control as fast as you can.</mark> If the UI
     queues up animations, stutters, or gets stuck in a wrong state, the motion isn't
     interruptible and it will feel broken to anyone in a hurry.</p>
   </div>
@@ -327,8 +327,8 @@
   <h2>When not to animate the exit</h2>
 
   <ul>
-    <li><strong>Anything keyboard-initiated.</strong> Escape to close means the person is in a
-    hurry and probably not looking at the animation. Cut it short or cut it entirely.</li>
+    <li><strong>Anything keyboard-initiated.</strong> <mark>Escape to close means the person is in a
+    hurry and probably not looking at the animation.</mark> Cut it short or cut it entirely.</li>
     <li><strong>High-frequency UI.</strong> Lesson 0001's frequency rule applies harder to
     exits: a menu you open forty times a day should close instantly.</li>
     <li><strong>Anything blocking what comes next.</strong> If a modal's exit delays the page
@@ -337,8 +337,8 @@
     worrying, get out of the way immediately.</li>
   </ul>
 
-  <p>And for reduced motion, exits are the easy case: drop the travel, shorten the fade, or
-  remove it altogether. Unlike an entrance, an exit almost never carries information that has
+  <p>And <mark>for reduced motion, exits are the easy case: drop the travel, shorten the fade, or
+  remove it altogether</mark>. Unlike an entrance, an exit almost never carries information that has
   to survive.</p>
 
   <div data-quiz data-quiz-title="Check yourself">

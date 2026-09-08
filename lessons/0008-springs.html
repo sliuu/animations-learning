@@ -16,16 +16,16 @@
     </div>
   </header>
 
-  <p class="lead">Every animation you've written has answered the question <em>how long?</em> A
-  spring refuses to be asked.</p>
+  <p class="lead"><mark>Every animation you've written has answered the question <em>how long?</em> A
+  spring refuses to be asked.</mark></p>
 
   <p>Duration-and-curve carries a hidden assumption: that at the moment the animation starts you
   already know where it's going, and that nothing will change its mind on the way. For most UI
   that's true, which is why the model has served you fine for seven lessons.</p>
 
   <p>It stops being true the moment a human is holding the thing. Drags, flings, sheets that can
-  be caught mid-flight, a toggle clicked twice in 200ms — in all of those the target changes
-  <em>while the element is moving</em>, and a function of time has no way to represent that.</p>
+  be caught mid-flight, a toggle clicked twice in 200ms — in all of those <mark>the target changes
+  <em>while the element is moving</em>, and a function of time has no way to represent that</mark>.</p>
 
   <div class="callout">
     <span class="label">Try this, in order</span>
@@ -63,19 +63,19 @@
 
   <div class="callout principle">
     <span class="label">The rule this gives you</span>
-    <p>A tween is a function of time. A spring is a function of state.</p>
-    <p>If the target can change while the thing is moving, you want state. If it can't, the
-    extra machinery buys you nothing.</p>
+    <p><mark>A tween is a function of time. A spring is a function of state.</mark></p>
+    <p><mark>If the target can change while the thing is moving, you want state. If it can't, the
+    extra machinery buys you nothing.</mark></p>
   </div>
 
   <p class="sidenote">Notice what you never typed: a duration. The <strong>settles in</strong>
   number is <em>derived</em> — the lab simulates the spring offline until it stops moving and
-  reports how long that took. With a spring, duration is an output. That is the source of both
+  reports how long that took. <mark>With a spring, duration is an output.</mark> That is the source of both
   its power and most of its annoyance.</p>
 
   <h2>The three numbers</h2>
 
-  <p>A spring isn't a curve you pick, it's a rubber band you describe. Three properties describe
+  <p><mark>A spring isn't a curve you pick, it's a rubber band you describe.</mark> Three properties describe
   it, and the motion is whatever falls out.</p>
 
   <table>
@@ -110,8 +110,8 @@
   </table>
 
   <p>Critically damped is a genuinely useful landmark: it's the boundary. Below it you're buying
-  bounce; above it you're buying nothing at all. If you don't want bounce, aim at ζ ≈ 1 rather
-  than cranking damping up, or you'll ship something that feels like it's moving through
+  bounce; above it you're buying nothing at all. <mark>If you don't want bounce, aim at ζ ≈ 1 rather
+  than cranking damping up</mark>, or you'll ship something that feels like it's moving through
   honey.</p>
 
   <p>Here's what the lab's presets actually measure, so the numbers are attached to something:</p>
@@ -127,16 +127,16 @@
     </tbody>
   </table>
 
-  <p>Two things worth noticing. <strong>Bouncy is the slowest</strong> — bounce is not free, it's
-  paid for in time. And <strong>gentle and snappy have almost the same ζ</strong>; the difference
-  between them is stiffness alone. That's the practical tuning method: <em>set ζ for how much
-  bounce you want, then use stiffness for speed.</em></p>
+  <p>Two things worth noticing. <mark><strong>Bouncy is the slowest</strong> — bounce is not free, it's
+  paid for in time.</mark> And <strong>gentle and snappy have almost the same ζ</strong>; the difference
+  between them is stiffness alone. That's the practical tuning method: <mark><em>set ζ for how much
+  bounce you want, then use stiffness for speed.</em></mark></p>
 
   <h2>Settling time is not perceived duration</h2>
 
   <p>A spring approaches its target asymptotically — mathematically it never quite arrives, so
   "settles in 733ms" is really "gets within a rounding error in 733ms." The <em>visible</em>
-  motion is over well before that. The tail is real in the numbers and invisible on screen.</p>
+  motion is over well before that. <mark>The tail is real in the numbers and invisible on screen.</mark></p>
 
   <p>This is the single most confusing thing about springs in practice, and it's why Motion added
   a second way to describe one. Instead of stiffness and damping, you can give it
@@ -150,8 +150,8 @@
 { type: 'spring', visualDuration: 0.35, bounce: 0.2 }</code></pre>
 
   <p>Reach for the second one. You'll tune it in a third of the time, and the two axes are
-  genuinely independent: <code>visualDuration</code> sets the stiffness, <code>bounce</code> sets
-  ζ, and mass is pinned to 1 so it stops being a knob at all. That's the tuning method from the
+  genuinely independent: <mark><code>visualDuration</code> sets the stiffness, <code>bounce</code> sets
+  ζ</mark>, and mass is pinned to 1 so it stops being a knob at all. That's the tuning method from the
   previous section — <em>set ζ for bounce, then stiffness for speed</em> — with the axes already
   pulled apart for you. Keep the physics parameters for when you're matching something specific.</p>
 
@@ -192,14 +192,14 @@
     </tbody>
   </table>
 
-  <p>The name invites a wrong reading: <code>bounce: 0.25</code> overshoots by under 3%, not 25%.
-  And going from 0.25 to 0.5 roughly <em>sextuples</em> the visible overshoot. Nearly all
-  shippable UI lives between 0 and 0.4 — above that you're making something that is meant to be
+  <p><mark>The name invites a wrong reading: <code>bounce: 0.25</code> overshoots by under 3%, not 25%.</mark>
+  And going from 0.25 to 0.5 roughly <em>sextuples</em> the visible overshoot. <mark>Nearly all
+  shippable UI lives between 0 and 0.4</mark> — above that you're making something that is meant to be
   funny.</p>
 
   <h2>Springs in CSS, honestly</h2>
 
-  <p>CSS has no spring. What it has is <code>linear()</code>, an easing function that takes an
+  <p><mark>CSS has no spring.</mark> What it has is <code>linear()</code>, an easing function that takes an
   arbitrary list of output values instead of four control points — so you can hand the browser
   the <em>shape</em> of a spring, sampled.</p>
 
@@ -215,12 +215,12 @@ transition-timing-function: linear(
 
   <div class="callout">
     <span class="label">The catch, and it's the whole lesson again</span>
-    <p>That's a <strong>baked</strong> spring. Sampling the physics turns it back into a function
-    of time — which means it looks like a spring and interrupts like a tween.</p>
+    <p>That's a <strong>baked</strong> spring. <mark>Sampling the physics turns it back into a function
+    of time — which means it looks like a spring and interrupts like a tween.</mark></p>
     <p>So <code>linear()</code> is right for one-shot decorative motion where you want the
     <em>character</em> of a spring with no dependency. It is not right for the case that made you
-    want a spring in the first place. If you need velocity continuity, you need a real solver,
-    which means JavaScript.</p>
+    want a spring in the first place. <mark>If you need velocity continuity, you need a real solver,
+    which means JavaScript.</mark></p>
   </div>
 
   <h2>When to use one</h2>
@@ -234,16 +234,16 @@ transition-timing-function: linear(
   <ul>
     <li><strong>Orchestration.</strong> Lesson 0003's arithmetic — <code>total = duration +
       (n−1) × step</code> — needs a duration. Springs don't have one, so a spring-driven stagger
-      has no predictable total length. Use tweens for anything choreographed.</li>
+      has no predictable total length. <mark>Use tweens for anything choreographed.</mark></li>
     <li><strong>Exits.</strong> Lesson 0005: get out of the way, fast, and don't come back. An
-      overshoot on the way out is an element changing its mind about leaving. Tween exits, even
-      when the entrance is a spring — the asymmetry is correct.</li>
+      overshoot on the way out is an element changing its mind about leaving. <mark>Tween exits, even
+      when the entrance is a spring — the asymmetry is correct.</mark></li>
     <li><strong>Anywhere overshoot would be a lie.</strong> A progress bar can't go past 100%. A
       panel that overshoots past a container edge exposes whatever's behind it. A counter that
       springs past its value and back is telling the reader something false for 200ms.</li>
   </ul>
 
-  <p>Overshoot is not decoration — it's a claim that the thing has mass. That's true of a card
+  <p><mark>Overshoot is not decoration — it's a claim that the thing has mass.</mark> That's true of a card
   you flung and false of a dropdown menu.</p>
 
   <h2>Three mistakes</h2>
@@ -255,13 +255,13 @@ transition-timing-function: linear(
 
   <p><strong>Springing <code>opacity</code>.</strong> Opacity clamps at 1, so the overshoot is
   invisible — you get none of the character and all of the long tail, which reads as a fade
-  that's mysteriously slow to finish. Spring the <code>transform</code>, tween the
-  <code>opacity</code> alongside it at a short fixed duration. That pairing is what most good
+  that's mysteriously slow to finish. <mark>Spring the <code>transform</code>, tween the
+  <code>opacity</code> alongside it at a short fixed duration.</mark> That pairing is what most good
   spring animations actually are.</p>
 
   <p><strong>Overshoot into a clip.</strong> If the parent has <code>overflow: hidden</code>, or
-  the element sits flush against an edge, the overshoot is either invisible or ugly. Check the
-  container before you buy the bounce.</p>
+  the element sits flush against an edge, the overshoot is either invisible or ugly. <mark>Check the
+  container before you buy the bounce.</mark></p>
 
   <h2>Reduced motion</h2>
 
@@ -269,8 +269,8 @@ transition-timing-function: linear(
   precisely the kind of movement that triggers vestibular symptoms — more so than travel
   distance, which is what most <code>prefers-reduced-motion</code> handling worries about.</p>
 
-  <p>The fix is not a stiffer spring. Under reduced motion, replace it with a short tween or a
-  plain fade. <code>bounce: 0</code> is a compromise nobody asked for; a 120ms fade is an answer.</p>
+  <p>The fix is not a stiffer spring. <mark>Under reduced motion, replace it with a short tween or a
+  plain fade.</mark> <code>bounce: 0</code> is a compromise nobody asked for; a 120ms fade is an answer.</p>
 
   <div data-quiz data-quiz-title="Check yourself">
 

@@ -8,8 +8,8 @@
   <header class="masthead">
     <p class="eyebrow">Lesson 0013 · 17 minutes</p>
     <h1>Reveals with clip-path</h1>
-    <p class="dek">Wipes and masks: the difference between the thing moving and the window over it
-      moving, and how to tell when a rectangle would have done the job for free.</p>
+    <p class="dek">Wipes and masks: <mark>the difference between the thing moving and the window over it
+      moving</mark>, and how to tell when a rectangle would have done the job for free.</p>
     <div class="meta">
       <span>Skill: reveal something without moving it, and know before you write it whether the shape is worth a paint</span>
       <span><a href="0012-things-that-just-appeared.html">← Lesson 0012</a></span>
@@ -22,8 +22,8 @@
   live — not on the element at all, but on the window in front of it.</p>
 
   <p>Both get called a reveal. In one, the thing moves and fades into position. In the other, the
-  thing was there the whole time, fully painted, at rest, and the only thing that changes is how
-  much of it you are allowed to see.</p>
+  thing was there the whole time, fully painted, at rest, and <mark>the only thing that changes is how
+  much of it you are allowed to see</mark>.</p>
 
   <p>One press drives both panes below, at the same duration and the same easing. The right-hand
   pane is the fade-and-rise this course has recommended since 0001, built properly — it is not the
@@ -52,12 +52,12 @@
   final position. The right pane spends its whole flight rendering type that is dimmer and lower
   than the type you are meant to read.</p>
 
-  <p>Neither of those is wrong, but they say different things. A masked reveal reads as
-  <em>uncovering</em> something that already exists: an editorial header, a hero line, a value that
-  was computed before you asked. A fade-and-rise reads as <em>arriving</em>: a new row, a toast, a
+  <p>Neither of those is wrong, but they say different things. <mark>A masked reveal reads as
+  <em>uncovering</em> something that already exists</mark>: an editorial header, a hero line, a value that
+  was computed before you asked. <mark>A fade-and-rise reads as <em>arriving</em></mark>: a new row, a toast, a
   result that did not exist a moment ago. When a designer says a reveal feels "too soft" or "too
-  tentative", nine times out of ten they are describing a fade where a mask was wanted, and the
-  fix is not a different easing curve.</p>
+  tentative", <mark>nine times out of ten they are describing a fade where a mask was wanted, and the
+  fix is not a different easing curve</mark>.</p>
 
   <p>The three shapes where the right pane's label changes to <em>opacity only — no equivalent</em>
   are the real argument. There is no way to move a block of type so that it arrives from its own
@@ -66,9 +66,9 @@
 
   <h2>The shape is what stays</h2>
 
-  <p><code>clip-path</code> takes a shape and keeps what is inside it. Everything outside is not
-  drawn — not transparent, not moved, not there. The element's layout box does not change, so
-  nothing around it reflows, and hit-testing follows the visible shape.</p>
+  <p><mark><code>clip-path</code> takes a shape and keeps what is inside it. Everything outside is not
+  drawn — not transparent, not moved, not there.</mark> <mark>The element's layout box does not change, so
+  nothing around it reflows</mark>, and hit-testing follows the visible shape.</p>
 
   <pre><code>clip-path: inset(0 100% 0 0);      /* right edge all the way in */
 clip-path: inset(0 0 0 0);         /* every edge at rest: all of it */
@@ -77,19 +77,19 @@ clip-path: circle(0% at 50% 52%);  /* a radius, and its centre */
 /* any straight-edged shape, and percentages may go outside 0-100% */
 clip-path: polygon(0 0, 134% 0, 100% 100%, -34% 100%);</code></pre>
 
-  <p>The four numbers in <code>inset()</code> are distances <em>inward</em> from top, right, bottom
-  and left — the same order as <code>margin</code>. So a left-to-right wipe is one number moving
+  <p><mark>The four numbers in <code>inset()</code> are distances <em>inward</em> from top, right, bottom
+  and left — the same order as <code>margin</code>.</mark> So a left-to-right wipe is one number moving
   from <code>100%</code> to <code>0</code>, and the direction of the wipe is which edge you chose to
   animate. Percentages in a polygon may go outside <code>0–100%</code>, which is how the diagonal
   gets its overhang: the top-right corner sits at <code>134%</code> so the tilted edge finishes past
   the card instead of cutting the corner off.</p>
 
-  <p>There is one rule that will cost you an afternoon if you learn it the hard way. <strong>A shape
-  only interpolates against its own kind.</strong> Inset to inset, circle to circle, polygon to
+  <p>There is one rule that will cost you an afternoon if you learn it the hard way. <strong><mark>A shape
+  only interpolates against its own kind.</mark></strong> Inset to inset, circle to circle, polygon to
   polygon with the same number of vertices. Cross a type boundary — inset to circle, or a four-point
   polygon to a five-point one — and there is no animation: the browser holds the first shape, swaps
-  to the second at the halfway mark, and holds that. It is not an error and nothing is logged, so it
-  looks exactly like a broken duration.</p>
+  to the second at the halfway mark, and holds that. <mark>It is not an error and nothing is logged, so it
+  looks exactly like a broken duration.</mark></p>
 
   <div class="sidenote">
     <p>Same failure mode as 0012's, in a different costume: the animation was never eligible, so
@@ -98,20 +98,20 @@ clip-path: polygon(0 0, 134% 0, 100% 100%, -34% 100%);</code></pre>
     <em>values</em>, not the mechanism.</p>
     <p>Practical consequence: if you need a rectangle to become a circle, build the rectangle as a
     <code>circle()</code> big enough to cover it, or as a polygon with the vertex count you will end
-    on. Decide the shape family before you decide the animation.</p>
+    on. <mark>Decide the shape family before you decide the animation.</mark></p>
   </div>
 
   <h2>What it costs, and the question that actually decides it</h2>
 
   <p>Lesson 0002 put <code>clip-path</code> in the <strong>on credit</strong> row: it skips layout,
   so it will never cause the catastrophic kind of jank, but it is not free the way
-  <code>transform</code> and <code>opacity</code> are — it re-paints, and the bill scales with the
-  area being painted rather than with how complicated the shape is.</p>
+  <code>transform</code> and <code>opacity</code> are — <mark>it re-paints, and the bill scales with the
+  area being painted rather than with how complicated the shape is</mark>.</p>
 
   <p>That framing is true and it is also not how you make the decision, because "is it expensive"
   has no answer without a number of elements and a size. The question that decides it is a
-  capability question, and you can answer it before you write anything: <strong>could a rectangle
-  have done this?</strong> Below are three builds of the same reveal — one clipping with
+  capability question, and you can answer it before you write anything: <strong><mark>could a rectangle
+  have done this?</mark></strong> Below are three builds of the same reveal — one clipping with
   <code>clip-path</code>, two clipping with an <code>overflow: hidden</code> wrapper — and five
   things the reveal might be asked to do.</p>
 
@@ -135,7 +135,7 @@ clip-path: polygon(0 0, 134% 0, 100% 100%, -34% 100%);</code></pre>
 
   <h2>The test, in four questions</h2>
 
-  <p>Ask these in order, and stop at the first <em>yes</em> — a yes means the rectangle cannot do
+  <p><mark>Ask these in order, and stop at the first <em>yes</em></mark> — a yes means the rectangle cannot do
   it and the paint is bought honestly.</p>
 
   <ol>
@@ -156,7 +156,7 @@ clip-path: polygon(0 0, 134% 0, 100% 100%, -34% 100%);</code></pre>
 
   <p>All four <em>no</em>? Then you are looking at a rectangle sliding behind another rectangle, and
   the two composited transforms are the answer — not because the paint would have been ruinous, but
-  because you would be spending it for a picture you could have had for nothing. That is also the
+  because <mark>you would be spending it for a picture you could have had for nothing</mark>. That is also the
   honest answer to the question 0002 left open, <em>is animating clip-path actually safe</em>: yes,
   at the scale a hero or a header runs at, and the measurement strip above is how you find the point
   where it stops being true on the hardware you are shipping to.</p>
@@ -190,11 +190,11 @@ clip-path: polygon(0 0, 134% 0, 100% 100%, -34% 100%);</code></pre>
   <h2>Reduced motion</h2>
 
   <p>0009's test was whether the movement is the message or the decoration. A wipe is an awkward
-  case for it, because a wipe is not really movement — nothing translates — but it is a large area
-  of the screen changing luminance on a schedule, which is exactly what the vestibular half of that
+  case for it, because <mark>a wipe is not really movement — nothing translates — but it is a large area
+  of the screen changing luminance on a schedule</mark>, which is exactly what the vestibular half of that
   audience is asking you to stop doing.</p>
 
-  <p>So the accommodation is not "make it shorter". It is to keep the reveal and drop the sweep:
+  <p>So <mark>the accommodation is not "make it shorter". It is to keep the reveal and drop the sweep</mark>:
   under <code>prefers-reduced-motion: reduce</code>, a masked entrance becomes an opacity fade of
   80–120ms, or the element is simply present. The shape was carrying an idea about
   <em>uncovering</em>; a cross-fade gives up that idea, which is the correct trade, and shortening
@@ -202,8 +202,8 @@ clip-path: polygon(0 0, 134% 0, 100% 100%, -34% 100%);</code></pre>
 
   <div class="sidenote">
     <p>Both labs on this page take the stance the course has taken since 0009 and both say so in
-    their source: the motion here <em>is</em> the content, so removing it leaves an empty page rather
-    than a calmer one. Nothing autoplays, nothing loops, and every frame you have seen was the
+    their source: <mark>the motion here <em>is</em> the content, so removing it leaves an empty page rather
+    than a calmer one</mark>. Nothing autoplays, nothing loops, and every frame you have seen was the
     result of a press you made.</p>
   </div>
 

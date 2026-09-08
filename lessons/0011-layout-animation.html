@@ -8,8 +8,8 @@
   <header class="masthead">
     <p class="eyebrow">Lesson 0011 · 22 minutes</p>
     <h1>Layout animation</h1>
-    <p class="dek">The first lesson where you don't author the animation. You measure it — twice —
-      and let the difference between the two measurements be the animation.</p>
+    <p class="dek">The first lesson where you don't author the animation. <mark>You measure it — twice —
+      and let the difference between the two measurements be the animation.</mark></p>
     <div class="meta">
       <span>Skill: animate a layout change you didn't write, and know when to hand it to the browser</span>
       <span><a href="0010-hover-and-press.html">← Lesson 0010</a></span>
@@ -25,8 +25,8 @@
   A card changing its position in a grid is a layout change by definition. So this looks like the
   one case where that budget simply cannot be met.</p>
 
-  <p>It can. You let layout happen — once, instantly, invisibly — and then you animate the pixels
-  back. That inversion is the whole technique, and it has a name.</p>
+  <p>It can. <mark>You let layout happen — once, instantly, invisibly — and then you animate the pixels
+  back.</mark> That inversion is the whole technique, and it has a name.</p>
 
   <div class="callout">
     <span class="label">Try this, in order</span>
@@ -60,27 +60,27 @@
 
   <p><strong>Invert.</strong> For each element, apply a <code>transform</code> that maps its new
   rect back onto its old one. <code>translate(oldLeft - newLeft, oldTop - newTop)</code>. Now the
-  screen looks exactly like it did before the change — but the DOM doesn't. <strong>The DOM is in
-  its final state from Last onward. Only the pixels are lying.</strong></p>
+  screen looks exactly like it did before the change — but the DOM doesn't. <strong><mark>The DOM is in
+  its final state from Last onward. Only the pixels are lying.</mark></strong></p>
 
-  <p><strong>Play.</strong> Remove the transform with a transition on it. The element travels to
-  where it already is.</p>
+  <p><strong>Play.</strong> Remove the transform with a transition on it. <mark>The element travels to
+  where it already is.</mark></p>
 
   <p>Count the layouts: <strong>one</strong>. It happens at Last, before anything is on screen
   that the user could see move. Every frame after that is a <code>transform</code> going to zero —
-  the composite tier, the cheap end of 0002's pipeline. The layout change didn't get animated. It
-  got <em>hidden</em>, and a composite-tier animation was played over the top of it.</p>
+  the composite tier, the cheap end of 0002's pipeline. <mark>The layout change didn't get animated. It
+  got <em>hidden</em>, and a composite-tier animation was played over the top of it.</mark></p>
 
-  <p>This also explains something that would otherwise look like a coincidence: FLIP animates
-  <em>whatever caused the layout to change</em>. The lab's shuffle and its filter are completely
+  <p>This also explains something that would otherwise look like a coincidence: <mark>FLIP animates
+  <em>whatever caused the layout to change</em>.</mark> The lab's shuffle and its filter are completely
   different operations — one reorders nodes, the other hides five of them — and the FLIP code
   doesn't know or care which one ran. It measured before and it measured after. That is the
   whole interface.</p>
 
   <div class="callout">
     <span class="label">The word, so it isn't jargon later</span>
-    <p><strong>Layout animation</strong> is the general name for this: an animation whose values
-    are derived from two measured layouts rather than written by you. You never type a distance.
+    <p><mark><strong>Layout animation</strong> is the general name for this: an animation whose values
+    are derived from two measured layouts rather than written by you.</mark> You never type a distance.
     You couldn't — the distance depends on the viewport width, the number of surviving cards, and
     where the shuffle happened to put things.</p>
   </div>
@@ -98,11 +98,11 @@
   <p>Here is why. The browser batches style changes. Within one turn of the event loop it will
   happily collapse <code>transform: translate(-329px, -66px)</code> followed by
   <code>transform: none</code> into a single computed value — the last one — because that is the
-  only value that would ever be painted. The inverted position never existed as a frame, so there
-  is nothing to transition <em>from</em>.</p>
+  only value that would ever be painted. <mark>The inverted position never existed as a frame, so there
+  is nothing to transition <em>from</em>.</mark></p>
 
-  <p>Reading a layout property forces the browser to resolve styles <em>now</em>, mid-turn, to
-  answer your question honestly. That resolution is what makes the inverted position real. Any
+  <p><mark>Reading a layout property forces the browser to resolve styles <em>now</em>, mid-turn, to
+  answer your question honestly.</mark> That resolution is what makes the inverted position real. Any
   layout read works — <code>offsetWidth</code>, <code>offsetHeight</code>,
   <code>getBoundingClientRect()</code>, <code>getComputedStyle(el).transform</code>. The
   <code>void</code> is only there to stop a linter complaining that you threw the value away.</p>
@@ -124,13 +124,13 @@
   <p>Step 5: shuffling mid-flight doesn't snap. The cards pick up from wherever they visually are
   and re-route. That falls out of one fact that is easy to miss:</p>
 
-  <p><strong><code>getBoundingClientRect()</code> reports the box as painted — transforms
-  included.</strong> A card that is 40% of the way through a FLIP measures at 40% of the way, not
+  <p><strong><mark><code>getBoundingClientRect()</code> reports the box as painted — transforms
+  included.</mark></strong> A card that is 40% of the way through a FLIP measures at 40% of the way, not
   at the grid cell it is heading for. So First, on the second shuffle, captures the truth on
   screen rather than the truth in the layout, and the new invert is computed from there.</p>
 
-  <p>You get interruptibility for free, and you get it because the technique is built out of
-  measurement rather than out of authored keyframes. There is no timeline to rewind. Compare
+  <p><mark>You get interruptibility for free, and you get it because the technique is built out of
+  measurement rather than out of authored keyframes.</mark> There is no timeline to rewind. Compare
   0008's springs, where interruptibility had to be designed in by carrying velocity across; here
   it is a consequence of asking the right question.</p>
 
@@ -138,7 +138,7 @@
 
   <ul>
     <li><strong>It only translates.</strong> When a FLIP also changes size you need a
-      <code>scale</code> in the invert, and a scaled box stretches everything inside it — text
+      <code>scale</code> in the invert, and <mark>a scaled box stretches everything inside it</mark> — text
       gets fat, <code>border-radius</code> goes oval. The standard fix is an inverse scale on a
       child wrapper, which is fiddly and is the reason people reach for a library here.</li>
     <li><strong>Nothing enters or leaves.</strong> An element with no First rect has no
@@ -174,11 +174,11 @@
 
   <h2>What the names are for</h2>
 
-  <p>Without names you get a cross-fade, and that is the browser being honest: it has two
+  <p><mark>Without names you get a cross-fade</mark>, and that is the browser being honest: it has two
   pictures and no reason to believe anything in one corresponds to anything in the other.</p>
 
-  <p><code>view-transition-name</code> supplies that reason. Give an element a name in the old
-  state and give a <em>different</em> element the same name in the new state, and the browser
+  <p><code>view-transition-name</code> supplies that reason. <mark>Give an element a name in the old
+  state and give a <em>different</em> element the same name in the new state</mark>, and the browser
   treats them as one thing that moved and resized. It lifts each out of the page snapshot into its
   own layer, measures both rects, and animates between them.</p>
 
@@ -196,11 +196,11 @@ document.startViewTransition(() =&gt; {
   <p>Two rules make the whole thing behave, and step 4 broke the second one:</p>
 
   <ol>
-    <li><strong>The name must be on the source element before the transition starts.</strong> Set
+    <li><strong><mark>The name must be on the source element before the transition starts.</mark></strong> Set
       it inside the callback and the old snapshot has nothing by that name, so there's nothing to
       morph <em>from</em> — you get a transition that runs, reports success, and looks like a
       cross-fade.</li>
-    <li><strong>A name must be unique in the document at capture time.</strong> Six tiles claiming
+    <li><strong><mark>A name must be unique in the document at capture time.</mark></strong> Six tiles claiming
       <code>hero</code> is an error. The browser doesn't pick one, or animate the first — it
       throws the <em>entire</em> transition away, including the parts that were fine, and you get
       the hard cut. The log in the lab is the real rejection:
@@ -209,15 +209,15 @@ document.startViewTransition(() =&gt; {
 
   <p>That second one is the production failure mode, and it is easy to hit for a boring reason:
   in a list, the obvious name is <code>card</code>, and then two cards are on screen at once.
-  Names have to carry identity — <code>card-42</code>, not <code>card</code>.</p>
+  <mark>Names have to carry identity — <code>card-42</code>, not <code>card</code>.</mark></p>
 
   <div class="sidenote">
     <p>Notice what the lab had to do to be embeddable: it gives its own stage a
     <code>view-transition-name</code> and then kills the animation on the <code>root</code> group.
-    Without that, pressing a tile would dissolve <em>this entire lesson page</em>, because a view
-    transition captures the whole document — always. There is no element-scoped version.</p>
-    <p>And the part that can't be opted out of: for the duration of the transition the page is a
-    pair of screenshots. It doesn't scroll, it doesn't respond, and your animation cannot be
+    Without that, pressing a tile would dissolve <em>this entire lesson page</em>, because <mark>a view
+    transition captures the whole document — always. There is no element-scoped version.</mark></p>
+    <p>And the part that can't be opted out of: <mark>for the duration of the transition the page is a
+    pair of screenshots</mark>. It doesn't scroll, it doesn't respond, and your animation cannot be
     interrupted — only skipped, with <code>transition.skipTransition()</code>. Hold the duration
     slider at 900ms and try to click something. That is the trade.</p>
   </div>
@@ -231,7 +231,7 @@ document.startViewTransition(() =&gt; {
   feature works across the latest devices and browser versions."</em></p>
 
   <p>Read that date carefully. It is recent enough that a real audience still contains browsers
-  without it — which is fine, because the fallback is a hard cut and needs no feature detection.
+  without it — which is fine, because <mark>the fallback is a hard cut and needs no feature detection</mark>.
   The DOM change in the callback happens either way.</p>
 
   <p><strong>Cross-document transitions</strong> — the CSS-only
@@ -269,8 +269,8 @@ document.startViewTransition(() =&gt; {
 
   <div class="callout">
     <span class="label">The rule</span>
-    <p><strong>If the user can interrupt it, FLIP it. If it's over before they could, hand it to
-    the browser.</strong></p>
+    <p><strong><mark>If the user can interrupt it, FLIP it. If it's over before they could, hand it to
+    the browser.</mark></strong></p>
     <p>A filter row someone hammers, a drag-to-reorder list, anything tracking a pointer — those
     need to be re-measurable mid-flight, and a frozen page is disqualifying. A route change, a
     thumbnail opening into a detail view, a theme swap — those are one-shot, the freeze is
