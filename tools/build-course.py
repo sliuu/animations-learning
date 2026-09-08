@@ -558,13 +558,13 @@ shell_css = """
   .chip.is-start { position: relative; margin-top: 0.55rem; }
   .chip.is-start::before {
     content: ''; position: absolute; top: -0.3rem;
-    left: 0.95rem; width: 3.2rem;
+    left: 0.95rem; width: 6.6rem;
     border-top: 1px solid var(--rule);
     transition: left 320ms var(--ease-drawer), width 320ms var(--ease-drawer);
   }
-  /* Collapsed, the tick shrinks onto the number column it is dividing. Left at
-     3.2rem it would run the full width of a 3.6rem rail and read as a rule. */
-  .shell[data-rail="collapsed"] .chip.is-start::before { left: 0.5rem; width: 1.9rem; }
+  /* Collapsed, the tick shrinks onto the number column it is dividing. At its
+     open width it would overrun a 3.6rem rail entirely and read as a rule. */
+  .shell[data-rail="collapsed"] .chip.is-start::before { left: 0.5rem; width: 2.4rem; }
   .chip-sec, .chip-list-in { display: block; }
   /* The fold is a grid track going 1fr -> 0fr, which is the one way to
      transition to a height nobody measured. The inner div is not decoration:
