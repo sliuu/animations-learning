@@ -549,22 +549,29 @@ shell_css = """
     background: var(--paper); color: var(--ink);
   }
   .chip b { text-align: right; font-size: 0.76rem; }
-  /* A seam inside a section: three or four lessons that belong together, marked
-     by a tick rather than a rule. Short and left-aligned on purpose — a divider
-     spanning the column would compete with the section rules above it, and the
-     hierarchy has to stay readable at a glance: full rule = new section, tick =
-     next run within one. It is also what makes a block countable, which is the
-     point: four runs to finish rather than fourteen rows to get through. */
+  /* A seam inside a section: three to five lessons that belong together, marked
+     by an inset rule. Inset equally from both edges rather than run to them,
+     which is what keeps the two levels apart at a glance: the section rules go
+     edge to edge, a run boundary is held off both sides. It is also what makes
+     a block countable, which is the point — four runs to finish rather than
+     fourteen rows to get through.
+
+     The 2px on the left is the chip's own transparent border, which the
+     absolutely positioned box is measured from. Without subtracting it the tick
+     sits 2px further in on the left than on the right, which is exactly the
+     asymmetry the inset exists to avoid. */
   .chip.is-start { position: relative; margin-top: 0.55rem; }
   .chip.is-start::before {
     content: ''; position: absolute; top: -0.3rem;
-    left: 0.95rem; width: 6.6rem;
+    left: calc(1.1rem - 2px); right: 1.1rem;
     border-top: 1px solid var(--rule);
-    transition: left 320ms var(--ease-drawer), width 320ms var(--ease-drawer);
+    transition: left 320ms var(--ease-drawer), right 320ms var(--ease-drawer);
   }
-  /* Collapsed, the tick shrinks onto the number column it is dividing. At its
-     open width it would overrun a 3.6rem rail entirely and read as a rule. */
-  .shell[data-rail="collapsed"] .chip.is-start::before { left: 0.5rem; width: 2.4rem; }
+  /* Collapsed, the inset comes in with the column: 1.1rem a side out of 3.6rem
+     would leave a 22px stub that reads as a dash rather than a boundary. */
+  .shell[data-rail="collapsed"] .chip.is-start::before {
+    left: calc(0.5rem - 2px); right: 0.5rem;
+  }
   .chip-sec, .chip-list-in { display: block; }
   /* The fold is a grid track going 1fr -> 0fr, which is the one way to
      transition to a height nobody measured. The inner div is not decoration:
@@ -626,6 +633,19 @@ shell_css = """
   .shell[data-rail="collapsed"] .chip span,
   .shell[data-rail="collapsed"] .chip-group { opacity: 0; }
   .shell[data-rail="collapsed"] .chip span { white-space: nowrap; }
+  /* Invisible is not the same as taking no room. "ENGINEERING" is a single word,
+     so as a flex item it refuses to shrink below its min-content width, and the
+     faded header went on holding 138px open inside a 57px rail — with
+     `scrollbar-width: none` there was nothing on screen to say so, the numbers
+     were simply pushed off centre by a header nobody could see. Clipping the
+     label is what lets the header shrink with the column while still sliding
+     back out from behind the edge when the rail opens; display:none would make
+     that a pop. The padding goes for the same reason it goes on a chip: at
+     3.6rem it is width the numbers need. */
+  .shell[data-rail="collapsed"] .chip-glabel { min-width: 0; overflow: hidden; }
+  .shell[data-rail="collapsed"] .chip-group {
+    padding-left: 0.375rem; padding-right: 0;
+  }
   /* gap: 0 matters — the zero-width title is still a flex item, so the row's
      gap would otherwise shove the lone caret 3.6px off the rail's centre line
      and out of column with the numbers below it. */
