@@ -289,8 +289,19 @@ contents = f"""<div class="page">
 </div>"""
 
 # ---- shell -----------------------------------------------------------------
+# Where a run of lessons ends and the next begins, by the number that starts the
+# new run. These are deliberately unlabelled: the three families the design track
+# names (product UI, expressive page, direct manipulation) do not fall in
+# contiguous number ranges, and the rail's order is the reading order — so naming
+# the runs would mean either reordering the index or asserting a taxonomy the
+# course does not have. A tick makes the weaker, true claim: here is a seam. Four
+# runs to a track is the point of them — a block you can finish.
+RUN_STARTS = {'06', '09', '12', 'D04', 'D07', 'D11'}
+
+
 def chip(d):
-    return (f'      <a class="chip" href="#{d["id"]}" data-chip="{d["id"]}">'
+    start = ' is-start' if d['num'] in RUN_STARTS else ''
+    return (f'      <a class="chip{start}" href="#{d["id"]}" data-chip="{d["id"]}">'
             f'<b>{d["num"]}</b><span>{d["meta"]["title"].split("—", 1)[-1].strip()}</span></a>')
 
 
@@ -538,6 +549,22 @@ shell_css = """
     background: var(--paper); color: var(--ink);
   }
   .chip b { text-align: right; font-size: 0.76rem; }
+  /* A seam inside a section: three or four lessons that belong together, marked
+     by a tick rather than a rule. Short and left-aligned on purpose — a divider
+     spanning the column would compete with the section rules above it, and the
+     hierarchy has to stay readable at a glance: full rule = new section, tick =
+     next run within one. It is also what makes a block countable, which is the
+     point: four runs to finish rather than fourteen rows to get through. */
+  .chip.is-start { position: relative; margin-top: 0.55rem; }
+  .chip.is-start::before {
+    content: ''; position: absolute; top: -0.3rem;
+    left: 0.95rem; width: 3.2rem;
+    border-top: 1px solid var(--rule);
+    transition: left 320ms var(--ease-drawer), width 320ms var(--ease-drawer);
+  }
+  /* Collapsed, the tick shrinks onto the number column it is dividing. Left at
+     3.2rem it would run the full width of a 3.6rem rail and read as a rule. */
+  .shell[data-rail="collapsed"] .chip.is-start::before { left: 0.5rem; width: 1.9rem; }
   .chip-sec, .chip-list-in { display: block; }
   /* The fold is a grid track going 1fr -> 0fr, which is the one way to
      transition to a height nobody measured. The inner div is not decoration:
@@ -635,7 +662,7 @@ shell_css = """
    a whole page cross-fading its background is worse than a page that has simply
    changed. */
 @media (prefers-reduced-motion: reduce) {
-  .shell, .rail-home, .chip, .chip span, .chip-group,
+  .shell, .rail-home, .chip, .chip span, .chip::before, .chip-group,
   .chip-list, .chip-caret, .rail-icon, .theme-icon {
     transition: none;
   }
