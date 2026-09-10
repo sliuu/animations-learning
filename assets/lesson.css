@@ -55,15 +55,16 @@
   --paper: #14140f;
   --paper-sunk: #1c1c16;
   --rule: #302f27;
-  --accent: #a5cdf2;      /* baby blue — links, emphasis */
-  --accent-hover: #c6ddf7; /* the accent lifted, for a fill under the pointer */
-  --accent-soft: #1a232c;
+  --accent: #d9c08f;      /* warm sand — links, emphasis */
+  --accent-hover: #e1cda5; /* the accent lifted, for a fill under the pointer */
+  --accent-soft: #241f16;
   /* The skim highlight. Deliberately not --accent-soft: that fill is a quiet
-     surface meant to sit *behind* things, and at #1a232c against #14140f it is
+     surface meant to sit *behind* things, and at #241f16 against #14140f it is
      nearly invisible when the eye is moving fast, which is the only moment a
-     highlight has to work. This is the same blue family, lifted until a
-     marked sentence is findable in one pass down the page. */
-  --mark: #2d4257;
+     highlight has to work. This is the same sand family, lifted until a
+     marked sentence is findable in one pass down the page. A highlight from a
+     different hue family than the links is two accents pretending to be one. */
+  --mark: #4a3c22;
   --good: #a3c76d;
   --bad: #f2789a;
   --code-bg: #1e1e17;
@@ -84,8 +85,9 @@
 }
 
 /* The light palette, reached only by an explicit choice. Same roles, same
-   names — the blue darkens because it now has to hold contrast against paper
-   rather than against ink. */
+   names — the sand darkens to an ochre because it now has to hold contrast
+   against paper rather than against ink. A pale sand that reads as an accent
+   on #14140f is barely a tint on #fffef9. */
 :root[data-theme="light"] {
   color-scheme: light;
 
@@ -97,10 +99,10 @@
   --paper: #fffef9;
   --paper-sunk: #f6f4ec;
   --rule: #e0ddd1;
-  --accent: #1d5fa8;
-  --accent-hover: #2a74c4;
-  --accent-soft: #dbe9f8;
-  --mark: #d3e5f9;
+  --accent: #7a5c14;
+  --accent-hover: #8a7030;
+  --accent-soft: #f5eeda;
+  --mark: #f1e4c4;
   --good: #3f6212;
   --bad: #9f1239;
   --code-bg: #f4f2ea;
