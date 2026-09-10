@@ -13,7 +13,7 @@ import re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = ROOT / 'dist' / 'course.html'
-BUILT = '2026-09-08'
+BUILT = '2026-09-09'
 
 # What is written next, in the order it is currently planned. Shown faded in
 # the contents so the shape of the whole course is visible from lesson one —
@@ -192,14 +192,19 @@ def toc_entry(d):
     duration = ''
     if '·' in m['eyebrow']:
         duration = m['eyebrow'].split('·', 1)[1].strip()
-    tail = ' · '.join(x for x in (duration, m['skill']) if x)
+    # The duration leaves the meta line for a column of its own on the right.
+    # It is the one value a reader scans down rather than reads across — "what
+    # can I finish before the meeting" is a different question from "what is
+    # this about", and a column answers it in one pass where a run-in does not.
+    time = f'<span class="toc-time">{duration}</span>' if duration else ''
     return f"""      <a class="toc-item" href="#{d['id']}">
         <span class="toc-num">{d['num']}</span>
         <span class="toc-body">
           <span class="toc-title">{title}</span>
           <span class="toc-dek">{m['dek']}</span>
-          <span class="toc-meta">{tail}</span>
+          <span class="toc-meta">{m['skill']}</span>
         </span>
+        {time}
       </a>"""
 
 
@@ -218,18 +223,25 @@ def toc_break(label):
     return f'      <div class="toc-break"><span>{label}</span></div>'
 
 
-def toc_group(label, count, rows):
-    # <details>, not a scripted accordion: it collapses with no JS, it is
+def toc_group(label, dek, count, rows):
+    # Still <details>, not a scripted accordion: it collapses with no JS, it is
     # keyboard- and screen-reader-correct for free, and find-in-page opens it.
     # Shut by default so the three tracks are all visible at once — the first
     # thing this page has to answer is what kinds of thing are in here.
+    #
+    # The caret became a chevron because the group became a panel: a drawn
+    # corner mark reads as a bullet at the head of a list, and this is no longer
+    # a list. The rail keeps the corner caret, which is still a list.
     return f"""      <details class="toc-group">
         <summary class="toc-sum">
-          <span class="toc-caret" aria-hidden="true"></span>
           <span class="toc-sum-body">
             <span class="toc-sum-title">{label}</span>
-            <span class="toc-sum-count">{count}</span>
+            <span class="toc-sum-dek">{dek}</span>
           </span>
+          <span class="toc-sum-count">{count}</span>
+          <svg class="toc-chev" aria-hidden="true" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </summary>
         <div class="toc-list">
 {rows}
@@ -258,19 +270,25 @@ def count(shipped, planned, noun):
 # having read none of the numbered lessons — so it is the one that should be
 # reachable without scrolling past somebody else's backlog.
 toc_rows = section([
-    toc_group('The design track', count(len(des_docs), len(PLANNED_DES), 'lessons'), section([
+    toc_group('The design track',
+              'Patterns, and the vocabulary for them. No prerequisites.',
+              count(len(des_docs), len(PLANNED_DES), 'lessons'), section([
         section(toc_entry(d) for d in des_docs),
         toc_break('Still to write'),
         section(toc_ghost(*x) for x in PLANNED_DES),
     ])) if des_docs else '',
 
-    toc_group('The engineering track', count(len(eng_docs), len(PLANNED_ENG), 'lessons'), section([
+    toc_group('The engineering track',
+              'A mechanism, and how to tune it. Start at 0001.',
+              count(len(eng_docs), len(PLANNED_ENG), 'lessons'), section([
         section(toc_entry(d) for d in eng_docs),
         toc_break('Still to write'),
         section(toc_ghost(*x) for x in PLANNED_ENG),
     ])),
 
-    toc_group('Reference sheets', count(len(ref_docs), len(PLANNED_REF), 'sheets'), section([
+    toc_group('Reference sheets',
+              'Printable. Corrected out loud by the lessons that outgrow them.',
+              count(len(ref_docs), len(PLANNED_REF), 'sheets'), section([
         section(toc_entry(d) for d in ref_docs),
         section(toc_ghost(*x) for x in PLANNED_REF),
     ])),
@@ -701,81 +719,143 @@ shell_css = """
 .cover h1 { font-size: 2.8rem; }
 /* No border-top: the cover already closes on a rule, and with the dek gone the
    two lines sat an empty 2rem apart with nothing between them. */
-.toc { display: grid; gap: 0; margin: 1.7rem 0 2rem; }
+.toc { display: grid; gap: 0.75rem; margin: 1.7rem 0 2rem; }
 
-/* ---------- the three tracks, shut ---------- */
-.toc-group { border-bottom: 1px solid var(--rule); }
+/* ---------- the three tracks, as panels ----------
+   Each track is an object with edges rather than a stretch of list between two
+   rules. The change earns itself twice: a shut group now has a shape, so three
+   of them read as three things at a glance; and a panel gives the rows inside
+   it somewhere to be, which is what lets them lose their own hairlines. */
+.toc-group {
+  background: var(--paper-sunk);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+}
 .toc-sum {
-  display: grid; grid-template-columns: 3.2rem minmax(0, 1fr);
-  gap: 0.4rem; align-items: center;
-  padding: 1.3rem 0.5rem 1.3rem 0;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto 20px;
+  gap: 1rem; align-items: center;
+  padding: 1.25rem 1.35rem;
   cursor: pointer; list-style: none;
+  /* One less than the panel's 14px. A child corner struck at the same radius as
+     its parent leaves a widening sliver of the parent showing through the bend;
+     inset by the border width and the two curves stay concentric. */
+  border-radius: 13px;
   transition: background-color 160ms var(--ease-out-strong);
 }
-/* Both are needed: `list-style` covers the standards marker, the pseudo covers
-   the older WebKit triangle, and either one left in place would sit beside the
-   caret this row draws for itself. */
+/* Both are needed: `list-style` covers the standards marker and the pseudo
+   covers the older WebKit triangle. Either one left in place would sit beside
+   the chevron at the other end of the row. */
 .toc-sum::-webkit-details-marker { display: none; }
-.toc-sum:hover { background: var(--paper-sunk); }
+/* Mixed rather than a token: --paper-sunk is now the panel's own fill, so a
+   hover painted with it would be invisible. A few per cent of ink lifts the
+   row off whatever it is sitting on, in either theme, without a new colour. */
+.toc-sum:hover { background: color-mix(in srgb, var(--ink) 4%, transparent); }
 .toc-sum:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-/* The rule under the summary only exists while the group is open, where it
-   separates the heading from its own lessons. Shut, the group's own bottom
-   border is already doing that job and a second line would double up. */
-.toc-group[open] > .toc-sum { border-bottom: 1px solid var(--rule); }
-.toc-list > :last-child { border-bottom: 0; }
 
-/* Same drawn caret as the rail's, at the two rotations a disclosure wants:
-   right when shut, down when open. Rotating rather than swapping glyphs keeps
-   it one mark turning to point where the content will appear. */
-.toc-caret {
-  justify-self: start; margin-left: 0.15rem;
-  display: block; width: 8px; height: 8px;
-  border-left: 1.7px solid var(--accent);
-  border-bottom: 1.7px solid var(--accent);
-  transform: rotate(225deg) translate(1px, -1px);
-  transition: transform 260ms var(--ease-out-strong);
+.toc-sum-body { display: grid; gap: 0.3rem; }
+.toc-sum-title {
+  font-size: 1.18rem; font-weight: 500;
+  letter-spacing: -0.012em; line-height: 1.2;
 }
-.toc-group[open] > .toc-sum .toc-caret {
-  transform: rotate(315deg) translate(1px, -1px);
+/* The line the old page never had room for. A track's name says what it is
+   called; this says who it is for, which is the question a reader landing here
+   is actually holding. */
+.toc-sum-dek {
+  font-family: var(--sans); font-size: 0.78rem; line-height: 1.45;
+  color: var(--ink-faint);
 }
-
-.toc-sum-body { display: grid; gap: 0.25rem; }
-.toc-sum-title { font-size: 1.34rem; line-height: 1.2; }
 .toc-sum-count {
-  font-family: var(--sans); font-size: 0.72rem; color: var(--ink-faint);
-  letter-spacing: 0.01em;
+  font-family: var(--mono); font-size: 0.7rem; color: var(--ink-faint);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.toc-chev {
+  width: 16px; height: 16px; justify-self: center; color: var(--accent);
+  transition: transform 300ms var(--ease-drawer);
+}
+.toc-group[open] .toc-chev { transform: rotate(180deg); }
+
+/* The point of the whole redesign. The rail's own sections already animate
+   their height — .chip-list folds 1fr to 0fr on --ease-drawer — and these
+   groups snapped, so the one page in a course about motion that could have
+   demonstrated its subject was the one page where nothing moved.
+   ::details-content is how to fix that without giving up <details>: the group
+   stays keyboard- and screen-reader-correct and find-in-page still opens it.
+   `interpolate-size` is the part that lets a height animate to `auto` at all.
+   Where the pair is unsupported the group simply snaps — which is exactly what
+   it does today, so the fallback costs nothing that is not already lost. */
+@supports (interpolate-size: allow-keywords) {
+  :root { interpolate-size: allow-keywords; }
+  .toc-group::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition: block-size 300ms var(--ease-drawer),
+                content-visibility 300ms allow-discrete;
+  }
+  .toc-group[open]::details-content { block-size: auto; }
+}
+/* 0009 is the lesson that earned this. The group still opens; it stops
+   travelling to get there. */
+@media (prefers-reduced-motion: reduce) {
+  .toc-chev,
+  .toc-group::details-content { transition-duration: 0.01ms; }
 }
 
 /* Print gets everything. A collapsed group on paper is a group that does not
-   exist, and the contents page is the one sheet worth printing whole. */
+   exist, and the contents page is the one sheet worth printing whole. The
+   panels flatten back to rules: a fill that costs nothing on screen costs
+   toner, and the border-radius means nothing at all on paper. */
 @media print {
-  .toc-caret { display: none; }
-  .toc-sum { padding-bottom: 0.4rem; }
+  .toc { gap: 0; }
+  .toc-chev { display: none; }
+  .toc-group {
+    background: none; border: 0;
+    border-bottom: 1px solid var(--rule); border-radius: 0;
+  }
+  .toc-sum { padding: 0.7rem 0 0.45rem; }
+  .toc-list { padding: 0 0 0.6rem; }
+  .toc-list::before { display: none; }
+  .toc-item { padding: 0.5rem 0; }
+}
+
+/* Inside the panel the rows drop their hairlines: the container is already
+   holding them together, and twelve rules inside a box is a table. */
+.toc-list { padding: 0 0.6rem 0.6rem; }
+/* One rule, under the summary, where it separates a heading from its own
+   lessons. Inset from the panel's edge so it reads as a division inside the
+   object rather than as the object's own bottom. */
+.toc-list::before {
+  content: ""; display: block; height: 1px;
+  background: var(--rule); margin: 0 0.75rem 0.5rem;
 }
 .toc-item {
-  display: grid; grid-template-columns: 3.2rem minmax(0, 1fr);
-  gap: 0.4rem; align-items: start;
-  padding: 1.15rem 0.5rem 1.15rem 0;
-  border: 0; border-bottom: 1px solid var(--rule);
+  display: grid; grid-template-columns: 3.2rem minmax(0, 1fr) auto;
+  gap: 0.3rem 0.6rem; align-items: start;
+  padding: 0.7rem 0.75rem;
+  border: 0; border-radius: 9px;
   text-decoration: none; color: var(--ink);
   transition: background-color 160ms var(--ease-out-strong);
 }
-.toc-item:hover { background: var(--paper-sunk); }
+.toc-item:hover { background: color-mix(in srgb, var(--ink) 3.5%, transparent); }
 .toc-item:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .toc-num {
-  font-family: var(--mono); font-size: 0.8rem; font-weight: 600;
-  color: var(--accent); padding-top: 0.35rem;
+  font-family: var(--mono); font-size: 0.76rem; font-weight: 600;
+  color: var(--accent); padding-top: 0.25rem;
   font-variant-numeric: tabular-nums;
 }
-.toc-body { display: grid; gap: 0.25rem; }
-.toc-title { font-size: 1.24rem; line-height: 1.25; }
+.toc-body { display: grid; gap: 0.22rem; }
+.toc-title { font-size: 1.06rem; line-height: 1.3; letter-spacing: -0.008em; }
 .toc-dek {
-  font-family: var(--sans); font-size: 0.84rem; line-height: 1.5;
-  color: var(--ink-soft);
+  font-family: var(--sans); font-size: 0.82rem; line-height: 1.5;
+  color: var(--ink-soft); text-wrap: pretty;
 }
 .toc-meta {
   font-family: var(--sans); font-size: 0.72rem; color: var(--ink-faint);
   letter-spacing: 0.01em;
+}
+/* The one value a reader scans down a column rather than reads across a line. */
+.toc-time {
+  font-family: var(--mono); font-size: 0.7rem; color: var(--ink-faint);
+  font-variant-numeric: tabular-nums; padding-top: 0.3rem; white-space: nowrap;
 }
 /* No rule of its own: the contents list already closes on one, and with three
    collapsed groups the two lines sat close enough to read as a mistake. */
@@ -789,18 +869,21 @@ shell_css = """
 /* Faded rather than hidden: seeing what is left is the point, and a row that
    keeps sitting here is a visible reminder that it keeps being deferred. */
 .toc-break {
-  display: grid; grid-template-columns: 3.2rem minmax(0, 1fr); gap: 0.4rem;
-  padding: 1.5rem 0.5rem 0.55rem 0;
-  border-bottom: 1px solid var(--rule);
+  display: grid; grid-template-columns: 3.2rem minmax(0, 1fr); gap: 0.6rem;
+  align-items: center;
+  padding: 1.1rem 0.75rem 0.5rem;
 }
 .toc-break span {
   grid-column: 2;
   font-family: var(--sans); font-size: 0.66rem; font-weight: 600;
   letter-spacing: 0.13em; text-transform: uppercase; color: var(--ink-faint);
 }
+/* The rows lost their hairlines to the panel, so "not written yet" needed
+   another way to say it. A dashed outline is the same idea the border carried —
+   an edge that has not been drawn in yet — moved onto the row itself. */
 .toc-ghost {
   opacity: 0.55;
-  border-bottom-style: dashed;
+  border: 1px dashed var(--rule);
   cursor: default;
 }
 .toc-ghost:hover { background: transparent; }
