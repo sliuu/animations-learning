@@ -13,7 +13,7 @@ import re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = ROOT / 'dist' / 'course.html'
-BUILT = '2026-09-09'
+BUILT = '2026-09-10'
 
 # What is written next, in the order it is currently planned. Shown faded in
 # the contents so the shape of the whole course is visible from lesson one —
@@ -33,11 +33,21 @@ PLANNED_ENG = [
 # order is deliberately not numeric — D004 is the smallest object that exercises
 # the whole vocabulary, and D008 is the biggest gap against the mission's own
 # north star, so both come before the ones numbered between them.
+# D001–D014 finished the track as it was planned. These two come from a coverage
+# audit against Emil Kowalski's animation-vocabulary glossary rather than from
+# the original outline: the course turned out to name and judge ambient motion
+# without ever building one, to treat blur only as a paint cost, and to have no
+# third axis at all. D16 is the riskier of the two — half of it is surfaces
+# rather than motion — and wants a scope question answered before it is written.
 PLANNED_DES = [
-    ('D14', 'Doing all of this in Framer',
-     'A primer for the tool the work actually gets built in: how Framer names the same ideas, '
-     'where its model differs from the one this course teaches, and what it cannot express.',
-     'next in this track'),
+    ('D15', "Effects that aren't motion",
+     'Loops, tickers, typewriters, line drawing and the comparison slider — every one of '
+     'them on the same budget as a transition, and priced the same way.',
+     'the effects the budget still has to cover'),
+    ('D16', 'Depth, materials, and the third axis',
+     'Translucency, blur and perspective are claims about what sits behind what. Skew, '
+     'tilt and the flip, and what a surface is allowed to say about hierarchy.',
+     'proposed, not yet scoped'),
 ]
 
 # The design track's endpoint artifact, listed with the sheets rather than the
@@ -60,7 +70,7 @@ ASSETS = ['easing-lab.js', 'cost-lab.js', 'stagger-lab.js', 'scroll-lab.js', 'ex
           'wait-lab.js', 'optimistic-lab.js', 'nav-lab.js', 'continuity-lab.js',
           'budget-lab.js', 'repeat-lab.js', 'critique-lab.js',
           'compose-catalogue.js', 'compose-lab.js', 'token-lab.js', 'spec-lab.js',
-          'performance-lab.js',
+          'performance-lab.js', 'panel-lab.js', 'translate-lab.js',
           'playground.js', 'quiz.js']
 
 
@@ -274,7 +284,7 @@ toc_rows = section([
               'Patterns, and the vocabulary for them. No prerequisites.',
               count(len(des_docs), len(PLANNED_DES), 'lessons'), section([
         section(toc_entry(d) for d in des_docs),
-        toc_break('Still to write'),
+        toc_break('Still to write') if PLANNED_DES else '',
         section(toc_ghost(*x) for x in PLANNED_DES),
     ])) if des_docs else '',
 

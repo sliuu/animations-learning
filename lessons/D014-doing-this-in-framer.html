@@ -1,0 +1,288 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D014 — Doing all of this in Framer</title>
+<link rel="stylesheet" href="../assets/lesson.css">
+
+<div class="page">
+
+  <header class="masthead">
+    <p class="eyebrow">Lesson D014 · 25 minutes</p>
+    <h1>Doing all of this in Framer</h1>
+    <p class="dek">A primer for the tool the work actually gets built in: how Framer names the same
+      ideas, where its model differs from the one this course teaches, and what it cannot express.</p>
+    <div class="meta">
+      <span>Skill: arrive in an unfamiliar tool already knowing which question to ask it</span>
+      <span><a href="D013-motion-in-a-design-system.html">← Lesson D013</a></span>
+    </div>
+  </header>
+
+  <p class="lead">D013 ended on a set of named durations — a critique argued once, then reused by
+  people who were not in the room. Open Framer and half that work is already done, by someone you
+  will never meet, in numbers written down nowhere you can open. That is not a flaw. It is the most
+  useful single fact about working in a tool of this shape: <mark>a canvas tool does not change what
+  motion is, it changes the unit of the decision.</mark> In CSS the unit is a property, a duration
+  and a curve. In Framer it is two states and a trigger, and the animation between them is worked
+  out for you. Same drawer on the screen. A different question asked of you.</p>
+
+  <div class="callout">
+    <span class="label">Say it out loud</span>
+    <p><strong>An effect</strong> — a motion behaviour you attach to a layer from the Effects
+    panel rather than write. <strong>Appear</strong>, <strong>Scroll Transform</strong>,
+    <strong>Scroll Variant</strong> and <strong>Loop</strong> are the four.<br>
+    <strong>A variant</strong> — a named alternative version of a layer. You draw the second one;
+    the difference between the two <em>is</em> the animation.<br>
+    <strong>A trigger</strong> — what moves a layer between variants: click, mouse enter, mouse
+    leave, or a scroll position.<br>
+    <strong>A transition</strong> — how the difference is crossed. <strong>Ease</strong> takes a
+    duration and a curve; <strong>Spring</strong> takes stiffness, damping and mass, and has no
+    duration at all.<br>
+    <strong>Stagger</strong> — a transition property, not an effect, that walks a delay down a set
+    of layers.<br>
+    <strong>A code override</strong> — a small React function attached to a layer, and the door out
+    of the canvas when the canvas has run out of triggers.</p>
+  </div>
+
+  <p>Below is the same drawer, authored twice. On the left it is three declarations. On the right it
+  is two states and a trigger — how Framer says it, and how every tool of this shape says it. Open
+  both, move it to a different edge, then press <strong>show me</strong>.</p>
+
+  <div data-panel-lab data-title="The same drawer, said twice"></div>
+
+  <h2>The unit of the decision</h2>
+
+  <p>Two dashed rows on the left, five on the right. That asymmetry is the entire difference between
+  the two models, and it is worth being precise about what it is not. It is not that the right-hand
+  side is sloppy: it produced exactly the same motion, and it produced it from a description a
+  designer can say out loud in a review. <mark>The tool has not removed decisions, it has moved the
+  line between the ones you make and the ones it makes for you.</mark></p>
+
+  <p>Notice which decisions ended up on which side. Moving the panel from the right edge to the
+  bottom is a two-word change in both models, because that decision is genuinely design-level in
+  both. But the duration crossed over. On the left you had to type a number before anything moved at
+  all; on the right the drawer moved without ever asking, and something chose that number.
+  <mark>Every animation has a duration, so if you did not choose one, the question is not whether a
+  default exists but whether you have looked at it.</mark></p>
+
+  <p class="sidenote"><strong>If you have read 0001:</strong> that lesson's argument for ease-out is
+  an argument about a value you were typing. Here the same value arrives pre-typed, which is why the
+  argument matters more rather than less — the tool's default is somebody's answer to that lesson,
+  and you inherit it whether or not you ever read it.</p>
+
+  <p>The spring is the sharpest version of this. Ask for one on the right and you hand over
+  stiffness, damping and mass, and you never hand over a duration, because a spring does not have
+  one until it stops moving. The number in the panel is the <em>result</em> — the tool integrated
+  the physics and told you how long that took. <mark>A spring is described by how it behaves, not by
+  how long it lasts, and any tool that offers you both is offering you a duration you did not
+  choose.</mark></p>
+
+  <details><summary>The CSS behind it</summary><pre><code>/* The transition model. Every value in this block is one you typed. */
+.details {
+  transform: translateX(100%);
+  transition: transform 240ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.details.open { transform: none; }
+
+/* The state model, written out. There is no such CSS — this is the
+   shape of what the panel on the right holds, which is worth seeing
+   flattened, because it is what a tool has to fill in before it can
+   produce the block above. */
+Variant "Shut"  → x: 100%
+Variant "Open"  → x: 0
+Trigger         → Click → Open
+Transition      → Ease            (duration: ?, curve: ?, delay: ?)
+                                  (on interrupt: ?, when motion is off: ?)</code></pre></details>
+
+  <h2>A default is a decision someone else made about your product</h2>
+
+  <p>There is a version of this lesson that goes looking for things Framer cannot do, and it is a
+  bad lesson, because the list is short, it is mostly wrong, and it expires. Framer can stagger a
+  data-driven list. It can spring. It can scrub an animation against scroll position. Reaching for
+  "the tool can't" is nearly always a sign that you have not yet found the control.</p>
+
+  <p>The durable question is the other one. <mark>In any tool that infers an animation, the review
+  question is not "can it do this" but "which of these values did anyone actually choose".</mark>
+  That question does not expire when the panel is redesigned, it can be answered by looking, and it
+  is the one that catches real problems — because the failure mode of a good default is not that it
+  looks wrong. It is that it looks fine, in five hundred places, none of which anyone ever
+  examined.</p>
+
+  <p>Framer's defaults are good. That is precisely what makes them worth naming out loud: a bad
+  default gets fixed the first time someone sees it, and a good one survives every review a product
+  ever has. <mark>Write down which defaults you have adopted on purpose, and the ones you have not
+  adopted become visible.</mark> This is the same artifact D013 called a token set. The only
+  difference is that here you are naming decisions that already exist rather than inventing them,
+  and that half of the work is easier, not harder.</p>
+
+  <p class="sidenote"><strong>If you have read 0009:</strong> the reduced-motion row in the panel is
+  the one to check first in any new tool, for the reason that lesson gives — it is a correctness
+  question wearing a preference question's clothes, and it is the row most likely to be filled in
+  silently.</p>
+
+  <h2>What the panel is called this week</h2>
+
+  <p>Everything below is Framer's current vocabulary, and some of it will have moved by the time you
+  read it. That is fine, and it is why the panel in the lab above is a stand-in for the model rather
+  than a screenshot of the tool. <mark>Learn a tool's model rather than its menu, because the model
+  changes on a scale of years and the menu changes on a scale of releases.</mark></p>
+
+  <p>Motion in Framer arrives through the <strong>Effects</strong> panel, and the effects are sorted
+  by <em>trigger</em>, not by feeling. <strong>Appear</strong> fires once when a layer arrives —
+  when the page loads, or when the layer or its section comes into view. <strong>Scroll
+  Transform</strong> is not triggered at all: it maps scroll position continuously onto position,
+  scale, rotation or opacity, From one value To another. <strong>Scroll Variant</strong> flips a
+  layer into a different state past a threshold. <strong>Loop</strong> repeats. Alongside them,
+  <strong>variants</strong> plus a click or hover trigger cover everything a component does under a
+  pointer, and <strong>Stagger</strong> rides on the transition of an Appear effect, which is how a
+  list arrives one row at a time whether the rows are drawn by hand or come out of the CMS.</p>
+
+  <p>That sorting is the one structural thing to internalise, and it explains why two effects that
+  look nearly identical on a page live in different places. <mark>An effects panel is organised by
+  trigger rather than by feeling, so naming the trigger is how you find the control.</mark> The
+  drill below is that, six times.</p>
+
+  <div data-translate-lab data-title="Which control builds this?"></div>
+
+  <h2>Where the canvas stops</h2>
+
+  <p>The last specimen is the seam. A toast that appears when a save fails is not hard motion — it
+  is a panel sliding up from an edge, which is the first thing anyone learns to build. What has no
+  home on the canvas is the <em>because</em>. <mark>A canvas can see clicks, hovers, viewport
+  positions and page loads, and a failed request is none of those.</mark></p>
+
+  <p>That is the real shape of the boundary, and it is worth stating as a rule, because it predicts
+  the cases you have not met yet. <mark>What runs out first in a design tool is triggers, not
+  motion.</mark> Anything driven by something the page knows and the canvas does not — a request
+  that failed, a value that crossed a threshold, a message that arrived, a list that reordered
+  itself — needs a hand back to code, no matter how simple the movement is.</p>
+
+  <p>In Framer that hand-back is a <strong>code override</strong>, a small React function you attach
+  to a layer, or a <strong>code component</strong>, which is a layer you wrote outright. Both give
+  you the full Motion for React API — the library Framer itself is built on. This matters more than
+  it sounds: <mark>the vocabulary does not change when you cross into code, only the spelling
+  does.</mark> Variants stay variants. Transitions stay ease or spring, with the same three spring
+  numbers. Stagger stays a property of a transition. You are not leaving the model you have been
+  using; you are writing it down.</p>
+
+  <p class="sidenote"><strong>If you have read 0006:</strong> this is that lesson's tool-choice
+  argument arriving from the other direction. There the question was when a library earns its
+  bytes over plain CSS. Here it is when a canvas hands back to a library, and the answer has the
+  same shape — you cross when the thing you need to express is not in the current vocabulary, not
+  when the current vocabulary is merely inconvenient.</p>
+
+  <h2>Three questions to ask any tool</h2>
+
+  <p>Framer is one instance of a shape: a canvas that infers animations from states. Rive does it,
+  Play does it, whatever ships next year will do it, and Figma's prototyping panel is a smaller
+  version of the same idea. These three questions work on all of them, and they take about twenty
+  minutes to answer in a tool you have never opened.</p>
+
+  <p><strong>One: what is the unit of the decision here?</strong> Ask what the smallest thing is that
+  you are asked to specify. If it is a property and a number, you are in the transition model. If it
+  is a pair of states, you are in this one. <mark>Find the unit of the decision first, because every
+  other question you have about a tool is downstream of it.</mark></p>
+
+  <p><strong>Two: what does it infer, and from what?</strong> Build one small thing and then hunt for
+  every value you did not type — duration, curve, delay, what happens when the animation is
+  interrupted halfway, what happens when the reader has motion turned off. <mark>Build the smallest
+  possible thing in a new tool and then list what moved that you did not tell it to move.</mark>
+  That list is the tool's opinion about your product, and it is twenty minutes to find and it lasts
+  as long as you use the tool.</p>
+
+  <p><strong>Three: where does it hand back to code?</strong> Every one of these tools has a seam,
+  and the seam is where the triggers run out. Find it early, on purpose, while you are still
+  choosing whether to build something here — <mark>a tool's escape hatch tells you more about its
+  ceiling than its feature list does.</mark> A tool with a good hatch has a ceiling you can work
+  under. A tool with no hatch has a ceiling you will discover in week three of a project.</p>
+
+  <h2>The same ideas, in the two vocabularies</h2>
+
+  <p>Now that you have felt both, here is the translation, and the lesson that argues each one. The
+  right-hand column is the point, and it is the reason this table is at the end rather than the
+  start: <mark>a design decision exists whether or not the tool has a control for it.</mark></p>
+
+  <table class="wide">
+    <thead>
+      <tr><th>What it does</th><th>In Framer</th><th>Argued in</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Arrives once, on load or in view</td><td>Appear effect</td>
+          <td>D002 — where it comes from</td></tr>
+      <tr><td>Arrives one after another</td><td>Appear + Stagger</td>
+          <td>D005 — rhythm; D009 — lists</td></tr>
+      <tr><td>Tracks the scroll continuously</td><td>Scroll Transform</td>
+          <td>D008 — scroll-linked</td></tr>
+      <tr><td>Flips state past a point</td><td>Scroll Variant</td>
+          <td>D008 — scroll-triggered</td></tr>
+      <tr><td>Responds to the pointer</td><td>Variants + hover trigger</td>
+          <td>D004 — the button</td></tr>
+      <tr><td>Opens over the page</td><td>Variants + click trigger</td>
+          <td>D002, D003 — overlays and hierarchy</td></tr>
+      <tr><td>How the difference is crossed</td><td>Transition: Ease</td>
+          <td>D001, 0001 — curves</td></tr>
+      <tr><td>How it moves when weight is the point</td><td>Transition: Spring</td>
+          <td>0008 — springs</td></tr>
+      <tr><td>Fires on something the page knows</td><td>Code override / component</td>
+          <td>This lesson; 0006 — choosing a tool</td></tr>
+      <tr><td>The same decision, reused everywhere</td><td>Styles, and what you write down</td>
+          <td>D013 — tokens</td></tr>
+    </tbody>
+  </table>
+
+  <h2>What you have now</h2>
+
+  <p>You can open Framer, or something like it, and be useful in it on the first afternoon — not
+  because you know where the controls are, but because you know what the controls are <em>for</em>,
+  which is the part that takes months to acquire by clicking. Every noun in the design track has a
+  home in that panel, and the six specimens above were the drill for finding it.</p>
+
+  <p>The one habit worth carrying out of here: <mark>the first thing to do in a new tool is find out
+  what it decided for you, not what it lets you decide.</mark> The second list is on the marketing
+  page. The first one is the one that ships.</p>
+
+  <nav class="footer-nav">
+    <h2>Course</h2>
+    <div class="nav-links">
+      <a href="D013-motion-in-a-design-system.html">← Lesson D013 — Motion in a design system</a>
+      <a href="D012-the-critique-drill.html">Lesson D012 — The critique drill</a>
+      <a href="D011-the-motion-budget.html">Lesson D011 — The motion budget</a>
+      <a href="D010-navigation-and-transitions.html">Lesson D010 — Navigation and page transitions</a>
+      <a href="D009-loading-waiting-and-optimism.html">Lesson D009 — Loading, waiting, and optimism</a>
+      <a href="D008-text-that-arrives.html">Lesson D008 — Text that arrives</a>
+      <a href="D007-scroll-as-a-timeline.html">Lesson D007 — Scroll as a timeline</a>
+      <a href="D006-decks-and-dots.html">Lesson D006 — Decks, and what the dots promise</a>
+      <a href="D005-things-you-drag.html">Lesson D005 — Things you drag</a>
+      <a href="D004-the-button.html">Lesson D004 — The button</a>
+      <a href="D003-motion-is-hierarchy.html">Lesson D003 — Motion is hierarchy</a>
+      <a href="D002-where-things-live.html">Lesson D002 — Where things live when they're off screen</a>
+      <a href="D001-the-map-and-the-words.html">Lesson D001 — The map, and the words for it</a>
+      <a href="0014-reading-a-performance-recording.html">Lesson 0014 — Reading a performance recording</a>
+      <a href="0013-reveals-with-clip-path.html">Lesson 0013 — Reveals with clip-path</a>
+      <a href="0012-things-that-just-appeared.html">Lesson 0012 — Things that just appeared</a>
+      <a href="0011-layout-animation.html">Lesson 0011 — Layout animation</a>
+      <a href="0010-hover-and-press.html">Lesson 0010 — Hover and press</a>
+      <a href="0009-reduced-motion.html">Lesson 0009 — Reduced motion</a>
+      <a href="0008-springs.html">Lesson 0008 — Springs</a>
+      <a href="0007-transform-origin.html">Lesson 0007 — Transform-origin</a>
+      <a href="0006-choosing-a-tool.html">Lesson 0006 — Choosing a tool</a>
+      <a href="0005-exits.html">Lesson 0005 — Exits</a>
+      <a href="0004-the-scroll-reveal.html">Lesson 0004 — The scroll reveal</a>
+      <a href="0003-stagger-and-orchestration.html">Lesson 0003 — Stagger and orchestration</a>
+      <a href="0002-the-four-property-budget.html">Lesson 0002 — The four-property budget</a>
+      <a href="0001-ease-out-or-nothing.html">Lesson 0001 — Ease-out, or nothing</a>
+      <a href="../reference/easing-and-timing.html">Reference 01 — Easing &amp; Timing (printable)</a>
+      <a href="../reference/02-the-numbers.html">Reference 02 — The Numbers (printable)</a>
+      <a href="../reference/03-the-whole-course.html">Reference 03 — The Whole Course (printable)</a>
+      <a href="../reference/04-the-workbench.html">Reference 04 — The Workbench (every lab, live)</a>
+      <a href="../reference/06-the-composer.html">Reference 06 — The Composer (build a sequence)</a>
+      <a href="../MISSION.md">Mission</a>
+      <a href="../RESOURCES.md">Resources</a>
+      <span style="color:var(--ink-faint)">This is the last lesson in the design track. The
+        workbench holds every lab in the course on one page, which is the sheet to keep open the
+        first afternoon you are building something real.</span>
+    </div>
+  </nav>
+
+</div>
+
+<script src="../assets/panel-lab.js"></script>
+<script src="../assets/translate-lab.js"></script>
